@@ -3,18 +3,33 @@ import { Field, reduxForm } from 'redux-form'
 
 class ItemForm extends React.Component {
 
-  renderInput = ({ input, label }) => {
+  renderError({ error, touched }) {
+    if (touched && error) {
+      return (
+        <div>
+          <div>{error}</div>
+        </div>
+      )
+    }
+  }
+
+  renderInput = ({ input, label, meta }) => {
     return (
       <div>
         <label>{label}</label>
         <input {...input} autoComplete='off' />
+        {this.renderError(meta)}
       </div>
     )
   }
 
+  onSubmit = formValues => {
+    this.props.onSubmit(formValues);
+  }
+
   render() {
     return (
-      <form>
+      <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
         <Field name='itemName' component={this.renderInput} label='Enter a New Item Name' />
         <button>Submit</button>
       </form>
