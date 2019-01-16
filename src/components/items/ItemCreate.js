@@ -1,9 +1,10 @@
 import React from "react";
 
 import ItemForm from './ItemForm';
+//need to import Connect() and wire up to action creator
 
 class ItemCreate extends React.Component {
-  
+
   render() {
     return (
       <div>
