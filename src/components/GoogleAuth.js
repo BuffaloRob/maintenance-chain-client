@@ -1,5 +1,7 @@
 import React from 'react';
 
+//TODO: Check to make sure the client id used on line 8 doesn't need to be hidden in some way
+
 class GoogleAuth extends React.Component {
 
   componentDidMount() {
