@@ -2,9 +2,6 @@ import React from 'react';
 
 //TODO: Check to make sure the client id used on line 8 doesn't need to be hidden in some way
 
-
-// Go to lecture 211
-
 class GoogleAuth extends React.Component {
 
   state = { isSignedIn: null };
@@ -26,11 +23,11 @@ class GoogleAuth extends React.Component {
     this.setState({ isSignedIn: this.auth.isSignedIn.get() });
   }
 
-  onSignIn = () => {
+  onSignInClick = () => {
     this.auth.signIn();
   };
 
-  onSignOut = () => {
+  onSignOutClick = () => {
     this.auth.signOut();
   }
 
@@ -39,14 +36,14 @@ class GoogleAuth extends React.Component {
       return null;
     } else if (this.state.isSignedIn) {
       return (
-        <button onClick={this.onSignOut} className='ui red google button'>
+        <button onClick={this.onSignOutClick} className='ui red google button'>
           <i className='google icon' />
           Sign Out
         </button>
       );
     } else {
       return (
-        <button onClick={this.onSignIn} className='ui red google button'>
+        <button onClick={this.onSignInClick} className='ui red google button'>
           <i className='google icon' />
           Sign In with Google
         </button>
