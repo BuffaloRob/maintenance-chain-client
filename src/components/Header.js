@@ -9,7 +9,13 @@ const Header = () => {
       <Link to='/' className='item'>
         M/C
       </Link>
-      <GoogleAuth />
+      <div className='right menu'>
+        <Link to='/' className='item'>
+          All Items
+        </Link>
+        <GoogleAuth />
+      </div>
+     
     </div>
   )
 }
