@@ -6,8 +6,8 @@ class ItemForm extends React.Component {
   renderError({ error, touched }) {
     if (touched && error) {
       return (
-        <div>
-          <div>{error}</div>
+        <div className='ui error message'>
+          <div className='header'>{error}</div>
         </div>
       )
     }
@@ -15,12 +15,17 @@ class ItemForm extends React.Component {
 
   renderInput = ({ input, label, meta }) => {
     return (
-      <div>
-        <label>{label}</label>
-        <input {...input} autoComplete='off' />
-        {this.renderError(meta)}
-      </div>
-    )
+      <>
+        {/* <label>{label}</label> */}
+        <div className='ui input'>
+          <input {...input} autoComplete="off" placeholder={label} />
+          <button>Submit</button>
+        </div>
+        <div>
+          {this.renderError(meta)}
+        </div>
+      </>
+    );
   }
 
   onSubmit = formValues => {
@@ -31,7 +36,7 @@ class ItemForm extends React.Component {
     return (
       <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
         <Field name='itemName' component={this.renderInput} label='Enter a New Item Name' />
-        <button>Submit</button>
+        {/* <button>Submit</button> */}
       </form>
     );
   }
