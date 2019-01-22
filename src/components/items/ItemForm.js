@@ -34,7 +34,7 @@ class ItemForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+      <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form'>
         <Field name='itemName' component={this.renderInput} label='Enter a New Item Name' />
         {/* <button>Submit</button> */}
       </form>
