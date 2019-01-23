@@ -5,11 +5,7 @@ class ItemForm extends React.Component {
 
   renderError({ error, touched }) {
     if (touched && error) {
-      return (
-        <div className='ui error message'>
-          <div className='header'>{error}</div>
-        </div>
-      )
+      return <div className='header'>{error}</div>;
     }
   }
 
@@ -18,10 +14,9 @@ class ItemForm extends React.Component {
     return <>
         {/* <label>{label}</label> */}
         <div className={className}>
-          <input {...input} autoComplete="off" placeholder={label} />
-          
+          <input {...input} autoComplete="off" placeholder={label} />     
         </div>
-        <div>
+        <div className='ui error message'>
           {this.renderError(meta)}
         </div>
       </>;
