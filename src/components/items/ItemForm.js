@@ -14,18 +14,17 @@ class ItemForm extends React.Component {
   }
 
   renderInput = ({ input, label, meta }) => {
-    return (
-      <>
+    const className = `field ui input ${meta.error && meta.touched ? 'error' : ''}`
+    return <>
         {/* <label>{label}</label> */}
-        <div className='ui input'>
+        <div className={className}>
           <input {...input} autoComplete="off" placeholder={label} />
-          <button>Submit</button>
+          
         </div>
         <div>
           {this.renderError(meta)}
         </div>
-      </>
-    );
+      </>;
   }
 
   onSubmit = formValues => {
@@ -34,9 +33,10 @@ class ItemForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form'>
+      // handleSubmit() comes from redux-forms
+      <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
         <Field name='itemName' component={this.renderInput} label='Enter a New Item Name' />
-        {/* <button>Submit</button> */}
+        <button className='ui button primary'>Submit</button>
       </form>
     );
   }
@@ -46,7 +46,7 @@ const validate = formValues => {
   const errors = {};
 
   if (!formValues.itemName) {
-    errors.itemName = "You Must Enter an Item Name to Make a New Item"
+    errors.itemName = "You Must Enter an Item Name"
   }
 
   return errors;
