@@ -1,6 +1,8 @@
 import React from "react";
+import { connect } from 'react-redux';
 
 import ItemForm from './ItemForm';
+import { createItem } from '../../actions';
 //need to import Connect() and wire up to action creator
 
 class ItemCreate extends React.Component {
