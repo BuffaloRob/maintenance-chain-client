@@ -1,6 +1,6 @@
 import history from '../history';
 import maintenance from '../apis/maintenance';
-import { SIGN_IN, SIGN_OUT } from './types';
+import { SIGN_IN, SIGN_OUT, CREATE_ITEM } from './types';
 
 export const signIn = userId => {
   return {
@@ -16,5 +16,7 @@ export const signOut = () => {
 };
 
 export const createItem = formValues => async dispatch => {
-  maintenance.post('/maintenance', formValues);
+  const response = await maintenance.post('/maintenance', formValues);
+  dispatch({ type: CREATE_ITEM, payload: response.data});
+
 };
