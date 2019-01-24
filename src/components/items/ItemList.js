@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchItems } from '../../actions';
 
@@ -29,11 +30,24 @@ class ItemList extends React.Component {
     });
   }
 
+  renderCreate() {
+    if (this.props.isSignedIn) {
+      return (
+        <div style={{ textAlign: 'right' }}>
+          <Link to="/items/new" className='ui button primary'>
+            Create New Item
+          </Link>
+        </div>
+      )
+    }
+  }
+
   render() {
     return (
       <div>
         <h2>Items</h2>
         <div className='ui celled list'>{this.renderList()}</div>
+        {this.renderCreate()}
       </div>
     )
   }
@@ -42,7 +56,8 @@ class ItemList extends React.Component {
 const mapStateToProps = (state) => {
   return ({ 
     items: Object.values(state.items),
-    currentUserId: state.auth.userId
+    currentUserId: state.auth.userId,
+    isSignedIn: state.auth.isSignedIn,
   });
 }
 
