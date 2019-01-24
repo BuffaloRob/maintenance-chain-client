@@ -7,6 +7,10 @@ import { createItem } from '../../actions';
 
 class ItemCreate extends React.Component {
 
+  onSubmit = formValues => {
+    this.props.createItem(formValues);
+  }
+
   render() {
     return (
       <div>
