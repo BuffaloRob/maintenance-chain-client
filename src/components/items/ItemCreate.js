@@ -21,4 +21,4 @@ class ItemCreate extends React.Component {
   }
 }
 
-export default ItemCreate;
+export default connect(null, { createItem })(ItemCreate);
