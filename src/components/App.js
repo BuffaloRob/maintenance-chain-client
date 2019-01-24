@@ -7,15 +7,15 @@ import history from '../history';
 import ItemCreate from './items/ItemCreate';
 
 const App = () => {
-  return (
-    <Router history={history}>
-      <div>
-        <Header />
-        <Route path='/' exact component={ItemList} />
-        <Route path="/items/new" exact component={ItemCreate} />
-      </div>
-    </Router>
-  )
+  return <div className="ui container">
+      <Router history={history}>
+        <div>
+          <Header />
+          <Route path="/" exact component={ItemList} />
+          <Route path="/items/new" exact component={ItemCreate} />
+        </div>
+      </Router>
+    </div>;
 }
 
 export default App;
