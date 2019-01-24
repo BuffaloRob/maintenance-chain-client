@@ -8,16 +8,24 @@ class ItemList extends React.Component {
     this.props.fetchItems();
   }
 
+  renderAdmin(item) {
+    if (item.userId === this.props.currentUserId) {
+      return (
+        <div className='right floated content'>
+          <button className='ui button primary'>Edit</button>
+          <button className='ui button negative'>Delete</button>
+        </div>
+      )
+    }
+  }
+
   renderList() {
     return this.props.items.map(item => {
-      return (
-        <div className='item' key={item.id}>
-          <i className='large middle aligned icon camera' />
-          <div className='content'>
-            {item.itemName}
-          </div>
-        </div>
-      );
+      return <div className="item" key={item.id}>
+          {this.renderAdmin(item)}
+          <i className="large middle aligned icon camera" />
+          <div className="content">{item.itemName}</div>
+        </div>;
     });
   }
 
@@ -32,6 +40,10 @@ class ItemList extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return ({ items: Object.values(state.items) });
+  return ({ 
+    items: Object.values(state.items),
+    currentUserId: state.auth.userId
+  });
 }
+
 export default connect(mapStateToProps, { fetchItems })(ItemList);
