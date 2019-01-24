@@ -6,3 +6,16 @@ import {
   EDIT_ITEM,
 } from '../actions/types'
 
+export default (state = {}, action) => {
+  switch(action.type) {
+    case FETCH_ITEM:
+      return { ...state, [action.payload.id]: action.payload };
+    case CREATE_ITEM:
+      return { ...state, [action.payload.id]: action.payload };
+    case EDIT_ITEM:
+      return { ...state, [action.payload.id]: action.payload };
+    
+    default:
+      return state;
+  }
+}
