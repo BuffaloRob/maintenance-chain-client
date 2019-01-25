@@ -27,7 +27,7 @@ export const createItem = formValues => async (dispatch, getState) => {
   const { userId } = getState().auth;
   const response = await maintenance.post('/maintenance', { ...formValues, userId });
   dispatch({ type: CREATE_ITEM, payload: response.data });
-
+  history.push('/');
 };
 
 export const fetchItems = () => async dispatch => {
