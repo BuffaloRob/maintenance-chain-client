@@ -13,7 +13,7 @@ class ItemList extends React.Component {
     if (item.userId === this.props.currentUserId) {
       return (
         <div className='right floated content'>
-          <button className='ui button primary'>Edit</button>
+          <Link className='ui button primary' to={`/items/edit/${item.id}`}>Edit</Link>
           <button className='ui button negative'>Delete</button>
         </div>
       )
