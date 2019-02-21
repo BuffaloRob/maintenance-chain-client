@@ -1,5 +1,5 @@
 import history from '../history';
-import maintenance from '../apis/maintenance';
+import apiURL from '../apis/maintenance';
 import * as types from './types';
 
 export const signIn = userId => {
@@ -17,28 +17,28 @@ export const signOut = () => {
 
 export const createItem = formValues => async (dispatch, getState) => {
   const { userId } = getState().auth;
-  const response = await maintenance.post('/maintenance', { ...formValues, userId });
+  const response = await maintenance.post('/apiURL', { ...formValues, userId });
   dispatch({ type: types.CREATE_ITEM, payload: response.data });
   history.push('/');
 };
 
 export const fetchItems = () => async dispatch => {
-  const response = await maintenance.get('/maintenance');
+  const response = await maintenance.get('/apiURL');
   dispatch({ type: types.FETCH_ITEMS, payload: response.data });
 }
 
 export const fetchItem = id => async dispatch => {
-  const response = await maintenance.get(`/maintenance/${id}`);
+  const response = await maintenance.get(`/apiURL/${id}`);
   dispatch({ type: types.FETCH_ITEM, payload: response.data });
 }
 
 export const editItem = (id, formValues) => async dispatch => {
-  const response = await maintenance.put(`/maintenance/${id}`, formValues);
+  const response = await maintenance.put(`/apiURL/${id}`, formValues);
   dispatch({ type: types.EDIT_ITEM, payload: response.data });
 }
 
 export const deleteItem = id => async dispatch => {
-  await maintenance.delete(`/streams/${id}`);
+  await maintenance.delete(`/apiURL/${id}`);
   dispatch({ type: types.DELETE_ITEM, payload: id });
 }
 
