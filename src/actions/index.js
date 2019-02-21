@@ -17,28 +17,28 @@ export const signOut = () => {
 
 export const createItem = formValues => async (dispatch, getState) => {
   const { userId } = getState().auth;
-  const response = await maintenance.post('/apiURL', { ...formValues, userId });
+  const response = await apiURL.post('/API_URL', { ...formValues, userId });
   dispatch({ type: types.CREATE_ITEM, payload: response.data });
   history.push('/');
 };
 
 export const fetchItems = () => async dispatch => {
-  const response = await maintenance.get('/apiURL');
+  const response = await apiURL.get('/apiURL');
   dispatch({ type: types.FETCH_ITEMS, payload: response.data });
 }
 
 export const fetchItem = id => async dispatch => {
-  const response = await maintenance.get(`/apiURL/${id}`);
+  const response = await apiURL.get(`/apiURL/${id}`);
   dispatch({ type: types.FETCH_ITEM, payload: response.data });
 }
 
 export const editItem = (id, formValues) => async dispatch => {
-  const response = await maintenance.put(`/apiURL/${id}`, formValues);
+  const response = await apiURL.put(`/apiURL/${id}`, formValues);
   dispatch({ type: types.EDIT_ITEM, payload: response.data });
 }
 
 export const deleteItem = id => async dispatch => {
-  await maintenance.delete(`/apiURL/${id}`);
+  await apiURL.delete(`/apiURL/${id}`);
   dispatch({ type: types.DELETE_ITEM, payload: id });
 }
 
