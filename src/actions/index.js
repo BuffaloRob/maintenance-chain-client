@@ -59,6 +59,6 @@ export const authSuccess = (user, token) => {
 export const authFailure = errors => {
   return {
     type: types.AUTHENTICATION_FAILURE,
-    errors: erros
+    errors: errors
   }
 }
