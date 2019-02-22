@@ -6,8 +6,8 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  isAuthenticated = false,
-  isAuthenticating = false,
+  isAuthenticated: false,
+  isAuthenticating: false,
   currentUser: {},
   token: null,
   errors: []
