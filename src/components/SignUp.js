@@ -21,7 +21,7 @@ class SignUp extends React.Component {
   // handleSubmit = event => {
   //   event.preventDefault();
   //   if (this.props.signup(this.state)) {
-  //     this.props.history.push('/user_profile')
+  //     this.props.history.push('/')
   //     window.alert("Thanks for signing up")
   //   } else {
   //     window.alert("We're having issues signing ypu up")
@@ -63,5 +63,25 @@ class SignUp extends React.Component {
     )
   }
 
-
 }
+
+const validate = formValues => {
+  const errors = {};
+  if (!formValues.name) {
+    errors.title = "You must enter a name";
+  }
+  if (!formValues.email) {
+    errors.title = "You must enter an email address";
+  }
+  if (!formValues.password) {
+    errors.title = "You must enter a password";
+  }
+  return errors;
+}
+
+const signupComponent = connect(null, { signup })(SignUp);
+
+export default reduxForm({
+  form: 'signupForm',
+  validate: validate
+})(signupComponent);
