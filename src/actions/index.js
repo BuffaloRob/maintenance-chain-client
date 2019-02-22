@@ -7,8 +7,8 @@ export const signup = user => async dispatch => {
   const newUser = user
   const axiosConfig = {
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      "Accept": "application/json",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({user: user})
   }
@@ -30,7 +30,7 @@ export const authenticate = credentials => async dispatch => {
   }
   dispatch(authRequest());
   const response = await apiURL.post('/user_token', axiosConfig);
-  // to be continued ...
+  // to be continued
 
 }
 
