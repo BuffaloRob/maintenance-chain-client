@@ -27,18 +27,6 @@ class SignUp extends React.Component {
   //     window.alert("We're having issues signing ypu up")
   //   }
   // }
-
-  renderInput = ({ input, label, meta }) => {
-    const className = `field ${meta.error && meta.touched ? 'error' : ''}`
-    return (
-      <div className={className}>
-        <label>{label}</label>
-        <input {...input} autocomplete='off' />
-        {this.renderError(meta)}
-      </div>
-    )
-  }
-
   renderError({ error, touched }) {
     if (touched && error) {
       return (
@@ -47,6 +35,18 @@ class SignUp extends React.Component {
         </div>
       );
     }
+  }
+
+  renderInput = ({ input, label, meta }) => {
+    console.log(meta);
+    const className = `field ${meta.error && meta.touched ? 'error' : ''}`
+    return (
+      <div className={className}>
+        <label>{label}</label>
+        <input {...input} autocomplete='off' />
+        {this.renderError(meta)}
+      </div>
+    )
   }
 
   onSubmit = formValues => {
@@ -70,20 +70,24 @@ class SignUp extends React.Component {
 const validate = formValues => {
   const errors = {};
   if (!formValues.name) {
-    errors.title = "You must enter a name";
+    errors.name = "You must enter a name";
   }
   if (!formValues.email) {
-    errors.title = "You must enter an email address";
+    errors.email = "You must enter an email address";
   }
   if (!formValues.password) {
-    errors.title = "You must enter a password";
+    errors.password = "You must enter a password";
   }
   return errors;
 }
 
-const signupComponent = connect(null, { signup })(SignUp);
+// const signupReduxForm = reduxForm({
+//   form: 'signupForm',
+//   validate: validate
+// })(SignUp);
 
-export default reduxForm({
-  form: 'signupForm',
-  validate: validate
-})(signupComponent);
+export default reduxForm({ 
+  form: 'signup',
+  validate
+})(SignUp);
+  
