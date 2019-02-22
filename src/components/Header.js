@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import GoogleAuth from './GoogleAuth';
+import SignUp from './SignUp';
 
 const Header = () => {
   return (
@@ -13,7 +14,9 @@ const Header = () => {
         <Link to='/' className='item'>
           All Items
         </Link>
-        <GoogleAuth />
+        <Link to='/signup' className='item'>
+          Sign Up
+        </Link>
       </div>
      
     </div>
