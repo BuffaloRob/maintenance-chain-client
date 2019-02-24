@@ -50,7 +50,7 @@ class SignUp extends React.Component {
   }
 
   onSubmit = formValues => {
-    this.props.onSubmit(formValues);
+    this.props.signup(formValues);
   }
 
   render() {
