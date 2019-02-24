@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
-import { signup } from '../actions/index';
+import { signup } from '../actions';
 
 class SignUp extends React.Component {
   state = {
@@ -86,8 +86,10 @@ const validate = formValues => {
 //   validate: validate
 // })(SignUp);
 
-export default reduxForm({ 
+const formWrapped = reduxForm({ 
   form: 'signup',
   validate
 })(SignUp);
+
+export default connect(null, { signup })(formWrapped);
   
