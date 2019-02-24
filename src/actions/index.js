@@ -2,7 +2,7 @@ import history from '../history';
 import apiURL from '../apis/maintenance';
 import * as types from './types';
 
-const API_URL = "http://localhost:3001/api"
+const API_URL = "http://localhost:3000/api"
 
 // Using fetch to satisfy project requirements
 export const signup = (user) => {
