@@ -81,11 +81,6 @@ const validate = formValues => {
   return errors;
 }
 
-// const signupReduxForm = reduxForm({
-//   form: 'signupForm',
-//   validate: validate
-// })(SignUp);
-
 const formWrapped = reduxForm({ 
   form: 'signup',
   validate
