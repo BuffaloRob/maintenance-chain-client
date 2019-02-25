@@ -11,22 +11,6 @@ class SignUp extends React.Component {
     password: ""
   };
 
-  // handleChange = event => {
-  //   const { name, value } = event.target;
-  //   this.setState({
-  //     [name]: value
-  //   });
-  // }
-
-  // handleSubmit = event => {
-  //   event.preventDefault();
-  //   if (this.props.signup(this.state)) {
-  //     this.props.history.push('/')
-  //     window.alert("Thanks for signing up")
-  //   } else {
-  //     window.alert("We're having issues signing ypu up")
-  //   }
-  // }
   renderError({ error, touched }) {
     if (touched && error) {
       return (
@@ -38,7 +22,6 @@ class SignUp extends React.Component {
   }
 
   renderInput = ({ input, label, meta }) => {
-    console.log(meta);
     const className = `field ${meta.error && meta.touched ? 'error' : ''}`
     return (
       <div className={className}>
