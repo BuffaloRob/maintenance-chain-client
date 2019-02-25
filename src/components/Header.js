@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Welcome from './Welcome';
+
 const Header = () => {
   return (
     <div className='ui secondary pointing menu'>
@@ -14,6 +16,7 @@ const Header = () => {
         <Link to='/signup' className='item'>
           Sign Up
         </Link>
+        <Welcome />
       </div>
      
     </div>
