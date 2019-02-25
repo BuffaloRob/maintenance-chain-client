@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchItems } from '../../actions';
+import { fetchItems } from '../../actions/itemActions';
 
 class ItemList extends React.Component {
 

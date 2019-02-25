@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchItem } from '../../actions';
+import { fetchItem } from '../../actions/itemActions';
 
 class ItemEdit extends React.Component {
 
