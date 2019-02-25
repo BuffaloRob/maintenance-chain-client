@@ -1,5 +1,4 @@
 import history from '../history';
-import apiURL from '../apis/maintenance';
 import * as types from './types';
 
 const API_URL = "http://localhost:3000/api"
@@ -24,6 +23,7 @@ export const signup = (user) => {
           password: jresp.password
         })
         );
+        history.push('/');
       })
       .catch((errors) => {
         dispatch(authFailure(errors))
@@ -104,16 +104,3 @@ export const authFailure = errors => {
     errors: errors
   }
 }
-
-export const signIn = userId => {
-  return {
-    type: types.SIGN_IN,
-    payload: userId
-  };
-};
-
-export const signOut = () => {
-  return {
-    type: types.SIGN_OUT
-  };
-};
