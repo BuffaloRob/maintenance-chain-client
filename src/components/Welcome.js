@@ -24,4 +24,10 @@ class Welcome extends React.Component {
 
 }
 
-export default Welcome;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated
+  }
+}
+
+export default connect(mapStateToProps, {})(Welcome);
