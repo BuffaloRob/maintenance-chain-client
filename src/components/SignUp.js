@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
-import { signup } from '../actions';
+import { signup } from '../actions/authActions';
 
 class SignUp extends React.Component {
   state = {
