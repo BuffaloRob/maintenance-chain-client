@@ -5,7 +5,7 @@ const API_URL = "http://localhost:3000/api"
 
 // Using fetch to satisfy project requirements
 export const signup = (user) => {
-  // const newUser = user
+  const newUser = user
   return dispatch => {
     return fetch(`${API_URL}/users`, {
       method: "POST",
@@ -18,12 +18,12 @@ export const signup = (user) => {
       .then(resp => resp.json())
       .then(jresp => {
         dispatch(authenticate({
-          name: jresp.name,
-          email: jresp.email,
-          password: jresp.password
+          name: newUser.name,
+          email: newUser.email,
+          password: newUser.password
         })
         );
-        history.push('/');
+        // history.push('/');
       })
       .catch((errors) => {
         dispatch(authFailure(errors))
