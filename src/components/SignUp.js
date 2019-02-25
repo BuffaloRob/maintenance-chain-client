@@ -65,10 +65,19 @@ const validate = formValues => {
   return errors;
 }
 
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    isAuthenticating: state.auth.isAuthenticating,
+    currentUser: state.auth.currentUser,
+    token: state.auth.token
+  }
+}
+
 const formWrapped = reduxForm({ 
   form: 'signup',
   validate
 })(SignUp);
 
-export default connect(null, { signup })(formWrapped);
+export default connect(mapStateToProps, { signup })(formWrapped);
   
