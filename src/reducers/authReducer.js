@@ -2,6 +2,7 @@ import {
   AUTHENTICATION_REQUEST,
   AUTHENTICATION_SUCCESS,
   AUTHENTICATION_FAILURE,
+  AUTHENTICATED,
   LOGOUT
 } from '../actions/types';
 
@@ -34,6 +35,8 @@ export default (state = INITIAL_STATE, action) => {
         token: null,
         errors: action.errors || []
       }
+    case AUTHENTICATED:
+      return { ...state, isAuthenticated: true }
     case LOGOUT:
       return {
         ...state,
