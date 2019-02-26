@@ -23,7 +23,7 @@ export const signup = (user) => {
           password: newUser.password
         })
         );
-        // history.push('/');
+        history.push('/');
       })
       .catch((errors) => {
         dispatch(authFailure(errors))
