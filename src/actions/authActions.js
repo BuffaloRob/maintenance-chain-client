@@ -78,16 +78,12 @@ export const getUser = (credentials) => {
 export const logout = () => {
   return dispatch => {
     localStorage.clear();
-    return dispatch({
-      type: types.LOGOUT
-    });
+    return dispatch({ type: types.LOGOUT });
   }
 }
 
 export const authRequest = () => {
-  return {
-    type: types.AUTHENTICATION_REQUEST
-  }
+  return { type: types.AUTHENTICATION_REQUEST }
 }
 
 export const authSuccess = (user, token) => {
