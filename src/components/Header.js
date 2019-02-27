@@ -19,8 +19,8 @@ class Header extends React.Component {
           M/C
         </Link>
         <div className='right menu'>
-          <Link to='/' className='item'>
-            All Items
+          <Link to='/items/new' className='item'>
+            New Item
           </Link>
           <Link to='/signup' className='item'>
             Sign Up
