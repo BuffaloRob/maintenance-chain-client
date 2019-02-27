@@ -6,12 +6,23 @@ import reduxThunk from "redux-thunk";
 
 import App from "./components/App";
 import reducers from "./reducers";
+import { AUTHENTICATION_SUCCESS } from "./actions/types";
+import { authSuccess, getUser } from "./actions/authActions";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducers,
   composeEnhancers(applyMiddleware(reduxThunk))
 );
+
+// const token = localStorage.getItem('token');
+
+// const user = getUser(token);
+
+// if (user) {
+//   // console.log(user);
+//   store.dispatch(authSuccess(user, localStorage.getItem('token')))
+// }
 
 ReactDOM.render(
   <Provider store={store}>
