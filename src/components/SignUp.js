@@ -5,11 +5,6 @@ import { Field, reduxForm } from 'redux-form';
 import { signup } from '../actions/authActions';
 
 class SignUp extends React.Component {
-  state = {
-    name: "",
-    email: "",
-    password: ""
-  };
 
   renderError({ error, touched }) {
     if (touched && error) {
