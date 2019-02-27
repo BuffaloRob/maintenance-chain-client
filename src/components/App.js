@@ -10,6 +10,7 @@ import ItemEdit from './items/ItemEdit';
 import ItemShow from './items/ItemShow';
 
 import SignUp from './SignUp';
+import Login from './Login';
 
 const App = () => {
   return <div className="ui container">
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/items/delete/:id" exact component={ItemDelete} />
           <Route path="/items/edit/:id" exact component={ItemEdit} />
           <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/login" component={Login} />
         </div>
       </Router>
     </div>;
