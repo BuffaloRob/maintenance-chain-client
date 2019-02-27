@@ -23,7 +23,6 @@ export const signup = (user) => {
           password: newUser.password
         })
         );
-        history.push('/');
       })
       .catch((errors) => {
         dispatch(authFailure(errors))
@@ -43,13 +42,14 @@ export const authenticate = (credentials) => {
       body: JSON.stringify({ auth: credentials })
     })
       .then(resp => resp.json())
-      .then((jresp) => {
+      .then(jresp => {
         const token = jresp.jwt;
         localStorage.setItem('token', token);
         return getUser(credentials)
       })
       .then((user) => {
-        dispatch(authSuccess(user, localStorage.token))
+        dispatch(authSuccess(user, localStorage.token));
+        history.push('/');
       })
       .catch((errors) => {
         dispatch(authFailure(errors))
@@ -78,7 +78,9 @@ export const getUser = (credentials) => {
 export const logout = () => {
   return dispatch => {
     localStorage.clear();
+    history.push('/');
     return dispatch({ type: types.LOGOUT });
+    
   }
 }
 
