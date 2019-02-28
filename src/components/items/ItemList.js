@@ -25,13 +25,13 @@ class ItemList extends React.Component {
       return <div className="item" key={item.id}>
           {this.renderAdmin(item)}
           <i className="large middle aligned icon camera" />
-          <div className="content">{item.itemName}</div>
+          <div className="content">{item.name}</div>
         </div>;
     });
   }
 
   renderCreate() {
-    if (this.props.isSignedIn) {
+    if (this.props.isAuthenticated) {
       return (
         <div style={{ textAlign: 'right' }}>
           <Link to="/items/new" className='ui button primary'>
@@ -56,8 +56,8 @@ class ItemList extends React.Component {
 const mapStateToProps = (state) => {
   return ({ 
     items: Object.values(state.items),
-    currentUserId: state.auth.userId,
-    isSignedIn: state.auth.isSignedIn,
+    currentUserId: state.auth.currentUser.id,
+    isAuthenticated: state.auth.isAuthenticated,
   });
 }
 
