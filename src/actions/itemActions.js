@@ -3,8 +3,8 @@ import apiURL from '../apis/maintenance';
 import * as types from './types';
 
 export const createItem = formValues => async (dispatch, getState) => {
-  const { userId } = getState().items;
-  const response = await apiURL.post('/items', { ...formValues, userId });
+  const user_id = getState().auth.currentUser.id;
+  const response = await apiURL.post('/items', { ...formValues, user_id });
   dispatch({ type: types.CREATE_ITEM, payload: response.data });
   history.push('/');
 };
