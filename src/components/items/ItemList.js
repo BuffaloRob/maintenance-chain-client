@@ -14,7 +14,7 @@ class ItemList extends React.Component {
       return (
         <div className='right floated content'>
           <Link className='ui button primary' to={`/items/edit/${item.id}`}>Edit</Link>
-          <button className='ui button negative'>Delete</button>
+          <Link className='ui button negative' to={`/items/delete/${item.id}`}>Delete</Link>
         </div>
       )
     }
