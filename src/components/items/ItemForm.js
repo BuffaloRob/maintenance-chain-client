@@ -30,7 +30,7 @@ class ItemForm extends React.Component {
     return (
       // handleSubmit() comes from redux-forms
       <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-        <Field name='itemName' component={this.renderInput} label='Enter a New Item Name' />
+        <Field name='name' component={this.renderInput} label='Enter an Item Name' />
         <button className='ui button primary'>Submit</button>
       </form>
     );
