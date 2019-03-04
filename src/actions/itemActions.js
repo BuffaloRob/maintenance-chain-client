@@ -27,6 +27,8 @@ export const editItem = (id, formValues) => async dispatch => {
 export const deleteItem = id => async dispatch => {
   await apiURL.delete(`/items/${id}`);
   dispatch({ type: types.DELETE_ITEM, payload: id });
+
+  history.push('/');
 }
 
 
