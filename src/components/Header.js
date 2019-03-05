@@ -12,6 +12,32 @@ class Header extends React.Component {
     this.props.logout();
   }
 
+  renderAuthenticated() {
+    if (this.props.isAuthenticated) {
+      return (
+        <>
+          <Link to='/items/new' className='item'>
+            New Item
+          </Link>
+          <li onClick={(e) => this.handleLogout(e)} className='item pointing'>Log out</li>
+          <Welcome />
+        </>
+      ) 
+    } else {
+      return (
+          <>
+            <Link to='/signup' className='item'>
+              Sign Up
+            </Link>
+            <Link to='/login' className='item'>
+              Log In
+            </Link>
+            <Welcome />
+          </>
+      )
+    }
+  }
+
   render() {
     return (
       <div className='ui secondary pointing menu'>
@@ -19,23 +45,16 @@ class Header extends React.Component {
           M/C
         </Link>
         <div className='right menu'>
-          <Link to='/items/new' className='item'>
-            New Item
-          </Link>
-          <Link to='/signup' className='item'>
-            Sign Up
-          </Link>
-          <Link to='/login' className='item'>
-            Log In
-          </Link>
-          <li onClick={(e) => this.handleLogout(e)}className='item pointing'>Log out</li>
-          <Welcome />
+          {this.renderAuthenticated()}
         </div>
-
       </div>
     )
   }
   
 }
 
-export default connect(null, { logout })(Header);
+const mapStateToProps = state => {
+  return { isAuthenticated: state.auth.isAuthenticated }
+}
+
+export default connect(mapStateToProps, { logout })(Header);
