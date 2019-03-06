@@ -38,7 +38,7 @@ class SignUp extends React.Component {
         <h3>Sign Up</h3>
         <Field name='name' component={this.renderInput} label='Enter Your Name' />
         <Field name='email' component={this.renderInput} label='Enter Your Email'/>
-        <Field name='password' component={this.renderInput} label='Enter Your Password'/>
+        <Field name='password' type='password' component={this.renderInput} label='Enter Your Password'/>
         <button className='ui button primary'>Submit</button>
       </form>
     )
