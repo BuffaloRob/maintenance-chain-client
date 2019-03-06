@@ -35,8 +35,8 @@ class Login extends React.Component {
       // handleSubmit comes from reduxForm
       <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
         <h3>Log In</h3>
-        <Field name='email' component={this.renderInput} label='Enter Your Email' />
-        <Field name='password' component={this.renderInput} label='Enter Your Password' />
+        <Field name='email' type='text' component={this.renderInput} label='Enter Your Email' />
+        <Field name='password' type='password' component={this.renderInput} label='Enter Your Password' />
         <button className='ui button primary'>Submit</button>
       </form>
     )
