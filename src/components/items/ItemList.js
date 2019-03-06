@@ -24,7 +24,7 @@ class ItemList extends React.Component {
     return this.props.items.map(item => {
       return <div className="item" key={item.id}>
           {this.renderAdmin(item)}
-          <i className="large middle aligned icon camera" />
+          <i className="large middle aligned icon wrench" />
           <div className="content">{item.name}</div>
         </div>;
     });
