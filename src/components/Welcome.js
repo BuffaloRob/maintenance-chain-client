@@ -5,7 +5,7 @@ class Welcome extends React.Component {
   renderName() {
     if (this.props.isAuthenticated) {
       return (
-        <p>Welcome User</p>
+        <p>Welcome {this.props.currentUser}</p>
       )
     } else {
       return (
@@ -26,7 +26,8 @@ class Welcome extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    currentUser: state.auth.currentUser.name
   }
 }
 
