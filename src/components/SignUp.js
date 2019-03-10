@@ -36,7 +36,6 @@ class SignUp extends React.Component {
       // handleSubmit comes from reduxForm
       <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
         <h3>Sign Up</h3>
-        <Field name='name' component={this.renderInput} label='Enter Your Name' />
         <Field name='email' component={this.renderInput} label='Enter Your Email'/>
         <Field name='password' type='password' component={this.renderInput} label='Enter Your Password'/>
         <button className='ui button primary'>Submit</button>
@@ -48,9 +47,6 @@ class SignUp extends React.Component {
 
 const validate = formValues => {
   const errors = {};
-  if (!formValues.name) {
-    errors.name = "You must enter a name";
-  }
   if (!formValues.email) {
     errors.email = "You must enter an email address";
   }

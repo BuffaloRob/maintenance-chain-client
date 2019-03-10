@@ -18,7 +18,6 @@ export const signup = (user) => {
       .then(resp => resp.json())
       .then(jresp => {
         dispatch(authenticate({
-          name: newUser.name,
           email: newUser.email,
           password: newUser.password
         })
