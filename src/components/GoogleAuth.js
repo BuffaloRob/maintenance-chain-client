@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { signIn, signOut} from '../actions/index';
+import { signIn, signOut} from '../actions';
 //TODO: Check to make sure the client id used on line 8 doesn't need to be hidden in some way
 
 class GoogleAuth extends React.Component {
-  state = { isSignedIn: null };
 
   componentDidMount() {
     window.gapi.load("client:auth2", () => {
