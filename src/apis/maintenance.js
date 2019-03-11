@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Set-up for the json-api server
 export default axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: 'http://localhost:3000',
   headers: { Authorization: `Bearer ${localStorage.token}` }
 })
 
