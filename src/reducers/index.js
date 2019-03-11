@@ -6,8 +6,8 @@ import itemReducer from './itemReducer';
 import googleReducer from './googleReducer';
 
 export default combineReducers({
-  auth: authReducer,
-  google: googleReducer,
+  // auth: authReducer,
+  auth: googleReducer,
   form: formReducer,
   items: itemReducer,
 });
