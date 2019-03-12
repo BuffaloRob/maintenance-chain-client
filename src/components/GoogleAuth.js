@@ -6,20 +6,36 @@ import { signIn, signOut} from '../actions';
 
 class GoogleAuth extends React.Component {
 
+  // componentDidMount() {
+  //   window.gapi.load("auth2", () => {
+  //     window.gapi.auth2
+  //       .init({
+  //         clientId:
+  //           "915420385972-j4d1d449764jfasb8jagcufj4jd71h7h.apps.googleusercontent.com",
+  //         scope: "email"
+  //       })
+  //       .then(() => {
+  //         this.auth = window.gapi.auth2.getAuthInstance();
+  //         this.onAuthChange(this.auth.isSignedIn.get());
+  //         this.auth.isSignedIn.listen(this.onAuthChange);
+  //       });
+  //   });
+  // }
+
   componentDidMount() {
-    window.gapi.load("client:auth2", () => {
-      window.gapi.client
-        .init({
-          clientId:
-            "915420385972-j4d1d449764jfasb8jagcufj4jd71h7h.apps.googleusercontent.com",
-          scope: "email"
-        })
-        .then(() => {
-          this.auth = window.gapi.auth2.getAuthInstance();
-          this.onAuthChange(this.auth.isSignedIn.get());
-          this.auth.isSignedIn.listen(this.onAuthChange);
-        });
-    });
+      window.gapi.load("auth2", () => {
+        window.gapi.auth2
+          .init({
+            client_id:
+              "915420385972-j4d1d449764jfasb8jagcufj4jd71h7h.apps.googleusercontent.com",
+            scope: "email"
+          })
+          .then(() => {
+            this.auth = window.gapi.auth2.getAuthInstance();
+            this.onAuthChange(this.auth.isSignedIn.get());
+            this.auth.isSignedIn.listen(this.onAuthChange);
+          });
+      });
   }
 
   onAuthChange = isSignedIn => {
@@ -31,7 +47,11 @@ class GoogleAuth extends React.Component {
   };
 
   onSignInClick = () => {
-    this.auth.signIn();
+    // this.auth.signIn();
+    this.auth.grantOfflineAccess().then(resp => {
+    const auth_code = resp.code;
+    console.log(auth_code);
+    })
   };
 
   onSignOutClick = () => {
