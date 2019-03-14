@@ -27,7 +27,7 @@ class Login extends React.Component {
   }
 
   onSubmit = formValues => {
-    this.props.login(formValues);
+    this.props.login(formValues, () => this.props.history.push("/"));
   }
 
   render() {
