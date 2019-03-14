@@ -1,49 +1,23 @@
-import {
-  AUTHENTICATION_REQUEST,
-  AUTHENTICATION_SUCCESS,
-  AUTHENTICATION_FAILURE,
-  AUTHENTICATED,
-  LOGOUT
-} from '../actions/types';
+import { SET_USER, LOGOUT } from '../actions/types';
 
 const INITIAL_STATE = {
-  isAuthenticated: false,
-  isAuthenticating: false,
   currentUser: {},
-  token: null,
-  errors: []
+  isAuthenticated: false
 }
 
 export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
-    case AUTHENTICATION_REQUEST:
-      return { ...state, isAuthenticating: true }
-    case AUTHENTICATION_SUCCESS:
+    case SET_USER:
       return { 
         ...state, 
-        isAuthenticated: true,
-        isAuthenticating: false,
-        currentUser: action.user,
-        token: action.token
+        currentUser: action.payload, 
+        isAuthenticated: true 
       }
-    case AUTHENTICATION_FAILURE:
-      return {
-        ...state,
-        isAuthenticated: false,
-        isAuthenticating: false,
-        currentUser: {},
-        token: null,
-        errors: action.errors || []
-      }
-    case AUTHENTICATED:
-      return { ...state, isAuthenticated: true }
     case LOGOUT:
       return {
         ...state,
-        isAuthenticated: false,
-        isAuthenticating: false,
         currentUser: {},
-        token: null
+        isAuthenticated: false
       }
     default:
       return state;
