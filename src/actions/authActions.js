@@ -23,8 +23,7 @@ export const signup = (user, callback) => {
           type: SET_USER,
           payload: user.currentUser
         })
-        
-        history.push('/');
+
         callback();
       })
       .catch(err => err)
@@ -33,10 +32,10 @@ export const signup = (user, callback) => {
 
 export const login = (user, callback) => {
   let data = {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      "Accept": "application/json",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({ user })
   }
@@ -52,7 +51,6 @@ export const login = (user, callback) => {
           payload: user.currentUser
         })
 
-        history.push("/");
         callback()
       })
       .catch(err => err)
