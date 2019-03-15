@@ -27,7 +27,7 @@ class Welcome extends React.Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    currentUser: state.auth.currentUser.name
+    currentUser: state.auth.currentUser.email
   }
 }
 
