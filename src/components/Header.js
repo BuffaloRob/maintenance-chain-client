@@ -20,7 +20,7 @@ class Header extends React.Component {
             New Item
           </Link>
           <li onClick={(e) => this.handleLogout(e)} className='item pointing'>Log out</li>
-          <Welcome />
+          <li className='item'>Welcome {this.props.currentUser}</li>
         </>
       ) 
     } else {
@@ -32,7 +32,7 @@ class Header extends React.Component {
             <Link to='/login' className='item'>
               Log In
             </Link>
-            <Welcome />
+            <li className='item'>Please Login</li>
           </>
       )
     }
@@ -54,7 +54,10 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { isAuthenticated: state.auth.isAuthenticated }
+  return { 
+    isAuthenticated: state.auth.isAuthenticated,
+    currentUser: state.auth.currentUser.email
+  }
 }
 
 export default connect(mapStateToProps, { logout })(Header);
