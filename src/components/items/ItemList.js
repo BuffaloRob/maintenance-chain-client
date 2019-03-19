@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import { fetchItems } from '../../actions/itemActions';
+import { fetchUser } from '../../actions/authActions';
 
 class ItemList extends React.Component {
 
   componentDidMount() {
+    // this.props.fetchUser();
     this.props.fetchItems();
   }
 
@@ -61,4 +64,4 @@ const mapStateToProps = (state) => {
   });
 }
 
-export default connect(mapStateToProps, { fetchItems })(ItemList);
+export default connect(mapStateToProps, { fetchItems, fetchUser })(ItemList);
