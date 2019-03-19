@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import Welcome from './Welcome';
-import { logout } from '../actions/authActions';
+import { logout, fetchUser } from '../actions/authActions';
 
 class Header extends React.Component {
+
+  componentDidMount() {
+    // this.props.fetchUser();
+  }
 
   handleLogout = e => {
     e.preventDefault();
@@ -60,4 +63,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { logout })(Header);
+export default connect(mapStateToProps, { logout, fetchUser })(Header);
