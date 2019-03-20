@@ -6,8 +6,8 @@ import reduxThunk from "redux-thunk";
 
 import App from "./components/App";
 import reducers from "./reducers";
-import { AUTHENTICATION_SUCCESS } from "./actions/types";
-import { authSuccess, getUser } from "./actions/authActions";
+import { SET_USER } from "./actions/types";
+import { fetchUser } from "./actions/authActions";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
@@ -15,13 +15,13 @@ const store = createStore(
   composeEnhancers(applyMiddleware(reduxThunk))
 );
 
-// const token = localStorage.getItem('token');
+// const token = sessionStorage.getItem('jwt');
 
-// const user = getUser(token);
+// const user = fetchUser();
 
 // if (user) {
 //   // console.log(user);
-//   store.dispatch(authSuccess(user, localStorage.getItem('token')))
+//   store.dispatch(SET_USER(user, sessionStorage.getItem('jwt')))
 // }
 
 ReactDOM.render(
