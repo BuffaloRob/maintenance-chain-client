@@ -30,6 +30,28 @@ export const signup = (user, callback) => {
   }
 }
 
+// export const login = (user, callback) => {
+//   let data = {
+//     method: 'POST',
+//     credentials: 'include',
+//     body: JSON.stringify(user)
+//   }
+
+//   return dispatch => {
+//     fetch(`${API_URL}/login`, data)
+//       .then(resp => resp.json())
+//       .then(user => {
+//         dispatch({
+//           type: SET_USER,
+//           payload: user.currentUser
+//         })
+        
+//         callback()
+//       })
+//       .catch(err => err)
+//   } 
+// }
+
 export const login = (user, callback) => {
   let data = {
     method: "POST",
