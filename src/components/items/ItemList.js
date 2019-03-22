@@ -59,7 +59,7 @@ class ItemList extends React.Component {
 const mapStateToProps = (state) => {
   return ({ 
     items: Object.values(state.items),
-    currentUserId: state.auth.currentUser.id,
+    // currentUserId: state.auth.currentUser.id,
     isAuthenticated: state.auth.isAuthenticated,
   });
 }
