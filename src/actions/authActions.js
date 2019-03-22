@@ -33,6 +33,10 @@ const API_URL = "http://localhost:3000/api/v1"
 export const signup = (user, callback) => {
   let data = {
     method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
     credentials: 'include',
     body: JSON.stringify({ user })
   }
@@ -55,6 +59,10 @@ export const signup = (user, callback) => {
 export const login = (user, callback) => {
   let data = {
     method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
     credentials: 'include',
     body: JSON.stringify({ user })
   }
@@ -161,10 +169,24 @@ export const login = (user, callback) => {
 // }
 
 export const logout = () => {
+  let data = {
+    method: 'DELETE',
+    credentials: 'include'
+  }
   return dispatch => {
-    sessionStorage.clear();
-    history.push('/');
-    return dispatch({ type: LOGOUT });
-    
+    fetch(`${API_URL}/logout`, data)
+      .then(resp => resp.json())
+      .then(() => {
+        dispatch({ type: LOGOUT })
+      })
   }
 }
+
+// export const logout = () => {
+//   return dispatch => {
+//     sessionStorage.clear();
+//     history.push('/');
+//     return dispatch({ type: LOGOUT });
+    
+//   }
+// }
