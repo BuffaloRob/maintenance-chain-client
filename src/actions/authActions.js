@@ -34,7 +34,7 @@ export const signup = (user, callback) => {
   let data = {
     method: 'POST',
     credentials: 'include',
-    body: JSON.stringify(user)
+    body: JSON.stringify({ user })
   }
 
   return dispatch => {
@@ -56,7 +56,7 @@ export const login = (user, callback) => {
   let data = {
     method: 'POST',
     credentials: 'include',
-    body: JSON.stringify(user)
+    body: JSON.stringify({ user })
   }
 
   return dispatch => {
@@ -117,29 +117,48 @@ export const login = (user, callback) => {
 //       return error;
 //     });
 // }
+  
+  export const fetchUser = () => {
+    let data = {
+      method: 'GET',
+      credentials: 'include'
+    }
 
-export const fetchUser = () => {
-  let data = {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': sessionStorage.jwt
+    return dispatch => {
+      fetch(`${API_URL}/user`, data)
+        .then(resp => resp.json())
+        .then(user => {
+          dispatch({
+            type: SET_USER,
+            payload: user
+          })
+        })
+        .catch(err => err)
     }
   }
 
-  return dispatch => {
-    fetch(`${API_URL}/user`, data)
-      .then(resp => resp.json())
-      .then(user => {
-        dispatch({
-          type: SET_USER,
-          payload: user
-        })
-      })
-      .catch(err => err)
-  }
-}
+// export const fetchUser = () => {
+//   let data = {
+//     method: 'GET',
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json',
+//       'Authorization': sessionStorage.jwt
+//     }
+//   }
+
+//   return dispatch => {
+//     fetch(`${API_URL}/user`, data)
+//       .then(resp => resp.json())
+//       .then(user => {
+//         dispatch({
+//           type: SET_USER,
+//           payload: user
+//         })
+//       })
+//       .catch(err => err)
+//   }
+// }
 
 export const logout = () => {
   return dispatch => {
