@@ -17,8 +17,6 @@ export const signup = (user, callback) => {
     fetch(`${API_URL}/signup`, data)
       .then(resp => resp.json())
       .then(user => {
-        sessionStorage.setItem('jwt', user.jwt)
-
         dispatch({
           type: SET_USER,
           payload: user.currentUser
@@ -66,8 +64,6 @@ export const login = (user, callback) => {
     fetch(`${API_URL}/login`, data)
       .then(resp => resp.json())
       .then(user => {
-        sessionStorage.setItem('jwt', user.jwt)
-
         dispatch({
           type: SET_USER,
           payload: user.currentUser
@@ -101,8 +97,7 @@ export const fetchUser = () => {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': sessionStorage.jwt
+      'Content-Type': 'application/json'
     }
   }
 
@@ -121,7 +116,6 @@ export const fetchUser = () => {
 
 export const logout = () => {
   return dispatch => {
-    sessionStorage.clear();
     history.push('/');
     return dispatch({ type: LOGOUT });
     
