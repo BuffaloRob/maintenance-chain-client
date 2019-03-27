@@ -1,5 +1,8 @@
+
 import history from '../history';
 import { SET_USER, LOGOUT } from './types';
+
+const jwtDecode = require('jwt-decode');
 
 const API_URL = "http://localhost:3000/api/v1"
 
@@ -17,11 +20,14 @@ export const signup = (user, callback) => {
     fetch(`${API_URL}/signup`, data)
       .then(resp => resp.json())
       .then(user => {
-        sessionStorage.setItem('jwt', user.jwt)
+        sessionStorage.setItem('jwt', user.jwt);
+
+        let decoded = jwtDecode(user.jwt);
+        console.log(decoded);
 
         dispatch({
           type: SET_USER,
-          payload: user.currentUser
+          payload: decoded
         })
 
         callback();
@@ -68,9 +74,12 @@ export const login = (user, callback) => {
       .then(user => {
         sessionStorage.setItem('jwt', user.jwt)
 
+        let decoded = jwtDecode(user.jwt);
+        console.log(decoded);
+
         dispatch({
           type: SET_USER,
-          payload: user.currentUser
+          payload: decoded
         })
 
         callback()
@@ -120,8 +129,19 @@ export const fetchUser = () => {
 }
 
 export const logout = () => {
+  let data = {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      'Authorization': 'nil'
+    }
+  }
+
   return dispatch => {
     sessionStorage.clear();
+    fetch(`${API_URL}/logout`, data)
+    
     history.push('/');
     return dispatch({ type: LOGOUT });
     
