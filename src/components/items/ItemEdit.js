@@ -8,7 +8,7 @@ import ItemForm from "./ItemForm";
 class ItemEdit extends React.Component {
 
   componentDidMount() {
-    this.props.fetchItem(this.props.match.params.id);
+    // this.props.fetchItem(this.props.match.params.id);
   }
 
   onSubmit = formValues => {
