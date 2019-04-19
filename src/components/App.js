@@ -19,6 +19,12 @@ import CategoryEdit from './categories/CategoryEdit';
 import CategoryShow from './categories/CategoryShow';
 import CategoryList from './categories/CategoryList';
 
+import LogList from './logs/LogList';
+import LogCreate from './logs/LogCreate';
+import LogDelete from './logs/LogDelete';
+import LogEdit from './logs/LogEdit';
+import LogShow from './logs/LogShow';
+
 const App = () => {
   return <div className="ui container">
       <Router history={history}>
@@ -36,6 +42,11 @@ const App = () => {
           <Route exact path="/categories/show" component={CategoryShow} />
           <Route path="/categories/new" component={CategoryCreate} />
           <Route path="/categories/edit/:id" component={CategoryEdit} />
+          <Route exact path="/logs/list" component={LogList} />
+          <Route path="/logs/delete/:id" component={LogDelete} />
+          <Route exact path="/logs/show" component={LogShow} />
+          <Route path="/logs/create" component={LogCreate} />
+          <Route path="/logs/edit/:id" component={LogEdit} />
         </div>
       </Router>
     </div>;
