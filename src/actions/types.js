@@ -10,6 +10,12 @@ export const FETCH_ITEMS = 'FETCH_ITEMS';
 export const DELETE_ITEM = 'DELETE_ITEM';
 export const EDIT_ITEM = 'EDIT_ITEM';
 
+export const CREATE_LOG = 'CREATE_LOG';
+export const FETCH_LOG = 'FETCH_LOG';
+export const FETCH_LOGS = 'FETCH_LOGS';
+export const DELETE_LOG = 'DELETE_LOG';
+export const EDIT_LOG = 'EDIT_LOG';
+
 export const CREATE_CATEGORY = 'CREATE_CATEGORY';
 export const FETCH_CATEGORY = 'FETCH_CATEGORY';
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
