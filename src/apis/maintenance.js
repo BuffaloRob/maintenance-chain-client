@@ -6,6 +6,6 @@ export default axios.create({
   headers: { 
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': sessionStorage.jwt
+    'Authorization': 'Bearer ' + sessionStorage.jwt
   }
 })
