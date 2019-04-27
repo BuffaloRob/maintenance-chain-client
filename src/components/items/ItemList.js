@@ -28,7 +28,8 @@ class ItemList extends React.Component {
       return <div className="item" key={item.id}>
           {this.renderAdmin(item)}
           <i className="large middle aligned icon wrench" />
-          <div className="content">{item.name}</div>
+          <Link to={ `items/${item.id}/categories/list` } className='content'>{item.name}</Link>
+          {/* <div className="content">{item.name}</div> */}
         </div>;
     });
   }
