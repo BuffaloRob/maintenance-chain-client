@@ -4,7 +4,7 @@ import * as types from './types';
 
 export const createCategory = formValues => async (dispatch, getState) => {
   const user_id = getState().auth.currentUser.user_id;
-  const response = await apiURL.post('/categories', { ...formValues, user_id });
+  const response = await apiURL.post('/items/:item_id/categories', { ...formValues, user_id });
   dispatch({ type: types.CREATE_CATEGORY, payload: response.data });
   history.push('/');
 };
