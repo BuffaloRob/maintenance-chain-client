@@ -25,15 +25,16 @@ class ItemList extends React.Component {
 
   renderList() {
     return this.props.items.map(item => {
-      return <div className="item" key={item.id}>
+      return ( 
+        <div className="item" key={item.id}>
           {this.renderAdmin(item)}
           <i className="large middle aligned icon wrench" />
-          <Link to={ `items/${item.id}/categories/list` } className='content'>{item.name}</Link>
-          {/* <div className="content">{item.name}</div> */}
-        </div>;
+          <Link to={ `items/show/${item.id}` } className='content'>{item.name}</Link>
+        </div>
+      )
     });
   }
-
+ 
   renderCreate() {
     if (this.props.isAuthenticated) {
       return (
