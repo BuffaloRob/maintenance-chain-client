@@ -40,8 +40,8 @@ class CategoryForm extends React.Component {
 const validate = formValues => {
   const errors = {};
 
-  if (!formValues.itemName) {
-    errors.itemName = "You Must Enter a Category Name"
+  if (!formValues.categoryName) {
+    errors.categoryName = "You Must Enter a Category Name"
   }
 
   return errors;
