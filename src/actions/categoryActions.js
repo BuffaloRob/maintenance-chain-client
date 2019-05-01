@@ -2,9 +2,8 @@ import history from '../history';
 import apiURL from '../apis/maintenance';
 import * as types from './types';
 
-export const createCategory = (itemId, formValues) => async (dispatch, getState) => {
-  const user_id = getState().auth.currentUser.user_id;
-  const response = await apiURL.post(`/items/${itemId}/categories`, { ...formValues, user_id });
+export const createCategory = (itemId, formValues) => async dispatch => {
+  const response = await apiURL.post(`/items/${itemId}/categories`, { ...formValues});
   dispatch({ type: types.CREATE_CATEGORY, payload: response.data });
   history.push('/');
 };
