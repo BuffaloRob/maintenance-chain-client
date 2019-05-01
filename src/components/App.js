@@ -35,18 +35,18 @@ const App = () => {
           <Route exact path="/" component={Home} />  
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
-          
+
           <Route exact path="/items" component={ItemList} />
           <Route path="/items/delete/:id" component={ItemDelete} />
-          <Route exact path="/items/show" component={ItemShow} />
+          <Route exact path="/items/show/:id" component={ItemShow} />
           <Route path="/items/new" component={ItemCreate} />
           <Route path="/items/edit/:id" component={ItemEdit} />
 
           <Route path="/items/:id/categories/list" component={CategoryList} />
-          <Route path="/categories/delete/:id" component={CategoryDelete} />
-          <Route exact path="/categories/show" component={CategoryShow} />
-          <Route path="/categories/new" component={CategoryCreate} />
-          <Route path="/categories/edit/:id" component={CategoryEdit} />
+          <Route path="/items/:itemId/categories/delete/:id" component={CategoryDelete} />
+          <Route exact path="/items/:itemId/categories/show/:id" component={CategoryShow} />
+          <Route path="/items/:id/categories/new" component={CategoryCreate} />
+          <Route path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
 
           <Route exact path="/logs/list" component={LogList} />
           <Route path="/logs/delete/:id" component={LogDelete} />
