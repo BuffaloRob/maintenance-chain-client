@@ -29,7 +29,7 @@ class ItemList extends React.Component {
         <div className="item" key={item.id}>
           {this.renderAdmin(item)}
           <i className="large middle aligned icon wrench" />
-          <Link to={ `items/show/${item.id}` } className='content'>{item.name}</Link>
+          <Link to={ `items/${item.id}` } className='content'>{item.name}</Link>
         </div>
       )
     });
