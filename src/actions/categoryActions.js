@@ -5,7 +5,7 @@ import * as types from './types';
 export const createCategory = (formValues, itemId) => async dispatch => {
   const response = await apiURL.post(`/items/${itemId}/categories`, { ...formValues});
   dispatch({ type: types.CREATE_CATEGORY, payload: response.data });
-  history.push('/');
+  history.push(`/items/${itemId}`);
 };
 
 export const fetchCategories = itemId => async dispatch => {
@@ -21,13 +21,13 @@ export const fetchCategory = (id, itemId) => async dispatch => {
 export const editCategory = (formValues, id, itemId) => async dispatch => {
   const response = await apiURL.put(`/items/${itemId}/categories/${id}`, formValues);
   dispatch({ type: types.EDIT_CATEGORY, payload: response.data });
-  history.push('/');
+  history.push(`/items/${itemId}`);
 }
 
 export const deleteCategory = (id, itemId) => async dispatch => {
   await apiURL.delete(`/items/${itemId}/categories/${id}`);
   dispatch({ type: types.DELETE_CATEGORY, payload: id });
-  history.push('/');
+  history.push(`/items/${itemId}`);
 }
 
 
