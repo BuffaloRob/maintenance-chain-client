@@ -38,7 +38,7 @@ const App = () => {
 
           <Route exact path="/items" component={ItemList} />
           <Route path="/items/delete/:id" component={ItemDelete} />
-          <Route exact path="/items/show/:id" component={ItemShow} />
+          <Route exact path="/items/:id" component={ItemShow} />
           <Route path="/items/new" component={ItemCreate} />
           <Route path="/items/edit/:id" component={ItemEdit} />
 
