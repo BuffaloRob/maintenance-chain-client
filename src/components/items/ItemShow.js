@@ -28,13 +28,22 @@ class ItemShow extends React.Component {
   }
 
   renderList() {
-    return this.props.categories.map(cat => {
-      return (
-        <div className='category' key={cat.id}>
+    const itemId = parseInt(this.props.match.params.id)
 
-        </div>
-      )
-    })
+    return this.props.categories.map(cat => {
+      if (itemId === cat.item.id) {
+        return (
+          <div className='item' key={cat.id}>
+            {this.renderAdmin(cat)}
+            <Link to={`categories/${cat.id}/logs`} className='content'>{cat.name}</Link>
+          </div>
+        )
+      } else {
+        return (
+          <div>Add a new Category to this item</div>
+        )
+      }
+    });
   }
 
   renderCreate() {
