@@ -2,7 +2,7 @@ import history from '../history';
 import apiURL from '../apis/maintenance';
 import * as types from './types';
 
-export const createCategory = (itemId, formValues) => async dispatch => {
+export const createCategory = (formValues, itemId) => async dispatch => {
   const response = await apiURL.post(`/items/${itemId}/categories`, { ...formValues});
   dispatch({ type: types.CREATE_CATEGORY, payload: response.data });
   history.push('/');
@@ -18,7 +18,7 @@ export const fetchCategory = (id, itemId) => async dispatch => {
   dispatch({ type: types.FETCH_CATEGORY, payload: response.data });
 }
 
-export const editCategory = (id, itemId, formValues) => async dispatch => {
+export const editCategory = (formValues, id, itemId) => async dispatch => {
   const response = await apiURL.put(`/items/${itemId}/categories/${id}`, formValues);
   dispatch({ type: types.EDIT_CATEGORY, payload: response.data });
   history.push('/');
