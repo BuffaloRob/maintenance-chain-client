@@ -7,9 +7,9 @@ import { createCategory } from '../../actions/categoryActions';
 
 class CategoryCreate extends React.Component {
 
-  onSubmit = (itemId, formValues) => {
-    itemId = this.props.match.params.id
-    this.props.createCategory(itemId, formValues);
+  onSubmit = (formValues, itemId) => {
+    itemId = this.props.match.params.id;
+    this.props.createCategory(formValues, itemId);
   }
 
   render() {
