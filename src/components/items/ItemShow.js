@@ -20,8 +20,8 @@ class ItemShow extends React.Component {
     if (this.props.isAuthenticated) {
       return (
         <div className='right floated content'>
-          <Link className='ui button primary' to={`items/${itemId}/categories/edit/${category.id}`}>Edit</Link>
-          <Link className='ui button negative' to={`items/${itemId}/categories/delete/${category.id}`}>Delete</Link>
+          <Link className='ui button primary' to={`/items/${itemId}/categories/edit/${category.id}`}>Edit</Link>
+          <Link className='ui button negative' to={`/items/${itemId}/categories/delete/${category.id}`}>Delete</Link>
         </div>
       )
     }
@@ -35,7 +35,7 @@ class ItemShow extends React.Component {
         return (
           <div className='item' key={cat.id}>
             {this.renderAdmin(cat)}
-            <Link to={`categories/${cat.id}/logs`} className='content'>{cat.name}</Link>
+            <Link to={`/categories/${cat.id}/logs`} className='content'>{cat.name}</Link>
           </div>
         )
       } else {
@@ -52,7 +52,7 @@ class ItemShow extends React.Component {
     if (this.props.isAuthenticated) {
       return (
         <div style={{ textAlign: 'right' }}>
-          <Link to={`items/${itemId}/categories/new`} className='ui button primary'>Create New Category</Link>
+          <Link to={`/items/${itemId}/categories/new`} className='ui button primary'>Create New Category</Link>
         </div>
       )
     }
