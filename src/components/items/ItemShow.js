@@ -33,16 +33,12 @@ class ItemShow extends React.Component {
     return this.props.categories.map(cat => {
       if (itemId === cat.item.id) {
         return (
-          <div className='item' key={cat.id}>
+          <div className='item' key={cat.id} >
             {this.renderAdmin(cat)}
-            <Link to={`/categories/${cat.id}/logs`} className='content'>{cat.name}</Link>
+            <Link to={`items/${itemId}/categories/${cat.id}`} className='content'>{cat.name}</Link>
           </div>
         )
-      } else {
-        return (
-          <div>Add a new Category to this item</div>
-        )
-      }
+      } 
     });
   }
 
@@ -51,7 +47,7 @@ class ItemShow extends React.Component {
 
     if (this.props.isAuthenticated) {
       return (
-        <div style={{ textAlign: 'right' }}>
+        <div style={{ textAlign: 'right' }} >
           <Link to={`/items/${itemId}/categories/new`} className='ui button primary'>Create New Category</Link>
         </div>
       )
