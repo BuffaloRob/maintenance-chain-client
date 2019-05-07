@@ -44,13 +44,13 @@ const App = () => {
 
           <Route path="/items/:id/categories/list" component={CategoryList} />
           <Route path="/items/:itemId/categories/delete/:id" component={CategoryDelete} />
-          <Route exact path="/items/:itemId/categories/show/:id" component={CategoryShow} />
+          <Route exact path="/items/:itemId/categories/:id" component={CategoryShow} />
           <Route path="/items/:id/categories/new" component={CategoryCreate} />
-          <Route path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
+          <Route exact path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
 
           <Route exact path="/logs/list" component={LogList} />
           <Route path="/logs/delete/:id" component={LogDelete} />
-          <Route exact path="/logs/show" component={LogShow} />
+          <Route exact path="/logs/:id" component={LogShow} />
           <Route path="/logs/create" component={LogCreate} />
           <Route path="/logs/edit/:id" component={LogEdit} />
         </div>
