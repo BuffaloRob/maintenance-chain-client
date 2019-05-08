@@ -30,7 +30,11 @@ class LogForm extends React.Component {
     return (
       // handleSubmit() comes from redux-forms
       <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-        <Field name='name' component={this.renderInput} label='Enter an Log Name' />
+        <Field name='log[datePerformed]' component={this.renderInput} label='Enter the date performed' />
+        <Field name='log[dateDue]' component={this.renderInput} label='Enter the date due' />
+        <Field name='log[cost]' component={this.renderInput} label='Enter the cost' />
+        <Field name='log[notes]' component={this.renderInput} label='Enter any notes' />
+        <Field name='log[tools]' component={this.renderInput} label='Enter the tools used' />
         <button className='ui button primary'>Submit</button>
       </form>
     );
@@ -40,11 +44,11 @@ class LogForm extends React.Component {
 const validate = formValues => {
   const errors = {};
 
-  if (!formValues.logName) {
-    errors.logName = "You Must Enter an Log Name"
-  }
+  // if (!formValues.logName) {
+  //   errors.logName = "You Must Enter an Log Name"
+  // }
 
-  return errors;
+  // return errors;
 }
 
 export default reduxForm({
