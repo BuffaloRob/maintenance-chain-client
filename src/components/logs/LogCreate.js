@@ -7,7 +7,8 @@ import { createLog } from '../../actions/logActions';
 
 class LogCreate extends React.Component {
 
-  onSubmit = formValues => {
+  onSubmit = (formValues, itemId) => {
+    itemId = this.props.match.params.id
     this.props.createLog(formValues);
   }
 
