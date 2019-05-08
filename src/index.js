@@ -3,30 +3,33 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import reduxThunk from "redux-thunk";
+import { persistStore,  persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import App from "./components/App";
 import reducers from "./reducers";
-import { SET_USER } from "./actions/types";
-import { fetchUser } from "./actions/authActions";
+
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, reducers)
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
-  reducers,
+  persistedReducer,
   composeEnhancers(applyMiddleware(reduxThunk))
 );
+const persistor = persistStore(store);
 
-// const token = sessionStorage.getItem('jwt');
-
-// const user = fetchUser();
-
-// if (user) {
-//   // console.log(user);
-//   store.dispatch(SET_USER(user, sessionStorage.getItem('jwt')))
-// }
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>,
   document.querySelector("#root")
 );
