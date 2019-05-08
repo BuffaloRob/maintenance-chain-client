@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import { fetchLogs } from '../../actions/logActions';
 
+// Refactor this into the LogList component
 
 class CategoryShow extends React.Component {
 
@@ -13,9 +14,8 @@ class CategoryShow extends React.Component {
   }
 
   renderAdmin(log) {
-
     const itemId = this.props.match.params.id
-    //authenticating differenetly than in ItemList
+
     if (this.props.isAuthenticated) {
       return (
         <div className='right floated content'>
@@ -30,6 +30,7 @@ class CategoryShow extends React.Component {
     const itemId = parseInt(this.props.match.params.id)
 
     return this.props.logs.map(log => {
+      // if (catId === log.cat.id)
       if (itemId === log.item.id) {
         return (
           <div className='item' key={log.id} >

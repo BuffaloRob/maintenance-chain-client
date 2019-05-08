@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { fetchItem } from '../../actions/itemActions';
 import { fetchCategories } from '../../actions/categoryActions';
 
-
+//Refactor this into the CategoryList component
 class ItemShow extends React.Component {
 
   componentDidMount() {
