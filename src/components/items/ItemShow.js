@@ -35,7 +35,7 @@ class ItemShow extends React.Component {
         return (
           <div className='item' key={cat.id} >
             {this.renderAdmin(cat)}
-            <Link to={`items/${itemId}/categories/${cat.id}`} className='content'>{cat.name}</Link>
+            <Link to={`/items/${itemId}/categories/${cat.id}`} className='content'>{cat.name}</Link>
           </div>
         )
       } 
