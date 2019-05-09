@@ -111,7 +111,7 @@ export const fetchUser = () => {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': sessionStorage.jwt
+      'Authorization': 'Bearer ' + sessionStorage.jwt
     }
   }
 
@@ -119,6 +119,7 @@ export const fetchUser = () => {
     fetch(`${API_URL}/user`, data)
       .then(resp => resp.json())
       .then(user => {
+        // debugger
         dispatch({
           type: SET_USER,
           payload: user
