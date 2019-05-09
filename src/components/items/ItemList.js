@@ -13,7 +13,8 @@ class ItemList extends React.Component {
   }
 
   renderAdmin(item) {
-    if (item.user.id === this.props.currentUserId) {
+    // if (item.user.id === this.props.currentUserId) {
+    if (this.props.isAuthenticated) {
       return (
         <div className='right floated content'>
           <Link className='ui button primary' to={`/items/edit/${item.id}`}>Edit</Link>
