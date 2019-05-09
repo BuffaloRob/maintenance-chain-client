@@ -15,12 +15,12 @@ class Login extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, meta }) => {
+  renderInput = ({ input, label, type, meta }) => {
     const className = `field ${meta.error && meta.touched ? 'error' : ''}`
     return (
       <div className={className}>
         <label>{label}</label>
-        <input {...input} autoComplete='off' />
+        <input {...input} type={type} autoComplete='off' />
         {this.renderError(meta)}
       </div>
     )
