@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 
 import Header from './Header';
 import history from '../history';
@@ -32,27 +32,31 @@ const App = () => {
       <Router history={history}>
         <div>
           <Header />
-          <Route exact path="/" component={Home} />  
-          <Route path="/signup" component={SignUp} />
-          <Route path="/login" component={Login} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/login" component={Login} />
 
-          <Route exact path="/items" component={ItemList} />
-          <Route path="/items/delete/:id" component={ItemDelete} />
-          <Route exact path="/items/:id" component={ItemShow} />
-          <Route path="/items/new" component={ItemCreate} />
-          <Route path="/items/edit/:id" component={ItemEdit} />
+            <Route exact path="/items" component={ItemList} />
+            <Route path="/items/delete/:id" component={ItemDelete} />
+            <Route exact path="/items/:id" component={ItemShow} />
+            <Route path="/items/new" component={ItemCreate} />
+            <Route path="/items/edit/:id" component={ItemEdit} />
 
-          <Route path="/items/:id/categories/list" component={CategoryList} />
-          <Route path="/items/:itemId/categories/delete/:id" component={CategoryDelete} />
-          <Route exact path="/items/:itemId/categories/:id" component={CategoryShow} />
-          <Route path="/items/:id/categories/new" component={CategoryCreate} />
-          <Route exact path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
+            <Route path="/items/:id/categories/list" component={CategoryList} />
+            <Route path="/items/:itemId/categories/delete/:id" component={CategoryDelete} />
+            <Route path="/items/:id/categories/new" component={CategoryCreate} />
+            <Route exact path="/items/:itemId/categories/:id" component={CategoryShow} />
 
-          <Route exact path="/logs/list" component={LogList} />
-          <Route path="/logs/delete/:id" component={LogDelete} />
-          <Route exact path="/logs/:id" component={LogShow} />
-          <Route path="/items/:itemId/logs/new" component={LogCreate} />
-          <Route path="/logs/edit/:id" component={LogEdit} />
+            <Route exact path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
+
+            <Route exact path="/logs/list" component={LogList} />
+            <Route path="/logs/delete/:id" component={LogDelete} />
+            <Route exact path="/logs/:id" component={LogShow} />
+            <Route path="/items/:itemId/logs/new" component={LogCreate} />
+            <Route path="/logs/edit/:id" component={LogEdit} />   
+          </Switch>
+         
         </div>
       </Router>
     </div>;
