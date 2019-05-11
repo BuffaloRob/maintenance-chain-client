@@ -10,7 +10,8 @@ class CategoryShow extends React.Component {
   
   componentDidMount() {
     const itemId = this.props.match.params.itemId
-    this.props.fetchLogs(itemId)
+    const catId = this.props.match.params.id;
+    this.props.fetchLogs( catId, itemId);
   }
 
   renderAdmin(log) {
@@ -42,11 +43,11 @@ class CategoryShow extends React.Component {
     const catId = parseInt(filteredArray[0].id);
 
     return this.props.logs.map(log => {
-      if (catId === log.cat.id) {
+      if (catId === log.category.id) {
         return (
           <div className='item' key={log.id} >
             {this.renderAdmin(log)}
-            <Link to={`items/${itemId}/categories/${log.id}`} className='content'>{log.name}</Link>
+            <Link to={`items/${itemId}/categories/${log.id}`} className='content'>{log.notes}</Link>
             {catName}
           </div>
         )
