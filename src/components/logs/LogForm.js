@@ -9,12 +9,12 @@ class LogForm extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, meta }) => {
+  renderInput = ({ input, label, type, meta }) => {
     const className = `field ui input ${meta.error && meta.touched ? 'error' : ''}`
     return <>
       {/* <label>{label}</label> */}
       <div className={className}>
-        <input {...input} autoComplete="off" placeholder={label} />
+        <input {...input} type={type} autoComplete="off" placeholder={label} />
       </div>
       <div className='ui error message'>
         {this.renderError(meta)}
@@ -31,27 +31,32 @@ class LogForm extends React.Component {
       // handleSubmit() comes from redux-forms
       <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
         <Field 
-          name='log[datePerformed]'
+          name='log[date_performed]'
+          type='date'
           component={this.renderInput} 
           label='Enter the date performed' 
         />
         <Field 
-          name='log[dateDue]' 
+          name='log[date_due]' 
+          type='date'
           component={this.renderInput} 
           label='Enter the date due' 
         />
         <Field 
           name='log[cost]' 
+          type='number'
           component={this.renderInput} 
           label='Enter the cost' 
         />
         <Field 
           name='log[notes]' 
+          type='text'
           component={this.renderInput} 
           label='Enter any notes' 
         />
         <Field 
           name='log[tools]' 
+          type='text'
           component={this.renderInput} 
           label='Enter the tools used' 
         />
