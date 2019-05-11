@@ -23,8 +23,6 @@ export const signup = (user, callback) => {
         sessionStorage.setItem('jwt', user.jwt);
 
         let decoded = jwtDecode(user.jwt);
-        console.log(decoded);
-
         dispatch({
           type: SET_USER,
           payload: decoded
@@ -111,7 +109,8 @@ export const fetchUser = () => {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + sessionStorage.jwt
+      // 'Authorization': 'Bearer ' + sessionStorage.jwt
+      'Authorization': sessionStorage.jwt
     }
   }
 
