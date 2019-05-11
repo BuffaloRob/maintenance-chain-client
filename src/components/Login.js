@@ -37,7 +37,7 @@ class Login extends React.Component {
         <h3>Log In</h3>
         <Field 
           name='email' 
-          type='text' 
+          type='email' 
           component={this.renderInput} 
           label='Enter Your Email'
          />
