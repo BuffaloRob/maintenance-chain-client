@@ -2,14 +2,16 @@ import history from '../history';
 import apiURL from '../apis/maintenance';
 import * as types from './types';
 
-export const createLog = (formValues, itemId) => async dispatch => {
-  const response = await apiURL.post(`/items/${itemId}/logs`, { ...formValues });
+export const createLog = (formValues, itemId, catId) => async dispatch => {
+  // debugger
+  const response = await apiURL.post(`/items/${itemId}/logs`, ...formValues, {params: {category: catId}} );
+  // const response = await apiURL.post(`/items/${itemId}/logs`, ...formValues);
   dispatch({ type: types.CREATE_LOG, payload: response.data });
-  history.push(`/items/${itemId}`);
+  history.push(`/items/${itemId}/categories/${catId}`);
 };
 
-export const fetchLogs = itemId => async dispatch => {
-  const response = await apiURL.get(`/items/${itemId}/logs`);
+export const fetchLogs = (catId, itemId) => async dispatch => {
+  const response = await apiURL.get(`/items/${itemId}/logs`, {params: { category_id: catId } });
   dispatch({ type: types.FETCH_CATEGORIES, payload: response.data });
 }
 
