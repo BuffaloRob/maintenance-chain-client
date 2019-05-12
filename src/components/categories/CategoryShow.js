@@ -56,12 +56,13 @@ class CategoryShow extends React.Component {
   }
 
   renderCreate() {
-    const itemId = this.props.match.params.itemId
+    const itemId = this.props.match.params.itemId;
+    const catId = this.props.match.params.id; 
 
     if (this.props.isAuthenticated) {
       return (
         <div style={{ textAlign: 'right' }} >
-          <Link to={`/items/${itemId}/logs/new`} className='ui button primary'>Create New Log</Link>
+          <Link to={`/items/${itemId}/categories/${catId}/logs/new`} className='ui button primary'>Create New Log</Link>
         </div>
       )
     }
