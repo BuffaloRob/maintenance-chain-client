@@ -21,7 +21,7 @@ import CategoryEdit from './categories/CategoryEdit';
 import CategoryShow from './categories/CategoryShow';
 import CategoryList from './categories/CategoryList';
 
-import LogList from './logs/LogList';
+// import LogList from './logs/LogList';
 import LogCreate from './logs/LogCreate';
 import LogDelete from './logs/LogDelete';
 import LogEdit from './logs/LogEdit';
@@ -38,23 +38,23 @@ const App = () => {
             <Route path="/login" component={Login} />
 
             <Route exact path="/items" component={ItemList} />
+            <Route path="/items/new" component={ItemCreate} />
             <Route path="/items/delete/:id" component={ItemDelete} />
             <Route exact path="/items/:id" component={ItemShow} />
-            <Route exact path="/items/new" component={ItemCreate} />
+            
             <Route path="/items/edit/:id" component={ItemEdit} />
 
             <Route path="/items/:id/categories/list" component={CategoryList} />
             <Route path="/items/:itemId/categories/delete/:id" component={CategoryDelete} />
             <Route path="/items/:id/categories/new" component={CategoryCreate} />
             <Route exact path="/items/:itemId/categories/:id" component={CategoryShow} />
-
             <Route exact path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
 
-            <Route exact path="/logs/list" component={LogList} />
-            <Route path="/logs/delete/:id" component={LogDelete} />
-            <Route exact path="/logs/:id" component={LogShow} />
+            {/* <Route exact path="/items/:itemId/categories/:id/logs/list" component={LogList} /> */}
+            <Route path="/items/:itemId/categories/:id/logs/delete/:id" component={LogDelete} />
+            <Route exact path="/items/:itemId/categories/:id/logs/:id" component={LogShow} />
             <Route path="/items/:itemId/categories/:id/logs/new" component={LogCreate} />
-            <Route path="/logs/edit/:id" component={LogEdit} />   
+            <Route path="/items/:itemId/categories/:id/logs/edit/:id" component={LogEdit} />   
           </Switch>
          
         </div>
