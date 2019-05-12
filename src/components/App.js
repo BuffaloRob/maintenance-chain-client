@@ -51,10 +51,10 @@ const App = () => {
             <Route exact path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
 
             {/* <Route exact path="/logs/list" component={LogList} /> */}
-            <Route path="/logs/delete/:id" component={LogDelete} />
-            <Route exact path="/logs/:id" component={LogShow} />
+            {/* <Route path="/logs/delete/:id" component={LogDelete} /> */}
+            {/* <Route exact path="/logs/:id" component={LogShow} /> */}
             <Route path="/items/:itemId/categories/:id/logs/new" component={LogCreate} />
-            <Route path="/logs/edit/:id" component={LogEdit} />   
+            {/* <Route path="/logs/edit/:id" component={LogEdit} />    */}
           </Switch>
          
         </div>
