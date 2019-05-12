@@ -7,9 +7,10 @@ import { createLog } from '../../actions/logActions';
 
 class LogCreate extends React.Component {
 
-  onSubmit = (formValues, itemId) => {
-    itemId = this.props.match.params.id
-    this.props.createLog(formValues);
+  onSubmit = (formValues, itemId, catId) => {
+    itemId = this.props.match.params.itemId;
+    catId = this.props.match.params.id;
+    this.props.createLog(formValues, itemId, catId);
   }
 
   render() {
@@ -21,5 +22,6 @@ class LogCreate extends React.Component {
     );
   }
 }
+
 
 export default connect(null, { createLog })(LogCreate);
