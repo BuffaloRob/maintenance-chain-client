@@ -21,7 +21,7 @@ import CategoryEdit from './categories/CategoryEdit';
 import CategoryShow from './categories/CategoryShow';
 import CategoryList from './categories/CategoryList';
 
-import LogList from './logs/LogList';
+// import LogList from './logs/LogList';
 import LogCreate from './logs/LogCreate';
 import LogDelete from './logs/LogDelete';
 import LogEdit from './logs/LogEdit';
@@ -50,7 +50,7 @@ const App = () => {
 
             <Route exact path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
 
-            <Route exact path="/logs/list" component={LogList} />
+            {/* <Route exact path="/logs/list" component={LogList} /> */}
             <Route path="/logs/delete/:id" component={LogDelete} />
             <Route exact path="/logs/:id" component={LogShow} />
             <Route path="/items/:itemId/categories/:id/logs/new" component={LogCreate} />
