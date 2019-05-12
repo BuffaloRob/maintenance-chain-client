@@ -40,7 +40,7 @@ const App = () => {
             <Route exact path="/items" component={ItemList} />
             <Route path="/items/delete/:id" component={ItemDelete} />
             <Route exact path="/items/:id" component={ItemShow} />
-            <Route path="/items/new" component={ItemCreate} />
+            <Route exact path="/items/new" component={ItemCreate} />
             <Route path="/items/edit/:id" component={ItemEdit} />
 
             <Route path="/items/:id/categories/list" component={CategoryList} />
@@ -53,7 +53,7 @@ const App = () => {
             <Route exact path="/logs/list" component={LogList} />
             <Route path="/logs/delete/:id" component={LogDelete} />
             <Route exact path="/logs/:id" component={LogShow} />
-            <Route path="/items/:itemId/logs/new" component={LogCreate} />
+            <Route path="/items/:itemId/categories/:id/logs/new" component={LogCreate} />
             <Route path="/logs/edit/:id" component={LogEdit} />   
           </Switch>
          
