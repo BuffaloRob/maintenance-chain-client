@@ -1,8 +1,7 @@
 
 import history from '../history';
 import { SET_USER, LOGOUT } from './types';
-
-const jwtDecode = require('jwt-decode');
+import jwtDecode from 'jwt-decode';
 
 const API_URL = "http://localhost:3000/api/v1"
 
