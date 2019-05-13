@@ -6,23 +6,12 @@ import reduxThunk from "redux-thunk";
 
 import App from "./components/App";
 import reducers from "./reducers";
-import { SET_USER } from "./actions/types";
-import { fetchUser } from "./actions/authActions";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducers,
   composeEnhancers(applyMiddleware(reduxThunk))
 );
-
-// const token = sessionStorage.getItem('jwt');
-
-// const user = fetchUser();
-
-// if (user) {
-//   // console.log(user);
-//   store.dispatch(SET_USER(user, sessionStorage.getItem('jwt')))
-// }
 
 ReactDOM.render(
   <Provider store={store}>
