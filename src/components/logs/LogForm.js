@@ -12,7 +12,7 @@ class LogForm extends React.Component {
   renderInput = ({ input, label, type, meta }) => {
     const className = `field ui input ${meta.error && meta.touched ? 'error' : ''}`
     return <>
-      {/* <label>{label}</label> */}
+      <label>{label}</label>
       <div className={className}>
         <input {...input} type={type} autoComplete="off" placeholder={label} />
       </div>
@@ -34,32 +34,37 @@ class LogForm extends React.Component {
           name='log[date_performed]'
           type='date'
           component={this.renderInput} 
-          label='Enter the date performed' 
-        />
+          label='Enter the date performed ' 
+        /><br/>
         <Field 
           name='log[date_due]' 
           type='date'
           component={this.renderInput} 
-          label='Enter the date due' 
-        />
+          label='Enter the date due ' 
+        /><br/>
         <Field 
           name='log[cost]' 
           type='number'
           component={this.renderInput} 
-          label='Enter the cost' 
-        />
+          label='Enter the cost $' 
+        /><br/>
         <Field 
           name='log[notes]' 
           type='text'
           component={this.renderInput} 
-          label='Enter any notes' 
-        />
+          label='Enter any notes  ' 
+        /><br/>
         <Field 
           name='log[tools]' 
           type='text'
           component={this.renderInput} 
-          label='Enter the tools used' 
-        />
+          label='Enter the tools used ' 
+        /><br/>
+        {/* <Field
+          name='log[categories]'
+          type='hidden'
+          value={this.props.match.params.id}
+        /> */}
         <button className='ui button primary'>Submit</button>
       </form>
     );
