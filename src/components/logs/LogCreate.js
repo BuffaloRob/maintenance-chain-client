@@ -12,8 +12,8 @@ class LogCreate extends React.Component {
     const itemId = this.props.match.params.itemId;
     const catId = this.props.match.params.id;
     const { log } = formValues;
-    const newValues = { ...log, ...{category: { id: catId }} };
-    debugger
+    const newValues = { ...log, ...{category_id: catId} };
+    // debugger
     this.props.createLog(newValues, itemId, catId);
   }
 
