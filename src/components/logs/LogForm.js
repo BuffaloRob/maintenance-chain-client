@@ -60,11 +60,6 @@ class LogForm extends React.Component {
           component={this.renderInput} 
           label='Enter the tools used ' 
         /><br/>
-        {/* <Field
-          name='log[categories]'
-          type='hidden'
-          value={this.props.match.params.id}
-        /> */}
         <button className='ui button primary'>Submit</button>
       </form>
     );
