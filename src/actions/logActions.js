@@ -3,7 +3,8 @@ import apiURL from '../apis/maintenance';
 import * as types from './types';
 
 export const createLog = (formValues, itemId, catId) => async dispatch => {
-  const response = await apiURL.post(`/items/${itemId}/logs`, {...formValues, category_attributes: {category_id: catId}} );
+  // debugger
+  const response = await apiURL.post(`/items/${itemId}/logs`, {...formValues });
   dispatch({ type: types.CREATE_LOG, payload: response.data });
   history.push(`/items/${itemId}/categories/${catId}`);
 };
