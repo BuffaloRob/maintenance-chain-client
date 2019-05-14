@@ -22,9 +22,15 @@ class Header extends React.Component {
           <Link to='/items/new' className='item'>
             New Item
           </Link>
-          <Link to='/' className='item'>Home</Link>
-          <li onClick={(e) => this.handleLogout(e)} className='item pointing'>Log out</li>
-          <li className='item'>Welcome {this.props.currentUser}</li>
+          <Link to='/' className='item'>
+            Home
+          </Link>
+          <li onClick={(e) => this.handleLogout(e)} className='item pointing'>
+            Log out
+          </li>
+          <li className='item'
+            >Welcome {this.props.currentUser}
+          </li>
         </>
       ) 
     } else {
@@ -36,7 +42,9 @@ class Header extends React.Component {
             <Link to='/login' className='item'>
               Log In
             </Link>
-            <li className='item'>Please Login</li>
+            <li className='item'>
+              Please Login
+            </li>
           </>
       )
     }
