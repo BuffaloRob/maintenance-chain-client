@@ -25,7 +25,7 @@ import CategoryList from './categories/CategoryList';
 import LogCreate from './logs/LogCreate';
 // import LogDelete from './logs/LogDelete';
 // import LogEdit from './logs/LogEdit';
-// import LogShow from './logs/LogShow';
+import LogShow from './logs/LogShow';
 
 const App = () => {
   return <div className="ui container">
@@ -37,13 +37,14 @@ const App = () => {
             {/* <Route exact path="/logs/list" component={LogList} /> */}
             {/* <Route path="/logs/delete/:id" component={LogDelete} /> */}
             {/* <Route path="/logs/edit/:id" component={LogEdit} />    */}
-            {/* <Route exact path="/logs/:id" component={LogShow} /> */}
+            <Route exact path="items/:itemId/categories/:catId/logs/:id" component={LogShow} />
 
             <Route exact path="/items/:id/categories/new" component={CategoryCreate} />
-            <Route exact path="/items/:id/categories/list" component={CategoryList} />
+            {/* <Route exact path="/items/:id/categories/list" component={CategoryList} /> */}
+            <Route path="/items/:itemId/categories/:id" component={CategoryShow} />
             <Route path="/items/:itemId/categories/delete/:id" component={CategoryDelete} />
             <Route path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
-            <Route path="/items/:itemId/categories/:id" component={CategoryShow} />
+            
             
             <Route exact path="/" component={Home} />
             <Route path="/signup" component={SignUp} />
