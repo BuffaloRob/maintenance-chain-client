@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
 import { fetchLogs } from '../../actions/logActions';
-
+import { fetchCategories } from '../../actions/categoryActions';
 // Refactor this into the LogList component
 
 class CategoryShow extends React.Component {
   
   componentDidMount() {
     const itemId = this.props.match.params.itemId
-    const catId = this.props.match.params.id;
+    const catId = this.props.match.params.id;  
+    this.props.fetchCategories(catId, itemId)  
     this.props.fetchLogs( catId, itemId);
   }
 
@@ -29,26 +30,17 @@ class CategoryShow extends React.Component {
 
   renderList() {
     const itemId = parseInt(this.props.match.params.itemId)
+    const catId = parseInt(this.props.match.params.id)
 
-    // catArray returns an array of category objects for that item but only the one that matches the URL catId will have info, the rest will be empty objects
-    const catArray = this.props.categories.map(cat => {
-      if (cat.id === parseInt(this.props.match.params.id)) {
-        return cat
-      }
-    })
-    // filteredArray removes any empty objects from catArray
-    const filteredArray = catArray.filter(cat => cat);
-    // catName & catId pull the info from the only object in filteredArray
-    const catName = filteredArray[0].name;
-    const catId = parseInt(filteredArray[0].id);
-
+   
     return this.props.logs.map(log => {
-      if (catId === log.category.id) {
+      let formattedDate = log.date_performed
+      debugger
+      if (catId === log.category.id) {        
         return (
           <div className='item' key={log.id} >
-            {this.renderAdmin(log)}
-            <Link to={`items/${itemId}/categories/${log.id}`} className='content'>{log.notes}</Link>
-            {catName}
+            {this.renderAdmin(log)}           
+            <Link to={`items/${itemId}/categories/${catId}/logs/${log.id}`} className='content'>{log.date_performed}</Link>
           </div>
         )
       }
@@ -69,17 +61,10 @@ class CategoryShow extends React.Component {
   }
 
   render() {
-    const catArray = this.props.categories.map(cat => {
-      if (cat.id === parseInt(this.props.match.params.id)) {
-        return cat
-      }
-    })
-    const filteredArray = catArray.filter(cat => cat);
-    const catName = filteredArray[0].name;
+    const catName = this.props.category.name
 
     return (
       <div>
-        {/* <h3>Maintenance Logs for {this.props.item.name}</h3> */}
         <h3>Maintenance Logs for {catName}</h3>
         <div className='ui celled list'>{this.renderList()}</div>
         {this.renderCreate()}
@@ -88,13 +73,25 @@ class CategoryShow extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, ownProps) => {  
   return ({
-    item: state.items[ownProps.match.params.id],
-    categories: Object.values(state.categories),
+    category: state.categories[ownProps.match.params.id],
     logs: Object.values(state.logs),
     isAuthenticated: state.auth.isAuthenticated
   })
 }
 
-export default connect(mapStateToProps, { fetchLogs })(CategoryShow);
+export default connect(mapStateToProps, { fetchLogs, fetchCategories })(CategoryShow);
+
+
+ // // catArray returns an array of category objects for that item but only the one that matches the URL catId will have info, the rest will be empty objects
+    // const catArray = this.props.categories.map(cat => {
+    //   if (cat.id === parseInt(this.props.match.params.id)) {
+    //     return cat
+    //   }
+    // })
+    // // filteredArray removes any empty objects from catArray
+    // const filteredArray = catArray.filter(cat => cat);
+    // // catName & catId pull the info from the only object in filteredArray
+    // const catName = filteredArray[0].name;
+    // const catId = parseInt(filteredArray[0].id);
