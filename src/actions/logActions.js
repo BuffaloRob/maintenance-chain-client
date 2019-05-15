@@ -11,7 +11,7 @@ export const createLog = (formValues, itemId, catId) => async dispatch => {
 
 export const fetchLogs = (catId, itemId) => async dispatch => {
   const response = await apiURL.get(`/items/${itemId}/logs`, {params: { category_id: catId } });
-  dispatch({ type: types.FETCH_CATEGORIES, payload: response.data });
+  dispatch({ type: types.FETCH_LOGS, payload: response.data });
 }
 
 export const fetchLog = (id, itemId) => async dispatch => {
