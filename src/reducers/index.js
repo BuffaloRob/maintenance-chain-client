@@ -2,21 +2,22 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { persistCombineReducers } from 'redux-persist';
 import storage from 'redux-persist/lib/storage/session';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
 import authReducer from './authReducer';
 import itemReducer from './itemReducer';
 import categoryReducer from './categoryReducer';
 import logReducer from './logReducer';
 
-const persistConfig = {
-  key: 'root',
-  storage,
-}
+// const persistConfig = {
+//   key: 'root',
+//   storage,
+//   stateReconciler: autoMergeLevel2
+// }
 
-const appReducer = persistCombineReducers(persistConfig, {
+const appReducer = combineReducers({
   auth: authReducer,
-  form: formReducer,
-  items: itemReducer,
+  form: formReducer, items: itemReducer,
   categories: categoryReducer,
   logs: logReducer
 })
