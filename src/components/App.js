@@ -21,8 +21,8 @@ import CategoryEdit from './categories/CategoryEdit';
 import CategoryShow from './categories/CategoryShow';
 
 import LogCreate from './logs/LogCreate';
-// import LogDelete from './logs/LogDelete';
-// import LogEdit from './logs/LogEdit';
+import LogDelete from './logs/LogDelete';
+import LogEdit from './logs/LogEdit';
 import LogShow from './logs/LogShow';
 
 const App = () => {
@@ -32,19 +32,19 @@ const App = () => {
           <Header />
           <Switch>
             <Route exact path="/items/:itemId/categories/:id/logs/new" component={LogCreate} />
-            <Route path="/logs/:id" component={LogShow} />
-            {/* <Route path="items/:itemId/categories/:catId/logs/delete/:id" component={LogDelete} /> */}
-            {/* <Route path="items/:itemId/categories/:catId/logs/edit/:id" component={LogEdit} />    */}
-            
+            <Route exact path="/items/:itemId/logs/:id" component={LogShow} />
+            <Route exact path="/items/:itemId/logs/delete/:id" component={LogDelete} />
+            <Route exact path="/items/:itemId/logs/edit/:id" component={LogEdit} /> 
+
             <Route exact path="/items/:id/categories/new" component={CategoryCreate} />
             <Route exact path="/items/:itemId/categories/:id" component={CategoryShow} />
-            <Route path="/items/:itemId/categories/delete/:id" component={CategoryDelete} />
-            <Route path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
+            <Route exact path="/items/:itemId/categories/delete/:id" component={CategoryDelete} />
+            <Route exact path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
 
             <Route exact path="/items" component={ItemList} />
-            <Route path="/items/new" component={ItemCreate} />
-            <Route path="/items/delete/:id" component={ItemDelete} />
-            <Route path="/items/edit/:id" component={ItemEdit} />
+            <Route exact path="/items/new" component={ItemCreate} />
+            <Route exact path="/items/delete/:id" component={ItemDelete} />
+            <Route exact path="/items/edit/:id" component={ItemEdit} />
             <Route exact path="/items/:id" component={ItemShow} />
 
             <Route exact path="/" component={Home} />
