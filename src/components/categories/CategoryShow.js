@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
+import moment from 'moment';
 
 import { fetchLogs } from '../../actions/logActions';
 import { fetchCategories } from '../../actions/categoryActions';
@@ -29,18 +30,16 @@ class CategoryShow extends React.Component {
   }
 
   renderList() {
-    const itemId = parseInt(this.props.match.params.itemId)
     const catId = parseInt(this.props.match.params.id)
 
-   
     return this.props.logs.map(log => {
-      let formattedDate = log.date_performed
-      debugger
+      const formattedDate = moment(log.date_performed).format("MMM Do YYYY");
       if (catId === log.category.id) {        
         return (
           <div className='item' key={log.id} >
-            {this.renderAdmin(log)}           
-            <Link to={`items/${itemId}/categories/${catId}/logs/${log.id}`} className='content'>{log.date_performed}</Link>
+            {this.renderAdmin(log)}
+            <i className='large middle aligned icon wrench' />           
+            <Link to={`/logs/${log.id}`} className='content'>{formattedDate}</Link>
           </div>
         )
       }
@@ -65,7 +64,7 @@ class CategoryShow extends React.Component {
 
     return (
       <div>
-        <h3>Maintenance Logs for {catName}</h3>
+        <h2 className='ui header'>Maintenance Logs for {catName}</h2>
         <div className='ui celled list'>{this.renderList()}</div>
         {this.renderCreate()}
       </div>
