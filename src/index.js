@@ -8,7 +8,6 @@ import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import App from "./components/App";
-// import reducers from "./reducers";
 import rootReducer from './reducers'
 
 const persistConfig = {
@@ -25,9 +24,8 @@ const store = createStore(
 );
 export const persistor = persistStore(store);
 
-// uncomment to clear store
+// uncomment to clear store, for dev purposes only
 // persistor.purge();
-
 
 ReactDOM.render(
   <Provider store={store}>
