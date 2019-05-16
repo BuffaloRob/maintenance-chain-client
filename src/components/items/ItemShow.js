@@ -35,6 +35,7 @@ class ItemShow extends React.Component {
         return (
           <div className='item' key={cat.id} >
             {this.renderAdmin(cat)}
+            <i className='large middle aligned icon wrench' />
             <Link to={`/items/${itemId}/categories/${cat.id}`} className='content'>{cat.name}</Link>
           </div>
         )
