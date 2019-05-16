@@ -21,8 +21,8 @@ class LogShow extends React.Component {
     if (this.props.isAuthenticated) {
       return (
         <div className='right floated content'>
-          <Link className='ui button primary' to={`/items/${itemId}/categories/${catId}/logs/edit/${log.id}`}>Edit</Link>
-          <Link className='ui button negative' to={`/items/${itemId}/categories/${catId}/logs/delete/${log.id}`}>Delete</Link>
+          <Link className='ui button primary' to={`/items/${itemId}/logs/edit/${log.id}`}>Edit</Link>
+          <Link className='ui button negative' to={`/items/${itemId}/logs/delete/${log.id}`}>Delete</Link>
         </div>
       )
     }
@@ -39,21 +39,21 @@ class LogShow extends React.Component {
         <div className='ui celled grid' key={log.id} >
           <div className='row'>
             <div className='five wide column aligned middle'>
-              <i class="hourglass start icon" />
+              <i className="hourglass start icon" />
               Performed On:
             </div>
             <div className='eleven wide column'>{formattedDatePerformed}</div>
           </div> 
           <div className='row'>
             <div className='five wide column'>
-              <i class="hourglass end icon" />
+              <i className="hourglass end icon" />
               Due On:
             </div>
             <div className='eleven wide column'>{formattedDateDue}</div>
           </div>
           <div className='row'>
             <div className='five wide column'>
-              <i class="dollar sign icon" />
+              <i className="dollar sign icon" />
               Cost:
             </div>
             <div className='eleven wide column'>$ {log.cost}</div>
