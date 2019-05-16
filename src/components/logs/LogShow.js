@@ -38,39 +38,39 @@ class LogShow extends React.Component {
       return (
         <div className='ui celled grid' key={log.id} >
           <div className='row'>
-            <div className='three wide column'>
+            <div className='five wide column aligned middle'>
               <i class="hourglass start icon" />
               Performed On:
             </div>
-            <div className='thirteen wide column'>{formattedDatePerformed}</div>
+            <div className='eleven wide column'>{formattedDatePerformed}</div>
           </div> 
           <div className='row'>
-            <div className='three wide column'>
+            <div className='five wide column'>
               <i class="hourglass end icon" />
               Due On:
             </div>
-            <div className='thirteen wide column'>{formattedDateDue}</div>
+            <div className='eleven wide column'>{formattedDateDue}</div>
           </div>
           <div className='row'>
-            <div className='three wide column'>
+            <div className='five wide column'>
               <i class="dollar sign icon" />
               Cost:
             </div>
-            <div className='thirteen wide column'>$ {log.cost}</div>
+            <div className='eleven wide column'>$ {log.cost}</div>
           </div>
           <div className='row'>
-            <div className='three wide column'>
+            <div className='five wide column'>
               <i className='wrench icon' />
               Tools Used:
             </div>
-            <div className='thirteen wide column'>{log.tools}</div>
+            <div className='eleven wide column'>{log.tools}</div>
           </div>
           <div className='row'>
-            <div className='three wide column'>
+            <div className='five wide column'>
               <i className='pencil icon' />
               Notes:
             </div>
-            <div className='thirteen wide column'>{log.notes}</div>
+            <div className='eleven wide column'>{log.notes}</div>
           </div>
 
         </div>
