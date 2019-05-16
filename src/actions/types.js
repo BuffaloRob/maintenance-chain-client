@@ -1,5 +1,6 @@
 export const SET_USER = 'SET_USER';
 export const LOGOUT = "LOGOUT";
+export const CLEAR_DATA = "CLEAR_DATA"
 
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
