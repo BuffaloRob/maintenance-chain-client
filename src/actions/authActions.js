@@ -1,6 +1,6 @@
 
 import history from '../history';
-import { SET_USER, LOGOUT } from './types';
+import { SET_USER, LOGOUT, CLEAR_DATA } from './types';
 import jwtDecode from 'jwt-decode';
 
 const API_URL = "http://localhost:3000/api/v1"
@@ -104,7 +104,7 @@ export const logout = () => {
     fetch(`${API_URL}/logout`, data)
     
     history.push('/');
-    return dispatch({ type: LOGOUT });
+    return dispatch({ type: CLEAR_DATA });
     
   }
 }
