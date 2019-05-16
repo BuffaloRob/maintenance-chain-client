@@ -23,7 +23,7 @@ class CategoryShow extends React.Component {
       return (
         <div className='right floated content'>
           <Link className='ui button primary' to={`/items/${itemId}/logs/edit/${log.id}`}>Edit</Link>
-          <Link className='ui button negative' to={`/items/${itemId}/logs/delete/${log.id}`}>Delete</Link>
+          {/* <Link className='ui button negative' to={`/items/${itemId}/logs/delete/${log.id}`}>Delete</Link> */}
         </div>
       )
     }
@@ -31,6 +31,7 @@ class CategoryShow extends React.Component {
 
   renderList() {
     const catId = parseInt(this.props.match.params.id)
+    const itemId = this.props.match.params.itemId;
 
     return this.props.logs.map(log => {
       const formattedDate = moment(log.date_performed).format("MMM Do YYYY");
@@ -39,7 +40,7 @@ class CategoryShow extends React.Component {
           <div className='item' key={log.id} >
             {this.renderAdmin(log)}
             <i className='large middle aligned icon wrench' />           
-            <Link to={`/logs/${log.id}`} className='content'>{formattedDate}</Link>
+            <Link to={`/items/${itemId}/logs/${log.id}`} className='content'>{formattedDate}</Link>
           </div>
         )
       }
