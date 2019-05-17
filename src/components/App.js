@@ -25,6 +25,8 @@ import LogDelete from './logs/LogDelete';
 import LogEdit from './logs/LogEdit';
 import LogShow from './logs/LogShow';
 
+import PastDue from './PastDue';
+
 const App = () => {
   return <div className="ui container">
       <Router history={history}>
@@ -50,6 +52,7 @@ const App = () => {
             <Route exact path="/" component={Home} />
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={Login} />  
+            <Route path='/pastdue' component={PastDue} />
           </Switch>
          
         </>
