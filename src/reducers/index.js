@@ -6,12 +6,14 @@ import authReducer from './authReducer';
 import itemReducer from './itemReducer';
 import categoryReducer from './categoryReducer';
 import logReducer from './logReducer';
+import queryReducer from './queryReducer';
 
 const appReducer = combineReducers({
   auth: authReducer,
   form: formReducer, items: itemReducer,
   categories: categoryReducer,
-  logs: logReducer
+  logs: logReducer,
+  query: queryReducer
 })
 
 // this will reset all state upon logout, stops persist from keeping data that shouldn't be there (i.e. logging in as a different user)
