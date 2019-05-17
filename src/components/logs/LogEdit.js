@@ -37,7 +37,7 @@ class LogEdit extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    log: state.categories[ownProps.match.params.id]
+    log: state.logs[ownProps.match.params.id]
   };
 }
 
