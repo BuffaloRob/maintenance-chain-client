@@ -7,7 +7,7 @@ import Modal from '../Modal';
 import history from '../../history';
 
 
-class ItemDelete extends React.Component {
+class CategoryDelete extends React.Component {
 
   componentDidMount() {
     // this.props.fetchCategory(this.props.match.params.id);
@@ -48,4 +48,4 @@ const mapStateToProps = (state, ownProps) => {
   return { category: state.categories[ownProps.match.params.id] }
 }
 
-export default connect(mapStateToProps, { fetchCategory, deleteCategory })(ItemDelete);
+export default connect(mapStateToProps, { fetchCategory, deleteCategory })(CategoryDelete);
