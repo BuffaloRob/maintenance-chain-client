@@ -16,11 +16,12 @@ class Header extends React.Component {
   }
 
   renderAuthenticated() {
+    // if (this.props.currentUser.id) {
     if (this.props.isAuthenticated) {
       return (
         <>
-          <Link to='/items/new' className='item'>
-            New Item
+          <Link to='/pastdue' className='item'>
+            Past Due
           </Link>
           <Link to='/' className='item'>
             Home
@@ -29,7 +30,7 @@ class Header extends React.Component {
             Log out
           </li>
           <li className='item'
-            >Welcome {this.props.currentUser}
+            >Welcome {this.props.currentUser.email}
           </li>
         </>
       ) 
@@ -68,7 +69,7 @@ class Header extends React.Component {
 const mapStateToProps = state => {
   return { 
     isAuthenticated: state.auth.isAuthenticated,
-    currentUser: state.auth.currentUser.email
+    currentUser: state.auth.currentUser
   }
 }
 
