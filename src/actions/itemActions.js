@@ -29,14 +29,14 @@ export const fetchItems = () => {
   }
 
   return dispatch => {
-    fetch(`${API}/user`, data)
+    fetch(`${API}/items`, data)
       .then(resp => resp.json())
       .then(resp => {
         // debugger
         dispatch({
           
           type: types.FETCH_ITEMS,
-          payload: resp.items
+          payload: resp
         })
       })
       .catch(err => err)
