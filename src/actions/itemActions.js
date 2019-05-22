@@ -32,7 +32,6 @@ export const fetchItems = () => {
     fetch(`${API}/items`, data)
       .then(resp => resp.json())
       .then(resp => {
-        // debugger
         dispatch({
           
           type: types.FETCH_ITEMS,
