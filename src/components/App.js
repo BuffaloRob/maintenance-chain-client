@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 
 import Header from './Header';
@@ -27,37 +28,46 @@ import LogShow from './logs/LogShow';
 
 import PastDue from './PastDue';
 
-const App = () => {
-  return <div className="ui container">
-      <Router history={history}>
-        <>
-          <Header />
-          <Switch>
-            <Route exact path="/items/:itemId/categories/:id/logs/new" component={LogCreate} />
-            <Route exact path="/items/:itemId/logs/:id" component={LogShow} />
-            <Route exact path="/items/:itemId/logs/delete/:id" component={LogDelete} />
-            <Route exact path="/items/:itemId/logs/edit/:id" component={LogEdit} /> 
+import { fetchItems } from '../actions/itemActions';
 
-            <Route exact path="/items/:id/categories/new" component={CategoryCreate} />
-            <Route exact path="/items/:itemId/categories/:id" component={CategoryShow} />
-            <Route exact path="/items/:itemId/categories/delete/:id" component={CategoryDelete} />
-            <Route exact path="/items/:itemId/categories/edit/:id" component={CategoryEdit} />
+class App extends React.Component {
 
-            <Route exact path="/items" component={ItemList} />
-            <Route exact path="/items/new" component={ItemCreate} />
-            <Route exact path="/items/delete/:id" component={ItemDelete} />
-            <Route exact path="/items/edit/:id" component={ItemEdit} />
-            <Route exact path="/items/:id" component={ItemShow} />
+  componentDidMount() {
+    this.props.fetchItems();
+  }
 
-            <Route exact path="/" component={Home} />
-            <Route path="/signup" component={SignUp} />
-            <Route path="/login" component={Login} />  
-            <Route path='/pastdue' component={PastDue} />
-          </Switch>
-         
-        </>
-      </Router>
-    </div>;
+  selectItem = (itemId) => {
+    const item = this.props.items.find(item => item.id === itemId)
+    // then use item to set selectedItem in state???
+  }
+
+  render() {
+    return (
+      <div className="ui container">
+        <Router history={history}>
+          <>
+            <Header />
+            <Switch>
+    
+              <Route exact path="/items" render={props => <ItemList {...props} items={Object.values(this.props.items)} selectItem={this.selectItem}/> } />
+
+              <Route exact path="/" component={Home} />
+              <Route path="/signup" component={SignUp} />
+              <Route path="/login" component={Login} />
+              <Route path='/pastdue' component={PastDue} />
+            </Switch>
+
+          </>
+        </Router>
+      </div>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    items: state.items,
+  }
+}
+
+export default connect(mapStateToProps, { fetchItems })(App);
