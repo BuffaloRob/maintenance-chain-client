@@ -29,19 +29,18 @@ import LogShow from './logs/LogShow';
 import PastDue from './PastDue';
 
 import { fetchItems } from '../actions/itemActions';
+import { selectItem } from '../actions/selectActions';
 
 class App extends React.Component {
-
-  state = {selectedItem: null}
 
   componentDidMount() {
     this.props.fetchItems();
   }
 
   selectItem = (itemId) => {
-    const item = this.props.items.find(item => item.id === itemId)
-    this.setState({ selectedItem: item })
-    history.push(`/items/${itemId}`)
+    const item = this.props.items[itemId]
+    debugger
+    this.props.selectItem(item)
     // then use item to set selectedItem in state???
   }
 
@@ -52,10 +51,12 @@ class App extends React.Component {
           <>
             <Header />
             <Switch>
-    
+              
               <Route exact path="/items" render={props => <ItemList {...props} items={Object.values(this.props.items)} selectItem={this.selectItem}/> } />
 
-              <Route exact path="/items/:id" render={props => <ItemShow {...props} item={this.state.selectedItem}/> } />
+              <Route exact path="/items/new" component={ItemCreate} />
+
+              <Route exact path="/items/:id" render={props => <ItemShow {...props} item={this.props.selectedItem}/> } />
 
               <Route exact path="/" component={Home} />
               <Route path="/signup" component={SignUp} />
@@ -73,7 +74,8 @@ class App extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     items: state.items,
+    selectedItem: state.selectedItem
   }
 }
 
-export default connect(mapStateToProps, { fetchItems })(App);
+export default connect(mapStateToProps, { fetchItems, selectItem })(App);
