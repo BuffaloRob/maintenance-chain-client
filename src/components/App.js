@@ -41,6 +41,7 @@ class App extends React.Component {
   selectItem = (itemId) => {
     const item = this.props.items.find(item => item.id === itemId)
     this.setState({ selectedItem: item })
+    history.push(`/items/${itemId}`)
     // then use item to set selectedItem in state???
   }
 
