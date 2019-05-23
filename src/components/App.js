@@ -32,12 +32,15 @@ import { fetchItems } from '../actions/itemActions';
 
 class App extends React.Component {
 
+  state = {selectedItem: null}
+
   componentDidMount() {
     this.props.fetchItems();
   }
 
   selectItem = (itemId) => {
     const item = this.props.items.find(item => item.id === itemId)
+    this.setState({ selectedItem: item })
     // then use item to set selectedItem in state???
   }
 
@@ -50,6 +53,8 @@ class App extends React.Component {
             <Switch>
     
               <Route exact path="/items" render={props => <ItemList {...props} items={Object.values(this.props.items)} selectItem={this.selectItem}/> } />
+
+              <Route exact path="/items/:id" render={props => <ItemShow {...props} item={this.state.selectedItem}/> } />
 
               <Route exact path="/" component={Home} />
               <Route path="/signup" component={SignUp} />
