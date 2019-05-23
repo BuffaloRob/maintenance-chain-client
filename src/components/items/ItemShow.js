@@ -1,28 +1,23 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
 
-const ItemShow = ({ items }) => {
-  // const renderList = Object.keys(items).map(item => {
-  //   const itemId = parseInt(this.props.match.params.id)
+import Category from '../categories/Category';
 
-  //   return items[item].categories.map(cat => {
-  //     if (itemId === cat.item.id) {
-  //       return (
-  //         <div className='item' key={cat.id} >
-  //           {this.renderAdmin(cat)}
-  //           <i className='large middle aligned icon wrench' />
-  //           <Link to={`/items/${itemId}/categories/${cat.id}`} className='content'>{cat.name}</Link>
-  //         </div>
-  //       )
-  //     }
-  //   });
-  // })   
+const ItemShow = ({ item, selectCategory, match }) => {
+  const renderList = item.categories.map(category => (
+    <Category 
+      key={category.id}
+      category={category}
+      selectCategory={selectCategory}
+      match={match}
+    />
+  ));   
 
   return (
     <div>
-      <h3>Maintenance Categories for </h3>
-      {/* <h3>Maintenance Categories for {this.props.item.name}</h3> */}
-      {/* <div className='ui celled list'>{renderList}</div> */}
+      {/* <h3>Maintenance Categories for</h3> */}
+      <h3>Maintenance Categories for {item.name}</h3>
+      <div className='ui celled list'>{renderList}</div>
        {/* {this.renderCreate()} */}
     </div>
   )
