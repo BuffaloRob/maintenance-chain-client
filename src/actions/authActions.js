@@ -49,12 +49,12 @@ export const login = (user, callback) => {
       .then(user => {
         sessionStorage.setItem('jwt', user.jwt)
         let id = jwtDecode(user.jwt);
-        // let email = user.email;
-        // let data = {id, email}
+        let email = user.email;
+        let data = {id, email}
 
         dispatch({
           type: SET_USER,
-          payload: id
+          payload: data
         })
 
         callback()
