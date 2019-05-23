@@ -29,7 +29,7 @@ import LogShow from './logs/LogShow';
 import PastDue from './PastDue';
 
 import { fetchItems } from '../actions/itemActions';
-import { selectItem } from '../actions/selectActions';
+import { selectItem, selectCategory } from '../actions/selectActions';
 
 class App extends React.Component {
 
@@ -39,9 +39,18 @@ class App extends React.Component {
 
   selectItem = (itemId) => {
     const item = this.props.items[itemId]
-    debugger
     this.props.selectItem(item)
     // then use item to set selectedItem in state???
+  }
+
+  selectCategory = (catId, itemId) => {
+    const item = this.props.items[itemId]
+    const cat = item.categories[catId]
+    this.props.selectCategory(cat)
+  }
+
+  selectLog = (logId) => {
+
   }
 
   render() {
@@ -53,10 +62,10 @@ class App extends React.Component {
             <Switch>
               
               <Route exact path="/items" render={props => <ItemList {...props} items={Object.values(this.props.items)} selectItem={this.selectItem}/> } />
-
               <Route exact path="/items/new" component={ItemCreate} />
+              <Route exact path="/items/:id" render={props => <ItemShow {...props} item={this.props.selectedItem} selectCategory={this.selectCategory} />} />
 
-              <Route exact path="/items/:id" render={props => <ItemShow {...props} item={this.props.selectedItem}/> } />
+              <Route exact path='/categories/:id' render={props => <CategoryShow {...props} category={this.props.selectCategory} selectLog={this.selectLog} />} />
 
               <Route exact path="/" component={Home} />
               <Route path="/signup" component={SignUp} />
@@ -78,4 +87,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { fetchItems, selectItem })(App);
+export default connect(mapStateToProps, { fetchItems, selectItem, selectCategory })(App);
