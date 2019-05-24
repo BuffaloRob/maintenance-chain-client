@@ -10,15 +10,19 @@ const ItemShow = ({ item, selectCategory, match }) => {
       category={category}
       selectCategory={selectCategory}
       match={match}
+      itemId={item.id}
     />
   ));   
 
   return (
     <div>
-      {/* <h3>Maintenance Categories for</h3> */}
       <h3>Maintenance Categories for {item.name}</h3>
       <div className='ui celled list'>{renderList}</div>
-       {/* {this.renderCreate()} */}
+      <div style={{ textAlign: 'right' }}>
+        <Link to={`/item/${item.id}/category/new`} className='ui button primary'>
+          Create New Category
+        </Link>
+      </div>
     </div>
   )
 
