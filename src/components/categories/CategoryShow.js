@@ -10,13 +10,14 @@ import { fetchCategories } from '../../actions/categoryActions';
 // Refactor this into the LogList component
 
 const CategoryShow = ({ category, selectLog, match }) => {
-  debugger
   const renderList = category.logs.map(log => (
     <Log
       key={log.id}
       log={log}
       selectLog={selectLog}
       match={match}
+      itemId={category.item.id}
+      categoryId={category.id}
     />
   ));
 
@@ -57,7 +58,7 @@ export default CategoryShow;
 //     const itemId = this.props.match.params.itemId;
 
 //     return this.props.logs.map(log => {
-//       const formattedDate = moment(log.date_performed).format("MMM Do YYYY");
+//     const formattedDate = moment(log.date_performed).format("MMM Do YYYY");
 //       if (catId === log.category.id) {        
         // return (
         //   <div className='item' key={log.id} >
