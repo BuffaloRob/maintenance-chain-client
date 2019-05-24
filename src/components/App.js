@@ -63,8 +63,10 @@ class App extends React.Component {
               
               <Route exact path="/items" render={props => <ItemList {...props} items={Object.values(this.props.items)} selectItem={this.selectItem}/> } />
               <Route exact path="/items/new" component={ItemCreate} />
+              <Route exact path="/items/edit/:id" component={ItemEdit} />
+              <Route exact path="/items/delete/:id" component={ItemDelete} />
               <Route exact path="/items/:id" render={props => <ItemShow {...props} item={this.props.selectedItem} selectCategory={this.selectCategory} />} />
-
+              
               <Route exact path='/categories/:id' render={props => <CategoryShow {...props} category={this.props.selectedCategory} selectLog={this.selectLog} />} />
 
               <Route exact path="/" component={Home} />
