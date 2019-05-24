@@ -30,7 +30,8 @@ import PastDue from './PastDue';
 
 import { fetchItems } from '../actions/itemActions';
 import { fetchCategories } from '../actions/categoryActions'
-import { selectItem, selectCategory } from '../actions/selectActions';
+import { fetchLogs } from '../actions/logActions'
+import { selectItem, selectCategory, selectLog } from '../actions/selectActions';
 
 class App extends React.Component {
 
@@ -44,13 +45,21 @@ class App extends React.Component {
   }
 
   selectCategory = (catId, itemId) => {
+    // can I use fetchCategory instead?
+    
+    //need to make fetchCategories async call
     this.props.fetchCategories(parseInt(itemId))
+
     const cat = this.props.categories[catId]
-    this.props.selectCategory(cat)
+    this.props.selectCategory(cat, itemId)
   }
 
-  selectLog = (logId) => {
-
+  selectLog = (logId, itemId, categoryId) => {
+    
+    //need to make fetchLogs async
+    this.props.fetchLogs(categoryId, itemId)
+    const log = this.props.logs[logId]
+    this.props.selectLog(log, itemId)
   }
 
   render() {
@@ -59,21 +68,23 @@ class App extends React.Component {
         <Router history={history}>
           <>
             <Header />
-            <Switch>
-              
+            {/* <Switch> */}
+
+              <Route exact path='/log/:id' render={props => <LogShow {...props} log={this.props.selectedLog} />} />
+
+              <Route exact path='/item/:itemId/category/:id' render={props => <CategoryShow {...props} category={this.props.selectedCategory} selectLog={this.selectLog} />} />
+  
               <Route exact path="/items" render={props => <ItemList {...props} items={Object.values(this.props.items)} selectItem={this.selectItem}/> } />
-              <Route exact path="/items/new" component={ItemCreate} />
-              <Route exact path="/items/edit/:id" component={ItemEdit} />
-              <Route exact path="/items/delete/:id" component={ItemDelete} />
-              <Route exact path="/items/:id" render={props => <ItemShow {...props} item={this.props.selectedItem} selectCategory={this.selectCategory} />} />
-              
-              <Route exact path='/categories/:id' render={props => <CategoryShow {...props} category={this.props.selectedCategory} selectLog={this.selectLog} />} />
+              <Route exact path="/item/new" component={ItemCreate} />
+              <Route exact path="/item/edit/:id" component={ItemEdit} />
+              <Route exact path="/item/delete/:id" component={ItemDelete} />
+              <Route exact path="/item/:id" render={props => <ItemShow {...props} item={this.props.selectedItem} selectCategory={this.selectCategory} />} />
 
               <Route exact path="/" component={Home} />
               <Route path="/signup" component={SignUp} />
               <Route path="/login" component={Login} />
               <Route path='/pastdue' component={PastDue} />
-            </Switch>
+            {/* </Switch> */}
 
           </>
         </Router>
@@ -82,13 +93,22 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   return {
     items: state.items,
     selectedItem: state.selectedItem,
     selectedCategory: state.selectedCategory,
-    categories: state.categories
+    selectedLog: state.selectedLog,
+    categories: state.categories,
+    logs: state.logs,
   }
 }
 
-export default connect(mapStateToProps, { fetchItems, selectItem, selectCategory, fetchCategories })(App);
+export default connect(mapStateToProps, { 
+  selectItem, 
+  selectCategory, 
+  selectLog,
+  fetchItems,
+  fetchCategories,
+  fetchLogs, 
+})(App);
