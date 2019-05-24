@@ -5,13 +5,14 @@ import ItemShow from './ItemShow';
 import Item from './Item';
 import { fetchItems } from '../../actions/itemActions';
 
-const ItemList = ({ items, selectItem }) => {
+const ItemList = ({ items, selectItem, editItemClick }) => {
 
   const renderList = Object.keys(items).map(item => (
     <Item
-      key={item.id}
+      key={items[item].id}
       item={items[item]}
       selectItem={selectItem}
+      // editItemClick={editItemClick}
     />
   ));
 
@@ -20,7 +21,7 @@ const ItemList = ({ items, selectItem }) => {
       <h2 className='ui header'>Items</h2>
       <div className='ui celled list'>{renderList}</div>
       <div style={{ textAlign: 'right' }}>
-        <Link to="/items/new" className='ui button primary'>
+        <Link to="/item/new" className='ui button primary'>
           Create New Item
         </Link>
       </div>
