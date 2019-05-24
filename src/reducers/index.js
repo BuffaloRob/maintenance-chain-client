@@ -9,6 +9,7 @@ import logReducer from './logReducer';
 import queryReducer from './queryReducer';
 import selectedItemReducer from './selectedItemReducer';
 import selectedCategoryReducer from './selectedCategoryReducer';
+import selectedLogReducer from './selectedLogReducer';
 
 const appReducer = combineReducers({
   auth: authReducer,
@@ -18,9 +19,10 @@ const appReducer = combineReducers({
   query: queryReducer,
   selectedItem: selectedItemReducer,
   selectedCategory: selectedCategoryReducer,
+  selectedLog: selectedLogReducer,
 })
 
-// this will reset all state upon logout, stops persist from keeping data that shouldn't be there (i.e. logging in as a different user)
+// this will reset all state upon logout. It stops persist from keeping data that shouldn't be there (i.e. logging in as a different user)
 const rootReducer = (state, action) => {
   if (action.type === 'CLEAR_DATA') {
     storage.removeItem('persist:root')
