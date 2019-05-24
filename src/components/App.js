@@ -29,6 +29,7 @@ import LogShow from './logs/LogShow';
 import PastDue from './PastDue';
 
 import { fetchItems } from '../actions/itemActions';
+import { fetchCategories } from '../actions/categoryActions'
 import { selectItem, selectCategory } from '../actions/selectActions';
 
 class App extends React.Component {
@@ -40,12 +41,11 @@ class App extends React.Component {
   selectItem = (itemId) => {
     const item = this.props.items[itemId]
     this.props.selectItem(item)
-    // then use item to set selectedItem in state???
   }
 
   selectCategory = (catId, itemId) => {
-    const item = this.props.items[itemId]
-    const cat = item.categories[catId]
+    this.props.fetchCategories(parseInt(itemId))
+    const cat = this.props.categories[catId]
     this.props.selectCategory(cat)
   }
 
@@ -65,7 +65,7 @@ class App extends React.Component {
               <Route exact path="/items/new" component={ItemCreate} />
               <Route exact path="/items/:id" render={props => <ItemShow {...props} item={this.props.selectedItem} selectCategory={this.selectCategory} />} />
 
-              <Route exact path='/categories/:id' render={props => <CategoryShow {...props} category={this.props.selectCategory} selectLog={this.selectLog} />} />
+              <Route exact path='/categories/:id' render={props => <CategoryShow {...props} category={this.props.selectedCategory} selectLog={this.selectLog} />} />
 
               <Route exact path="/" component={Home} />
               <Route path="/signup" component={SignUp} />
@@ -83,8 +83,10 @@ class App extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     items: state.items,
-    selectedItem: state.selectedItem
+    selectedItem: state.selectedItem,
+    selectedCategory: state.selectedCategory,
+    categories: state.categories
   }
 }
 
-export default connect(mapStateToProps, { fetchItems, selectItem, selectCategory })(App);
+export default connect(mapStateToProps, { fetchItems, selectItem, selectCategory, fetchCategories })(App);
