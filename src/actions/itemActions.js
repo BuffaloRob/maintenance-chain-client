@@ -2,7 +2,7 @@ import history from '../history';
 import apiURL from '../apis/maintenance';
 import * as types from './types';
 
-const API = "http://localhost:3000/api/v1"
+// const API = "http://localhost:3000/api/v1"
 
 export const createItem = formValues => async (dispatch, getState) => {
   const user_id = getState().auth.currentUser.user_id;
@@ -11,35 +11,9 @@ export const createItem = formValues => async (dispatch, getState) => {
   history.push('/items');
 };
 
-// export const fetchItems = () => async dispatch => {
-//   const response = await apiURL.get('/items');
-//   dispatch({ type: types.FETCH_ITEMS, payload: response.data });
-// }
-
-export const fetchItems = () => {
-  // debugger
-  let data = {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + sessionStorage.jwt
-      // 'Authorization': sessionStorage.jwt
-    }
-  }
-
-  return dispatch => {
-    fetch(`${API}/items`, data)
-      .then(resp => resp.json())
-      .then(resp => {
-        dispatch({
-          
-          type: types.FETCH_ITEMS,
-          payload: resp
-        })
-      })
-      .catch(err => err)
-  }
+export const fetchItems = () => async dispatch => {
+  const response = await apiURL.get('/items');
+  dispatch({ type: types.FETCH_ITEMS, payload: response.data });
 }
 
 export const fetchItem = id => async dispatch => {
@@ -59,4 +33,28 @@ export const deleteItem = id => async dispatch => {
   history.push('/items');
 }
 
+// export const fetchItems = () => {
+//   let data = {
+//     method: 'GET',
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer ' + sessionStorage.jwt
+//       // 'Authorization': sessionStorage.jwt
+//     }
+//   }
+
+//   return dispatch => {
+//     fetch(`${API}/items`, data)
+//       .then(resp => resp.json())
+//       .then(resp => {
+//         dispatch({
+
+//           type: types.FETCH_ITEMS,
+//           payload: resp
+//         })
+//       })
+//       .catch(err => err)
+//   }
+// }
 
