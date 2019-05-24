@@ -6,7 +6,7 @@ import Item from './Item';
 import { fetchItems } from '../../actions/itemActions';
 
 const ItemList = ({ items, selectItem }) => {
- 
+
   const renderList = Object.keys(items).map(item => (
     <Item
       key={item.id}
@@ -48,7 +48,7 @@ export default ItemList;
 //     )
 //   });
 
-  
+
 //   const renderAdmin = (item) => {
 //     // if (item.user.id === this.props.currentUserId) {
 //     // if (this.props.isAuthenticated) {
