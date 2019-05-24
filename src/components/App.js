@@ -42,25 +42,27 @@ class App extends React.Component {
   selectItem = (itemId) => {
     const item = this.props.items[itemId]
     this.props.selectItem(item)
+    history.push(`/item/${item.id}`)
   }
 
-  selectCategory = (catId, itemId) => {
-    // can I use fetchCategory instead?
-    
-    //need to make fetchCategories async call
-    this.props.fetchCategories(parseInt(itemId))
-
+  selectCategory = async (catId, itemId) => {
+    await this.props.fetchCategories(itemId)
     const cat = this.props.categories[catId]
     this.props.selectCategory(cat, itemId)
+    history.push(`/item/${itemId}/category/${cat.id}`)
   }
 
-  selectLog = (logId, itemId, categoryId) => {
-    
-    //need to make fetchLogs async
-    this.props.fetchLogs(categoryId, itemId)
+  selectLog = async (logId, itemId, categoryId) => {
+    await this.props.fetchLogs(categoryId, itemId)
     const log = this.props.logs[logId]
     this.props.selectLog(log, itemId)
+    history.push(`/log/${log.id}`)
   }
+
+  // editItemClick = (item) => {
+  //   this.props.selectItem(item)
+  //   history.push(`/item/${item.id}/edit`)
+  // }
 
   render() {
     return (
@@ -68,23 +70,46 @@ class App extends React.Component {
         <Router history={history}>
           <>
             <Header />
-            {/* <Switch> */}
+            <Switch>
 
-              <Route exact path='/log/:id' render={props => <LogShow {...props} log={this.props.selectedLog} />} />
+              <Route exact path='/log/:id' render={props => 
+                <LogShow {...props} 
+                  log={this.props.selectedLog} 
+                />} 
+              />
+               
+              <Route exact path='/item/:itemId/category/new' component={CategoryCreate} />
+              <Route exact path='/item/:itemId/category/:id' render={props =>
+                <CategoryShow {...props} 
+                  category={this.props.selectedCategory} 
+                  selectLog={this.selectLog} 
+                />} 
+              />
+              <Route exact path='/item/:itemId/category/:id/edit' component={CategoryEdit} />
+              <Route exact path='/item/:itemId/category/:id/delete' component={CategoryDelete} /> 
 
-              <Route exact path='/item/:itemId/category/:id' render={props => <CategoryShow {...props} category={this.props.selectedCategory} selectLog={this.selectLog} />} />
-  
-              <Route exact path="/items" render={props => <ItemList {...props} items={Object.values(this.props.items)} selectItem={this.selectItem}/> } />
+              <Route exact path="/items" render={props => 
+                <ItemList {...props} 
+                  items={Object.values(this.props.items)} 
+                  selectItem={this.selectItem}
+                  editItemClick={this.editItemClick}
+                />} 
+              />
               <Route exact path="/item/new" component={ItemCreate} />
-              <Route exact path="/item/edit/:id" component={ItemEdit} />
-              <Route exact path="/item/delete/:id" component={ItemDelete} />
-              <Route exact path="/item/:id" render={props => <ItemShow {...props} item={this.props.selectedItem} selectCategory={this.selectCategory} />} />
+              <Route exact path="/item/:id/edit" component={ItemEdit} />
+              <Route exact path="/item/:id/delete" component={ItemDelete} />
+              <Route exact path="/item/:id" render={props => 
+                <ItemShow {...props} 
+                  item={this.props.selectedItem} 
+                  selectCategory={this.selectCategory} 
+                />} 
+              />
 
               <Route exact path="/" component={Home} />
               <Route path="/signup" component={SignUp} />
               <Route path="/login" component={Login} />
               <Route path='/pastdue' component={PastDue} />
-            {/* </Switch> */}
+            </Switch>
 
           </>
         </Router>
@@ -96,11 +121,11 @@ class App extends React.Component {
 const mapStateToProps = state => {
   return {
     items: state.items,
+    categories: state.categories,
+    logs: state.logs,
     selectedItem: state.selectedItem,
     selectedCategory: state.selectedCategory,
     selectedLog: state.selectedLog,
-    categories: state.categories,
-    logs: state.logs,
   }
 }
 
