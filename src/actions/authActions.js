@@ -48,21 +48,15 @@ export const login = (user, callback) => {
       .then(resp => resp.json())
       .then(user => {
         sessionStorage.setItem('jwt', user.jwt)
-        let id = jwtDecode(user.jwt);
-        let email = user.email;
-        let data = {id, email}
-
         dispatch({
           type: SET_USER,
-          payload: data
+          payload: user.user
         })
-
         callback()
       })
       .catch(err => err)
   }
 }
-
 
 export const fetchUser = () => {
   let data = {
