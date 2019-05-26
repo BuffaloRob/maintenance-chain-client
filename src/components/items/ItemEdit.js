@@ -7,10 +7,6 @@ import ItemForm from "./ItemForm";
 
 class ItemEdit extends React.Component {
 
-  componentDidMount() {
-    // this.props.fetchItem(this.props.match.params.id);
-  }
-
   onSubmit = formValues => {
     this.props.editItem(this.props.match.params.id, formValues);
   }
@@ -19,7 +15,7 @@ class ItemEdit extends React.Component {
     if (!this.props.item) {
       return <div>Loading...</div>
     }
-
+    
     return (
       <div>
         <h3>Edit {this.props.item.name}</h3>
