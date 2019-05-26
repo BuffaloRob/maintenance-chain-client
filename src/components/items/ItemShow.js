@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, withRouter } from 'react-router-dom';
 
 import Category from '../categories/Category';
 
 const ItemShow = ({ item, selectCategory, match, editCategoryClick }) => {
+  console.log('ItemShow render')
+
   const renderList = item.categories.map(category => (
     <Category 
       key={category.id}
@@ -32,7 +34,7 @@ const ItemShow = ({ item, selectCategory, match, editCategoryClick }) => {
 
 }
 
-export default ItemShow;
+export default withRouter(ItemShow);
 
 
 
