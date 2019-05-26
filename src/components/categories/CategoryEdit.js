@@ -35,6 +35,7 @@ class CategoryEdit extends React.Component {
   }
 
   render() {
+    console.log('CategoryEdit render')
     return (
       <>
       <h3>Edit {this.props.category.name}</h3>
