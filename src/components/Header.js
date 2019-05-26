@@ -17,7 +17,7 @@ class Header extends React.Component {
 
   renderAuthenticated() {
     // if (this.props.currentUser.id) {
-    if (this.props.isAuthenticated) {
+    if (this.props.isAuthenticated && this.props.currentUser.email) {
       return (
         <>
           <Link to='/pastdue' className='item'>
