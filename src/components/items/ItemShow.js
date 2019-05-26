@@ -3,7 +3,7 @@ import { Link, Route } from 'react-router-dom';
 
 import Category from '../categories/Category';
 
-const ItemShow = ({ item, selectCategory, match }) => {
+const ItemShow = ({ item, selectCategory, match, editCategoryClick }) => {
   const renderList = item.categories.map(category => (
     <Category 
       key={category.id}
@@ -11,9 +11,13 @@ const ItemShow = ({ item, selectCategory, match }) => {
       selectCategory={selectCategory}
       match={match}
       itemId={item.id}
+      editCategoryClick={editCategoryClick}
     />
-  ));   
-
+  ));
+     
+  if (!item) {
+    return <h3>...Loading</h3>
+  }
   return (
     <div>
       <h3>Maintenance Categories for {item.name}</h3>
