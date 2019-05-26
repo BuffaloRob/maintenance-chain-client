@@ -1,9 +1,7 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-import ItemShow from './ItemShow';
 import Item from './Item';
-import { fetchItems } from '../../actions/itemActions';
 
 const ItemList = ({ items, selectItem, editItemClick }) => {
 
@@ -32,7 +30,7 @@ const ItemList = ({ items, selectItem, editItemClick }) => {
   )
 }
 
-export default ItemList;
+export default withRouter(ItemList);
 
 // const ItemList = ({ items }) => {
 //   // debugger
