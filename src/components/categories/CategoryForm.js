@@ -1,15 +1,14 @@
 import React from "react";
 import { Field, reduxForm } from 'redux-form'
 
-class CategoryForm extends React.Component {
-
-  renderError({ error, touched }) {
+const CategoryForm = ({ handleSubmit }) => {
+  debugger
+  const renderError = ({ error, touched }) => {
     if (touched && error) {
       return <div className='header'>{error}</div>;
     }
   }
-
-  renderInput = ({ input, label, meta }) => {
+  const renderInput = ({ input, label, meta }) => {
     const className = `field ui input ${meta.error && meta.touched ? 'error' : ''}`
     return <>
       {/* <label>{label}</label> */}
@@ -17,28 +16,24 @@ class CategoryForm extends React.Component {
         <input {...input} autoComplete="off" placeholder={label} />
       </div>
       <div className='ui error message'>
-        {this.renderError(meta)}
+        {renderError(meta)}
       </div>
     </>;
   }
-
-  onSubmit = formValues => {
-    this.props.onSubmit(formValues);
+  const onSubmit = formValues => {
+    onSubmit(formValues);
   }
 
-  render() {
-    return (
-      // handleSubmit() comes from redux-forms
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-        <Field 
-          name='category[name]' 
-          component={this.renderInput} 
-          label='Enter a Category Name'
-         />
-        <button className='ui button primary'>Submit</button>
-      </form>
-    );
-  }
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className='ui form error'>
+      <Field
+        name='category[name]'
+        component={renderInput}
+        label='Enter a Category Name'
+      />
+      <button className='ui button primary'>Submit</button>
+    </form>
+  )
 }
 
 const validate = formValues => {
