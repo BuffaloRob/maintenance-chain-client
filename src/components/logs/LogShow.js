@@ -1,12 +1,6 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-import { connect } from "react-redux";
 import moment from 'moment';
 
-import { fetchItem } from '../../actions/itemActions';
-import { fetchLog } from '../../actions/logActions';
-
-//Refactor this into the CategoryList component
 
 const LogShow = ({ log }) => {
   const formattedDatePerformed = moment(log.date_performed).format("MMM Do YYYY");
