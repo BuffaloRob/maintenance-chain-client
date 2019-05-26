@@ -31,7 +31,7 @@ import PastDue from './PastDue';
 import { fetchItems } from '../actions/itemActions';
 import { fetchCategories } from '../actions/categoryActions'
 import { fetchLogs } from '../actions/logActions'
-import { selectItem, selectCategory, selectLog } from '../actions/selectActions';
+import { itemSelector, categorySelector, logSelector } from '../actions/selectActions';
 
 class App extends React.Component {
 
@@ -40,23 +40,31 @@ class App extends React.Component {
   }
 
   selectItem = (itemId) => {
+    console.log(`item id: ${itemId}`)
     const item = this.props.items[itemId]
-    this.props.selectItem(item)
+    this.props.itemSelector(item)
     history.push(`/item/${item.id}`)
   }
 
   selectCategory = async (catId, itemId) => {
     await this.props.fetchCategories(itemId)
     const cat = this.props.categories[catId]
-    this.props.selectCategory(cat, itemId)
+    this.props.categorySelector(cat, itemId)
     history.push(`/item/${itemId}/category/${cat.id}`)
   }
 
   selectLog = async (logId, itemId, categoryId) => {
     await this.props.fetchLogs(categoryId, itemId)
     const log = this.props.logs[logId]
-    this.props.selectLog(log, itemId)
+    this.props.logSelector(log, itemId)
     history.push(`/log/${log.id}`)
+  }
+
+  editCategoryClick = async (catId, itemId) => {
+    await this.props.fetchCategories(itemId)
+    const cat = this.props.categories[catId]
+    this.props.categorySelector(cat, itemId)
+    history.push(`/item/${itemId}/category/${catId}/edit`)
   }
 
   // editItemClick = (item) => {
@@ -85,7 +93,12 @@ class App extends React.Component {
                   selectLog={this.selectLog} 
                 />} 
               />
-              <Route exact path='/item/:itemId/category/:id/edit' component={CategoryEdit} />
+              {/* <Route exact path='/item/:itemId/category/:id/edit' component={CategoryEdit} /> */}
+              <Route exact path='/item/:itemId/category/:id/edit' render={props =>
+                <CategoryEdit {...props}
+                  category={this.props.selectedCategory}
+                />}
+              />
               <Route exact path='/item/:itemId/category/:id/delete' component={CategoryDelete} /> 
 
               <Route exact path="/items" render={props => 
@@ -102,6 +115,7 @@ class App extends React.Component {
                 <ItemShow {...props} 
                   item={this.props.selectedItem} 
                   selectCategory={this.selectCategory} 
+                  editCategoryClick={this.editCategoryClick}
                 />} 
               />
 
@@ -130,9 +144,9 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, { 
-  selectItem, 
-  selectCategory, 
-  selectLog,
+  itemSelector, 
+  categorySelector, 
+  logSelector,
   fetchItems,
   fetchCategories,
   fetchLogs, 
