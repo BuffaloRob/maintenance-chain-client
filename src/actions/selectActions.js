@@ -1,4 +1,3 @@
-import history from '../history';
 import { SELECT_ITEM, SELECT_CATEGORY, SELECT_LOG } from './types';
 
 export const itemSelector = item => dispatch => {
