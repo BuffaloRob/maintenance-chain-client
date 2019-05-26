@@ -2,9 +2,14 @@ import history from '../history';
 import apiURL from '../apis/maintenance';
 import * as types from './types';
 
+import { categorySelector } from '../actions/selectActions';
+import { fetchItems } from '../actions/itemActions';
+
 export const createCategory = (formValues, itemId) => async dispatch => {
   const response = await apiURL.post(`/items/${itemId}/categories`, { ...formValues});
-  dispatch({ type: types.CREATE_CATEGORY, payload: response.data });
+  // dispatching fetchItems to update state to display correctly in the ItemShow route
+  dispatch(fetchItems());
+  dispatch({ type: types.CREATE_CATEGORY, payload: response.data });  
   history.push(`/items/${itemId}`);
 };
 
@@ -20,12 +25,17 @@ export const fetchCategory = (id, itemId) => async dispatch => {
 
 export const editCategory = (formValues, id, itemId) => async dispatch => {
   const response = await apiURL.put(`/items/${itemId}/categories/${id}`, formValues);
+  dispatch(fetchItems());
   dispatch({ type: types.EDIT_CATEGORY, payload: response.data });
+  // dispatch(categorySelector(response.data))
   history.push(`/items/${itemId}`);
+
 }
 
 export const deleteCategory = (id, itemId) => async dispatch => {
   await apiURL.delete(`/items/${itemId}/categories/${id}`);
+  // dispatching fetchItems to update state to display correctly in the ItemShow route
+  dispatch(fetchItems());
   dispatch({ type: types.DELETE_CATEGORY, payload: id });
   history.push(`/items/${itemId}`);
 }
