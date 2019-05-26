@@ -1,11 +1,11 @@
 import React from "react";
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form'
 
 import { editCategory, fetchCategories } from '../../actions/categoryActions';
 import CategoryForm from "./CategoryForm";
-
-import { Field, reduxForm } from 'redux-form'
 
 class CategoryEdit extends React.Component {
 
@@ -67,7 +67,7 @@ CategoryEdit = reduxForm({
   validate: validate
 })(CategoryEdit);
 
-export default connect(null, { editCategory })(CategoryEdit)
+export default withRouter(connect(null, { editCategory })(CategoryEdit))
 
 ///////
 // const CategoryEdit = ({ category, match }) => {

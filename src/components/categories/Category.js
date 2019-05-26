@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 const Category = ({ category, selectCategory, match, itemId, editCategoryClick }) => {
   const renderAdmin = category => (
@@ -19,4 +19,4 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick }
   )
 }
 
-export default Category
+export default withRouter(Category)
