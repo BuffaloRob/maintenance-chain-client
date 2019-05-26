@@ -16,6 +16,9 @@ const ItemList = ({ items, selectItem, editItemClick }) => {
     />
   ));
 
+  if (!items) {
+    return <h3>...Loading</h3>
+  }
   return (
     <div>
       <h2 className='ui header'>Items</h2>
