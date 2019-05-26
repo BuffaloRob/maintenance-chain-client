@@ -20,13 +20,11 @@ export const signup = (user, callback) => {
       .then(resp => resp.json())
       .then(user => {
         sessionStorage.setItem('jwt', user.jwt);
-
         let decoded = jwtDecode(user.jwt);
         dispatch({
           type: SET_USER,
           payload: decoded
         })
-
         callback();
       })
       .catch(err => err)
@@ -48,15 +46,10 @@ export const login = (user, callback) => {
       .then(resp => resp.json())
       .then(user => {
         sessionStorage.setItem('jwt', user.jwt)
-        let id = jwtDecode(user.jwt);
-        let email = user.email;
-        let data = {id, email}
-
         dispatch({
           type: SET_USER,
-          payload: data
+          payload: user.user
         })
-
         callback()
       })
       .catch(err => err)
@@ -79,7 +72,6 @@ export const fetchUser = () => {
     fetch(`${API_URL}/user`, data)
       .then(resp => resp.json())
       .then(user => {
-        // debugger
         dispatch({
           type: SET_USER,
           payload: user
@@ -102,9 +94,8 @@ export const logout = () => {
   return dispatch => {
     sessionStorage.clear();
     fetch(`${API_URL}/logout`, data)
-    
     history.push('/');
     return dispatch({ type: CLEAR_DATA });
-    
   }
+
 }
