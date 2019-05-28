@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
+import RenderLoggedIn from '../components/header/RenderLoggedIn';
+import RenderLoggedOut from '../components/header/RenderLoggedOut'
 import { logout, fetchUser } from '../actions/authActions';
 
 class Header extends React.Component {
@@ -15,55 +17,16 @@ class Header extends React.Component {
     this.props.logout();
   }
 
-  renderAuthenticated() {
-    // if (this.props.currentUser.id) {
-    if (this.props.isAuthenticated && this.props.currentUser.email) {
-      return (
-        <>
-          <Link to='/pastdue' className='item'>
-            Past Due
-          </Link>
-          <Link to='/' className='item'>
-            Home
-          </Link>
-          <li onClick={(e) => this.handleLogout(e)} className='item pointing'>
-            Log out
-          </li>
-          <li className='item'
-            >Welcome {this.props.currentUser.email}
-          </li>
-        </>
-      ) 
-    } else {
-      return (
-          <>
-            <Link to='/signup' className='item'>
-              Sign Up
-            </Link>
-            <Link to='/login' className='item'>
-              Log In
-            </Link>
-            <li className='item'>
-              Please Login
-            </li>
-          </>
-      )
-    }
-  }
-
   render() {
-    return (
-      <div className='ui secondary pointing menu'>
-        <Link to='/items' className='item'>
-          M/C
-        </Link>
-        <div className='right menu'>
-          {this.renderAuthenticated()}
-        </div>
-      </div>
-    )
+      if (
+        this.props.isAuthenticated &&
+        this.props.currentUser.email
+      ) {
+        return <RenderLoggedIn currentUser={this.props.currentUser} handleLogout={this.handleLogout}/>
+      } else {
+        return <RenderLoggedOut />
+      }
   }
-  
 }
 
 const mapStateToProps = state => {
