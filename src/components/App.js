@@ -12,13 +12,14 @@ import Login from './Login';
 import PastDue from './PastDue';
 
 import MaintenanceContainer from '../containers/MaintenanceContainer';
+import { Container } from '@material-ui/core';
 
 
 class App extends React.Component {
 
   render() {
     return (
-      <div className="ui container">
+      <Container>
         <Router history={history}>
           <>
             <Header />
@@ -33,7 +34,7 @@ class App extends React.Component {
           </>
         </Router>
         
-      </div>
+      </Container>
     )
   }
 }
