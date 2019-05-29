@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import history from '../history';
 
@@ -24,7 +24,7 @@ import LogList from '../components/logs/LogList';
 import { fetchItems } from '../actions/itemActions';
 import { fetchCategories } from '../actions/categoryActions'
 import { fetchLogs } from '../actions/logActions'
-import { itemSelector, categorySelector, logSelector } from '../actions/selectActions';
+import { itemSelector, categorySelector, logSelector, selectItemOnCatEdit } from '../actions/selectActions';
 
 class MaintenanceContainer extends React.Component {
   componentDidMount() {
@@ -60,6 +60,14 @@ class MaintenanceContainer extends React.Component {
     history.push(`/item/${itemId}/category/${catId}/edit`)
   }
 
+  // editCategoryClick = async (catId, itemId) => {
+  //   await this.props.fetchCategories(itemId)
+  //   const cat = this.props.categories[catId]
+  //   history.push(`/item/${itemId}/category/${catId}/edit`)
+  //   this.props.selectItemOnCatEdit(itemId)
+  //   this.props.categorySelector(cat, itemId)
+  // }
+
   // editItemClick = (item) => {
   //   this.props.selectItem(item)
   //   history.push(`/item/${item.id}/edit`)
@@ -70,6 +78,7 @@ class MaintenanceContainer extends React.Component {
       <div className="ui container">
         {/* <Router history={history}> */}
           <>
+            <Switch>
               <Route exact path='/log/:id' render={props =>
                 <LogShow {...props}
                   log={this.props.selectedLog}
@@ -97,7 +106,6 @@ class MaintenanceContainer extends React.Component {
                   editItemClick={this.editItemClick}
                 />}
               />
-              <Route exact path="/item/new" component={ItemCreate} />
               <Route exact path="/item/:id/edit" component={ItemEdit} />
               <Route exact path="/item/:id/delete" component={ItemDelete} />
               <Route exact path="/item/:id" render={props =>
@@ -107,6 +115,8 @@ class MaintenanceContainer extends React.Component {
                   editCategoryClick={this.editCategoryClick}
                 />}
               />
+              <Route exact path="/item/new" component={ItemCreate} />
+            </Switch>
           </>
       </div>
     )
@@ -128,6 +138,7 @@ export default withRouter(connect(mapStateToProps, {
   itemSelector,
   categorySelector,
   logSelector,
+  selectItemOnCatEdit,
   fetchItems,
   fetchCategories,
   fetchLogs,
