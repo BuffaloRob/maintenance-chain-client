@@ -33,7 +33,7 @@ class MaintenanceContainer extends React.Component {
   }
 
   selectItem = (itemId) => {
-    console.log(`item id: ${itemId}`)
+    console.log(`MaintenanceContainer item id: ${itemId} `)
     const item = this.props.items[itemId]
     this.props.itemSelector(item)
     history.push(`/item/${item.id}`)
