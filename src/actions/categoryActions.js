@@ -2,7 +2,7 @@ import history from '../history';
 import apiURL from '../apis/maintenance';
 import * as types from './types';
 
-import { categorySelector } from '../actions/selectActions';
+import { selectItemOnCatEdit } from '../actions/selectActions';
 import { fetchItems } from '../actions/itemActions';
 
 export const createCategory = (formValues, itemId) => async dispatch => {
@@ -26,8 +26,9 @@ export const fetchCategory = (id, itemId) => async dispatch => {
 export const editCategory = (formValues, id, itemId) => async dispatch => {
   const response = await apiURL.put(`/items/${itemId}/categories/${id}`, formValues);
   dispatch(fetchItems());
+  //fetchItem needs to run before history.push is executed
+  await dispatch(selectItemOnCatEdit(parseInt(itemId)))
   dispatch({ type: types.EDIT_CATEGORY, payload: response.data });
-  // dispatch(categorySelector(response.data))
   history.push(`/items/${itemId}`);
 }
 
