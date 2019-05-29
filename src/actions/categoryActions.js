@@ -25,8 +25,7 @@ export const fetchCategory = (id, itemId) => async dispatch => {
 
 export const editCategory = (formValues, id, itemId) => async dispatch => {
   const response = await apiURL.put(`/items/${itemId}/categories/${id}`, formValues);
-  dispatch(fetchItems());
-  //fetchItem needs to run before history.push is executed
+  await dispatch(fetchItems());
   await dispatch(selectItemOnCatEdit(parseInt(itemId)))
   dispatch({ type: types.EDIT_CATEGORY, payload: response.data });
   history.push(`/items/${itemId}`);
