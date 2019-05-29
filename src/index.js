@@ -6,6 +6,8 @@ import reduxThunk from "redux-thunk";
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
+import history from './history';
+import { Router } from 'react-router-dom'
 
 import App from "./components/App";
 import rootReducer from './reducers'
@@ -30,7 +32,9 @@ export const persistor = persistStore(store);
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <App />
+      <Router history={history}>
+        <App />
+      </Router>
     </PersistGate>
   </Provider>,
   document.querySelector("#root")
