@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 import Category from './Category';
 
-const CategoryList = ({ item, selectCategory, match, editCategoryClick }) => {
+const CategoryList = ({ item, selectCategory, match, editCategoryClick, location, history }) => {
   console.log('CategoryList render')
 
   const renderList = item.categories.map(category => (
@@ -12,7 +12,9 @@ const CategoryList = ({ item, selectCategory, match, editCategoryClick }) => {
       category={category}
       selectCategory={selectCategory}
       match={match}
+      history={history}
       itemId={item.id}
+      location={location}
       editCategoryClick={editCategoryClick}
     />
   ));
@@ -24,8 +26,11 @@ const CategoryList = ({ item, selectCategory, match, editCategoryClick }) => {
     <div>
       <h3>Maintenance Categories for {item.name}</h3>
       <div className='ui celled list'>{renderList}</div>
-      <div style={{ textAlign: 'right' }}>
-        <Link to={`/item/${item.id}/category/new`} className='ui button primary'>
+      <div>
+        <Link to={`/items`} className='ui button primary' >
+          Back to List of Items
+        </Link>
+        <Link to={`/item/${item.id}/category/new`} className='ui button primary' >
           Create New Category
         </Link>
       </div>
