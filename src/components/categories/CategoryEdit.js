@@ -67,7 +67,7 @@ CategoryEdit = reduxForm({
   validate: validate
 })(CategoryEdit);
 
-export default withRouter(connect(null, { editCategory })(CategoryEdit))
+export default connect(null, { editCategory })(CategoryEdit)
 
 ///////
 // const CategoryEdit = ({ category, match }) => {

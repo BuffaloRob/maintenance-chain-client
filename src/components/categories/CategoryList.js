@@ -34,4 +34,4 @@ const CategoryList = ({ item, selectCategory, match, editCategoryClick }) => {
 
 }
 
-export default withRouter(CategoryList);
+export default CategoryList;

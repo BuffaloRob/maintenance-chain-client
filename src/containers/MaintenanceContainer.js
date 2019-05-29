@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Router } from 'react-router-dom';
 
 import history from '../history';
 
@@ -68,7 +68,7 @@ class MaintenanceContainer extends React.Component {
   render() {
     return (
       <div className="ui container">
-        {/* <Router history={history}> */}
+        <Router history={history}>
           <>
               <Route exact path='/log/:id' render={props =>
                 <LogShow {...props}
@@ -108,6 +108,7 @@ class MaintenanceContainer extends React.Component {
                 />}
               />
           </>
+        </Router>
       </div>
     )
   }
@@ -124,11 +125,11 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, {
+export default connect(mapStateToProps, {
   itemSelector,
   categorySelector,
   logSelector,
   fetchItems,
   fetchCategories,
   fetchLogs,
-})(MaintenanceContainer));
+})(MaintenanceContainer);

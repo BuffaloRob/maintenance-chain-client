@@ -19,4 +19,4 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick }
   )
 }
 
-export default withRouter(Category)
+export default Category
