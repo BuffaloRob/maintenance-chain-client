@@ -2,16 +2,16 @@ import React from "react";
 
 import Log from '../logs/Log';
 
-const LogList = ({ category, selectLog, match, item }) => {
+const LogList = ({ categoryId, selectLog, match, item }) => {
   debugger
-  const filteredLogs = item.logs.filter(log => log.category_id == category.id)
+  const filteredLogs = item.logs.filter(log => log.category_id == categoryId)
   const renderList = filteredLogs.map(log => (
     <Log
       key={log.id}
       log={log}
       selectLog={selectLog}
       match={match}
-      categoryId={category.id}
+      categoryId={categoryId}
     />
   ));
   // const renderList = category.logs.map(log => (
