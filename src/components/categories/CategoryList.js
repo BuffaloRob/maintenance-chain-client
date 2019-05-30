@@ -3,14 +3,14 @@ import { Link, withRouter } from 'react-router-dom';
 
 import Category from './Category';
 
-const CategoryList = ({ item, selectCategory, match, editCategoryClick, location, history }) => {
+const CategoryList = ({ item, selectCategoryId, match, editCategoryClick, location, history }) => {
   console.log('CategoryList render')
-
+  
   const renderList = item.categories.map(category => (
     <Category
       key={category.id}
       category={category}
-      selectCategory={selectCategory}
+      selectCategoryId={selectCategoryId}
       match={match}
       history={history}
       itemId={item.id}

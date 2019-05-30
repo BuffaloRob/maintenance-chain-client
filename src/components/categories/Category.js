@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-const Category = ({ category, selectCategory, match, itemId, editCategoryClick }) => {
+const Category = ({ category, selectCategoryId, match, itemId, editCategoryClick }) => {
   const renderAdmin = category => (
     <div className='right floated content'>
       <button className='ui button primary' onClick={() => editCategoryClick(category.id, itemId)}>Edit</button>
@@ -14,7 +14,7 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick }
     <div className='item' key={category.id} >
       {renderAdmin(category)}
       <i className="large middle aligned wrench icon" />
-      <h3 className='content' id={category.id} onClick={() => selectCategory(category.id, itemId)}>{category.name}</h3>
+      <h3 className='content' id={category.id} onClick={() => selectCategoryId(category.id, itemId)}>{category.name}</h3>
     </div>
   )
 }
