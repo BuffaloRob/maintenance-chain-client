@@ -24,7 +24,7 @@ import LogList from '../components/logs/LogList';
 import { fetchItems } from '../actions/itemActions';
 import { fetchCategories } from '../actions/categoryActions'
 import { fetchLogs } from '../actions/logActions'
-import { itemSelector, categorySelector, logSelector, selectItemOnCatEdit, getItem } from '../actions/selectActions';
+import { itemSelector, categorySelector, logSelector, selectItemOnCatEdit, getItem, categoryIdSelector } from '../actions/selectActions';
 
 class MaintenanceContainer extends React.Component {
   componentDidMount() {
@@ -45,18 +45,18 @@ class MaintenanceContainer extends React.Component {
     history.push(`/item/${itemId}`)
   }
 
-  selectCategory = async (catId, itemId) => {
-    await this.props.fetchCategories(itemId)
-    const cat = this.props.categories[catId]
-    this.props.categorySelector(cat, itemId)
-    history.push(`/item/${itemId}/category/${cat.id}`)
-  }
-
-  // selectCategory = (catId, itemId) => {
-  //   this.props.categorySelector(catId, itemId)
-  //   debugger
-  //   history.push(`/item/${itemId}/category/${catId}`)
+  // selectCategory = async (catId, itemId) => {
+  //   await this.props.fetchCategories(itemId)
+  //   const cat = this.props.categories[catId]
+  //   this.props.categorySelector(cat, itemId)
+  //   history.push(`/item/${itemId}/category/${cat.id}`)
   // }
+
+  selectCategoryId = (catId, itemId) => {
+    this.props.categoryIdSelector(catId, itemId)
+    debugger
+    history.push(`/item/${itemId}/category/${catId}`)
+  }
 
   selectLog = async (logId, itemId, categoryId) => {
     await this.props.fetchLogs(categoryId, itemId)
@@ -87,7 +87,8 @@ class MaintenanceContainer extends React.Component {
               <Route exact path='/item/:itemId/category/new' component={CategoryCreate} />
               <Route exact path='/item/:itemId/category/:id' render={props =>
                 <LogList {...props}
-                  category={this.props.selectedCategory}
+                  categoryId={this.props.selectedCategoryId}
+                  // category={this.props.selectedCategory}
                   item={this.props.selectedItem}
                   selectLog={this.selectLog}
                 />}
@@ -112,7 +113,7 @@ class MaintenanceContainer extends React.Component {
               <Route exact path="/item/:id" render={props =>
                 <CategoryList {...props}
                   item={this.props.selectedItem}
-                  selectCategory={this.selectCategory}
+                  selectCategoryId={this.selectCategoryId}
                   editCategoryClick={this.editCategoryClick}
                 />}
               />  
@@ -130,6 +131,7 @@ const mapStateToProps = state => {
     logs: state.logs,
     selectedItem: state.selectedItem,
     selectedCategory: state.selectedCategory,
+    selectedCategoryId: state.selectCategoryId,
     selectedLog: state.selectedLog,
   }
 }
@@ -137,6 +139,7 @@ const mapStateToProps = state => {
 export default withRouter(connect(mapStateToProps, {
   itemSelector,
   categorySelector,
+  categoryIdSelector,
   logSelector,
   selectItemOnCatEdit,
   getItem,
