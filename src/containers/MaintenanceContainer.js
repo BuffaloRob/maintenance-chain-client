@@ -46,20 +46,27 @@ class MaintenanceContainer extends React.Component {
     history.push(`/item/${itemId}/category/${catId}`)
   }
 
-  selectLog = async (logId, itemId, categoryId) => {
+  selectLog = (logId, itemId, categoryId) => {
     const item = this.props.selectedItem
     const log = item.logs.filter(log => (log.id === logId))
     this.props.logSelector(log, itemId)
     history.push(`/log/${log.id}`)
   }
 
-  editCategoryClick = async (catId, itemId) => {
-    await this.props.fetchCategories(itemId)
+  editCategoryClick = (catId, itemId) => {
     const item = this.props.selectedItem
     const cat = item.categories.filter(cat => (cat.id === catId))
     this.props.categorySelector(cat, itemId)
     history.push(`/item/${itemId}/category/${catId}/edit`)
   }
+
+  // editCategoryClick = async (catId, itemId) => {
+  //   await this.props.fetchCategories(itemId)
+  //   const item = this.props.selectedItem
+  //   const cat = item.categories.filter(cat => (cat.id === catId))
+  //   this.props.categorySelector(cat, itemId)
+  //   history.push(`/item/${itemId}/category/${catId}/edit`)
+  // }
 
   render() {
     return (
