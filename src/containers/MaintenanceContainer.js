@@ -32,38 +32,39 @@ class MaintenanceContainer extends React.Component {
     console.log('fetchItems called in MC')
   }
 
-  // selectItem = (itemId) => {
-  //   console.log(`MaintenanceContainer item id: ${itemId} `)
-  //   const item = this.props.items[itemId]
-  //   this.props.itemSelector(item)
-  //   history.push(`/item/${item.id}`)
-  // }
-
-  selectItem = async (itemId) => {
+  selectItem = (itemId) => {
     console.log(`MaintenanceContainer item id: ${itemId} `)
-    await this.props.getItem(itemId)
-    history.push(`/item/${itemId}`)
+    const item = this.props.items[itemId]
+    this.props.itemSelector(item)
+    history.push(`/item/${item.id}`)
   }
 
-  // selectCategory = async (catId, itemId) => {
-  //   await this.props.fetchCategories(itemId)
-  //   const cat = this.props.categories[catId]
-  //   this.props.categorySelector(cat, itemId)
-  //   history.push(`/item/${itemId}/category/${cat.id}`)
-  // }
-
-  selectCategoryId = (catId, itemId) => {
-    this.props.categoryIdSelector(catId, itemId)
-    debugger
+  selectCategory = (catId, itemId) => {
+    const item = this.props.selectedItem
+    const cat = item.categories.filter(cat => (cat.id === catId))
+    this.props.categorySelector(cat, itemId)
     history.push(`/item/${itemId}/category/${catId}`)
   }
 
   selectLog = async (logId, itemId, categoryId) => {
-    await this.props.fetchLogs(categoryId, itemId)
-    const log = this.props.logs[logId]
+    const item = this.props.selectedItem
+    const log = item.logs.filter(log => (log.id === logId))
     this.props.logSelector(log, itemId)
     history.push(`/log/${log.id}`)
   }
+
+  // selectCategoryId = (catId, itemId) => {
+  //   debugger
+  //   this.props.categoryIdSelector(catId, itemId)
+  //   history.push(`/item/${itemId}/category/${catId}`)
+  // }
+
+  // selectLog = async (logId, itemId, categoryId) => {
+  //   await this.props.fetchLogs(categoryId, itemId)
+  //   const log = this.props.logs[logId]
+  //   this.props.logSelector(log, itemId)
+  //   history.push(`/log/${log.id}`)
+  // }
 
   editCategoryClick = async (catId, itemId) => {
     await this.props.fetchCategories(itemId)
@@ -83,12 +84,13 @@ class MaintenanceContainer extends React.Component {
                   log={this.props.selectedLog}
                 />}
               />
+              <Route exact path='/item/:itemId/category/:id/log/new' component={LogCreate} />
 
               <Route exact path='/item/:itemId/category/new' component={CategoryCreate} />
               <Route exact path='/item/:itemId/category/:id' render={props =>
                 <LogList {...props}
-                  categoryId={this.props.selectedCategoryId}
-                  // category={this.props.selectedCategory}
+                  // categoryId={this.props.selectedCategoryId}
+                  category={this.props.selectedCategory}
                   item={this.props.selectedItem}
                   selectLog={this.selectLog}
                 />}
@@ -113,7 +115,8 @@ class MaintenanceContainer extends React.Component {
               <Route exact path="/item/:id" render={props =>
                 <CategoryList {...props}
                   item={this.props.selectedItem}
-                  selectCategoryId={this.selectCategoryId}
+                  selectCategory={this.selectCategory}
+                  // selectCategoryId={this.selectCategoryId}
                   editCategoryClick={this.editCategoryClick}
                 />}
               />  
