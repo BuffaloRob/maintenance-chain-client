@@ -38,7 +38,7 @@ class CategoryEdit extends React.Component {
     console.log('CategoryEdit render')
     return (
       <>
-      <h3>Edit {this.props.category.name}</h3>
+      <h3>Edit {this.props.category[0].name}</h3>
       <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
         <Field
           name='category[name]'
@@ -93,18 +93,17 @@ export default withRouter(connect(null, { editCategory })(CategoryEdit))
 // }
 
 // export default connect(null, { editCategory })(CategoryEdit)
-////////
+//////
 // class CategoryEdit extends React.Component {
 
 //   // componentDidMount() {
 //   //   this.props.fetchCategories(this.props.match.params.itemId)
 //   // }
 
-  // onSubmit = formValues => {
-  //   const itemId = this.props.match.params.itemId
-  //   debugger
-  //   this.props.editCategory(formValues, this.props.match.params.id, itemId );
-  // }
+//   onSubmit = formValues => {
+//     const itemId = this.props.match.params.itemId
+//     this.props.editCategory(formValues, this.props.match.params.id, itemId );
+//   }
 
 //   render() {
 //     if (!this.props.category) {
@@ -115,7 +114,7 @@ export default withRouter(connect(null, { editCategory })(CategoryEdit))
 //         <h3>Edit {this.props.category.name}</h3>
 //         <CategoryForm
 //           onSubmit={this.onSubmit}
-//           initialValues={_.pick(this.props.item, 'name')}
+//           // initialValues={_.pick(this.props.item, 'name')}
 //         />
 //       </div>
 //     )
@@ -125,8 +124,9 @@ export default withRouter(connect(null, { editCategory })(CategoryEdit))
 
 // const mapStateToProps = (state, ownProps) => {
 //   return {
+//     item: state.items[ownProps.match.params.itemId],
 //     category: state.categories[ownProps.match.params.id]
 //   };
 // }
 
-// export default connect(null, { editCategory })(CategoryEdit);
+// export default connect(mapStateToProps, { editCategory })(CategoryEdit);
