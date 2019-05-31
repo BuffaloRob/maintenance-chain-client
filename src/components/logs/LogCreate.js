@@ -8,13 +8,11 @@ import { createLog } from '../../actions/logActions';
 class LogCreate extends React.Component {
 
   onSubmit = (formValues) => {
-    // add category id to the log form via a hidden value
     const itemId = this.props.match.params.itemId;
     const catId = this.props.match.params.id;
-    const { log } = formValues;
-    const newValues = { ...log, ...{category_id: catId} };
-    // debugger
-    this.props.createLog(newValues, itemId, catId);
+    // const { log } = formValues;
+    // const newValues = { ...log, ...{category_id: catId} };
+    this.props.createLog(formValues, itemId, catId);
   }
 
   render() {
