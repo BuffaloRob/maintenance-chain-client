@@ -24,7 +24,7 @@ import LogList from '../components/logs/LogList';
 import { fetchItems } from '../actions/itemActions';
 import { fetchCategories } from '../actions/categoryActions'
 import { fetchLogs } from '../actions/logActions'
-import { itemSelector, categorySelector, logSelector, selectItemOnCatEdit, getItem, categoryIdSelector } from '../actions/selectActions';
+import { itemSelector, categorySelector, logSelector, selectItemOnCatEdit } from '../actions/selectActions';
 
 class MaintenanceContainer extends React.Component {
   componentDidMount() {
@@ -53,22 +53,10 @@ class MaintenanceContainer extends React.Component {
     history.push(`/log/${log.id}`)
   }
 
-  // selectCategoryId = (catId, itemId) => {
-  //   debugger
-  //   this.props.categoryIdSelector(catId, itemId)
-  //   history.push(`/item/${itemId}/category/${catId}`)
-  // }
-
-  // selectLog = async (logId, itemId, categoryId) => {
-  //   await this.props.fetchLogs(categoryId, itemId)
-  //   const log = this.props.logs[logId]
-  //   this.props.logSelector(log, itemId)
-  //   history.push(`/log/${log.id}`)
-  // }
-
   editCategoryClick = async (catId, itemId) => {
     await this.props.fetchCategories(itemId)
-    const cat = this.props.categories[catId]
+    const item = this.props.selectedItem
+    const cat = item.categories.filter(cat => (cat.id === catId))
     this.props.categorySelector(cat, itemId)
     history.push(`/item/${itemId}/category/${catId}/edit`)
   }
@@ -89,7 +77,6 @@ class MaintenanceContainer extends React.Component {
               <Route exact path='/item/:itemId/category/new' component={CategoryCreate} />
               <Route exact path='/item/:itemId/category/:id' render={props =>
                 <LogList {...props}
-                  // categoryId={this.props.selectedCategoryId}
                   category={this.props.selectedCategory}
                   item={this.props.selectedItem}
                   selectLog={this.selectLog}
@@ -116,7 +103,6 @@ class MaintenanceContainer extends React.Component {
                 <CategoryList {...props}
                   item={this.props.selectedItem}
                   selectCategory={this.selectCategory}
-                  // selectCategoryId={this.selectCategoryId}
                   editCategoryClick={this.editCategoryClick}
                 />}
               />  
@@ -142,10 +128,8 @@ const mapStateToProps = state => {
 export default withRouter(connect(mapStateToProps, {
   itemSelector,
   categorySelector,
-  categoryIdSelector,
   logSelector,
   selectItemOnCatEdit,
-  getItem,
   fetchItems,
   fetchCategories,
   fetchLogs,
