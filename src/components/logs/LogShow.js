@@ -3,14 +3,15 @@ import moment from 'moment';
 
 
 const LogShow = ({ log }) => {
-  const formattedDatePerformed = moment(log.date_performed).format("MMM Do YYYY");
-  const formattedDateDue = moment(log.date_due).format("MMM Do YYYY");
+  debugger
+  const formattedDatePerformed = moment(log[0].date_performed).format("MMM Do YYYY");
+  const formattedDateDue = moment(log[0].date_due).format("MMM Do YYYY");
 
   return (
     <div>
       <h2 className='ui header'>Maintenance Log</h2>
 
-      <div className='ui celled grid' key={log.id} >
+      <div className='ui celled grid' key={log[0].id} >
         <div className='row'>
           <div className='five wide column aligned middle'>
             <i className="hourglass start icon" />
@@ -30,21 +31,21 @@ const LogShow = ({ log }) => {
             <i className="dollar sign icon" />
             Cost:
             </div>
-          <div className='eleven wide column'>$ {log.cost}</div>
+          <div className='eleven wide column'>$ {log[0].cost}</div>
         </div>
         <div className='row'>
           <div className='five wide column'>
             <i className='wrench icon' />
             Tools Used:
             </div>
-          <div className='eleven wide column'>{log.tools}</div>
+          <div className='eleven wide column'>{log[0].tools}</div>
         </div>
         <div className='row'>
           <div className='five wide column'>
             <i className='pencil icon' />
             Notes:
             </div>
-          <div className='eleven wide column'>{log.notes}</div>
+          <div className='eleven wide column'>{log[0].notes}</div>
         </div>
       </div>
 
