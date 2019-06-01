@@ -1,4 +1,4 @@
-import { SELECT_ITEM, SELECT_CATEGORY, SELECT_LOG, SELECT_ITEM_FOR_EDITED_CATEGORY, GET_ITEM, SELECT_CATEGORY_ID } from './types';
+import { SELECT_ITEM, SELECT_CATEGORY, SELECT_LOG, SELECT_ITEM_FOR_EDITED_CATEGORY, UPDATE_SELECTED_ITEM_ON_CAT_EDIT, SELECT_CATEGORY_ID } from './types';
 import apiURL from '../apis/maintenance';
 
 
@@ -24,7 +24,7 @@ export const selectItemOnCatEdit = id => async dispatch => {
 export const getItem = id => async dispatch => {
   const response = await apiURL.get(`/items/${id}`);
   // debugger
-  dispatch({ type: GET_ITEM, payload: response.data });
+  dispatch({ type: UPDATE_SELECTED_ITEM_ON_CAT_EDIT, payload: response.data });
 }
 
 export const categoryIdSelector = (catId, itemId) => dispatch => {
