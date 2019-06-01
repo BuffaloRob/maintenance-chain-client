@@ -4,21 +4,21 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 
 import history from '../history';
 
-import ItemList from '../components/items/ItemList';
-import ItemCreate from '../components/items/ItemCreate';
-import ItemDelete from '../components/items/ItemDelete';
-import ItemEdit from '../components/items/ItemEdit';
+import ItemList from './items/ItemList';
+import ItemCreate from './items/ItemCreate';
+import ItemDelete from './items/ItemDelete';
+import ItemEdit from './items/ItemEdit';
 
-import CategoryCreate from '../components/categories/CategoryCreate';
-import CategoryDelete from '../components/categories/CategoryDelete';
-import CategoryEdit from '../components/categories/CategoryEdit';
-import CategoryList from '../components/categories/CategoryList';
+import CategoryCreate from './categories/CategoryCreate';
+import CategoryDelete from './categories/CategoryDelete';
+import CategoryEdit from './categories/CategoryEdit';
+import CategoryList from './categories/CategoryList';
 
-import LogCreate from '../components/logs/LogCreate';
-import LogDelete from '../components/logs/LogDelete';
-import LogEdit from '../components/logs/LogEdit';
-import LogShow from '../components/logs/LogShow';
-import LogList from '../components/logs/LogList';
+import LogCreate from './logs/LogCreate';
+import LogDelete from './logs/LogDelete';
+import LogEdit from './logs/LogEdit';
+import LogShow from './logs/LogShow';
+import LogList from './logs/LogList';
 
 
 import { fetchItems } from '../actions/itemActions';
@@ -127,7 +127,6 @@ const mapStateToProps = state => {
     logs: state.logs,
     selectedItem: state.selectedItem,
     selectedCategory: state.selectedCategory,
-    selectedCategoryId: state.selectCategoryId,
     selectedLog: state.selectedLog,
   }
 }
