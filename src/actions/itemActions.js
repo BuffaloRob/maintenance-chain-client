@@ -54,10 +54,6 @@ export const fetchItems = () => {
 }
 
 // export const fetchItems = () => async dispatch => {
-//   try {
-//     const response = await apiURL.get('/items');
-//     dispatch({ type: types.FETCH_ITEMS, payload: response.data })
-//   } catch (error) {
-//     console.log(error)
-//   }
+//  const response = await apiURL.get('/items');
+//  dispatch({ type: types.FETCH_ITEMS, payload: response.data })
 // }
