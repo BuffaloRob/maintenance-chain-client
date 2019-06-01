@@ -38,7 +38,9 @@ ReactDOM.render(
     <PersistGate loading={null} persistor={persistor}>
       <ThemeProvider theme={theme} >
         <CssBaseline />
-        <App />
+        <Router history={history}>
+          <App />
+        </Router>
       </ThemeProvider>
     </PersistGate>
   </Provider>,
