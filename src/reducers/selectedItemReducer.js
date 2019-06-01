@@ -1,5 +1,7 @@
 import { SELECT_ITEM, SELECT_ITEM_FOR_EDITED_CATEGORY, GET_ITEM } from '../actions/types';
 
+import _ from 'lodash'
+
 export default (state = {}, action) => {
   switch (action.type) {
     case SELECT_ITEM:
@@ -8,16 +10,20 @@ export default (state = {}, action) => {
       return Object.assign({}, state, action.payload)
     case GET_ITEM:
       debugger
-      return state.categories.map((cat) => {
-        if(cat.id === action.payload.id) {
-          return {
-            ...cat,
-            name: action.payload.name
-          }
+      return {
+        ...state,
+        categories: {
+          ...state.categories.map((cat) => {
+            if(cat.id === action.payload.id) {
+              return {
+                ...cat,
+                name: action.payload.name
+              }
+            }
+            return cat
+          })
         }
-        debugger
-        return cat
-      })
+      }
     default:
       return state
   }
