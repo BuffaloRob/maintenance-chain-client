@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 import Item from './Item';
-import { List, Container } from '@material-ui/core';
+import { List, Container, Typography, Box, Divider, Button } from '@material-ui/core';
 
 const ItemList = ({ items, selectItem, editItemClick }) => {
 
@@ -20,13 +20,16 @@ const ItemList = ({ items, selectItem, editItemClick }) => {
   }
   return (
     <Container>
-      <h2 className='ui header'>Items</h2>
-      <List>{renderList}</List>
-      <div style={{ textAlign: 'right' }}>
-        <Link to="/item/new" className='ui button primary'>
+      <Typography variant="h4" >
+        <Box textAlign="center">Items</Box>
+        <Divider />
+      </Typography>
+      <List component="nav">{renderList}</List>
+      <Box textAlign="right">
+        <Button to="/item/new" className='ui button primary'>
           Create New Item
-        </Link>
-      </div>
+        </Button>
+      </Box>
     </Container>
   )
 }
