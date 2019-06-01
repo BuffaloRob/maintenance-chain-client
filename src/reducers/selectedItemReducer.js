@@ -7,8 +7,17 @@ export default (state = {}, action) => {
     case SELECT_ITEM_FOR_EDITED_CATEGORY:
       return Object.assign({}, state, action.payload)
     case GET_ITEM:
-      // return { ...state, [action.payload.id]: action.payload };
-      return Object.assign({}, state, action.payload)
+      debugger
+      return state.categories.map((cat) => {
+        if(cat.id === action.payload.id) {
+          return {
+            ...cat,
+            name: action.payload.name
+          }
+        }
+        debugger
+        return cat
+      })
     default:
       return state
   }
