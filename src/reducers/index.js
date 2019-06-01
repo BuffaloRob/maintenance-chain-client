@@ -10,7 +10,6 @@ import queryReducer from './queryReducer';
 import selectedItemReducer from './selectedItemReducer';
 import selectedCategoryReducer from './selectedCategoryReducer';
 import selectedLogReducer from './selectedLogReducer';
-import selectedCategoryIdReducer from './selectedCategoryIdReducer';
 
 const appReducer = combineReducers({
   auth: authReducer,
@@ -21,7 +20,6 @@ const appReducer = combineReducers({
   categories: categoryReducer,
   logs: logReducer,
   query: queryReducer,
-  selectedCategoryId: selectedCategoryIdReducer,  
   selectedLog: selectedLogReducer,
   
 })
