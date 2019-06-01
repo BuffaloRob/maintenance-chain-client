@@ -8,7 +8,7 @@ import Home from './Home';
 import SignUp from './SignUp';
 import Login from './Login';
 import PastDue from './PastDue';
-import MaintenanceContainer from '../containers/MaintenanceContainer';
+import MaintenanceContainer from './MaintenanceContainer';
 
 class App extends React.Component {
 
