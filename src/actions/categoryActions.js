@@ -2,7 +2,6 @@ import history from '../history';
 import apiURL from '../apis/maintenance';
 import * as types from './types';
 
-import { getItem } from '../actions/selectActions';
 import { fetchItems } from '../actions/itemActions';
 
 export const createCategory = (formValues, itemId) => async dispatch => {
@@ -14,7 +13,6 @@ export const createCategory = (formValues, itemId) => async dispatch => {
 };
 
 export const fetchCategories = itemId => async dispatch => {
-  debugger
   const response = await apiURL.get(`/items/${itemId}/categories`);
   dispatch({ type: types.FETCH_CATEGORIES, payload: response.data });
 }
@@ -26,15 +24,10 @@ export const fetchCategory = (id, itemId) => async dispatch => {
 
 export const editCategory = (formValues, id, itemId) => async dispatch => {
   const response = await apiURL.put(`/items/${itemId}/categories/${id}`, formValues);
-  // await dispatch(fetchItems());
-  // await dispatch(selectItemOnCatEdit(parseInt(itemId)))
-  // debugger
+  await dispatch(fetchItems())
   await dispatch({ type: types.GET_ITEM, payload: response.data })
 
-  await dispatch(fetchItems())
-  // dispatch({ type: types.EDIT_CATEGORY, payload: response.data });
-  // await dispatch(getItem(itemId))
-
+  // await dispatch({ type: types.EDIT_CATEGORY, payload: response.data });
   history.push(`/items/${itemId}`);
 }
 
