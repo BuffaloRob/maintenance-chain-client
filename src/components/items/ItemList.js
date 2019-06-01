@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 import Item from './Item';
+import { List, Container } from '@material-ui/core';
 
 const ItemList = ({ items, selectItem, editItemClick }) => {
 
@@ -18,15 +19,15 @@ const ItemList = ({ items, selectItem, editItemClick }) => {
     return <h3>...Loading</h3>
   }
   return (
-    <div>
+    <Container>
       <h2 className='ui header'>Items</h2>
-      <div className='ui celled list'>{renderList}</div>
+      <List>{renderList}</List>
       <div style={{ textAlign: 'right' }}>
         <Link to="/item/new" className='ui button primary'>
           Create New Item
         </Link>
       </div>
-    </div>
+    </Container>
   )
 }
 

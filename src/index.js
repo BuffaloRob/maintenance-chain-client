@@ -12,6 +12,10 @@ import { Router } from 'react-router-dom'
 import App from "./components/App";
 import rootReducer from './reducers'
 
+import { ThemeProvider} from '@material-ui/styles';
+import theme from './ui/theme';
+import CssBaseline from "@material-ui/core/CssBaseline";
+
 const persistConfig = {
   key: 'root',
   storage,
@@ -32,9 +36,10 @@ export const persistor = persistStore(store);
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <Router history={history}>
+      <ThemeProvider theme={theme} >
+        <CssBaseline />
         <App />
-      </Router>
+      </ThemeProvider>
     </PersistGate>
   </Provider>,
   document.querySelector("#root")
