@@ -3,7 +3,7 @@ import moment from 'moment';
 
 
 const LogShow = ({ log }) => {
-  debugger
+  
   const formattedDatePerformed = moment(log[0].date_performed).format("MMM Do YYYY");
   const formattedDateDue = moment(log[0].date_due).format("MMM Do YYYY");
 
