@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
 import { signup } from '../actions/authActions';
+import { TextField, Button, Box, Typography } from '@material-ui/core';
 
 class SignUp extends React.Component {
 
@@ -16,16 +17,15 @@ class SignUp extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, type, meta }) => {
-    const className = `field ${meta.error && meta.touched ? 'error' : ''}`
-    return (
-      <div className={className}>
-        <label>{label}</label>
-        <input {...input} autoComplete='off' />
-        {this.renderError(meta)}
-      </div>
-    )
-  }
+  renderInput = ({ input, label, meta, type }) => (
+    <TextField
+      label={label}
+      autoComplete="off"
+      type={type}
+      {...input}
+      margin="normal"
+    />
+  )
 
   onSubmit = formValues => {
     this.props.signup(formValues, () => this.props.history.push("/"));
@@ -35,20 +35,22 @@ class SignUp extends React.Component {
     return (
       // handleSubmit comes from reduxForm
       <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-        <h3>Sign Up</h3>
-        <Field 
-          name='email' 
+        <Typography>Sign Up</Typography>
+        <Field
+          name='email'
           type='email'
-          component={this.renderInput} 
+          component={this.renderInput}
           label='Enter Your Email'
-        />
-        <Field 
-          name='password' 
-          type='password' 
-          component={this.renderInput} 
+        /><br />
+        <Field
+          name='password'
+          type='password'
+          component={this.renderInput}
           label='Enter Your Password'
         />
-        <button className='ui button primary'>Submit</button>
+        <Box>
+          <Button type='submit'>Submit</Button>
+        </Box>
       </form>
     )
   }
