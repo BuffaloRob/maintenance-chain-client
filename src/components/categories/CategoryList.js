@@ -4,7 +4,7 @@ import { List, Container, Typography, Box, Divider, Button } from '@material-ui/
 
 import Category from './Category';
 
-const CategoryList = ({ item, selectCategory, match, editCategoryClick, location, history }) => {
+const CategoryList = ({ item, selectCategory, match, editCategoryClick, deleteCategoryClick, location, history }) => {
   console.log('CategoryList render')
   
   const renderList = item.categories.map(category => (
@@ -17,6 +17,7 @@ const CategoryList = ({ item, selectCategory, match, editCategoryClick, location
       itemId={item.id}
       location={location}
       editCategoryClick={editCategoryClick}
+      deleteCategoryClick={deleteCategoryClick}
     />
   ));
 

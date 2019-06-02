@@ -22,7 +22,7 @@ import LogList from './logs/LogList';
 
 
 import { fetchItems, deleteItem } from '../actions/itemActions';
-import { fetchCategories } from '../actions/categoryActions'
+import { fetchCategories, deleteCategory } from '../actions/categoryActions'
 import { fetchLogs } from '../actions/logActions'
 import { itemSelector, categorySelector, logSelector, selectItemOnCatEdit } from '../actions/selectActions';
 
@@ -62,6 +62,10 @@ class MaintenanceContainer extends React.Component {
 
   deleteItemClick = itemId => {
     this.props.deleteItem(itemId)
+  }
+
+  deleteCategoryClick = (catId, itemId) => {
+    this.props.deleteCategory(catId, itemId)
   }
   // editCategoryClick = async (catId, itemId) => {
   //   await this.props.fetchCategories(itemId)
@@ -115,6 +119,7 @@ class MaintenanceContainer extends React.Component {
                   item={this.props.selectedItem}
                   selectCategory={this.selectCategory}
                   editCategoryClick={this.editCategoryClick}
+                  deleteCategoryClick={this.deleteCategoryClick}
                 />}
               />  
             </Switch>
@@ -144,4 +149,5 @@ export default withRouter(connect(mapStateToProps, {
   fetchCategories,
   fetchLogs,
   deleteItem,
+  deleteCategory,
 })(MaintenanceContainer));
