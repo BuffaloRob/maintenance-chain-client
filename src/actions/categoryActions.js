@@ -32,7 +32,7 @@ export const editCategory = (formValues, id, itemId) => async dispatch => {
 export const deleteCategory = (id, itemId) => async dispatch => {
   await apiURL.delete(`/items/${itemId}/categories/${id}`);
   // dispatching fetchItems to update state to display correctly in the CategoryList route
-  // dispatch(fetchItems());
+  dispatch(fetchItems());
   dispatch({ type: types.DELETE_CATEGORY, payload: id });
   history.push(`/items/${itemId}`);
 }
