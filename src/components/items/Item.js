@@ -17,7 +17,7 @@ const Item = ({ item, selectItem, editItemClick }) => {
     <Container >
       <Fab 
         color="secondary" 
-        size="medium"
+        size="small"
         aria-label="Edit" 
         component={RouterLink} 
         to={`/item/${item.id}/edit`}
@@ -26,7 +26,7 @@ const Item = ({ item, selectItem, editItemClick }) => {
       </Fab>
       <Fab
         color="primary"
-        size="medium"
+        size="small"
         aria-label="Delete"
         component={RouterLink}
         to={`/item/${item.id}/delete`}
