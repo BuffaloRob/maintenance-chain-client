@@ -22,7 +22,12 @@ const Item = ({ item, selectItem, editItemClick }) => {
     
   return (
     <Box>
-      <ListItem key={item.id} button onClick={() => selectItem(item.id)}>
+      <ListItem 
+        key={item.id} 
+        button 
+        // alignItems="flex-start"
+        onClick={() => selectItem(item.id)}
+      >
         <ListItemAvatar>
           <Avatar>
             <Build />
