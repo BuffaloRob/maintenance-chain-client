@@ -5,8 +5,8 @@ import { List, Container, Typography, Box, Divider, Button } from '@material-ui/
 import Log from '../logs/Log';
 
 const LogList = ({ category, selectLog, match, item }) => {
-
-  const logs = item.logs.filter(log => (log.id === category[0].id))
+  
+  const logs = item.logs.filter(log => (log.category_id === category[0].id))
   const renderList = logs.map(log => (
     <Log
       key={log.id}
