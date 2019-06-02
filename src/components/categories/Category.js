@@ -27,8 +27,6 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick }
         <DeleteIcon />
       </Fab>
     </Container>
-
-    //   <button className='ui button primary' onClick={() => editCategoryClick(category.id, itemId)}>Edit</button>
   );
 
   return (
