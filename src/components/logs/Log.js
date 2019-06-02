@@ -10,7 +10,7 @@ const Log = ({ log, selectLog, match, itemId, categoryId }) => {
 
   const formattedDate = moment(log.date_performed).format("MMM Do YYYY");
 
-  const renderAdmin = category => (
+  const renderAdmin = () => (
     <Container >
       <Fab
         color="secondary"
