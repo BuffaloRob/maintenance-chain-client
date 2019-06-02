@@ -23,7 +23,7 @@ import LogList from './logs/LogList';
 
 import { fetchItems, deleteItem } from '../actions/itemActions';
 import { fetchCategories, deleteCategory } from '../actions/categoryActions'
-import { fetchLogs } from '../actions/logActions'
+import { fetchLogs, deleteLog } from '../actions/logActions'
 import { itemSelector, categorySelector, logSelector, selectItemOnCatEdit } from '../actions/selectActions';
 
 class MaintenanceContainer extends React.Component {
@@ -60,6 +60,13 @@ class MaintenanceContainer extends React.Component {
     history.push(`/item/${itemId}/category/${catId}/edit`)
   }
 
+  editLogClick = (logId, itemId) => {
+    const item = this.props.selectedItem
+    const log = item.logs.filter(log => (log.id === logId))
+    this.props.logSelector(log)
+    history.push(`/item/${itemId}/log/${logId}/edit`)
+  }
+
   deleteItemClick = itemId => {
     this.props.deleteItem(itemId)
   }
@@ -67,13 +74,10 @@ class MaintenanceContainer extends React.Component {
   deleteCategoryClick = (catId, itemId) => {
     this.props.deleteCategory(catId, itemId)
   }
-  // editCategoryClick = async (catId, itemId) => {
-  //   await this.props.fetchCategories(itemId)
-  //   const item = this.props.selectedItem
-  //   const cat = item.categories.filter(cat => (cat.id === catId))
-  //   this.props.categorySelector(cat, itemId)
-  //   history.push(`/item/${itemId}/category/${catId}/edit`)
-  // }
+
+  deleteLogClick = (logId, itemId) => {
+    this.props.deleteLog(logId, itemId)
+  }
 
   render() {
     return (
@@ -81,28 +85,41 @@ class MaintenanceContainer extends React.Component {
         {/* <Router history={history}> */}
           <>
             <Switch>
+              {/* LogCreate */}
+              <Route exact path='/item/:itemId/category/:id/log/new' component={LogCreate} />
+              {/* LogShow */}
               <Route exact path='/log/:id' render={props =>
                 <LogShow {...props}
                   log={this.props.selectedLog}
                 />}
               />
-              <Route exact path='/item/:itemId/category/:id/log/new' component={LogCreate} />
-
+              {/* LogEdit */}
+              <Route exact path='/item/:itemId/log/:id/edit' render={props =>
+                <LogEdit {...props}
+                  log={this.props.selectedLog}
+                />}
+              />
+              {/* CategoryCreate */}
               <Route exact path='/item/:itemId/category/new' component={CategoryCreate} />
+              {/* Category Show */}
               <Route exact path='/item/:itemId/category/:id' render={props =>
                 <LogList {...props}
                   category={this.props.selectedCategory}
                   item={this.props.selectedItem}
                   selectLog={this.selectLog}
+                  editLogClick={this.editLogClick}
+                  deleteLogClick={this.deleteLogClick}
                 />}
               />
+              {/* CategoryEdit */}
               <Route exact path='/item/:itemId/category/:id/edit' render={props =>
                 <CategoryEdit {...props}
                   category={this.props.selectedCategory}
                 />}
               />
+              {/* Delete */}
               <Route exact path='/item/:itemId/category/:id/delete' component={CategoryDelete} />
-
+              {/* ItemList */}
               <Route exact path="/items" render={props =>
                 <ItemList {...props}
                   items={Object.values(this.props.items)}
@@ -114,6 +131,7 @@ class MaintenanceContainer extends React.Component {
               <Route exact path="/item/new" component={ItemCreate} />
               <Route exact path="/item/:id/edit" component={ItemEdit} />
               <Route exact path="/item/:id/delete" component={ItemDelete} />
+              {/* Item Show */}
               <Route exact path="/item/:id" render={props =>
                 <CategoryList {...props}
                   item={this.props.selectedItem}
@@ -150,4 +168,5 @@ export default withRouter(connect(mapStateToProps, {
   fetchLogs,
   deleteItem,
   deleteCategory,
+  deleteLog,
 })(MaintenanceContainer));
