@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { fetchItem, editItem } from '../../actions/itemActions';
 import ItemForm from "./ItemForm";
+import { Container } from "@material-ui/core";
 
 class ItemEdit extends React.Component {
 
@@ -12,18 +13,14 @@ class ItemEdit extends React.Component {
   }
 
   render() {
-    if (!this.props.item) {
-      return <div>Loading...</div>
-    }
-    
     return (
-      <div>
-        <h3>Edit {this.props.item.name}</h3>
-        <ItemForm 
-          onSubmit={this.onSubmit}
-          // initialValues={_.pick(this.props.item, 'name')}
-        />
-      </div>
+      <Container>
+        {/* <Typography variant="h5">
+          Make a New Item
+        </Typography>
+        <Divider /> */}
+        <ItemForm onSubmit={this.onSubmit} />
+      </Container>
     )
   }
    

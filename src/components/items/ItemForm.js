@@ -1,5 +1,6 @@
 import React from "react";
 import { Field, reduxForm } from 'redux-form'
+import { TextField, Button, Box } from "@material-ui/core";
 
 class ItemForm extends React.Component {
 
@@ -9,18 +10,14 @@ class ItemForm extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, meta }) => {
-    const className = `field ui input ${meta.error && meta.touched ? 'error' : ''}`
-    return <>
-        {/* <label>{label}</label> */}
-        <div className={className}>
-          <input {...input} autoComplete="off" placeholder={label} />     
-        </div>
-        <div className='ui error message'>
-          {this.renderError(meta)}
-        </div>
-      </>;
-  }
+  renderInput = ({ input, label, meta }) => (
+    <TextField
+      label={label}
+      autoComplete="off"
+      {...input}
+      margin="normal"
+    />
+  )
 
   onSubmit = formValues => {
     this.props.onSubmit(formValues);
@@ -28,16 +25,17 @@ class ItemForm extends React.Component {
 
   render() {
     return (
-      // handleSubmit() comes from redux-forms
       <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-        <Field 
-          name='item[name]' 
-          component={this.renderInput} 
-          label='Enter an Item Name' 
+        <Field
+          name='item[name]'
+          component={this.renderInput}
+          label='Enter Item Name '
         />
-        <button className='ui button primary'>Submit</button>
+        <Box>
+          <Button type='submit'>Submit</Button>
+        </Box>
       </form>
-    );
+    )
   }
 }
 
