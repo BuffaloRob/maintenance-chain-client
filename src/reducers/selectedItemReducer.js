@@ -9,7 +9,7 @@ export default (state = {}, action) => {
     case SELECT_ITEM_FOR_EDITED_CATEGORY:
       return Object.assign({}, state, action.payload)
     case UPDATE_SELECTED_ITEM_ON_CAT_EDIT:
-      debugger
+      // debugger
       return {
         ...state,
         categories: {
