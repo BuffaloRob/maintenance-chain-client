@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+import { List, Container, Typography, Box, Divider, Button } from '@material-ui/core';
 
 import Log from '../logs/Log';
 
@@ -17,16 +18,23 @@ const LogList = ({ category, selectLog, match, item }) => {
   ));
 
   return (
-    <div>
-      {/* <h2>Logs for cat</h2> */}
-      <h2>Logs for {category[0].name}</h2>
-      <div className='ui celled list'>{renderList}</div>
-      <div style={{ textAlign: 'right' }} >
-        <Link to={`/item/${item.id}/category/${category[0].id}/log/new`} className='ui button primary'>Create New Log</Link>
-      </div>
- 
-    </div>
+    <Container>
+      <Typography variant="h4">
+        <Box textAlign="center">Logs for {category[0].name}</Box>
+        <Divider />
+      </Typography>
+      <List component="nav">{renderList}</List>
+      <Box textAlign="left">
+        <Button to={`/item/${item.id}`} component={RouterLink}>
+          Back to Categories
+        </Button>
+        <Button to={`/item/${item.id}/category/${category[0].id}/log/new`}  component={RouterLink}>
+          Create New Log
+        </Button>
+      </Box>
+    </Container>
   )
+
 }
 
 export default LogList;
