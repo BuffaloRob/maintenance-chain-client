@@ -21,7 +21,7 @@ import LogShow from './logs/LogShow';
 import LogList from './logs/LogList';
 
 
-import { fetchItems } from '../actions/itemActions';
+import { fetchItems, deleteItem } from '../actions/itemActions';
 import { fetchCategories } from '../actions/categoryActions'
 import { fetchLogs } from '../actions/logActions'
 import { itemSelector, categorySelector, logSelector, selectItemOnCatEdit } from '../actions/selectActions';
@@ -60,6 +60,9 @@ class MaintenanceContainer extends React.Component {
     history.push(`/item/${itemId}/category/${catId}/edit`)
   }
 
+  deleteItemClick = itemId => {
+    this.props.deleteItem(itemId)
+  }
   // editCategoryClick = async (catId, itemId) => {
   //   await this.props.fetchCategories(itemId)
   //   const item = this.props.selectedItem
@@ -100,6 +103,7 @@ class MaintenanceContainer extends React.Component {
                 <ItemList {...props}
                   items={Object.values(this.props.items)}
                   selectItem={this.selectItem}
+                  deleteItemClick={this.deleteItemClick}
                   editItemClick={this.editItemClick}
                 />}
               />
@@ -139,4 +143,5 @@ export default withRouter(connect(mapStateToProps, {
   fetchItems,
   fetchCategories,
   fetchLogs,
+  deleteItem,
 })(MaintenanceContainer));

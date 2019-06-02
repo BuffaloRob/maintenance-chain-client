@@ -4,13 +4,14 @@ import { Link as RouterLink, withRouter } from 'react-router-dom';
 import Item from './Item';
 import { List, Container, Typography, Box, Divider, Button } from '@material-ui/core';
 
-const ItemList = ({ items, selectItem, editItemClick }) => {
+const ItemList = ({ items, selectItem, deleteItemClick, editItemClick }) => {
 
   const renderList = Object.keys(items).map(item => (
     <Item
       key={items[item].id}
       item={items[item]}
       selectItem={selectItem}
+      deleteItemClick={deleteItemClick}
       // editItemClick={editItemClick}
     />
   ));
