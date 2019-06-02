@@ -27,7 +27,6 @@ const Item = ({ item, selectItem, deleteItemClick, editItemClick }) => {
     setOpen(false);
   }
   
-
   const renderAdmin = (item) => (
 
     <Container >
