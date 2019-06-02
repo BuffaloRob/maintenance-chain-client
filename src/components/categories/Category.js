@@ -1,21 +1,39 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link as RouterLink, withRouter } from 'react-router-dom';
+import { ListItem, Container, ListItemText, ListItemAvatar, Box, Divider, Avatar, ListItemSecondaryAction } from '@material-ui/core';
+import Button from '@material-ui/core/Button'
+import Build from '@material-ui/icons/Build';
 
 const Category = ({ category, selectCategory, match, itemId, editCategoryClick }) => {
   const renderAdmin = category => (
-    <div className='right floated content'>
-      <button className='ui button primary' onClick={() => editCategoryClick(category.id, itemId)}>Edit</button>
-      {/* <Link className='ui button primary' to={`/item/${item.id}/category/${category.id}/edit`}>Edit</Link> */}
-      <Link className='ui button negative' to={`/item/${itemId}/category/${category.id}/delete`}>Delete</Link>
-    </div>
+    <Container >
+      <Button component={RouterLink} to={`/item/${itemId}/category/${category.id}/edit`}>Edit</Button>
+      <Button component={RouterLink} to={`/item/${itemId}/category/${category.id}/delete`}>Delete</Button>
+    </Container>
+    
+    //   <button className='ui button primary' onClick={() => editCategoryClick(category.id, itemId)}>Edit</button>
   );
 
   return (
-    <div className='item' key={category.id} >
-      {renderAdmin(category)}
-      <i className="large middle aligned wrench icon" />
-      <h3 className='content' id={category.id} onClick={() => selectCategory(category.id, itemId)}>{category.name}</h3>
-    </div>
+    <Box>
+      <ListItem 
+        key={category.id} 
+        button 
+        // alignItems="flex-start"
+        onClick={() => selectCategory(category.id, itemId)}
+      >
+        <ListItemAvatar>
+          <Avatar>
+            <Build />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={category.name} />
+        <ListItemSecondaryAction>
+          {renderAdmin(category)}
+        </ListItemSecondaryAction>
+      </ListItem>
+      <Divider />
+    </Box>
   )
 }
 

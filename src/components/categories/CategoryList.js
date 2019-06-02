@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link as RouterLink, withRouter } from 'react-router-dom';
+import { List, Container, Typography, Box, Divider, Button } from '@material-ui/core';
 
 import Category from './Category';
 
@@ -23,18 +24,21 @@ const CategoryList = ({ item, selectCategory, match, editCategoryClick, location
     return <h3>...Loading</h3>
   }
   return (
-    <div>
-      <h3>Maintenance Categories for {item.name}</h3>
-      <div className='ui celled list'>{renderList}</div>
-      <div>
-        <Link to={`/items`} className='ui button primary' >
+    <Container>
+      <Typography variant="h4">
+        <Box textAlign="center">Maintenance Categories for {item.name}</Box>
+        <Divider />
+      </Typography>
+      <List component="nav">{renderList}</List>
+      <Box textAlign="left">
+        <Button to={`/items`} component={RouterLink}>
           Back to List of Items
-        </Link>
-        <Link to={`/item/${item.id}/category/new`} className='ui button primary' >
+        </Button>
+        <Button to={`/item/${item.id}/category/new`} component={RouterLink}>
           Create New Category
-        </Link>
-      </div>
-    </div>
+        </Button>    
+      </Box>
+    </Container>
   )
 
 }
