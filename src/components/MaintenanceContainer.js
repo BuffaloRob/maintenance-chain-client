@@ -128,7 +128,7 @@ class MaintenanceContainer extends React.Component {
               {/* ItemEdit */}
               <Route exact path="/item/:id/edit" component={ItemEdit} />
               {/* Item Show / CategoryList */}
-              <Route exact path="/item/:id" render={props =>
+              <Route path="/item/:id" render={props =>
                 <CategoryList {...props}
                   item={this.props.selectedItem}
                   selectCategory={this.selectCategory}
@@ -144,6 +144,7 @@ class MaintenanceContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state.selectedItem)
   return {
     items: state.items,
     selectedItem: state.selectedItem,
