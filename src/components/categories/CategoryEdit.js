@@ -5,8 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'
 import { TextField, Button, Box } from "@material-ui/core";
 
-import { editCategory, fetchCategories } from '../../actions/categoryActions';
-import CategoryForm from "./CategoryForm";
+import { editCategory } from '../../actions/categoryActions';
 
 class CategoryEdit extends React.Component {
 
