@@ -26,7 +26,7 @@ export const editCategory = (formValues, id, itemId) => async dispatch => {
   const response = await apiURL.put(`/items/${itemId}/categories/${id}`, formValues);
   await dispatch(fetchItems())
   await dispatch({ type: types.UPDATE_SELECTED_ITEM_ON_CAT_EDIT, payload: response.data })
-  history.push(`/items/${itemId}`);
+  await history.push(`/items/${itemId}`);
 }
 
 export const deleteCategory = (id, itemId) => async dispatch => {
