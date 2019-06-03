@@ -2,9 +2,12 @@ import history from '../history';
 import apiURL from '../apis/maintenance';
 import * as types from './types';
 
+import { fetchItems } from '../actions/itemActions';
+
 export const createLog = (formValues, itemId, catId) => async dispatch => {
   // debugger
   const response = await apiURL.post(`/items/${itemId}/categories/${catId}/logs`, {...formValues });
+  dispatch(fetchItems());
   dispatch({ type: types.CREATE_LOG, payload: response.data });
   history.push(`/items/${itemId}/categories/${catId}`);
 };
@@ -21,12 +24,15 @@ export const fetchLog = (id, itemId) => async dispatch => {
 
 export const editLog = (formValues, id, catId, itemId) => async dispatch => {
   const response = await apiURL.put(`/items/${itemId}/categories/${catId}/logs/${id}`, formValues);
+  dispatch(fetchItems());
+  //Change dispatch to use the selectedLog Reducer
   dispatch({ type: types.EDIT_LOG, payload: response.data });
   history.push(`/items/${itemId}`);
 }
 
 export const deleteLog = (id, catId, itemId) => async dispatch => {
   await apiURL.delete(`/items/${itemId}/categories/${catId}/logs/${id}`);
+  dispatch(fetchItems());
   dispatch({ type: types.DELETE_LOG, payload: id });
   history.push(`/items/${itemId}`);
 }
