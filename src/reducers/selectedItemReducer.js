@@ -9,10 +9,9 @@ export default (state = {}, action) => {
     case SELECT_ITEM_FOR_EDITED_CATEGORY:
       return Object.assign({}, state, action.payload)
     case UPDATE_SELECTED_ITEM_ON_CAT_EDIT:
-      // debugger
       return {
         ...state,
-        categories: {
+        categories: [
           ...state.categories.map((cat) => {
             if(cat.id === action.payload.id) {
               return {
@@ -22,7 +21,7 @@ export default (state = {}, action) => {
             }
             return cat
           })
-        }
+        ]
       }
     default:
       return state
