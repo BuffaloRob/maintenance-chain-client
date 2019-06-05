@@ -1,21 +1,26 @@
 import React from "react";
-import { Field, reduxForm } from 'redux-form'
-import { TextField, Button, Box } from "@material-ui/core";
+import { Link as RouterLink } from 'react-router-dom';
+import { Field, reduxForm, values } from 'redux-form'
+import { TextField, Button, Box, Typography } from "@material-ui/core";
 
 class ItemForm extends React.Component {
 
   renderError({ error, touched }) {
     if (touched && error) {
-      return <div className='header'>{error}</div>;
+      // return <div className='header'>{error}</div>;
+      return (
+        <Typography>{error}</Typography>
+      )
     }
   }
 
-  renderInput = ({ input, label, meta }) => (
+  renderInput = ({ input, label, meta: {touched, error} }) => (
     <TextField
       label={label}
       autoComplete="off"
       {...input}
       margin="normal"
+      // error={touched && error}
     />
   )
 
@@ -34,19 +39,39 @@ class ItemForm extends React.Component {
         <Box>
           <Button type='submit'>Submit</Button>
         </Box>
+        <Box>
+          <Button
+            to={'/items'}
+            component={RouterLink}
+          >
+            Back to List of Items
+          </Button>
+        </Box>
       </form>
     )
   }
 }
 
-const validate = formValues => {
+// const validate = formValues => {
+//   const errors = {};
+
+//   if (!formValues.name) {
+//     errors.name = "You Must Enter an Item Name"
+//   }
+//   return errors;
+// }
+
+const validate = values => {
   const errors = {};
-
-  if (!formValues.name) {
-    errors.name = "You Must Enter an Item Name"
-  }
-
-  return errors;
+  const requiredFields = [
+    'item[name]',
+  ]
+  requiredFields.forEach(field => {
+    if (!values[field]) {
+      errors[field] = 'Required'
+    }
+  })
+  return errors
 }
 
 export default reduxForm({
