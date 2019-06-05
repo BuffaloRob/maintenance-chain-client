@@ -2,6 +2,7 @@ import React from "react";
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
+import { Link as RouterLink } from 'react-router-dom';
 import { TextField, Button, Box, InputAdornment } from "@material-ui/core";
 
 import { editLog } from '../../actions/logActions';
@@ -86,6 +87,14 @@ class LogEdit extends React.Component {
         /><br />
         <Box>
           <Button type='submit'>Submit</Button>
+        </Box>
+        <Box>
+          <Button
+            to={`/item/${this.props.match.params.id}/category/${this.props.selectedLog.category_id}`}
+            component={RouterLink}
+          >
+            Back to Categories
+          </Button>
         </Box>
       </form>
     )

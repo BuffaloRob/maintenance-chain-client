@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
+import { Link as RouterLink } from 'react-router-dom';
 import { TextField, Button, Box, InputAdornment } from "@material-ui/core";
 
 import LogForm from './LogForm';
@@ -83,6 +84,14 @@ class LogCreate extends React.Component {
         /><br />
         <Box>
           <Button type='submit'>Submit</Button>
+        </Box>
+        <Box>
+          <Button
+            to={`/item/${this.props.match.params.itemId}/category/${this.props.match.params.id}`}
+            component={RouterLink}
+          >
+            Back to Categories
+          </Button>
         </Box>
       </form>
     )
