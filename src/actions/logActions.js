@@ -5,7 +5,6 @@ import * as types from './types';
 import { fetchItems } from '../actions/itemActions';
 
 export const createLog = (formValues, itemId, catId) => async dispatch => {
-  // debugger
   const response = await apiURL.post(`/items/${itemId}/categories/${catId}/logs`, {...formValues });
   dispatch(fetchItems());
   dispatch({ type: types.CREATE_LOG, payload: response.data });
