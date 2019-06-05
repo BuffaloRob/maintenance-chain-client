@@ -88,6 +88,7 @@ class MaintenanceContainer extends React.Component {
               <Route exact path='/log/:id' render={props =>
                 <LogShow {...props}
                   log={this.props.selectedLog}
+                  item={this.props.selectedItem}
                 />}
               />
               {/* LogEdit */}
