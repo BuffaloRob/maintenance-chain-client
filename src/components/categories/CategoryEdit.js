@@ -2,6 +2,7 @@ import React from "react";
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
+import { Link as RouterLink } from 'react-router-dom';
 import { TextField, Button, Box } from "@material-ui/core";
 
 import { editCategory } from '../../actions/categoryActions';
@@ -39,6 +40,14 @@ class CategoryEdit extends React.Component {
         />
         <Box>
           <Button type='submit'>Submit</Button>
+        </Box>
+        <Box>
+          <Button
+            to={`/item/${this.props.match.params.itemId}`}
+            component={RouterLink}
+          >
+            Back to Categories
+          </Button>
         </Box>
       </form>
     )

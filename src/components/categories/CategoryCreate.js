@@ -1,10 +1,9 @@
 import React from "react";
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 
-import { createCategory, fetchCategories } from '../../actions/categoryActions';
-import CategoryForm from "./CategoryForm";
-
+import { createCategory } from '../../actions/categoryActions';
 import { Field, reduxForm } from 'redux-form'
 import { TextField, Button, Box } from "@material-ui/core";
 
@@ -42,6 +41,15 @@ class CategoryCreate extends React.Component {
         <Box>
           <Button type='submit'>Submit</Button>
         </Box>
+        <Box>
+          <Button
+            to={`/item/${this.props.match.params.itemId}`}
+            component={RouterLink}
+          >
+            Back to Categories
+          </Button>
+        </Box>
+        
       </form>
     )
   }
