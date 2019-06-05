@@ -1,17 +1,29 @@
-import { SELECT_ITEM, UPDATE_SELECTED_ITEM_ON_CAT_EDIT } from '../actions/types';
-
-import _ from 'lodash'
+import { 
+  SELECT_ITEM, 
+  CREATE_CATEGORY,
+  DELETE_CATEGORY,
+  EDIT_CATEGORY,
+} from '../actions/types';
 
 export default (state = {}, action) => {
   switch (action.type) {
     case SELECT_ITEM:
       return Object.assign({}, state, action.payload)
-    case UPDATE_SELECTED_ITEM_ON_CAT_EDIT:
+    case CREATE_CATEGORY:
+      return {
+        ...state,
+        categories: [
+          ...state.categories, 
+          // How can I assign this to the action.payload.id?
+          action.payload
+        ]
+      }
+    case EDIT_CATEGORY:
       return {
         ...state,
         categories: [
           ...state.categories.map((cat) => {
-            if(cat.id === action.payload.id) {
+            if (cat.id === action.payload.id) {
               return {
                 ...cat,
                 name: action.payload.name
@@ -19,6 +31,13 @@ export default (state = {}, action) => {
             }
             return cat
           })
+        ]
+      }
+    case DELETE_CATEGORY:
+      return {
+        ...state,
+        categories: [
+          ...state.categories.filter(cat => cat.id !== action.payload)
         ]
       }
     default:
