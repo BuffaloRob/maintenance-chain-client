@@ -3,6 +3,9 @@ import {
   CREATE_CATEGORY,
   DELETE_CATEGORY,
   EDIT_CATEGORY,
+  CREATE_LOG,
+  DELETE_LOG,
+  EDIT_LOG,
 } from '../actions/types';
 
 export default (state = {}, action) => {
@@ -38,6 +41,41 @@ export default (state = {}, action) => {
         ...state,
         categories: [
           ...state.categories.filter(cat => cat.id !== action.payload)
+        ]
+      }
+    case CREATE_LOG: 
+      return {
+        ...state,
+        logs: [
+          ...state.logs,
+          // How can I assign this to the action.payload.id?
+          action.payload
+        ]
+      }
+    case EDIT_LOG:
+      return {
+        ...state,
+        logs: [
+          ...state.logs.map((log) => {
+            if (log.id === action.payload.id) {
+              return {
+                ...log,
+                cost: action.payload.cost,
+                date_due: action.payload.date_due,
+                date_performed: action.payload.date_performed,
+                notes: action.payload.notes,
+                tools: action.payload.tools
+              }
+            }
+            return log
+          })
+        ]
+      }
+    case DELETE_LOG:
+      return {
+        ...state,
+        logs: [
+          ...state.logs.filter(log => log.id !== action.payload)
         ]
       }
     default:
