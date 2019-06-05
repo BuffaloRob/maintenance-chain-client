@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import history from '../history';
 
@@ -128,7 +128,7 @@ class MaintenanceContainer extends React.Component {
               {/* ItemEdit */}
               <Route exact path="/item/:id/edit" component={ItemEdit} />
               {/* Item Show / CategoryList */}
-              <Route path="/item/:id" render={props =>
+              <Route exact path="/item/:id" render={props =>
                 <CategoryList {...props}
                   item={this.props.selectedItem}
                   selectCategory={this.selectCategory}
@@ -153,7 +153,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, {
+export default connect(mapStateToProps, {
   itemSelector,
   categorySelector,
   logSelector,
@@ -161,4 +161,4 @@ export default withRouter(connect(mapStateToProps, {
   deleteItem,
   deleteCategory,
   deleteLog,
-})(MaintenanceContainer));
+})(MaintenanceContainer);

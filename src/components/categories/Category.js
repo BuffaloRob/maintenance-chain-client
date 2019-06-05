@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
 import { ListItem, Container, ListItemText, ListItemAvatar, Box, Divider, Avatar, ListItemSecondaryAction, Icon, Fab } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
 import Build from '@material-ui/icons/Build';
@@ -90,4 +89,4 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
   )
 }
 
-export default withRouter(Category)
+export default Category

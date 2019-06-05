@@ -1,7 +1,6 @@
 import React from "react";
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'
 import { TextField, Button, Box } from "@material-ui/core";
 
@@ -61,4 +60,4 @@ CategoryEdit = reduxForm({
   validate: validate
 })(CategoryEdit);
 
-export default withRouter(connect(null, { editCategory })(CategoryEdit))
+export default connect(null, { editCategory })(CategoryEdit)

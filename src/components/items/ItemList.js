@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import Item from './Item';
 import { List, Container, Typography, Box, Divider, Button } from '@material-ui/core';
@@ -35,4 +35,4 @@ const ItemList = ({ items, selectItem, deleteItemClick, editItemClick }) => {
   )
 }
 
-export default withRouter(ItemList);
+export default ItemList;

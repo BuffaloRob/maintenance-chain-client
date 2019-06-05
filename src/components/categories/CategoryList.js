@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { List, Container, Typography, Box, Divider, Button } from '@material-ui/core';
 
 import Category from './Category';
@@ -44,4 +44,4 @@ const CategoryList = ({ item, selectCategory, match, editCategoryClick, deleteCa
 
 }
 
-export default withRouter(CategoryList);
+export default CategoryList;
