@@ -1,10 +1,10 @@
 import React from "react";
+import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
-import { Container, Typography, Box, List, ListItem, ListItemSecondaryAction, Divider } from "@material-ui/core";
+import { Container, Typography, Box, List, ListItem, ListItemSecondaryAction, Divider, Button } from "@material-ui/core";
 
 
-const LogShow = ({ log }) => {
-  
+const LogShow = ({ log, item }) => {
   const formattedDatePerformed = moment(log[0].date_performed).format("MMM Do YYYY");
   const formattedDateDue = moment(log[0].date_due).format("MMM Do YYYY");
 
@@ -43,6 +43,14 @@ const LogShow = ({ log }) => {
         </ListItem>
         <Divider />
       </List>
+      <Box textAlign="left">
+        <Button 
+          to={`/item/${item.id}/category/${log.category_id}`}
+          component={RouterLink}
+        >
+          Back to List of Logs
+        </Button>
+      </Box>
     </Container>
   )
 }
