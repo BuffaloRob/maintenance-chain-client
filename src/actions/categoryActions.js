@@ -9,7 +9,7 @@ export const createCategory = (formValues, itemId) => async dispatch => {
   // dispatching fetchItems to update state to display correctly in the CategoryList route
   dispatch(fetchItems());
   dispatch({ type: types.CREATE_CATEGORY, payload: response.data });  
-  history.push(`/items/${itemId}`);
+  history.push(`/item/${itemId}`);
 };
 
 export const fetchCategories = itemId => async dispatch => {
@@ -24,9 +24,9 @@ export const fetchCategory = (id, itemId) => async dispatch => {
 
 export const editCategory = (formValues, id, itemId) => async dispatch => {
   const response = await apiURL.put(`/items/${itemId}/categories/${id}`, formValues);
-  await dispatch(fetchItems())
-  await dispatch({ type: types.UPDATE_SELECTED_ITEM_ON_CAT_EDIT, payload: response.data })
-  await history.push(`/items/${itemId}`);
+  dispatch(fetchItems())
+  dispatch({ type: types.UPDATE_SELECTED_ITEM_ON_CAT_EDIT, payload: response.data })
+  history.push(`/item/${itemId}`);
 }
 
 export const deleteCategory = (id, itemId) => async dispatch => {
@@ -34,7 +34,7 @@ export const deleteCategory = (id, itemId) => async dispatch => {
   // dispatching fetchItems to update state to display correctly in the CategoryList route
   dispatch(fetchItems());
   dispatch({ type: types.DELETE_CATEGORY, payload: id });
-  history.push(`/items/${itemId}`);
+  history.push(`/item/${itemId}`);
 }
 
 
