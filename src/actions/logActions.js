@@ -9,7 +9,7 @@ export const createLog = (formValues, itemId, catId) => async dispatch => {
   const response = await apiURL.post(`/items/${itemId}/categories/${catId}/logs`, {...formValues });
   dispatch(fetchItems());
   dispatch({ type: types.CREATE_LOG, payload: response.data });
-  history.push(`/item/${itemId}/categories/${catId}`);
+  history.push(`/item/${itemId}/category/${catId}`);
 };
 
 export const fetchLogs = (catId, itemId) => async dispatch => {
@@ -25,16 +25,15 @@ export const fetchLog = (id, itemId) => async dispatch => {
 export const editLog = (formValues, id, catId, itemId) => async dispatch => {
   const response = await apiURL.put(`/items/${itemId}/categories/${catId}/logs/${id}`, formValues);
   dispatch(fetchItems());
-  //Change dispatch to use the selectedLog Reducer
   dispatch({ type: types.EDIT_LOG, payload: response.data });
-  history.push(`/item/${itemId}`);
+  history.push(`/item/${itemId}/category/${catId}`);
 }
 
 export const deleteLog = (id, catId, itemId) => async dispatch => {
   await apiURL.delete(`/items/${itemId}/categories/${catId}/logs/${id}`);
   dispatch(fetchItems());
   dispatch({ type: types.DELETE_LOG, payload: id });
-  history.push(`/item/${itemId}`);
+  history.push(`/item/${itemId}/category/${catId}`);
 }
 
 
