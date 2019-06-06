@@ -34,7 +34,7 @@ class ItemForm extends React.Component {
       <Box textAlign="center">
         <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
           <Field
-            name='item[name]'
+            name='name'
             component={this.renderInput}
             label='Enter Item Name '
           />
