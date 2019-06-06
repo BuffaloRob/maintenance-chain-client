@@ -2,10 +2,11 @@ import React from "react";
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form'
+import { TextField, Button, Box, Fab, Tooltip } from "@material-ui/core";
+import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import { createCategory } from '../../actions/categoryActions';
-import { Field, reduxForm } from 'redux-form'
-import { TextField, Button, Box } from "@material-ui/core";
 
 
 class CategoryCreate extends React.Component {
@@ -32,25 +33,31 @@ class CategoryCreate extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-        <Field
-          name='category[name]'
-          component={this.renderInput}
-          label='Enter Category Name '
-        />
-        <Box>
-          <Button type='submit'>Submit</Button>
-        </Box>
-        <Box>
-          <Button
-            to={`/item/${this.props.match.params.itemId}`}
-            component={RouterLink}
-          >
-            Back to Categories
-          </Button>
-        </Box>
-        
-      </form>
+      <Box textAlign="center">
+        <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
+          <Field
+            name='category[name]'
+            component={this.renderInput}
+            label='Enter Category Name '
+          />
+          <Box>
+            <Button color='primary' type='submit'>Submit</Button>
+          </Box>
+          <Box>
+            <Fab
+              color="secondary"
+              aria-label="Back to Categories"
+              size="small"
+              to={`/item/${this.props.match.params.itemId}`}
+              component={RouterLink}
+            >
+              <Tooltip title="Back to Categories">
+                <ArrowBack />
+              </Tooltip>
+            </Fab> 
+          </Box>
+        </form>
+      </Box>
     )
   }
 }
