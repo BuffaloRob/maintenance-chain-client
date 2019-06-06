@@ -18,27 +18,27 @@ const LogShow = ({ log, item }) => {
       </Typography>
       <List>
         <ListItem>
-          <Typography variant="h6" color="primary">Due On : </Typography>
+          <Typography variant="h6" color="primary">Performed On: </Typography>
           <Typography variant="h6">{formattedDatePerformed}</Typography>
         </ListItem>
         <Divider />
         <ListItem>
-          <Typography variant="h6" color="primary">Due On :</Typography>
+          <Typography variant="h6" color="primary">Due On:</Typography>
           <Typography variant="h6">{formattedDateDue}</Typography>
         </ListItem>
         <Divider />
         <ListItem>
-          <Typography variant="h6" color="primary">Cost :</Typography>
+          <Typography variant="h6" color="primary">Cost:</Typography>
           <Typography variant="h6">${log[0].cost}</Typography>
         </ListItem>
         <Divider />
         <ListItem>
-          <Typography variant="h6" color="primary">Tools Used :</Typography>
+          <Typography variant="h6" color="primary">Tools Used:</Typography>
           <Typography variant="h6">{log[0].tools}</Typography>
         </ListItem>
         <Divider />
         <ListItem>
-          <Typography variant="h6" color="primary">Notes :</Typography>
+          <Typography variant="h6" color="primary">Notes:</Typography>
           <Typography variant="h6">{log[0].notes}</Typography>
         </ListItem>
         <Divider />
