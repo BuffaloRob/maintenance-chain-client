@@ -13,12 +13,13 @@ const overrides = {
       padding: "5px"
     }
   },
-  MuiButton: {
-    root: {
-      margin: "5px",
-      padding: "5px"
-    }
-  },
+  // MuiButton: {
+  //   root: {
+  //     variant: 'text',
+  //     margin: "5px",
+  //     padding: "5px"
+  //   }
+  // },
   MuiTypography: {
     root: {
       margin: "5px"
