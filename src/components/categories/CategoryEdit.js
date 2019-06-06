@@ -1,5 +1,4 @@
 import React from "react";
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
@@ -36,7 +35,7 @@ class CategoryEdit extends React.Component {
       <Box textAlign="center">
         <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
           <Field
-            name='category[name]'
+            name='name'
             component={this.renderInput}
             label='Edit Category Name '
           />
@@ -72,9 +71,14 @@ const validate = formValues => {
   return errors;
 }
 
+const mapStateToProps = state => ({
+  initialValues: state.selectedCategory[0]
+})
+
 CategoryEdit = reduxForm({
   form: 'categoryForm',
-  validate: validate
+  validate: validate,
+  // enableReinitialize: true
 })(CategoryEdit);
 
-export default connect(null, { editCategory })(CategoryEdit)
+export default connect(mapStateToProps, { editCategory })(CategoryEdit)
