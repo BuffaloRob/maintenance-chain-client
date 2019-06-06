@@ -16,7 +16,7 @@ class LogCreate extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, meta, type, variant, inputProps, inputLabelProps, rows }) => (
+  renderInput = ({ input, label, meta, type, variant, inputProps, inputLabelProps, rows, multiline }) => (
     <TextField
       label={label}
       autoComplete="off"
@@ -24,6 +24,7 @@ class LogCreate extends React.Component {
       variant={variant}
       // inputProps={{inputProps}}
       // inputLabelProps={{inputLabelProps}}
+      multiline={multiline}
       rows={rows}
       {...input}
       margin="normal"
@@ -77,12 +78,16 @@ class LogCreate extends React.Component {
             type='text'
             component={this.renderInput}
             label='Notes'
+            multiline='true'
+            // rows='3'
           /><br />
           <Field
             name='log[tools]'
             type='text'
             component={this.renderInput}
             label='Tools Used'
+            multiline='true'
+            // rows='3'
           /><br />
           <Box>
             <Button color="primary" type='submit'>Submit</Button>

@@ -15,13 +15,14 @@ class LogEdit extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, meta, type, variant, rows }) => (
+  renderInput = ({ input, label, meta, type, variant, rows, multiline }) => (
     <TextField
       label={label}
       autoComplete="off"
       type={type}
       variant={variant}
       rows={rows}
+      multiline={multiline}
       {...input}
       margin="normal"
     />
@@ -46,6 +47,7 @@ class LogEdit extends React.Component {
             name='date_performed'
             type='date'
             component={this.renderInput}
+            variant='filled'
             label='Date Performed'
             // variant='outlined'
             inputlabelprops={{
@@ -58,11 +60,13 @@ class LogEdit extends React.Component {
             type='date'
             component={this.renderInput}
             label='Date Due'
+            variant='filled'
           /><br />
           <Field
             name='cost'
             type='number'
             component={this.renderInput}
+            variant='filled'
             label='Cost $'
             inputProps={{
               startAdornment: (
@@ -77,12 +81,18 @@ class LogEdit extends React.Component {
             type='text'
             component={this.renderInput}
             label='Notes'
+            multiline='true'
+            // rows='3'
+            variant='filled'
           /><br />
           <Field
             name='tools'
             type='text'
             component={this.renderInput}
             label='Tools Used'
+            multiline='true'
+            // rows='3'
+            variant='filled'
           /><br />
           <Box>
             <Button color='primary' type='submit'>Submit</Button>
