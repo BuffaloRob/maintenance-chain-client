@@ -1,7 +1,8 @@
 import React from "react";
 import { Link as RouterLink } from 'react-router-dom';
-import { Field, reduxForm, values } from 'redux-form'
-import { TextField, Button, Box, Typography } from "@material-ui/core";
+import { Field, reduxForm } from 'redux-form'
+import { TextField, Button, Box, Typography, Fab, Tooltip } from "@material-ui/core";
+import ArrowBack from '@material-ui/icons/ArrowBack';
 
 class ItemForm extends React.Component {
 
@@ -30,24 +31,31 @@ class ItemForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-        <Field
-          name='item[name]'
-          component={this.renderInput}
-          label='Enter Item Name '
-        />
-        <Box>
-          <Button type='submit'>Submit</Button>
-        </Box>
-        <Box>
-          <Button
-            to={'/items'}
-            component={RouterLink}
-          >
-            Back to List of Items
-          </Button>
-        </Box>
-      </form>
+      <Box textAlign="center">
+        <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
+          <Field
+            name='item[name]'
+            component={this.renderInput}
+            label='Enter Item Name '
+          />
+          <Box>
+            <Button color='primary' type='submit'>Submit</Button>
+          </Box>
+          <Box>
+            <Fab
+              color="secondary"
+              aria-label="Back to Items"
+              size="small"
+              to={`/items`}
+              component={RouterLink}
+            >
+              <Tooltip title="Back to Items">
+                <ArrowBack />
+              </Tooltip>
+            </Fab>
+          </Box>
+        </form>
+      </Box>
     )
   }
 }
