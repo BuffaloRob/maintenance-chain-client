@@ -43,11 +43,12 @@ export const fetchItems = () => {
     fetch(`${API}/items`, data)
       .then(resp => resp.json())
       .then(resp => {
-        dispatch({
-
-          type: types.FETCH_ITEMS,
-          payload: resp
-        })
+        if (!resp.error) {
+          dispatch({
+            type: types.FETCH_ITEMS,
+            payload: resp
+          })
+        }
       })
       .catch(err => err)
   }
