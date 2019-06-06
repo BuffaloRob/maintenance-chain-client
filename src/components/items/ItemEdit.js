@@ -1,5 +1,4 @@
 import React from "react";
-import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import { fetchItem, editItem } from '../../actions/itemActions';
@@ -15,21 +14,19 @@ class ItemEdit extends React.Component {
   render() {
     return (
       <Container>
-        {/* <Typography variant="h5">
-          Make a New Item
-        </Typography>
-        <Divider /> */}
-        <ItemForm onSubmit={this.onSubmit} />
+        <ItemForm 
+          onSubmit={this.onSubmit}
+          initialValues={this.props.initialValues} 
+        />
       </Container>
     )
   }
    
 }
 
-
 const mapStateToProps = (state, ownProps) => {
   return { 
-    item: state.items[ownProps.match.params.id]
+    initialValues: state.items[ownProps.match.params.id]
   };
 }
 
