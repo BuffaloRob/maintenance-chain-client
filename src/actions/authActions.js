@@ -22,8 +22,8 @@ export const signup = (user, callback) => {
         sessionStorage.setItem('jwt', user.jwt);
         let decoded = jwtDecode(user.jwt);
         dispatch({
-          type: SET_USER,
-          payload: decoded
+          type: AUTHENTICATION_SUCCESS,
+          payload: user.user
         })
         callback();
       })
