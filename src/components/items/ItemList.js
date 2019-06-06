@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import AddIcon from '@material-ui/icons/Add';
+import { List, Container, Typography, Box, Divider, Button, Fab, Tooltip } from '@material-ui/core';
 
 import Item from './Item';
-import { List, Container, Typography, Box, Divider, Button } from '@material-ui/core';
 
 const ItemList = ({ items, selectItem, deleteItemClick, editItemClick }) => {
 
@@ -27,9 +28,17 @@ const ItemList = ({ items, selectItem, deleteItemClick, editItemClick }) => {
       </Typography>
       <List component="nav">{renderList}</List>
       <Box textAlign="left">
-        <Button to="/item/new" component={RouterLink}>
-          Create New Item
-        </Button>
+        <Fab
+          color="primary"
+          aria-label="Create New Item"
+          size="small"
+          to={`/item/new`}
+          component={RouterLink}
+        >
+          <Tooltip title="Create New Item">
+            <AddIcon />
+          </Tooltip>
+        </Fab>  
       </Box>
     </Container>
   )
