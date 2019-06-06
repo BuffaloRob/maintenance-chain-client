@@ -1,8 +1,8 @@
 import React from "react";
 import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
-import { Container, Typography, Box, List, ListItem, ListItemSecondaryAction, Divider, Button } from "@material-ui/core";
-
+import { Container, Typography, Box, List, ListItem, Divider, Fab, Tooltip } from "@material-ui/core";
+import ArrowBack from '@material-ui/icons/ArrowBack';
 
 const LogShow = ({ log, item }) => {
   const formattedDatePerformed = moment(log[0].date_performed).format("MMM Do YYYY");
@@ -44,12 +44,17 @@ const LogShow = ({ log, item }) => {
         <Divider />
       </List>
       <Box textAlign="left">
-        <Button 
+        <Fab
+          color="secondary"
+          aria-label="Back to Logs"
+          size="small"
           to={`/item/${item.id}/category/${log.category_id}`}
           component={RouterLink}
         >
-          Back to List of Logs
-        </Button>
+          <Tooltip title="Back to Logs">
+            <ArrowBack />
+          </Tooltip>
+        </Fab>
       </Box>
     </Container>
   )
