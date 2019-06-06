@@ -1,6 +1,8 @@
 import React from "react";
 import { Link as RouterLink } from 'react-router-dom';
-import { List, Container, Typography, Box, Divider, Button } from '@material-ui/core';
+import { List, Container, Typography, Box, Divider, Button, Fab, Tooltip } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import Log from '../logs/Log';
 
@@ -28,12 +30,28 @@ const LogList = ({ category, selectLog, match, item, deleteLogClick, editLogClic
       </Typography>
       <List component="nav">{renderList}</List>
       <Box textAlign="left">
-        <Button to={`/item/${item.id}`} component={RouterLink}>
-          Back to Categories
-        </Button>
-        <Button to={`/item/${item.id}/category/${category[0].id}/log/new`}  component={RouterLink}>
-          Create New Log
-        </Button>
+        <Fab
+          color="secondary"
+          aria-label="Back to Categories"
+          size="small"
+          to={`/item/${item.id}`}
+          component={RouterLink}
+        >
+          <Tooltip title="Back to Categories">
+            <ArrowBack />
+          </Tooltip>
+        </Fab>       
+        <Fab 
+          color="primary" 
+          aria-label="Create New"
+          size="small"
+          to={`/item/${item.id}/category/${category[0].id}/log/new`}
+          component={RouterLink}
+        >
+          <Tooltip title="Create New Log">
+            <AddIcon />
+          </Tooltip>
+        </Fab>
       </Box>
     </Container>
   )
