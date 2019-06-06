@@ -79,7 +79,6 @@ class MaintenanceContainer extends React.Component {
   render() {
     return (
       <div className="ui container">
-        {/* <Router history={history}> */}
           <>
             <Switch>
               {/* LogCreate */}
@@ -145,7 +144,6 @@ class MaintenanceContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.selectedItem)
   return {
     items: state.items,
     selectedItem: state.selectedItem,
