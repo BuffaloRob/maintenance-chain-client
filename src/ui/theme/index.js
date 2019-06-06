@@ -6,24 +6,28 @@ const palette = {
   secondary: { main: '#78909C' }
 };
 
-// const background = {
-//   backgroundColor: '#78909C'
-// }
-
-// const paper = {
-//   paper: {
-//     backgroundColor: '#78909C'
-//   }
-// }
-
-// const container = {
-//   MuiContainer: {
-//     background: '#78909C'
-//   }
-// }
+const overrides = {
+  MuiFab: {
+    root: {
+      margin: "5px",
+      padding: "5px"
+    }
+  },
+  MuiButton: {
+    root: {
+      margin: "5px",
+      padding: "5px"
+    }
+  },
+  MuiTypography: {
+    root: {
+      margin: "5px"
+    }
+  }
+}
 
 const themeName = 'Orange and Gray';
 
-const theme = createMuiTheme({ palette, themeName });
+const theme = createMuiTheme({ palette, overrides, themeName });
 
 export default theme
