@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
-import { ListItem, Container, ListItemText, ListItemAvatar, Box, Divider, Avatar, ListItemSecondaryAction, Icon, Fab } from '@material-ui/core';
+import { ListItem, Container, ListItemText, ListItemAvatar, Box, Divider, Avatar, ListItemSecondaryAction, Icon, Fab, Tooltip } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
 import Build from '@material-ui/icons/Build';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -36,7 +36,9 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
         aria-label="Edit"
         onClick={() => editLogClick(log.id, itemId)}
       >
-        <Icon>edit_icon</Icon>
+        <Tooltip title="edit">
+          <Icon>edit_icon</Icon>
+        </Tooltip>
       </Fab>
       <Fab
         color="primary"
