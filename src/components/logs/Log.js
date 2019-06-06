@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
 import { ListItem, Container, ListItemText, ListItemAvatar, Box, Divider, Avatar, ListItemSecondaryAction, Icon, Fab, Tooltip } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
 import Build from '@material-ui/icons/Build';
@@ -14,8 +13,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLogClick }) => {
 
-  //need to find a place to put formatted date where it will update. The date_performed is updating
-  // Date being displayed is a day behind the day being selected
   const formattedDate = moment(log.date_performed).format("MMM Do YYYY");
 
   //Used in delete dialog pop up
@@ -26,7 +23,7 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
   const handleClose = () => {
     setOpen(false);
   }
-
+  ////
   const renderAdmin = () => (
     
     <Container >
