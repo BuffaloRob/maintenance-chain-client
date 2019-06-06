@@ -9,8 +9,8 @@ const palette = {
 const overrides = {
   MuiFab: {
     root: {
-      margin: "5px",
-      padding: "5px"
+      margin: "2px",
+      // padding: "5px"
     }
   },
   // MuiButton: {
