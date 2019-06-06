@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { List, Container, Typography, Box, Divider, Button } from '@material-ui/core';
+import { List, Container, Typography, Box, Divider, Button, Tooltip, Fab } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import Category from './Category';
 
@@ -32,12 +34,28 @@ const CategoryList = ({ item, selectCategory, match, editCategoryClick, deleteCa
       </Typography>
       <List component="nav">{renderList}</List>
       <Box textAlign="left">
-        <Button to={`/items`} component={RouterLink}>
-          Back to List of Items
-        </Button>
-        <Button to={`/item/${item.id}/category/new`} component={RouterLink}>
-          Create New Category
-        </Button>    
+        <Fab
+          color="secondary"
+          aria-label="Back to Categories"
+          size="small"
+          to={`/items`}
+          component={RouterLink}
+        >
+          <Tooltip title="Back to Items">
+            <ArrowBack />
+          </Tooltip>
+        </Fab>
+        <Fab
+          color="primary"
+          aria-label="Create New"
+          size="small"
+          to={`/item/${item.id}/category/new`}
+          component={RouterLink}
+        >
+          <Tooltip title="Create New Category">
+            <AddIcon />
+          </Tooltip>
+        </Fab>   
       </Box>
     </Container>
   )
