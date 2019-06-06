@@ -1,5 +1,4 @@
 import React from "react";
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
@@ -16,14 +15,12 @@ class LogEdit extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, meta, type, variant, inputProps, inputLabelProps, rows }) => (
+  renderInput = ({ input, label, meta, type, variant, rows }) => (
     <TextField
       label={label}
       autoComplete="off"
       type={type}
       variant={variant}
-      // inputProps={{inputProps}}
-      // inputLabelProps={{inputLabelProps}}
       rows={rows}
       {...input}
       margin="normal"
@@ -38,7 +35,7 @@ class LogEdit extends React.Component {
   }
 
   render() {
-    if (!this.props.log) {
+    if (!this.props.selectedLog) {
       return <div>Loading...</div>
     }
 
@@ -46,24 +43,24 @@ class LogEdit extends React.Component {
       <Box textAlign="center">
         <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
           <Field
-            name='log[date_performed]'
+            name='date_performed'
             type='date'
             component={this.renderInput}
             label='Date Performed'
-            variant='outlined'
+            // variant='outlined'
             inputlabelprops={{
               shrink: true,
               variant: 'outlined',
             }}
           /><br />
           <Field
-            name='log[date_due]'
+            name='date_due'
             type='date'
             component={this.renderInput}
             label='Date Due'
           /><br />
           <Field
-            name='log[cost]'
+            name='cost'
             type='number'
             component={this.renderInput}
             label='Cost $'
@@ -71,18 +68,18 @@ class LogEdit extends React.Component {
               startAdornment: (
                 < InputAdornment position="start" >
                   $
-              </InputAdornment>
+                </InputAdornment>
               ),
             }}
           /><br />
           <Field
-            name='log[notes]'
+            name='notes'
             type='text'
             component={this.renderInput}
             label='Notes'
           /><br />
           <Field
-            name='log[tools]'
+            name='tools'
             type='text'
             component={this.renderInput}
             label='Tools Used'
@@ -123,13 +120,15 @@ const validate = formValues => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    selectedLog: state.selectedLog[0]
+    selectedLog: state.selectedLog[0],
+    initialValues: state.selectedLog[0]
   };
 }
 
 LogEdit = reduxForm({
   form: 'logForm',
-  validate: validate
+  validate: validate,
+  // enableReinitialize: true
 })(LogEdit)
 
 export default connect(mapStateToProps, { editLog })(LogEdit);
