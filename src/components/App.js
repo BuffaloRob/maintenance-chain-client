@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Router, Route, Switch, withRouter } from 'react-router-dom';
+import { Container } from '@material-ui/core';
 
 import history from '../history';
 import Header from './Header';
@@ -8,16 +9,13 @@ import Home from './Home';
 import SignUp from './SignUp';
 import Login from './Login';
 import PastDue from './PastDue';
-
 import MaintenanceContainer from './MaintenanceContainer';
-import { Container } from '@material-ui/core';
-
 
 class App extends React.Component {
 
   render() {
     return (
-      <Container>
+      <Container maxWidth='md'>
         <Router history={history}>
           <>
             <Header />
