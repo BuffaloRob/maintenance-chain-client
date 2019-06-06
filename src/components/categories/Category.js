@@ -8,6 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const Category = ({ category, selectCategory, match, itemId, editCategoryClick, deleteCategoryClick }) => {
@@ -29,7 +30,9 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
         aria-label="Edit"
         onClick={() => editCategoryClick(category.id, itemId)}
       >
-        <Icon>edit_icon</Icon>
+        <Tooltip title="edit">
+          <Icon>edit_icon</Icon>
+        </Tooltip>
       </Fab>
       <Fab
         color="primary"
