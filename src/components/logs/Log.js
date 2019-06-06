@@ -26,7 +26,7 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
   ////
   const renderAdmin = () => (
     
-    <Container >
+    <Box textAlign='right' >
       <Fab
         color="secondary"
         size="small"
@@ -69,7 +69,7 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
         </DialogActions>
       </Dialog>
 
-    </Container>
+    </Box>
   );
   
   return (
@@ -77,6 +77,7 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
       <ListItem
         key={log.id}
         button
+        disableGutters
         // alignItems="flex-start"
         onClick={() => selectLog(log.id, itemId, categoryId)}
       >

@@ -23,7 +23,7 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
   }
 
   const renderAdmin = category => (
-    <Container >
+    <Box textAlign='right' >
       <Fab
         color="secondary"
         size="small"
@@ -66,7 +66,7 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
         </DialogActions>
       </Dialog>
 
-    </Container>
+    </Box>
   );
 
   return (
@@ -74,7 +74,8 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
       <ListItem 
         key={category.id} 
         button 
-        // alignItems="flex-start"
+        disableGutters
+        // alignItems="center"
         onClick={() => selectCategory(category.id, itemId)}
       >
         <ListItemAvatar>

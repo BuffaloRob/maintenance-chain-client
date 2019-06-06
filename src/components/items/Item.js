@@ -29,7 +29,7 @@ const Item = ({ item, selectItem, deleteItemClick, editItemClick }) => {
   
   const renderAdmin = (item) => (
 
-    <Container >
+    <Box textAlign='right' >
       <Fab 
         color="secondary" 
         size="small"
@@ -71,7 +71,7 @@ const Item = ({ item, selectItem, deleteItemClick, editItemClick }) => {
         </DialogActions>
       </Dialog>
       
-    </Container>
+    </Box>
 
   );
     
@@ -80,6 +80,7 @@ const Item = ({ item, selectItem, deleteItemClick, editItemClick }) => {
       <ListItem 
         key={item.id} 
         button 
+        disableGutters
         // alignItems="flex-start"
         onClick={() => selectItem(item.id)}
       >
