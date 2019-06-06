@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import AddIcon from '@material-ui/icons/Add';
-import { List, Container, Typography, Box, Divider, Button, Fab, Tooltip } from '@material-ui/core';
+import { List, Container, Typography, Box, Divider, Fab, Tooltip } from '@material-ui/core';
 
 import Item from './Item';
 
-const ItemList = ({ items, selectItem, deleteItemClick, editItemClick }) => {
+const ItemList = ({ items, selectItem, deleteItemClick }) => {
 
   const renderList = Object.keys(items).map(item => (
     <Item
@@ -13,7 +13,6 @@ const ItemList = ({ items, selectItem, deleteItemClick, editItemClick }) => {
       item={items[item]}
       selectItem={selectItem}
       deleteItemClick={deleteItemClick}
-      // editItemClick={editItemClick}
     />
   ));
 
