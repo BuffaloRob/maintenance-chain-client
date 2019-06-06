@@ -1,6 +1,6 @@
 
 import history from '../history';
-import { SET_USER, LOGOUT, CLEAR_DATA } from './types';
+import { SET_USER, LOGOUT, CLEAR_DATA, AUTHENTICATION_FAILURE, AUTHENTICATION_SUCCESS } from './types';
 import jwtDecode from 'jwt-decode';
 
 const API_URL = "http://localhost:3000/api/v1"
@@ -27,7 +27,12 @@ export const signup = (user, callback) => {
         })
         callback();
       })
-      .catch(err => err)
+      .catch(err => {
+        dispatch({
+          type: AUTHENTICATION_FAILURE,
+          payload: err
+        })
+      })
   }
 }
 
@@ -47,12 +52,17 @@ export const login = (user, callback) => {
       .then(user => {
         sessionStorage.setItem('jwt', user.jwt)
         dispatch({
-          type: SET_USER,
+          type: AUTHENTICATION_SUCCESS,
           payload: user.user
         })
         callback()
       })
-      .catch(err => err)
+      .catch(err => {
+        dispatch({
+          type: AUTHENTICATION_FAILURE,
+          payload: err
+        })
+      })
   }
 }
 
@@ -72,12 +82,19 @@ export const fetchUser = () => {
     fetch(`${API_URL}/user`, data)
       .then(resp => resp.json())
       .then(user => {
-        dispatch({
-          type: SET_USER,
-          payload: user
-        })
+        if (user.error) {
+          dispatch({
+            type: AUTHENTICATION_FAILURE,
+            payload: user.error
+          })        
+        } else {
+          dispatch({
+            type: AUTHENTICATION_SUCCESS,
+            payload: user
+          })
+        }
+
       })
-      .catch(err => err)
   }
 }
 
