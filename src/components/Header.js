@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
 
 import RenderLoggedIn from '../components/header/RenderLoggedIn';
 import RenderLoggedOut from '../components/header/RenderLoggedOut'

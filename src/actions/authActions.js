@@ -1,6 +1,6 @@
 
 import history from '../history';
-import { SET_USER, LOGOUT, CLEAR_DATA, AUTHENTICATION_FAILURE, AUTHENTICATION_SUCCESS } from './types';
+import { CLEAR_DATA, AUTHENTICATION_FAILURE, AUTHENTICATION_SUCCESS } from './types';
 import jwtDecode from 'jwt-decode';
 
 const API_URL = "http://localhost:3000/api/v1"
@@ -20,7 +20,7 @@ export const signup = (user, callback) => {
       .then(resp => resp.json())
       .then(user => {
         sessionStorage.setItem('jwt', user.jwt);
-        let decoded = jwtDecode(user.jwt);
+        // let decoded = jwtDecode(user.jwt);
         dispatch({
           type: AUTHENTICATION_SUCCESS,
           payload: user.user

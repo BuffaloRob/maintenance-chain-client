@@ -1,5 +1,4 @@
 import React from "react";
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'

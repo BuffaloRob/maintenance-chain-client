@@ -3,10 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import { AppBar, Toolbar, Container } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
 
 const RenderLoggedIn = ({ currentUser, handleLogout }) => {
   return (

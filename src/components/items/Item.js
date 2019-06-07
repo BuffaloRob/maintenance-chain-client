@@ -1,11 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { connect } from 'react-redux'
-import history from '../../history';
-import { Route } from 'react-router-dom';
-import ItemEdit from './ItemEdit';
-import { ListItem, Container, ListItemText, ListItemAvatar, Box, Divider, Avatar, ListItemSecondaryAction, Fab, Icon } from '@material-ui/core';
-import Link from '@material-ui/core/Link';
+import { ListItem, ListItemText, ListItemAvatar, Box, Divider, Avatar, ListItemSecondaryAction, Fab, Icon } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
 import Build from '@material-ui/icons/Build';
 import DeleteIcon from '@material-ui/icons/Delete';
