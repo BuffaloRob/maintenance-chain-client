@@ -5,10 +5,21 @@ import { Link as RouterLink } from 'react-router-dom';
 import { TextField, Button, Box, InputAdornment, Fab, Tooltip } from "@material-ui/core";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
+import { MuiPickersUtilsProvider, DatePicker, KeyboardDatePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import {KeyboardDateChooser} from './DatePicker'
+
 import LogForm from './LogForm';
 import { createLog } from '../../actions/logActions';
 
 class LogCreate extends React.Component {
+
+  state = { date: null };
+
+  handleDateChange = (event, date) => {
+    console.log(event, date)
+    this.setState({date:event});
+  };
 
   renderError({ error, touched }) {
     if (touched && error) {
@@ -31,11 +42,22 @@ class LogCreate extends React.Component {
     />
   )
 
+  renderDate = ({ label, input, ...rest }) => (
+    <DatePicker
+      {...input}
+      {...rest}
+      value={this.state.date}
+      onChange={this.handleDateChange}
+      label={label}
+      margin="normal"
+      // {...input}
+      // {...rest}
+    />   
+  )
+
   onSubmit = (formValues) => {
     const itemId = this.props.match.params.itemId;
     const catId = this.props.match.params.id;
-    // const { log } = formValues;
-    // const newValues = { ...log, ...{category_id: catId} };
     this.props.createLog(formValues, itemId, catId);
   }
 
@@ -43,23 +65,20 @@ class LogCreate extends React.Component {
     return (
       <Box textAlign="center">
         <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-          <Field
-            name='log[date_performed]'
-            type='date'
-            component={this.renderInput}
-            label='Date Performed'
-            variant='outlined'
-            inputlabelprops={{
-              shrink: true,
-              variant: 'outlined',
-            }}
-          /><br />
-          <Field
-            name='log[date_due]'
-            type='date'
-            component={this.renderInput}
-            label='Date Due'
-          /><br />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Field
+              name='date_performed'
+              component={this.renderDate}
+              label='Date Performed'
+            /><br />
+            <Field
+              name='date_due'
+              component={this.renderDate}
+              label='Date Due'
+            // value={selectedDate}
+            // onChange={onChange}
+            /><br />
+          </MuiPickersUtilsProvider>
           <Field
             name='log[cost]'
             type='number'
@@ -78,7 +97,7 @@ class LogCreate extends React.Component {
             type='text'
             component={this.renderInput}
             label='Notes'
-            multiline='true'
+            multiline={true}
             // rows='3'
           /><br />
           <Field
@@ -86,12 +105,14 @@ class LogCreate extends React.Component {
             type='text'
             component={this.renderInput}
             label='Tools Used'
-            multiline='true'
+            multiline={true}
             // rows='3'
           /><br />
+          <br/>
           <Box>
             <Button color="primary" type='submit'>Submit</Button>
           </Box>
+          <br/>
           <Box>
             <Fab
               color="secondary"
@@ -121,10 +142,17 @@ const validate = formValues => {
   return errors;
 }
 
+const mapStateToProps = state => {
+  return { 
+    initialValues: { date: new Date() },
+    // date: 
+  }
+}
+
 LogCreate = reduxForm({
   form: 'logForm',
   validate: validate
 })(LogCreate);
 
 
-export default connect(null, { createLog })(LogCreate);
+export default connect(mapStateToProps, { createLog })(LogCreate);
