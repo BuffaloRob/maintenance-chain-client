@@ -7,6 +7,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import LogForm from './LogForm';
 import { createLog } from '../../actions/logActions';
+import moment from 'moment';
 
 class LogCreate extends React.Component {
 
@@ -78,7 +79,7 @@ class LogCreate extends React.Component {
             type='text'
             component={this.renderInput}
             label='Notes'
-            multiline='true'
+            multiline={true}
             // rows='3'
           /><br />
           <Field
@@ -86,7 +87,7 @@ class LogCreate extends React.Component {
             type='text'
             component={this.renderInput}
             label='Tools Used'
-            multiline='true'
+            multiline={true}
             // rows='3'
           /><br />
           <Box>
@@ -121,10 +122,19 @@ const validate = formValues => {
   return errors;
 }
 
+const mapStateToProps = state => {
+  return {
+    initialValues: { 
+      date_performed: moment().format('YYYY-MM-DD'),
+      date_due: moment().format('YYYY-MM-DD')
+    },
+  }
+}
+
 LogCreate = reduxForm({
   form: 'logForm',
   validate: validate
 })(LogCreate);
 
 
-export default connect(null, { createLog })(LogCreate);
+export default connect(mapStateToProps, { createLog })(LogCreate);
