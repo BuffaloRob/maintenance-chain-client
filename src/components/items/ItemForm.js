@@ -37,10 +37,12 @@ class ItemForm extends React.Component {
             name='name'
             component={this.renderInput}
             label='Enter Item Name '
-          />
+          /><br/>
+          <br/>
           <Box>
             <Button color='primary' type='submit'>Submit</Button>
           </Box>
+          <br/>
           <Box>
             <Fab
               color="secondary"

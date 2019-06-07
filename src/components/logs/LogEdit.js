@@ -94,9 +94,11 @@ class LogEdit extends React.Component {
             // rows='3'
             variant='filled'
           /><br />
+          <br/>
           <Box>
             <Button color='primary' type='submit'>Submit</Button>
           </Box>
+          <br/>
           <Box>
             <Fab
               color="secondary"

@@ -38,10 +38,12 @@ class CategoryEdit extends React.Component {
             name='name'
             component={this.renderInput}
             label='Edit Category Name '
-          />
+          /><br/>
+          <br/>
           <Box>
             <Button color='primary' type='submit'>Submit</Button>
           </Box>
+          <br/>
           <Box>
             <Fab
               color="secondary"

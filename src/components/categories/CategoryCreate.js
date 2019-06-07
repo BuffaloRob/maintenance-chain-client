@@ -38,10 +38,12 @@ class CategoryCreate extends React.Component {
             name='category[name]'
             component={this.renderInput}
             label='Enter Category Name '
-          />
+          /><br/>
+          <br/>
           <Box>
             <Button color='primary' type='submit'>Submit</Button>
           </Box>
+          <br/>
           <Box>
             <Fab
               color="secondary"
