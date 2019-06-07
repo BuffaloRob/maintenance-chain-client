@@ -5,9 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { TextField, Button, Box, InputAdornment, Fab, Tooltip } from "@material-ui/core";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
-import LogForm from './LogForm';
 import { createLog } from '../../actions/logActions';
-import moment from 'moment';
 
 class LogCreate extends React.Component {
 
@@ -17,26 +15,56 @@ class LogCreate extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, meta, type, variant, inputProps, inputLabelProps, rows, multiline }) => (
-    <TextField
-      label={label}
-      autoComplete="off"
-      type={type}
-      variant={variant}
-      // inputProps={{inputProps}}
-      // inputLabelProps={{inputLabelProps}}
-      multiline={multiline}
-      rows={rows}
-      {...input}
-      margin="normal"
-    />
-  )
+  // renderInput = ({ input, label, meta, type, variant, rows, multiline }) => (
+  //   <TextField
+  //     {...input}
+  //     label={label}
+  //     autoComplete="off"
+  //     type={type}
+  //     variant={variant}
+  //     multiline={multiline}
+  //     rows={rows}
+  //     margin="normal"
+  //   />
+  // )
+
+  textWithAdornment = ({ InputProps = {}, input, ...restProps }) => {
+    return (
+      <TextField
+        InputProps={{
+          ...InputProps, startAdornment: (
+            < InputAdornment >
+              $
+            </InputAdornment>
+          ) }}
+        {...input}
+        {...restProps}
+      />
+    )
+  }
+
+  customTextField =({ input, ...restProps }) => {
+    return (
+      <TextField
+        {...input}
+        {...restProps}
+      />
+    )
+  }
+
+  customDateField = ({ InputLabelProps = {}, input, ...restProps }) => {
+    return (
+      <TextField
+        InputLabelProps={{ ...InputLabelProps, shrink: true }}
+        {...input}
+        {...restProps}
+      />
+    )
+  }
 
   onSubmit = (formValues) => {
     const itemId = this.props.match.params.itemId;
     const catId = this.props.match.params.id;
-    // const { log } = formValues;
-    // const newValues = { ...log, ...{category_id: catId} };
     this.props.createLog(formValues, itemId, catId);
   }
 
@@ -47,52 +75,45 @@ class LogCreate extends React.Component {
           <Field
             name='log[date_performed]'
             type='date'
-            component={this.renderInput}
+            component={this.customDateField}
             label='Date Performed'
-            variant='outlined'
-            inputlabelprops={{
-              shrink: true,
-              variant: 'outlined',
-            }}
+            margin='normal'
           /><br />
           <Field
             name='log[date_due]'
             type='date'
-            component={this.renderInput}
+            component={this.customDateField}
             label='Date Due'
+            margin='normal'
           /><br />
           <Field
             name='log[cost]'
             type='number'
-            component={this.renderInput}
+            component={this.customTextField}
             label='Cost $'
-            inputProps={{
-              startAdornment: (
-                < InputAdornment position="start" >
-                  $
-              </InputAdornment>
-              ),
-            }}
+            margin='normal'
           /><br />
           <Field
             name='log[notes]'
             type='text'
-            component={this.renderInput}
+            component={this.customTextField}
             label='Notes'
             multiline={true}
-            // rows='3'
+            margin='normal'
           /><br />
           <Field
             name='log[tools]'
             type='text'
-            component={this.renderInput}
+            component={this.customTextField}
             label='Tools Used'
             multiline={true}
-            // rows='3'
+            margin='normal'
           /><br />
+          <br/>
           <Box>
             <Button color="primary" type='submit'>Submit</Button>
           </Box>
+          <br/>
           <Box>
             <Fab
               color="secondary"
@@ -122,19 +143,9 @@ const validate = formValues => {
   return errors;
 }
 
-const mapStateToProps = state => {
-  return {
-    initialValues: { 
-      date_performed: moment().format('YYYY-MM-DD'),
-      date_due: moment().format('YYYY-MM-DD')
-    },
-  }
-}
-
 LogCreate = reduxForm({
   form: 'logForm',
   validate: validate
 })(LogCreate);
 
-
-export default connect(mapStateToProps, { createLog })(LogCreate);
+export default connect(null, { createLog })(LogCreate);
