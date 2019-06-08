@@ -52,10 +52,12 @@ class LogCreate extends React.Component {
     )
   }
 
-  customDateField = ({ InputLabelProps = {}, input, ...restProps }) => {
+  customDateField = ({ InputLabelProps = {}, meta: { touched, error }, input, ...restProps }) => {
     return (
       <TextField
         InputLabelProps={{ ...InputLabelProps, shrink: true }}
+        error={touched && error}
+        helperText={ touched && error ? error : null}
         {...input}
         {...restProps}
       />
@@ -73,7 +75,7 @@ class LogCreate extends React.Component {
       <Box textAlign="center">
         <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
           <Field
-            name='log[date_performed]'
+            name='date_performed'
             type='date'
             component={this.customDateField}
             label='Date Performed'
@@ -81,7 +83,7 @@ class LogCreate extends React.Component {
             fullWidth
           /><br />
           <Field
-            name='log[date_due]'
+            name='date_due'
             type='date'
             component={this.customDateField}
             label='Date Due'
@@ -89,7 +91,7 @@ class LogCreate extends React.Component {
             fullWidth
           /><br />
           <Field
-            name='log[cost]'
+            name='cost'
             type='number'
             component={this.customTextField}
             label='Cost $'
@@ -97,7 +99,7 @@ class LogCreate extends React.Component {
             fullWidth
           /><br />
           <Field
-            name='log[notes]'
+            name='notes'
             type='text'
             component={this.customTextField}
             label='Notes'
@@ -106,7 +108,7 @@ class LogCreate extends React.Component {
             fullWidth
           /><br />
           <Field
-            name='log[tools]'
+            name='tools'
             type='text'
             component={this.customTextField}
             label='Tools Used'
@@ -138,14 +140,17 @@ class LogCreate extends React.Component {
   }
 }
 
-const validate = formValues => {
+const validate = values => {
   const errors = {};
-
-  if (!formValues.name) {
-    errors.name = "You Must Enter an Item Name"
-  }
-
-  return errors;
+  const requiredFields = [
+    'date_performed',
+  ]
+  requiredFields.forEach(field => {
+    if (!values[field]) {
+      errors[field] = 'Required'
+    }
+  })
+  return errors
 }
 
 LogCreate = reduxForm({

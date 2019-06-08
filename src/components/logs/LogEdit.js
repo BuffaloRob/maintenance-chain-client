@@ -15,18 +15,39 @@ class LogEdit extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, meta, type, variant, rows, multiline }) => (
-    <TextField
-      label={label}
-      autoComplete="off"
-      type={type}
-      variant={variant}
-      rows={rows}
-      multiline={multiline}
-      {...input}
-      margin="normal"
-    />
-  )
+  // renderInput = ({ input, label, meta, type, variant, rows, multiline }) => (
+  //   <TextField
+  //     label={label}
+  //     autoComplete="off"
+  //     type={type}
+  //     variant={variant}
+  //     rows={rows}
+  //     multiline={multiline}
+  //     {...input}
+  //     margin="normal"
+  //   />
+  // )
+
+  customTextField = ({ input, ...restProps }) => {
+    return (
+      <TextField
+        {...input}
+        {...restProps}
+      />
+    )
+  }
+
+  customDateField = ({ InputLabelProps = {}, meta: { touched, error }, input, ...restProps }) => {
+    return (
+      <TextField
+        InputLabelProps={{ ...InputLabelProps, shrink: true }}
+        error={touched && error}
+        helperText={touched && error ? error : null}
+        {...input}
+        {...restProps}
+      />
+    )
+  }
 
   onSubmit = formValues => {
     const logId = this.props.match.params.id
@@ -46,53 +67,44 @@ class LogEdit extends React.Component {
           <Field
             name='date_performed'
             type='date'
-            component={this.renderInput}
+            component={this.customDateField}
             variant='filled'
             label='Date Performed'
-            // variant='outlined'
-            inputlabelprops={{
-              shrink: true,
-              variant: 'outlined',
-            }}
+            fullWidth
           /><br />
           <Field
             name='date_due'
             type='date'
-            component={this.renderInput}
+            component={this.customDateField}
             label='Date Due'
             variant='filled'
+            fullWidth
           /><br />
           <Field
             name='cost'
             type='number'
-            component={this.renderInput}
+            component={this.customTextField}
             variant='filled'
             label='Cost $'
-            inputProps={{
-              startAdornment: (
-                < InputAdornment position="start" >
-                  $
-                </InputAdornment>
-              ),
-            }}
+            fullWidth
           /><br />
           <Field
             name='notes'
             type='text'
-            component={this.renderInput}
+            component={this.customTextField}
             label='Notes'
             multiline={true}
-            // rows='3'
             variant='filled'
+            fullWidth
           /><br />
           <Field
             name='tools'
             type='text'
-            component={this.renderInput}
+            component={this.customTextField}
             label='Tools Used'
             multiline={true}
-            // rows='3'
             variant='filled'
+            fullWidth
           /><br />
           <br/>
           <Box>
@@ -119,16 +131,18 @@ class LogEdit extends React.Component {
 
 }
 
-const validate = formValues => {
+const validate = values => {
   const errors = {};
-
-  if (!formValues.name) {
-    errors.name = "You Must Enter an Item Name"
-  }
-
-  return errors;
+  const requiredFields = [
+    'date_performed',
+  ]
+  requiredFields.forEach(field => {
+    if (!values[field]) {
+      errors[field] = 'Required'
+    }
+  })
+  return errors
 }
-
 
 const mapStateToProps = (state, ownProps) => {
   return {
