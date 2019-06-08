@@ -28,7 +28,7 @@ class LogCreate extends React.Component {
   //   />
   // )
 
-  textWithAdornment = ({ InputProps = {}, input, ...restProps }) => {
+  textFieldWithAdornment = ({ InputProps = {}, input, ...restProps }) => {
     return (
       <TextField
         InputProps={{
@@ -78,6 +78,7 @@ class LogCreate extends React.Component {
             component={this.customDateField}
             label='Date Performed'
             margin='normal'
+            fullWidth
           /><br />
           <Field
             name='log[date_due]'
@@ -85,6 +86,7 @@ class LogCreate extends React.Component {
             component={this.customDateField}
             label='Date Due'
             margin='normal'
+            fullWidth
           /><br />
           <Field
             name='log[cost]'
@@ -92,6 +94,7 @@ class LogCreate extends React.Component {
             component={this.customTextField}
             label='Cost $'
             margin='normal'
+            fullWidth
           /><br />
           <Field
             name='log[notes]'
@@ -100,6 +103,7 @@ class LogCreate extends React.Component {
             label='Notes'
             multiline={true}
             margin='normal'
+            fullWidth
           /><br />
           <Field
             name='log[tools]'
@@ -108,6 +112,7 @@ class LogCreate extends React.Component {
             label='Tools Used'
             multiline={true}
             margin='normal'
+            fullWidth
           /><br />
           <br/>
           <Box>
