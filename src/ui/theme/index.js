@@ -3,13 +3,14 @@ import { createMuiTheme } from '@material-ui/core/styles';
 const palette = {
   type: 'dark',
   primary: { main: '#F4511E' },
-  secondary: { main: '#78909C' }
+  secondary: { main: '#78909C' },
+  error: { main: '#388e3c' }
 };
 
 const overrides = {
   MuiFab: {
     root: {
-      margin: "2px",
+      margin: "3px",
       // padding: "5px"
     }
   },
