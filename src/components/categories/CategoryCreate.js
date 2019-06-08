@@ -16,12 +16,14 @@ class CategoryCreate extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, meta }) => (
+  renderInput = ({ input, label, meta: {touched, error} }) => (
     <TextField
       label={label}
       autoComplete="off"
       {...input}
       margin="normal"
+      error={touched && error}
+      helperText={touched && error ? error : null}
     />
   )
 
@@ -35,7 +37,7 @@ class CategoryCreate extends React.Component {
       <Box textAlign="center">
         <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
           <Field
-            name='category[name]'
+            name='name'
             component={this.renderInput}
             label='Enter Category Name '
           /><br/>
@@ -63,14 +65,17 @@ class CategoryCreate extends React.Component {
   }
 }
 
-const validate = formValues => {
+const validate = values => {
   const errors = {};
-
-  if (!formValues.name) {
-    errors.name = "You Must Enter an Item Name"
-  }
-
-  return errors;
+  const requiredFields = [
+    'name',
+  ]
+  requiredFields.forEach(field => {
+    if (!values[field]) {
+      errors[field] = 'Required'
+    }
+  })
+  return errors
 }
 
 CategoryCreate = reduxForm({
