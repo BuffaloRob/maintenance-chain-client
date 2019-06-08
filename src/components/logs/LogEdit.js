@@ -81,7 +81,7 @@ class LogEdit extends React.Component {
             type='text'
             component={this.renderInput}
             label='Notes'
-            multiline='true'
+            multiline={true}
             // rows='3'
             variant='filled'
           /><br />
@@ -90,7 +90,7 @@ class LogEdit extends React.Component {
             type='text'
             component={this.renderInput}
             label='Tools Used'
-            multiline='true'
+            multiline={true}
             // rows='3'
             variant='filled'
           /><br />
