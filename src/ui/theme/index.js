@@ -1,35 +1,37 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
-const palette = {
-  type: 'dark',
-  primary: { main: '#F4511E' },
-  secondary: { main: '#78909C' },
-  error: { main: '#388e3c' }
-};
-
-const overrides = {
-  MuiFab: {
-    root: {
-      margin: "3px",
-      // padding: "5px"
-    }
+let theme = createMuiTheme({
+  palette: {
+    type: 'dark',
+    primary: { main: '#F4511E' },
+    secondary: { main: '#78909C' },
+    error: { main: '#388e3c' }
   },
-  // MuiButton: {
-  //   root: {
-  //     variant: 'text',
-  //     margin: "5px",
-  //     padding: "5px"
-  //   }
-  // },
-  MuiTypography: {
-    root: {
-      margin: "5px"
+  overrides: {
+    MuiFab: {
+      root: {
+        margin: "3px",
+        // padding: "5px"
+      }
+    },
+    MuiTypography: {
+      root: {
+        margin: "4px"
+      },
     }
   }
-}
+});
 
-const themeName = 'Orange and Gray';
+theme = responsiveFontSizes(theme)
 
-const theme = createMuiTheme({ palette, overrides, themeName });
+// theme.typography.body1 = {
+//   fontSize: '1rem',
+//   '@media (max-width:350px)': {
+//     fontSize: '.5rem',
+//   },
+//   [theme.breakpoints.up('md')]: {
+//     fontSize: '1rem',
+//   },
+// };
 
 export default theme
