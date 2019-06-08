@@ -1,7 +1,7 @@
 import React from "react";
 import { Link as RouterLink } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'
-import { TextField, Button, Box, Typography, Fab, Tooltip } from "@material-ui/core";
+import { TextField, Button, Box, Typography, Fab, Tooltip, FormHelperText } from "@material-ui/core";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 class ItemForm extends React.Component {
@@ -16,13 +16,19 @@ class ItemForm extends React.Component {
   }
 
   renderInput = ({ input, label, meta: {touched, error} }) => (
+    <>
     <TextField
       label={label}
       autoComplete="off"
       {...input}
       margin="normal"
-      // error={touched && error}
+      error={touched && error}
+      helperText={touched && error ? error : null}
     />
+    <FormHelperText
+      error={touched && error}
+    />
+    </>
   )
 
   onSubmit = formValues => {
@@ -74,7 +80,7 @@ class ItemForm extends React.Component {
 const validate = values => {
   const errors = {};
   const requiredFields = [
-    'item[name]',
+    'name',
   ]
   requiredFields.forEach(field => {
     if (!values[field]) {
