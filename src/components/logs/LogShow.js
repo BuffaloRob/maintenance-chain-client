@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Container, Typography, Box, List, ListItem, Divider, Fab, Tooltip } from "@material-ui/core";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
-const LogShow = ({ log, item }) => {
+const LogShow = ({ log, itemId }) => {
   const formattedDatePerformed = moment(log[0].date_performed).format("MMM Do YYYY");
   const formattedDateDue = moment(log[0].date_due).format("MMM Do YYYY");
 
@@ -48,7 +48,7 @@ const LogShow = ({ log, item }) => {
           color="secondary"
           aria-label="Back to Logs"
           size="small"
-          to={`/item/${item.id}/category/${log.category_id}`}
+          to={`/item/${itemId}/category/${log[0].category_id}`}
           component={RouterLink}
         >
           <Tooltip title="Back to Logs">
