@@ -18,28 +18,28 @@ const LogShow = ({ log, item }) => {
       </Typography>
       <List>
         <ListItem>
-          <Typography variant="h6" color="primary">Performed On: </Typography>
-          <Typography variant="h6">{formattedDatePerformed}</Typography>
+          <Typography variant="subtitle2" color="primary">Performed On: </Typography>
+          <Typography variant="subtitle1">{formattedDatePerformed}</Typography>
         </ListItem>
         <Divider />
         <ListItem>
-          <Typography variant="h6" color="primary">Due On:</Typography>
-          <Typography variant="h6">{formattedDateDue}</Typography>
+          <Typography variant="subtitle2" color="primary">Due On:</Typography>
+          <Typography variant="subtitle1">{formattedDateDue}</Typography>
         </ListItem>
         <Divider />
         <ListItem>
-          <Typography variant="h6" color="primary">Cost:</Typography>
-          <Typography variant="h6">${log[0].cost}</Typography>
+          <Typography variant="subtitle2" color="primary">Cost:</Typography>
+          <Typography variant="subtitle1">${log[0].cost}</Typography>
         </ListItem>
         <Divider />
         <ListItem>
-          <Typography variant="h6" color="primary">Tools Used:</Typography>
-          <Typography variant="h6">{log[0].tools}</Typography>
+          <Typography variant="subtitle2" color="primary">Tools Used:</Typography>
+          <Typography variant="subtitle1">{log[0].tools}</Typography>
         </ListItem>
         <Divider />
         <ListItem>
-          <Typography variant="h6" color="primary">Notes:</Typography>
-          <Typography variant="h6">{log[0].notes}</Typography>
+          <Typography variant="subtitle2" color="primary">Notes:</Typography>
+          <Typography variant="subtitle1">{log[0].notes}</Typography>
         </ListItem>
         <Divider />
       </List>
