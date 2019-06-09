@@ -65,7 +65,7 @@ const RenderLoggedOut = () => {
           </MediaQuery>
         </Container>
         <Container align="right">
-          <Typography variant='b1' noWrap>
+          <Typography variant='body1' noWrap>
             Please Login
           </Typography>
         </Container>

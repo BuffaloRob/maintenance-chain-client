@@ -70,7 +70,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
           </MediaQuery>
         </Container >
         <Container align="right">
-          <Typography variant='b1' noWrap>
+          <Typography variant='body1' noWrap>
             Welcome {currentUser.email}
           </Typography>
         </Container>
