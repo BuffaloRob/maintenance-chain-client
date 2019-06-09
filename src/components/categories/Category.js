@@ -75,7 +75,8 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
         key={category.id} 
         button 
         disableGutters
-        // alignItems="center"
+        // divider={true}
+        // alignItems="flex-start"
         onClick={() => selectCategory(category.id, itemId)}
       >
         <ListItemAvatar>
@@ -83,7 +84,7 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
             <Build />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary={category.name} />
+        <ListItemText disableTypography={true} primary={category.name} />
         <ListItemSecondaryAction>
           {renderAdmin(category)}
         </ListItemSecondaryAction>
