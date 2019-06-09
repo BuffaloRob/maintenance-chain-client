@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
-
+import { Container, Typography, Box, List, ListItem } from '@material-ui/core';
+import moment from 'moment'
 import { fetchPastDue } from '../actions/queryActions'
 
 
@@ -12,20 +13,30 @@ class PastDue extends React.Component {
 
   renderList() {
     return this.props.logs.map(log => {
+      const formattedDateDue = moment(log.date_due).format("MMM Do YYYY");
       return (
-        <div className='item' key={log.id}>
-          {log.date_performed}
-        </div>
+        <ListItem
+          key={log.id}
+          button
+          onClick={() => this.props.selectPastDue(log.id, log.category.item_id)}
+          divider
+          // disableTypography={true}
+        >
+          {log.category.name} was due on {formattedDateDue}
+        </ListItem>
       )
+      
     })
   }
   
   render() {
     return (
-      <div>
-        <h3>Past Due</h3>
-        <div className='ui celled list'>{this.renderList()}</div>
-      </div>
+      <Container>
+        <Typography variant="h4">
+          <Box textAlign="center">Past Due</Box>
+        </Typography>
+        <List component="nav">{this.renderList()}</List>
+      </Container>
     )
   }
 
