@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom';
-
 import { AppBar, Toolbar, Container, IconButton, Drawer, List, ListItem } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
@@ -9,7 +8,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 
 const RenderLoggedIn = ({ currentUser, handleLogout }) => {
-
+  //taken from example https://material-ui.com/components/drawers/
   const [state, setState] = React.useState({ left: false });
 
   const toggleDrawer = (side, open) => event => {
@@ -33,6 +32,9 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
         <ListItem button component={RouterLink} to="/">
           Home
         </ListItem>
+        <ListItem button component={RouterLink} to="/pastdue">
+          Past Due
+        </ListItem>
         <ListItem button onClick={e => handleLogout(e)}>
           Log Out
         </ListItem>
@@ -50,6 +52,9 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
             </Button>
             <Button component={RouterLink} to="/" color="inherit">
               Home
+            </Button>
+            <Button component={RouterLink} to="/pastdue" color="inherit">
+              Past Due
             </Button>
             <Button onClick={e => handleLogout(e)} color="inherit">
               Log Out
