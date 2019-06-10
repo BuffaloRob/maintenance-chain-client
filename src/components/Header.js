@@ -5,6 +5,8 @@ import RenderLoggedIn from '../components/header/RenderLoggedIn';
 import RenderLoggedOut from '../components/header/RenderLoggedOut'
 import { logout, fetchUser } from '../actions/authActions';
 
+// Move this to the Header folder
+
 class Header extends React.Component {
 
   componentDidMount() {
