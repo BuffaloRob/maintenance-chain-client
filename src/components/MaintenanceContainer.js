@@ -71,9 +71,11 @@ class MaintenanceContainer extends React.Component {
     this.props.deleteLog(logId, itemId)
   }
 
-  selectPastDue = (logId, itemId) => {
+  selectPastDue = (logId, itemId, catId) => {
     const item = this.props.items[itemId] 
     this.props.itemSelector(item)
+    const cat = item.categories.filter(cat => (cat.id === catId))
+    this.props.categorySelector(cat, itemId)
     const log = item.logs.filter(log => (log.id === logId))
     this.props.logSelector(log)
     history.push(`/log/${log[0].id}`)

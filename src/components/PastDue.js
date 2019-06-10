@@ -18,7 +18,7 @@ class PastDue extends React.Component {
         <ListItem
           key={log.id}
           button
-          onClick={() => this.props.selectPastDue(log.id, log.category.item_id)}
+          onClick={() => this.props.selectPastDue(log.id, log.category.item_id, log.category_id)}
           divider
           // disableTypography={true}
         >
