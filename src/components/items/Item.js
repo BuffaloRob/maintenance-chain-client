@@ -84,7 +84,7 @@ const Item = ({ item, selectItem, deleteItemClick, editItemClick }) => {
             <Build />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText disableTypography={true} primary={item.name} />
+        <ListItemText primary={item.name} />
         <ListItemSecondaryAction>
           {renderAdmin(item)}
         </ListItemSecondaryAction>

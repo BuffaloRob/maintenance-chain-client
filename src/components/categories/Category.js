@@ -84,7 +84,7 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
             <Build />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText disableTypography={true} primary={category.name} />
+        <ListItemText primary={category.name} />
         <ListItemSecondaryAction>
           {renderAdmin(category)}
         </ListItemSecondaryAction>
