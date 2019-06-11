@@ -13,7 +13,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLogClick }) => {
 
-  const formattedDate = moment(log.date_performed).format("MMM Do YYYY");
+  const datePerformed = moment(log.date_performed).format("MMM Do YYYY");
+  const dateDue = moment(log.date_due).format("MMM Do YYYY");
 
   //Used in delete dialog pop up
   const [open, setOpen] = React.useState(false);
@@ -53,7 +54,7 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{`Are you sure you want to delete the log for ${formattedDate}?`}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{`Are you sure you want to delete the log for ${datePerformed}?`}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             You will lose all records associated with this log.
@@ -86,7 +87,11 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
             <Build />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary={formattedDate} />
+        <ListItemText 
+          primary={datePerformed}
+          secondary={`Due on: ${dateDue}`}
+          
+        />
         <ListItemSecondaryAction>
           {renderAdmin(log)}
         </ListItemSecondaryAction>
