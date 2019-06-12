@@ -20,7 +20,6 @@ class PastDue extends React.Component {
           button
           onClick={() => this.props.selectPastDue(log.id, log.category.item_id, log.category_id)}
           divider
-          // disableTypography={true}
         >
           {log.category.name} was due on {formattedDateDue}
         </ListItem>
