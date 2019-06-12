@@ -126,6 +126,7 @@ class MaintenanceContainer extends React.Component {
                   selectItem={this.selectItem}
                   deleteItemClick={this.deleteItemClick}
                   editItemClick={this.editItemClick}
+                  isFetching={this.props.isFetching}
                 />}
               />
               {/* ItemCreate */}
@@ -164,6 +165,7 @@ const mapStateToProps = state => {
     selectedItem: state.selectedItem,
     selectedCategory: state.selectedCategory,
     selectedLog: state.selectedLog,
+    isFetching: state.auth.isFetching,
   }
 }
 
