@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import AddIcon from '@material-ui/icons/Add';
-import { List, Container, Typography, Box, Divider, Fab, Tooltip } from '@material-ui/core';
+import { List, Container, Typography, Box, Divider, Fab, Tooltip, CircularProgress } from '@material-ui/core';
 
 import Item from './Item';
 
-const ItemList = ({ items, selectItem, deleteItemClick }) => {
+const ItemList = ({ items, selectItem, deleteItemClick , isFetching }) => {
 
   const renderList = Object.keys(items).map(item => (
     <Item
@@ -16,8 +16,14 @@ const ItemList = ({ items, selectItem, deleteItemClick }) => {
     />
   ));
 
-  if (!items) {
-    return <h3>...Loading</h3>
+  if (isFetching) {
+    return (
+      <Box textAlign='center'>
+        <br/>
+        <br/>
+        <CircularProgress />
+      </Box>
+    )
   }
   return (
     <Container>
