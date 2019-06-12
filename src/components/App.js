@@ -4,7 +4,6 @@ import { Router, Route, Switch, withRouter } from 'react-router-dom';
 import { Container } from '@material-ui/core';
 
 import history from '../history';
-import Header from './header/HeaderContainer';
 import Home from './Home';
 import SignUp from './SignUp';
 import Login from './Login';
