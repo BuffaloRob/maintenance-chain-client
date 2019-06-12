@@ -9,11 +9,11 @@ import { editLog } from '../../actions/logActions';
 
 class LogEdit extends React.Component {
 
-  renderError({ error, touched }) {
-    if (touched && error) {
-      return <div className='header'>{error}</div>;
-    }
-  }
+  // renderError({ error, touched }) {
+  //   if (touched && error) {
+  //     return <div className='header'>{error}</div>;
+  //   }
+  // }
 
   // renderInput = ({ input, label, meta, type, variant, rows, multiline }) => (
   //   <TextField
@@ -135,6 +135,7 @@ const validate = values => {
   const errors = {};
   const requiredFields = [
     'date_performed',
+    'date_due'
   ]
   requiredFields.forEach(field => {
     if (!values[field]) {

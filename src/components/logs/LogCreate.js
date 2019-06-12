@@ -144,6 +144,7 @@ const validate = values => {
   const errors = {};
   const requiredFields = [
     'date_performed',
+    'date_due'
   ]
   requiredFields.forEach(field => {
     if (!values[field]) {
