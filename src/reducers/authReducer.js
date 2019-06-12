@@ -1,4 +1,4 @@
-import { AUTHENTICATION_SUCCESS, AUTHENTICATION_FAILURE, LOGOUT } from '../actions/types';
+import { AUTHENTICATION_SUCCESS, AUTHENTICATION_FAILURE, LOGOUT, IS_FETCHING, FETCH_ITEMS } from '../actions/types';
 
 const INITIAL_STATE = {
   currentUser: {},
@@ -25,6 +25,10 @@ export default (state = INITIAL_STATE, action) => {
         currentUser: {},
         isAuthenticated: false
       }
+    case IS_FETCHING:
+      return { ...state, isFetching: true }
+    case FETCH_ITEMS:
+      return { ...state, isFetching: false }
     default:
       return state;
   }
