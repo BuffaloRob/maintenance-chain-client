@@ -35,6 +35,9 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
         <ListItem button component={RouterLink} to="/pastdue">
           Past Due
         </ListItem>
+        <ListItem button component={RouterLink} to="/upcoming">
+          Upcoming
+        </ListItem>
         <ListItem button onClick={e => handleLogout(e)}>
           Log Out
         </ListItem>
@@ -46,28 +49,31 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
     <AppBar position="static">
       <Toolbar>
         <Container >
-          <MediaQuery minDeviceWidth={540}>
+          {/* <MediaQuery minDeviceWidth={500}>
             <Button component={RouterLink} to="/items" color="inherit">
               Items
-            </Button>
-            <Button component={RouterLink} to="/" color="inherit">
+            </Button> */}
+            {/* <Button component={RouterLink} to="/" color="inherit">
               Home
             </Button>
             <Button component={RouterLink} to="/pastdue" color="inherit">
               Past Due
             </Button>
-            <Button onClick={e => handleLogout(e)} color="inherit">
+            <Button component={RouterLink} to="/upcoming" color="inherit">
+              Upcoming
+            </Button> */}
+            {/* <Button onClick={e => handleLogout(e)} color="inherit">
               Log Out
             </Button>
-          </MediaQuery>
-          <MediaQuery maxDeviceWidth={539}>
+          </MediaQuery> */}
+          {/* <MediaQuery maxDeviceWidth={499}> */}
             <IconButton edge="start" onClick={toggleDrawer('left', true)}>
               <MenuIcon />
             </IconButton>
             <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
               {sideList('left')}
             </Drawer>
-          </MediaQuery>
+          {/* </MediaQuery> */}
         </Container >
         <Container align="right">
           <Typography variant='body1' noWrap>
