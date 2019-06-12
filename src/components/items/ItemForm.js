@@ -1,19 +1,10 @@
 import React from "react";
 import { Link as RouterLink } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'
-import { TextField, Button, Box, Typography, Fab, Tooltip, FormHelperText } from "@material-ui/core";
+import { TextField, Button, Box, Fab, Tooltip, FormHelperText } from "@material-ui/core";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 class ItemForm extends React.Component {
-
-  renderError({ error, touched }) {
-    if (touched && error) {
-      // return <div className='header'>{error}</div>;
-      return (
-        <Typography>{error}</Typography>
-      )
-    }
-  }
 
   renderInput = ({ input, label, meta: {touched, error} }) => (
     <>
