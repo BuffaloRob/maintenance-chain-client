@@ -41,6 +41,11 @@ export const fetchItems = () => {
 
   return dispatch => {
     fetch(`${API}/items`, data)
+      .then(
+        dispatch({
+          type: types.IS_FETCHING
+        })
+      )
       .then(resp => resp.json())
       .then(resp => {
         if (!resp.error) {
