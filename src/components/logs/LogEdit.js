@@ -2,31 +2,12 @@ import React from "react";
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
-import { TextField, Button, Box, InputAdornment, Fab, Tooltip } from "@material-ui/core";
+import { TextField, Button, Box, Fab, Tooltip } from "@material-ui/core";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import { editLog } from '../../actions/logActions';
 
 class LogEdit extends React.Component {
-
-  // renderError({ error, touched }) {
-  //   if (touched && error) {
-  //     return <div className='header'>{error}</div>;
-  //   }
-  // }
-
-  // renderInput = ({ input, label, meta, type, variant, rows, multiline }) => (
-  //   <TextField
-  //     label={label}
-  //     autoComplete="off"
-  //     type={type}
-  //     variant={variant}
-  //     rows={rows}
-  //     multiline={multiline}
-  //     {...input}
-  //     margin="normal"
-  //   />
-  // )
 
   customTextField = ({ input, ...restProps }) => {
     return (

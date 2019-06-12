@@ -9,25 +9,6 @@ import { createLog } from '../../actions/logActions';
 
 class LogCreate extends React.Component {
 
-  renderError({ error, touched }) {
-    if (touched && error) {
-      return <div className='header'>{error}</div>;
-    }
-  }
-
-  // renderInput = ({ input, label, meta, type, variant, rows, multiline }) => (
-  //   <TextField
-  //     {...input}
-  //     label={label}
-  //     autoComplete="off"
-  //     type={type}
-  //     variant={variant}
-  //     multiline={multiline}
-  //     rows={rows}
-  //     margin="normal"
-  //   />
-  // )
-
   textFieldWithAdornment = ({ InputProps = {}, input, ...restProps }) => {
     return (
       <TextField
