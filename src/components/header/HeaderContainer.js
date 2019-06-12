@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import RenderLoggedIn from '../components/header/RenderLoggedIn';
-import RenderLoggedOut from '../components/header/RenderLoggedOut'
-import { logout, fetchUser } from '../actions/authActions';
+import RenderLoggedIn from './RenderLoggedIn';
+import RenderLoggedOut from './RenderLoggedOut'
+import { logout, fetchUser } from '../../actions/authActions';
 
 // Move this to the Header folder
 
-class Header extends React.Component {
+class HeaderContainer extends React.Component {
 
   componentDidMount() {
     this.props.fetchUser();
@@ -37,4 +37,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { logout, fetchUser })(Header);
+export default connect(mapStateToProps, { logout, fetchUser })(HeaderContainer);
