@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from 'react-redux';
+import Container from "@material-ui/core/Container";
 
 import { fetchItem, editItem } from '../../actions/itemActions';
 import ItemForm from "./ItemForm";
-import { Container } from "@material-ui/core";
 
 class ItemEdit extends React.Component {
 

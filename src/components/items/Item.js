@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { ListItem, ListItemText, ListItemAvatar, Box, Divider, Avatar, ListItemSecondaryAction, Fab, Icon } from '@material-ui/core';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
 import Button from '@material-ui/core/Button'
+import Divider from '@material-ui/core/Divider'
+import Avatar from '@material-ui/core/Avatar'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Icon from '@material-ui/core/Icon'
+import Fab from '@material-ui/core/Fab'
+import Box from '@material-ui/core/Box'
 import Build from '@material-ui/icons/Build';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,8 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-
-const Item = ({ item, selectItem, deleteItemClick, editItemClick }) => {
+const Item = ({ item, selectItem, deleteItemClick }) => {
 
   //Used in delete dialog pop up
   const [open, setOpen] = React.useState(false);
@@ -65,7 +72,6 @@ const Item = ({ item, selectItem, deleteItemClick, editItemClick }) => {
           </Button>
         </DialogActions>
       </Dialog>
-      
     </Box>
 
   );

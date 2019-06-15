@@ -1,7 +1,12 @@
 import React from "react";
 import { Link as RouterLink } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'
-import { TextField, Button, Box, Fab, Tooltip, FormHelperText } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import Fab from "@material-ui/core/Fab";
+import Tooltip from "@material-ui/core/Tooltip";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 class ItemForm extends React.Component {
