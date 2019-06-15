@@ -8,13 +8,12 @@ import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
 import history from './history';
 import { Router } from 'react-router-dom'
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 import App from "./components/App";
 import rootReducer from './reducers'
-
-import { ThemeProvider} from '@material-ui/styles';
 import theme from './ui/theme';
-import CssBaseline from "@material-ui/core/CssBaseline";
 
 const persistConfig = {
   key: 'root',

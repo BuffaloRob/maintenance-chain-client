@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Router, Route, Switch, withRouter } from 'react-router-dom';
-import { Container } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
 
 import history from '../history';
 import Home from './Home';

@@ -1,9 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 import { login } from '../actions/authActions';
-import { TextField, Button, Box, Typography } from '@material-ui/core';
 
 class Login extends React.Component {
   renderError({ error, touched }) {
