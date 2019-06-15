@@ -38,7 +38,6 @@ export const fetchItems = () => {
       // 'Authorization': sessionStorage.jwt
     }
   }
-
   return dispatch => {
     fetch(`${API}/items`, data)
       .then(resp => resp.json())

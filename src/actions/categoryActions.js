@@ -36,5 +36,3 @@ export const deleteCategory = (id, itemId) => async dispatch => {
   dispatch({ type: types.DELETE_CATEGORY, payload: id });
   history.push(`/item/${itemId}`);
 }
-
-

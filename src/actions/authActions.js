@@ -14,7 +14,6 @@ export const signup = (user, callback) => {
     },
     body: JSON.stringify({ user })
   }
-
   return dispatch => {
     fetch(`${API_URL}/signup`, data)
       .then(resp => resp.json())
@@ -45,7 +44,6 @@ export const login = (user, callback) => {
     },
     body: JSON.stringify({ user })
   }
-
   return dispatch => {
     fetch(`${API_URL}/login`, data)
       .then(resp => resp.json())
@@ -66,7 +64,6 @@ export const login = (user, callback) => {
   }
 }
 
-
 export const fetchUser = () => {
   let data = {
     method: 'GET',
@@ -77,7 +74,6 @@ export const fetchUser = () => {
       // 'Authorization': sessionStorage.jwt
     }
   }
-
   return dispatch => {
     fetch(`${API_URL}/user`, data)
       .then(resp => resp.json())
@@ -107,7 +103,6 @@ export const logout = () => {
       'Authorization': 'nil'
     }
   }
-
   return dispatch => {
     sessionStorage.clear();
     fetch(`${API_URL}/logout`, data)
