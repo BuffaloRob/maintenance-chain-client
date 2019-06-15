@@ -1,7 +1,14 @@
 import React from "react";
 import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
-import { Container, Typography, Box, List, ListItem, Divider, Fab, Tooltip } from "@material-ui/core";
+import Container from '@material-ui/core/Container';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Tooltip from '@material-ui/core/Tooltip';
+import Divider from '@material-ui/core/Divider';
+import Fab from '@material-ui/core/Fab';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 const LogShow = ({ log, itemId }) => {

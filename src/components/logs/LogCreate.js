@@ -2,7 +2,12 @@ import React from "react";
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
-import { TextField, Button, Box, InputAdornment, Fab, Tooltip } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import Tooltip from "@material-ui/core/Tooltip";
+import Fab from "@material-ui/core/Fab";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import { createLog } from '../../actions/logActions';
