@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { Typography, Box } from "@material-ui/core";
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 import history from '../history';
 import ItemList from './items/ItemList';
@@ -125,7 +126,6 @@ class MaintenanceContainer extends React.Component {
                   items={Object.values(this.props.items)}
                   selectItem={this.selectItem}
                   deleteItemClick={this.deleteItemClick}
-                  editItemClick={this.editItemClick}
                 />}
               />
               {/* ItemCreate */}
