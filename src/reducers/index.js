@@ -5,7 +5,6 @@ import storage from 'redux-persist/lib/storage/session';
 import authReducer from './authReducer';
 import itemReducer from './itemReducer';
 import categoryReducer from './categoryReducer';
-import logReducer from './logReducer';
 import queryReducer from './queryReducer';
 import selectedItemReducer from './selectedItemReducer';
 import selectedCategoryReducer from './selectedCategoryReducer';
@@ -18,7 +17,6 @@ const appReducer = combineReducers({
   selectedItem: selectedItemReducer,
   selectedCategory: selectedCategoryReducer,
   categories: categoryReducer,
-  logs: logReducer,
   query: queryReducer,
   selectedLog: selectedLogReducer,
   
