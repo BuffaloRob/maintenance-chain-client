@@ -1,7 +1,6 @@
 import { SELECT_ITEM, SELECT_CATEGORY, SELECT_LOG } from './types';
 
 export const itemSelector = item => dispatch => {
-  console.log(`item Selected: ${item.id}`)
   dispatch({ type: SELECT_ITEM, payload: item })
 }
 

@@ -7,7 +7,6 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import Category from './Category';
 
 const CategoryList = ({ item, selectCategory, match, editCategoryClick, deleteCategoryClick, location, history }) => {
-  console.log('CategoryList render')
   
   const renderList = item.categories.map(category => (
     <Category
