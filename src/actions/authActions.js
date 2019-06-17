@@ -3,7 +3,8 @@ import history from '../history';
 import { CLEAR_DATA, AUTHENTICATION_FAILURE, AUTHENTICATION_SUCCESS } from './types';
 import jwtDecode from 'jwt-decode';
 
-const API_URL = "http://localhost:3000/api/v1"
+// const API_URL = "http://localhost:3000/api/v1"
+const API_URL = 'https://maintenance-chain-api.herokuapp.com/api'
 
 export const signup = (user, callback) => {
   let data = {
