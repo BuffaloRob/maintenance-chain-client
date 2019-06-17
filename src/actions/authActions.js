@@ -4,7 +4,7 @@ import { CLEAR_DATA, AUTHENTICATION_FAILURE, AUTHENTICATION_SUCCESS } from './ty
 import jwtDecode from 'jwt-decode';
 
 // const API_URL = "http://localhost:3000/api/v1"
-const API_URL = 'https://maintenance-chain-api.herokuapp.com/api'
+const API_URL = 'https://maintenance-chain-api.herokuapp.com/api/v1'
 
 export const signup = (user, callback) => {
   let data = {

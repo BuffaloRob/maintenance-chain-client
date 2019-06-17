@@ -3,7 +3,7 @@ import apiURL from '../apis/maintenance';
 import * as types from './types';
 
 // const API = "http://localhost:3000/api/v1"
-const API = 'https://maintenance-chain-api.herokuapp.com/api'
+const API = 'https://maintenance-chain-api.herokuapp.com/api/v1'
 
 export const createItem = formValues => async (dispatch, getState) => {
   const user_id = getState().auth.currentUser.user_id;
