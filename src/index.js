@@ -15,6 +15,10 @@ import App from "./components/App";
 import rootReducer from './reducers'
 import theme from './ui/theme';
 
+// TODO: 
+  // 1) If there are faults on server have them displayed on client instead of breaking app
+  // 2)
+
 const persistConfig = {
   key: 'root',
   storage,
