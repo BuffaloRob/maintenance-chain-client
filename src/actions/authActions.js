@@ -56,12 +56,14 @@ export const login = (user, callback) => {
         })
         callback()
       })
-      .catch(err => {
-        dispatch({
-          type: AUTHENTICATION_FAILURE,
-          payload: err
-        })
-      })
+      .catch(err => err)
+      // .catch(err => {
+      //   debugger
+      //   dispatch({
+      //     type: AUTHENTICATION_FAILURE,
+      //     payload: err
+      //   })
+      // })
   }
 }
 
@@ -79,7 +81,8 @@ export const fetchUser = () => {
     fetch(`${API_URL}/user`, data)
       .then(resp => resp.json())
       .then(user => {
-        if (user.error) {
+        // if (user.error) {
+        if (user.message) {
           dispatch({
             type: AUTHENTICATION_FAILURE,
             payload: user.error
@@ -87,7 +90,7 @@ export const fetchUser = () => {
         } else {
           dispatch({
             type: AUTHENTICATION_SUCCESS,
-            payload: user
+            payload: user.user
           })
         }
       })
