@@ -6,6 +6,8 @@ import jwtDecode from 'jwt-decode';
 // const API_URL = "http://localhost:3000/api/v1"
 const API_URL = 'https://maintenance-chain-api.herokuapp.com/api/v1'
 
+const TOKEN = localStorage.getItem('jwt')
+
 export const signup = (user, callback) => {
   let data = {
     method: 'POST',
@@ -19,7 +21,8 @@ export const signup = (user, callback) => {
     fetch(`${API_URL}/signup`, data)
       .then(resp => resp.json())
       .then(user => {
-        sessionStorage.setItem('jwt', user.jwt);
+        localStorage.setItem('jwt', user.jwt);
+        // sessionStorage.setItem('jwt', user.jwt);
         // let decoded = jwtDecode(user.jwt);
         dispatch({
           type: AUTHENTICATION_SUCCESS,
@@ -49,7 +52,8 @@ export const login = (user, callback) => {
     fetch(`${API_URL}/login`, data)
       .then(resp => resp.json())
       .then(user => {
-        sessionStorage.setItem('jwt', user.jwt)
+        localStorage.setItem('jwt', user.jwt)
+        // sessionStorage.setItem('jwt', user.jwt)
         dispatch({
           type: AUTHENTICATION_SUCCESS,
           payload: user.user
@@ -73,7 +77,8 @@ export const fetchUser = () => {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + sessionStorage.jwt
+      'Authorization': `Bearer ${TOKEN}`
+      // 'Authorization': 'Bearer ' + sessionStorage.jwt
       // 'Authorization': sessionStorage.jwt
     }
   }
@@ -107,7 +112,8 @@ export const logout = () => {
     }
   }
   return dispatch => {
-    sessionStorage.clear();
+    localStorage.clear();
+    // sessionStorage.clear();
     fetch(`${API_URL}/logout`, data)
     history.push('/');
     return dispatch({ type: CLEAR_DATA });
