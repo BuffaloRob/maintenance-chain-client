@@ -83,7 +83,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
         </Container >
         <Container align="right">
           <Typography variant='body1' noWrap>
-            Welcome {currentUser.user.email}
+            Welcome {currentUser.email}
           </Typography>
         </Container>
       </Toolbar>

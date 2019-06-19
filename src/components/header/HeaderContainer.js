@@ -19,7 +19,7 @@ class HeaderContainer extends React.Component {
   render() {
       if (
         this.props.isAuthenticated &&
-        this.props.currentUser.user.email
+        this.props.currentUser.email
       ) {
         return <RenderLoggedIn currentUser={this.props.currentUser} handleLogout={this.handleLogout}/>
       } else {
