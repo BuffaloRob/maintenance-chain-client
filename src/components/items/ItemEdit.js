@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import Container from "@material-ui/core/Container";
 
-import { fetchItem, editItem } from '../../actions/itemActions';
+import { editItem } from '../../actions/itemActions';
 import ItemForm from "./ItemForm";
 
 class ItemEdit extends React.Component {
@@ -30,4 +30,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 }
 
-export default connect(mapStateToProps, { fetchItem, editItem })(ItemEdit);
+export default connect(mapStateToProps, { editItem })(ItemEdit);
