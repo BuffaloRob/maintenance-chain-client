@@ -3,10 +3,10 @@ import history from '../history';
 import { CLEAR_DATA, AUTHENTICATION_FAILURE, AUTHENTICATION_SUCCESS } from './types';
 import jwtDecode from 'jwt-decode';
 
-// const API_URL = "http://localhost:3000/api/v1"
-const API_URL = 'https://maintenance-chain-api.herokuapp.com/api/v1'
+// REACT_APP_API_URL = "http://localhost:3000/api/v1"
+// REACT_APP_API_URL = 'https://maintenance-chain-api.herokuapp.com/api/v1'
 
-const TOKEN = localStorage.getItem('jwt')
+// TODO: 1) Convert all axios calls to fetch
 
 export const signup = (user, callback) => {
   let data = {
@@ -18,7 +18,7 @@ export const signup = (user, callback) => {
     body: JSON.stringify({ user })
   }
   return dispatch => {
-    fetch(`${API_URL}/signup`, data)
+    fetch(`${process.env.REACT_APP_API_URL}/signup`, data)
       .then(resp => resp.json())
       .then(user => {
         localStorage.setItem('jwt', user.jwt);
@@ -49,25 +49,23 @@ export const login = (user, callback) => {
     body: JSON.stringify({ user })
   }
   return dispatch => {
-    fetch(`${API_URL}/login`, data)
+    fetch(`${process.env.REACT_APP_API_URL}/login`, data)
       .then(resp => resp.json())
       .then(user => {
-        localStorage.setItem('jwt', user.jwt)
-        // sessionStorage.setItem('jwt', user.jwt)
-        dispatch({
-          type: AUTHENTICATION_SUCCESS,
-          payload: user.user
-        })
-        callback()
+        localStorage.setItem('jwt', user.jwt);
+        if (user.message) {
+          dispatch({
+            type: AUTHENTICATION_FAILURE,
+            payload: user.message
+          })
+        } else {
+          dispatch({
+            type: AUTHENTICATION_SUCCESS,
+            payload: user.user
+          })
+          callback();
+        }
       })
-      .catch(err => err)
-      // .catch(err => {
-      //   debugger
-      //   dispatch({
-      //     type: AUTHENTICATION_FAILURE,
-      //     payload: err
-      //   })
-      // })
   }
 }
 
@@ -77,20 +75,18 @@ export const fetchUser = () => {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${TOKEN}`
-      // 'Authorization': 'Bearer ' + sessionStorage.jwt
-      // 'Authorization': sessionStorage.jwt
+      'Authorization': 'Bearer ' + localStorage.jwt
     }
   }
   return dispatch => {
-    fetch(`${API_URL}/user`, data)
+    fetch(`${process.env.REACT_APP_API_URL}/user`, data)
       .then(resp => resp.json())
       .then(user => {
         // if (user.error) {
         if (user.message) {
           dispatch({
             type: AUTHENTICATION_FAILURE,
-            payload: user.error
+            payload: user.message
           })        
         } else {
           dispatch({
@@ -114,7 +110,7 @@ export const logout = () => {
   return dispatch => {
     localStorage.clear();
     // sessionStorage.clear();
-    fetch(`${API_URL}/logout`, data)
+    fetch(`${process.env.REACT_APP_API_URL}/logout`, data)
     history.push('/');
     return dispatch({ type: CLEAR_DATA });
   }
