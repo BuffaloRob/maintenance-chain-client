@@ -47,7 +47,7 @@ class PastDue extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    logs: Object.values(state.query),
+    logs: Object.values(state.pastDue),
   }
 }
 
