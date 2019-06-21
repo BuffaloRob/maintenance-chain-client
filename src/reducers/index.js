@@ -4,10 +4,11 @@ import storage from 'redux-persist/lib/storage/session';
 
 import authReducer from './authReducer';
 import itemReducer from './itemReducer';
-import queryReducer from './queryReducer';
 import selectedItemReducer from './selectedItemReducer';
 import selectedCategoryReducer from './selectedCategoryReducer';
 import selectedLogReducer from './selectedLogReducer';
+import upcomingReducer from './upcomingReducer';
+import pastDueReducer from './pastDueReducer';
 
 const appReducer = combineReducers({
   auth: authReducer,
@@ -15,8 +16,9 @@ const appReducer = combineReducers({
   items: itemReducer,
   selectedItem: selectedItemReducer,
   selectedCategory: selectedCategoryReducer,
-  query: queryReducer,
   selectedLog: selectedLogReducer,
+  pastDue: pastDueReducer,
+  upcoming: upcomingReducer,
 })
 
 // this will reset all state upon logout. It stops persist from keeping data that shouldn't be there (i.e. logging in as a different user)
