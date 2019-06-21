@@ -24,3 +24,27 @@ export const fetchPastDue = () => {
       .catch(err => err)
   }
 }
+
+export const fetchUpcoming = () => {
+  return dispatch => {
+    fetch(`${process.env.REACT_APP_API_URL}/upcoming`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.jwt
+      }
+    })
+      .then(resp => resp.json())
+      .then(resp => {
+        if (!resp.error) {
+          dispatch({
+            type: types.FETCH_UPCOMING,
+            payload: resp
+          })
+          history.push(`/upcoming`)
+        }
+      })
+      .catch(err => err)
+  }
+}
