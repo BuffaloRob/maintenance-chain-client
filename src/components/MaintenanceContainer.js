@@ -16,10 +16,11 @@ import LogEdit from './logs/LogEdit';
 import LogShow from './logs/LogShow';
 import LogList from './logs/LogList';
 import { fetchItems, deleteItem } from '../actions/itemActions';
-import { deleteCategory } from '../actions/categoryActions'
-import { deleteLog } from '../actions/logActions'
+import { deleteCategory } from '../actions/categoryActions';
+import { deleteLog } from '../actions/logActions';
 import { itemSelector, categorySelector, logSelector } from '../actions/selectActions';
 import PastDue from "./PastDue";
+import Upcoming from './Upcoming';
 
 class MaintenanceContainer extends React.Component {
   componentDidMount() {
@@ -82,6 +83,16 @@ class MaintenanceContainer extends React.Component {
     history.push(`/log/${log[0].id}`)
   }
 
+  selectUpcoming = (logId, itemId, catId) => {
+    const item = this.props.items[itemId] 
+    this.props.itemSelector(item)
+    const cat = item.categories.filter(cat => (cat.id === catId))
+    this.props.categorySelector(cat, itemId)
+    const log = item.logs.filter(log => (log.id === logId))
+    this.props.logSelector(log)
+    history.push(`/log/${log[0].id}`)
+  }
+
   render() {
 
     if (this.props.isAuthenticated) {
@@ -93,6 +104,12 @@ class MaintenanceContainer extends React.Component {
               <Route exact path='/pastdue' render={props =>
                 <PastDue {...props}
                   selectPastDue={this.selectPastDue}
+                />}
+              />
+              {/* Upcoming */}
+              <Route exact path='/upcoming' render={props =>
+                <Upcoming {...props}
+                  selectUpcoming={this.selectUpcoming}
                 />}
               />
               {/* LogCreate */}
