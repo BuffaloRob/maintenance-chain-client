@@ -6,8 +6,6 @@ import jwtDecode from 'jwt-decode';
 // REACT_APP_API_URL = "http://localhost:3000/api/v1"
 // REACT_APP_API_URL = 'https://maintenance-chain-api.herokuapp.com/api/v1'
 
-// TODO: 1) Convert all axios calls to fetch
-
 export const signup = (user, callback) => {
   let data = {
     method: 'POST',
