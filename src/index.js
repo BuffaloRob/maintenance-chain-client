@@ -20,7 +20,7 @@ import theme from './ui/theme';
   // 2) Create more robust authorization w/ OAuth
   // 3) Create predictive Due dates based on monthly mileage input
   // 4) Make due dates capable of create calendar events in google calendars
-  // 5) 
+  // 5) Make a PWA
 
 const persistConfig = {
   key: 'root',
