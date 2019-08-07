@@ -1,5 +1,7 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
+import enginePic from '../../assets/engine.JPG';
+
 let theme = createMuiTheme({
   palette: {
     type: 'dark',
@@ -8,6 +10,19 @@ let theme = createMuiTheme({
     error: { main: '#388e3c' }
   },
   overrides: {
+    MuiCssBaseline: {
+      "@global": {
+        body: {
+          backgroundImage: `url(${enginePic})`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center",
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed",
+
+
+        }
+      }
+    },
     MuiFab: {
       root: {
         margin: "3px",
