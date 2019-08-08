@@ -1,6 +1,6 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
-import enginePic from '../../assets/engine.JPG';
+// import enginePic from '../../assets/engine.JPG';
 
 let theme = createMuiTheme({
   palette: {
