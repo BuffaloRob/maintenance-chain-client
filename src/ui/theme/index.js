@@ -7,22 +7,21 @@ let theme = createMuiTheme({
     type: 'dark',
     primary: { main: '#F4511E' },
     secondary: { main: '#78909C' },
-    error: { main: '#388e3c' }
+    error: { main: '#388e3c' },
   },
   overrides: {
-    MuiCssBaseline: {
-      "@global": {
-        body: {
-          backgroundImage: `url(${enginePic})`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center center",
-          backgroundSize: "cover",
-          backgroundAttachment: "fixed",
-
-
-        }
-      }
-    },
+    // MuiCssBaseline: {
+    //   "@global": {
+    //     body: {
+    //       backgroundImage: `url(${enginePic})`,
+    //       backgroundRepeat: "no-repeat",
+    //       backgroundPosition: "center center",
+    //       backgroundSize: "cover",
+    //       backgroundAttachment: "fixed",
+    //       height: "100%",
+    //     }
+    //   }
+    // },
     MuiFab: {
       root: {
         margin: "3px",
