@@ -16,6 +16,7 @@ import rootReducer from './reducers'
 import theme from './ui/theme';
 
 // TODO: 
+  // *** Update Allowed callbacks, web origins, & logout URL's in auth0 application settings
   // 1) If there are faults on server have them displayed on client instead of breaking app
   // 2) Create more robust authorization w/ OAuth
   // 3) Create predictive Due dates based on monthly mileage input
