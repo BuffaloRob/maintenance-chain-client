@@ -15,7 +15,7 @@ export const signup = (user, callback) => {
     },
     body: JSON.stringify({ user })
   }
-  return dispatch => {
+  return dispatch => {  
     fetch(`${process.env.REACT_APP_API_URL}/signup`, data)
       .then(resp => resp.json())
       .then(user => {
@@ -42,7 +42,8 @@ export const login = (user, callback) => {
     method: "POST",
     headers: {
       "Accept": "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + localStorage.jwt
     },
     body: JSON.stringify({ user })
   }
@@ -66,6 +67,36 @@ export const login = (user, callback) => {
       })
   }
 }
+
+// export const login = (user, callback) => {
+//   let data = {
+//     method: "POST",
+//     headers: {
+//       "Accept": "application/json",
+//       "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify({ user })
+//   }
+//   return dispatch => {
+//     fetch(`${process.env.REACT_APP_API_URL}/login`, data)
+//       .then(resp => resp.json())
+//       .then(user => {
+//         localStorage.setItem('jwt', user.jwt);
+//         if (user.message) {
+//           dispatch({
+//             type: AUTHENTICATION_FAILURE,
+//             payload: user.message
+//           })
+//         } else {
+//           dispatch({
+//             type: AUTHENTICATION_SUCCESS,
+//             payload: user.user
+//           })
+//           callback();
+//         }
+//       })
+//   }
+// }
 
 export const fetchUser = () => {
   let data = {
