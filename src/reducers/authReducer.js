@@ -2,7 +2,7 @@ import { AUTHENTICATION_SUCCESS, AUTHENTICATION_FAILURE, LOGOUT } from '../actio
 
 const INITIAL_STATE = {
   currentUser: {},
-  isAuthenticated: false
+  // isAuthenticated: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -11,19 +11,19 @@ export default (state = INITIAL_STATE, action) => {
       return { 
         ...state, 
         currentUser: action.payload, 
-        isAuthenticated: true 
+        // isAuthenticated: true 
       }
     case AUTHENTICATION_FAILURE:
       return {
         ...state,
         currentUser: {},
-        isAuthenticated: false
+        // isAuthenticated: false
       }
     case LOGOUT:
       return {
         ...state,
         currentUser: {},
-        isAuthenticated: false
+        // isAuthenticated: false
       }
     default:
       return state;
