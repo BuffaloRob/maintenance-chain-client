@@ -9,15 +9,26 @@ import SignUp from './SignUp';
 import Login from './Login';
 import MaintenanceContainer from './MaintenanceContainer';
 import HeaderContainer from './header/HeaderContainer';
+import NavBar from './Navbar';
+import { useAuth0 } from '../react-auth0-wrapper';
 
 class App extends React.Component {
 
+  
+
   render() {
+    const { loading } = useAuth0;
+    if (loading) {
+      return (
+        <div>Loading...</div>
+      )
+    }
     return (
       <Container maxWidth='md'>
         <Router history={history}>
           <>
-            <HeaderContainer />
+            {/* <HeaderContainer /> */}
+            <NavBar />
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/signup" component={SignUp} />
