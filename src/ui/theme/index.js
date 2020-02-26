@@ -32,7 +32,7 @@ let theme = createMuiTheme({
       root: {
         margin: "4px"
       },
-    }
+    },
   }
 });
 
