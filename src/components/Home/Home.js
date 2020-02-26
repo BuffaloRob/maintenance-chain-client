@@ -5,8 +5,9 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 
-import enginePic from '../assets/cobraMotor.jpg';
+import enginePic from '../../assets/cobraMotor.jpg';
 import { withStyles } from "@material-ui/styles";
+import { StyledHeader, StyledCTA } from "./styles";
 
 // This adds the background pic to only the home page
 const styles = {
@@ -29,13 +30,16 @@ class Home extends React.Component {
     const {classes} = this.props;
     return (
       <Box textAlign="center" className={classes.body}>
-        <Typography>
-          Welcome to Maintenance Chain. To get started create an
+        <StyledHeader>
+          Welcome to Maintenance Chain 
+        </StyledHeader>
+        <StyledCTA>
+          To get started create an
           <Link color="primary" to={'/item/new'} component={RouterLink} >
             Item
           </Link>
           such as your car. Then make a category (oil change is a common example) to track. Once that's done just make a log entry for every oil change you perform.
-        </Typography>
+        </StyledCTA>
         <Divider/>
         <Typography>
           And if you've been here before you can just go to your

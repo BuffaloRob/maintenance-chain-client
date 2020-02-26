@@ -9,6 +9,7 @@ import Drawer from '@material-ui/core/Drawer';
 import ListItem from '@material-ui/core/ListItem';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
+import { StyledDrawer } from './styles';
 // import Button from '@material-ui/core/Button'
 // import MediaQuery from 'react-responsive';
 
@@ -76,9 +77,9 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
             <IconButton edge="start" onClick={toggleDrawer('left', true)}>
               <MenuIcon />
             </IconButton>
-            <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
+            <StyledDrawer open={state.left} onClose={toggleDrawer('left', false)}>
               {sideList('left')}
-            </Drawer>
+            </StyledDrawer>
           {/* </MediaQuery> */}
         </Container >
         <Container align="right">

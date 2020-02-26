@@ -17,6 +17,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { StyledListItem, StyledSecondaryAction } from './styles';
 
 const Item = ({ item, selectItem, deleteItemClick }) => {
 
@@ -78,7 +79,7 @@ const Item = ({ item, selectItem, deleteItemClick }) => {
     
   return (
     <Box>
-      <ListItem 
+      <StyledListItem 
         key={item.id} 
         button 
         disableGutters
@@ -91,10 +92,10 @@ const Item = ({ item, selectItem, deleteItemClick }) => {
           </Avatar>
         </ListItemAvatar>
         <ListItemText primary={item.name} />
-        <ListItemSecondaryAction>
+        <StyledSecondaryAction>
           {renderAdmin(item)}
-        </ListItemSecondaryAction>
-      </ListItem>
+        </StyledSecondaryAction>
+      </StyledListItem>
       <Divider />
     </Box>
   )
