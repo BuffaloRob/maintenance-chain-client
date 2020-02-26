@@ -27,9 +27,8 @@ const ItemList = ({ items, selectItem, deleteItemClick }) => {
   }
   return (
     <Container>
-      <Typography variant="h4" >
+      <Typography variant="h2" >
         <Box textAlign="center">Items</Box>
-        <Divider />
       </Typography>
       <List component="nav">{renderList}</List>
       <Box textAlign="left">

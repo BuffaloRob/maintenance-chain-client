@@ -24,15 +24,25 @@ let theme = createMuiTheme({
     // },
     MuiFab: {
       root: {
-        margin: "3px",
+        margin: "5px",
         // padding: "5px"
       }
     },
     MuiTypography: {
       root: {
-        margin: "4px"
+        margin: "4px",
+      },
+      h2: {
+        padding: "40px 0",
+      },
+      h3: {
+        padding: "40px 0",
+      },
+      h4: {
+        padding: "40px 0",
       },
     },
+
   }
 });
 
