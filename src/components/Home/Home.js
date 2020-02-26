@@ -5,7 +5,7 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 
-import enginePic from '../assets/cobraMotor.jpg';
+import enginePic from '../../assets/cobraMotor.jpg';
 import { withStyles } from "@material-ui/styles";
 
 // This adds the background pic to only the home page
