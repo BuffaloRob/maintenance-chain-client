@@ -10,6 +10,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Divider from '@material-ui/core/Divider';
 import Fab from '@material-ui/core/Fab';
 import ArrowBack from '@material-ui/icons/ArrowBack';
+import { BottomButtons, StyledLogListItem } from "./styles";
 
 const LogShow = ({ log, itemId }) => {
   const formattedDatePerformed = moment(log[0].date_performed).format("MMM Do YYYY");
@@ -17,40 +18,39 @@ const LogShow = ({ log, itemId }) => {
 
   return (
     <Container>
-      <Typography variant="h4">
+      <Typography variant="h2">
         <Box textAlign="center">
-          Log for {formattedDatePerformed}
+          Log on {formattedDatePerformed}
         </Box>
-        <Divider />
       </Typography>
       <List>
-        <ListItem>
-          <Typography variant="subtitle2" color="primary">Performed On: </Typography>
-          <Typography variant="subtitle1">{formattedDatePerformed}</Typography>
-        </ListItem>
+        <StyledLogListItem alignItems="flex-start">
+          <Typography variant="h5" color="primary">Performed On:</Typography>
+          <Typography variant="h5">{formattedDatePerformed}</Typography>
+        </StyledLogListItem>
         <Divider />
-        <ListItem>
-          <Typography variant="subtitle2" color="primary">Due On:</Typography>
-          <Typography variant="subtitle1">{formattedDateDue}</Typography>
-        </ListItem>
+        <StyledLogListItem>
+          <Typography variant="h5" color="primary">Due On:</Typography>
+          <Typography variant="h5">{formattedDateDue}</Typography>
+        </StyledLogListItem>
         <Divider />
-        <ListItem>
-          <Typography variant="subtitle2" color="primary">Cost:</Typography>
-          <Typography variant="subtitle1">${log[0].cost}</Typography>
-        </ListItem>
+        <StyledLogListItem>
+          <Typography variant="h5" color="primary">Cost:</Typography>
+          <Typography variant="h5">${log[0].cost}</Typography>
+        </StyledLogListItem>
         <Divider />
-        <ListItem>
-          <Typography variant="subtitle2" color="primary">Tools Used:</Typography>
-          <Typography variant="subtitle1">{log[0].tools}</Typography>
-        </ListItem>
+        <StyledLogListItem>
+          <Typography variant="h5" color="primary">Tools Used:</Typography>
+          <Typography variant="h5">{log[0].tools}</Typography>
+        </StyledLogListItem>
         <Divider />
-        <ListItem>
-          <Typography variant="subtitle2" color="primary">Notes:</Typography>
-          <Typography variant="subtitle1">{log[0].notes}</Typography>
-        </ListItem>
+        <StyledLogListItem>
+          <Typography variant="h5" color="primary">Notes:</Typography>
+          <Typography variant="h5">{log[0].notes}</Typography>
+        </StyledLogListItem>
         <Divider />
       </List>
-      <Box textAlign="left">
+      <BottomButtons>
         <Fab
           color="secondary"
           aria-label="Back to Logs"
@@ -62,7 +62,7 @@ const LogShow = ({ log, itemId }) => {
             <ArrowBack />
           </Tooltip>
         </Fab>
-      </Box>
+      </BottomButtons>
     </Container>
   )
 }

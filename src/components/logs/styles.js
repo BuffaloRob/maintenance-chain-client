@@ -52,6 +52,37 @@ export const StyledListItem = styled(ListItem)`
   }
 `
 
+export const StyledLogListItem = styled(ListItem)`
+  align-items: flex-start;
+  h5:nth-of-type(1) {
+    min-width: 20%;
+  }
+  h5:nth-of-type(2) {
+    padding-left: 4px;
+    font-weight: 500;
+  }
+  @media(max-width: 768px) {
+    h5:nth-of-type(1) {
+      min-width: 25%;
+    }
+  }
+  @media(max-width: 600px) {
+    h5:nth-of-type(1) {
+      min-width: 30%;
+    }
+  }
+  @media(max-width: 500px) {
+    h5:nth-of-type(1) {
+      min-width: 35%;
+    }
+  }
+  @media(max-width: 435px) {
+    h5:nth-of-type(1) {
+      min-width: 45%;
+    }
+  }
+`
+
 export const StyledSecondaryAction = styled(ListItemSecondaryAction)`
   @media(max-width: 768px) {
     max-width: 50px;
