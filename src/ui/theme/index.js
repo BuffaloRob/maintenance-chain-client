@@ -8,6 +8,7 @@ let theme = createMuiTheme({
     primary: { main: '#F4511E' },
     secondary: { main: '#78909C' },
     error: { main: '#388e3c' },
+    info: {main: '#ba000d'},
   },
   overrides: {
     // MuiCssBaseline: {
