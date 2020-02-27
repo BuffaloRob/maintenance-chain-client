@@ -34,7 +34,7 @@ let theme = createMuiTheme({
         margin: "4px",
       },
       h2: {
-        padding: "40px 0",
+        padding: "40px 0 80px",
       },
       h3: {
         padding: "40px 0",
