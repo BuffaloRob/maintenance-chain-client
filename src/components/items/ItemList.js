@@ -5,7 +5,6 @@ import List from "@material-ui/core/List";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Divider from "@material-ui/core/Divider";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import { BottomButtons } from './styles'
