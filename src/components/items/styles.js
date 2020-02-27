@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Grid from '@material-ui/core/Grid'
 
 export const BottomButtons = styled(Grid)`
-  margin-left: 15px;
+  margin-left: 11px;
 `
 
 export const ListItemGrid = styled(Grid)`  
@@ -20,7 +20,7 @@ export const ListItemGrid = styled(Grid)`
 `
 
 export const ButtonGrid = styled(Grid)`
-  @media(max-width: px)768 {
+  @media(max-width: 768px) {
     min-width: 46px;
   }
   @media(max-width: 374px) {
@@ -29,9 +29,9 @@ export const ButtonGrid = styled(Grid)`
 `
 
 export const StyledListItem = styled(ListItem)`
-  padding: 20px 20px;
+  padding: 20px 16px;
   @media(max-width: 768px) {
-    padding: 40px 20px;
+    padding: 40px 9px;
   }
   @media(max-width: 374px) {
     padding: 10px 10px;
