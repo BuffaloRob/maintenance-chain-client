@@ -4,11 +4,11 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Button from '@material-ui/core/Button'
-import Divider from '@material-ui/core/Divider'
 import Avatar from '@material-ui/core/Avatar'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Icon from '@material-ui/core/Icon'
 import Fab from '@material-ui/core/Fab'
+import Container from '@material-ui/core/Container'
 import Box from '@material-ui/core/Box'
 import Build from '@material-ui/icons/Build';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -17,7 +17,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { StyledListItem, StyledSecondaryAction } from './styles';
+import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const Item = ({ item, selectItem, deleteItemClick }) => {
 
@@ -31,8 +31,7 @@ const Item = ({ item, selectItem, deleteItemClick }) => {
   }
   
   const renderAdmin = (item) => (
-
-    <Box textAlign='right' >
+    <ButtonGrid>
       <Fab 
         color="secondary" 
         size="small"
@@ -42,14 +41,13 @@ const Item = ({ item, selectItem, deleteItemClick }) => {
       >
         <Icon>edit_icon</Icon>
       </Fab>
-      <Fab
-        color="primary"
+      <DeleteFab
         size="small"
         aria-label="Delete"
         onClick={handleClickOpen}
       >
         <DeleteIcon />
-      </Fab>
+      </DeleteFab>
       
       {/* Dialog code used for delete confirmation */}
       <Dialog
@@ -73,31 +71,31 @@ const Item = ({ item, selectItem, deleteItemClick }) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </ButtonGrid>
 
   );
     
   return (
-    <Box>
+    <ListItemGrid>
       <StyledListItem 
         key={item.id} 
         button 
         disableGutters
-        // alignItems="flex-start"
         onClick={() => selectItem(item.id)}
+        item
       >
-        <ListItemAvatar>
+        <StyledAvatar>
           <Avatar>
             <Build />
           </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary={item.name} />
+        </StyledAvatar>
+        <StyledListText primary={item.name} />
         <StyledSecondaryAction>
           {renderAdmin(item)}
         </StyledSecondaryAction>
       </StyledListItem>
-      <Divider />
-    </Box>
+      <StyledDivider />
+    </ListItemGrid>
   )
 }
 
