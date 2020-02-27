@@ -5,11 +5,10 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
-import Divider from '@material-ui/core/Divider';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-
+import { BottomButtons } from './styles'
 import Category from './Category';
 
 const CategoryList = ({ item, selectCategory, match, editCategoryClick, deleteCategoryClick, location, history }) => {
@@ -33,12 +32,11 @@ const CategoryList = ({ item, selectCategory, match, editCategoryClick, deleteCa
   }
   return (
     <Container>
-      <Typography variant="h4">
+      <Typography variant="h2">
         <Box textAlign="center">Maintenance Categories for {item.name}</Box>
-        <Divider />
       </Typography>
       <List component="nav">{renderList}</List>
-      <Box textAlign="left">
+      <BottomButtons>
         <Fab
           color="secondary"
           aria-label="Back to Categories"
@@ -61,7 +59,7 @@ const CategoryList = ({ item, selectCategory, match, editCategoryClick, deleteCa
             <AddIcon />
           </Tooltip>
         </Fab>   
-      </Box>
+      </BottomButtons>
     </Container>
   )
 

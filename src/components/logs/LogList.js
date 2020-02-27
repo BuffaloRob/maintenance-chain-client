@@ -9,7 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-
+import { BottomButtons } from './styles'
 import Log from '../logs/Log';
 
 const LogList = ({ category, selectLog, match, item, deleteLogClick, editLogClick }) => {
@@ -30,12 +30,11 @@ const LogList = ({ category, selectLog, match, item, deleteLogClick, editLogClic
 
   return (
     <Container>
-      <Typography variant="h4">
+      <Typography variant="h2">
         <Box textAlign="center">Logs for {category[0].name}</Box>
-        <Divider />
       </Typography>
       <List component="nav">{renderList}</List>
-      <Box textAlign="left">
+      <BottomButtons>
         <Fab
           color="secondary"
           aria-label="Back to Categories"
@@ -58,7 +57,7 @@ const LogList = ({ category, selectLog, match, item, deleteLogClick, editLogClic
             <AddIcon />
           </Tooltip>
         </Fab>
-      </Box>
+      </BottomButtons>
     </Container>
   )
 

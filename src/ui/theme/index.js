@@ -8,6 +8,7 @@ let theme = createMuiTheme({
     primary: { main: '#F4511E' },
     secondary: { main: '#78909C' },
     error: { main: '#388e3c' },
+    info: {main: '#ba000d'},
   },
   overrides: {
     // MuiCssBaseline: {
@@ -33,7 +34,7 @@ let theme = createMuiTheme({
         margin: "4px",
       },
       h2: {
-        padding: "40px 0",
+        padding: "40px 0 80px",
       },
       h3: {
         padding: "40px 0",

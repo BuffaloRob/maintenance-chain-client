@@ -5,9 +5,9 @@ import List from "@material-ui/core/List";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Divider from "@material-ui/core/Divider";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
+import { BottomButtons } from './styles'
 
 import Item from './Item';
 
@@ -31,7 +31,7 @@ const ItemList = ({ items, selectItem, deleteItemClick }) => {
         <Box textAlign="center">Items</Box>
       </Typography>
       <List component="nav">{renderList}</List>
-      <Box textAlign="left">
+      <BottomButtons>
         <Fab
           color="primary"
           aria-label="Create New Item"
@@ -43,7 +43,7 @@ const ItemList = ({ items, selectItem, deleteItemClick }) => {
             <AddIcon />
           </Tooltip>
         </Fab>  
-      </Box>
+      </BottomButtons>
     </Container>
   )
 }

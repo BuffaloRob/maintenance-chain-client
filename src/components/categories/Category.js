@@ -1,13 +1,7 @@
 import React from 'react';
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Icon from '@material-ui/core/Icon'
 import Fab from '@material-ui/core/Fab'
-import Box from '@material-ui/core/Box'
 import Avatar from '@material-ui/core/Avatar'
-import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import Build from '@material-ui/icons/Build';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -17,7 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Tooltip from '@material-ui/core/Tooltip';
-
+import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const Category = ({ category, selectCategory, match, itemId, editCategoryClick, deleteCategoryClick }) => {
 
@@ -31,7 +25,7 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
   }
 
   const renderAdmin = category => (
-    <Box textAlign='right' >
+    <ButtonGrid >
       <Fab
         color="secondary"
         size="small"
@@ -42,14 +36,14 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
           <Icon>edit_icon</Icon>
         </Tooltip>
       </Fab>
-      <Fab
+      <DeleteFab
         color="primary"
         size="small"
         aria-label="Delete"
         onClick={handleClickOpen}
       >
         <DeleteIcon />
-      </Fab>
+      </DeleteFab>
 
       {/* Dialog code used for delete confirmation */}
       <Dialog
@@ -74,31 +68,29 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
         </DialogActions>
       </Dialog>
 
-    </Box>
+    </ButtonGrid>
   );
 
   return (
-    <Box>
-      <ListItem 
+    <ListItemGrid>
+      <StyledListItem 
         key={category.id} 
         button 
         disableGutters
-        // divider={true}
-        // alignItems="flex-start"
         onClick={() => selectCategory(category.id, itemId)}
       >
-        <ListItemAvatar>
+        <StyledAvatar>
           <Avatar>
             <Build />
           </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary={category.name} />
-        <ListItemSecondaryAction>
+        </StyledAvatar>
+        <StyledListText primary={category.name} />
+        <StyledSecondaryAction>
           {renderAdmin(category)}
-        </ListItemSecondaryAction>
-      </ListItem>
-      <Divider />
-    </Box>
+        </StyledSecondaryAction>
+      </StyledListItem>
+      <StyledDivider />
+    </ListItemGrid>
   )
 }
 

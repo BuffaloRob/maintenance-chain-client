@@ -18,7 +18,7 @@ export const BottomButtons = styled(Grid)`
   }
   @media(max-width: 374px) {
     text-align: center;
-    margin-left: 0px;
+    margin-left: 0;
   }
 `
 
@@ -40,15 +40,15 @@ export const ButtonGrid = styled(Grid)`
 `
 
 export const StyledListItem = styled(ListItem)`
-  padding: 20px 16px;
+  padding: 40px 16px;
   @media(max-width: 768px) {
-    padding: 40px 16px;
+    padding: 50px 16px;
   }
   @media(max-width: 500px) {
-    padding: 35px 16px;
+    padding: 45px 16px;
   }
   @media(max-width: 374px) {
-    padding: 10px 10px;
+    padding: 30px 10px;
   }
 `
 

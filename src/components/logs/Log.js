@@ -18,7 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Tooltip from '@material-ui/core/Tooltip';
-
+import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLogClick }) => {
 
@@ -36,7 +36,7 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
   ////
   const renderAdmin = () => (
     
-    <Box textAlign='right' >
+    <ButtonGrid>
       <Fab
         color="secondary"
         size="small"
@@ -47,14 +47,14 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
           <Icon>edit_icon</Icon>
         </Tooltip>
       </Fab>
-      <Fab
+      <DeleteFab
         color="primary"
         size="small"
         aria-label="Delete"
         onClick={handleClickOpen}
       >
         <DeleteIcon />
-      </Fab>
+      </DeleteFab>
 
       {/* Dialog code used for delete confirmation */}
       <Dialog
@@ -78,34 +78,33 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </ButtonGrid>
   );
   
   return (
-    <Box>
-      <ListItem
+    <ListItemGrid>
+      <StyledListItem
         key={log.id}
         button
         disableGutters
-        // alignItems="flex-start"
         onClick={() => selectLog(log.id, itemId, categoryId)}
       >
-        <ListItemAvatar>
+        <StyledAvatar>
           <Avatar>
             <Build />
           </Avatar>
-        </ListItemAvatar>
-        <ListItemText 
+        </StyledAvatar>
+        <StyledListText 
           primary={datePerformed}
           secondary={`Due on: ${dateDue}`}
           
         />
-        <ListItemSecondaryAction>
+        <StyledSecondaryAction>
           {renderAdmin(log)}
-        </ListItemSecondaryAction>
-      </ListItem>
+        </StyledSecondaryAction>
+      </StyledListItem>
       <Divider />
-    </Box>
+    </ListItemGrid>
   )
 }
 
