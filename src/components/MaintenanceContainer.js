@@ -19,8 +19,8 @@ import { fetchItems, deleteItem } from '../actions/itemActions';
 import { deleteCategory } from '../actions/categoryActions';
 import { deleteLog } from '../actions/logActions';
 import { itemSelector, categorySelector, logSelector } from '../actions/selectActions';
-import PastDue from "./PastDue";
-import Upcoming from './Upcoming';
+import PastDue from "../components/PastDue/PastDue";
+import Upcoming from '../components/Upcoming/Upcoming';
 
 class MaintenanceContainer extends React.Component {
   componentDidMount() {
