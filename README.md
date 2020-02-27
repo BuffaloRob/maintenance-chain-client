@@ -4,5 +4,3 @@ You can test this out at http://maintenancecha.in or run it locally by running '
 TODO:
 - remove left padding for welcome container in navbar
 - trim email address
-- match list styling for categories & logs
-- make divs stack in list mobile view
