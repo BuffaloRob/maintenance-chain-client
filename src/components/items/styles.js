@@ -9,6 +9,15 @@ import Grid from '@material-ui/core/Grid'
 
 export const BottomButtons = styled(Grid)`
   margin-left: 11px;
+  @media(max-width: 768px) {
+    margin-left: 11px;
+  }
+  @media(max-width: 500px) {
+    margin-left: 15px;
+  }
+  @media(max-width: 374px) {
+    text-align: center;
+  }
 `
 
 export const ListItemGrid = styled(Grid)`  
@@ -31,7 +40,10 @@ export const ButtonGrid = styled(Grid)`
 export const StyledListItem = styled(ListItem)`
   padding: 20px 16px;
   @media(max-width: 768px) {
-    padding: 40px 9px;
+    padding: 40px 16px;
+  }
+  @media(max-width: 500px) {
+    padding: 35px 16px;
   }
   @media(max-width: 374px) {
     padding: 10px 10px;
