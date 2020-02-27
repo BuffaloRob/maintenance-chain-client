@@ -7,6 +7,10 @@ import Fab from '@material-ui/core/Fab'
 import ListItemText from '@material-ui/core/ListItemText'
 import Grid from '@material-ui/core/Grid'
 
+export const BottomButtons = styled(Grid)`
+  margin-left: 15px;
+`
+
 export const ListItemGrid = styled(Grid)`  
   @media(max-width: 374px) { 
     .MuiListItem-root {
