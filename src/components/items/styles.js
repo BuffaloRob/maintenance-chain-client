@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Grid from '@material-ui/core/Grid'
 
 export const BottomButtons = styled(Grid)`
+  padding-top: 20px;
   margin-left: 11px;
   @media(max-width: 768px) {
     margin-left: 11px;
@@ -17,6 +18,7 @@ export const BottomButtons = styled(Grid)`
   }
   @media(max-width: 374px) {
     text-align: center;
+    margin-left: 0px;
   }
 `
 
