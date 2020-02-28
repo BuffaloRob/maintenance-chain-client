@@ -5,9 +5,11 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import moment from 'moment'
+import Avatar from '@material-ui/core/Avatar'
+import Build from '@material-ui/icons/Build';
 
 import { fetchPastDue } from '../../actions/queryActions'
-import { StyledListItem } from './styles';
+import { StyledListItem, StyledListItemAvatar } from './styles';
 
 class PastDue extends React.Component {
 
@@ -25,6 +27,11 @@ class PastDue extends React.Component {
           onClick={() => this.props.selectPastDue(log.id, log.category.item_id, log.category_id)}
           divider
         >
+          <StyledListItemAvatar>
+            <Avatar>
+              <Build />
+            </Avatar>
+          </StyledListItemAvatar>
           {log.category.name} was due on {formattedDateDue}
         </StyledListItem>
       )
