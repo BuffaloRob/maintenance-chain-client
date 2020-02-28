@@ -3,26 +3,22 @@ import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
 import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
 import Divider from '@material-ui/core/Divider';
 import Fab from '@material-ui/core/Fab';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import { BottomButtons, StyledLogListItem } from "./styles";
+import { BottomButtons, StyledLogListItem, StyledTypography } from "./styles";
 
-const LogShow = ({ log, itemId }) => {
+const LogShow = ({ log, category, itemId }) => {
   const formattedDatePerformed = moment(log[0].date_performed).format("MMM Do YYYY");
   const formattedDateDue = moment(log[0].date_due).format("MMM Do YYYY");
 
   return (
     <Container>
-      <Typography variant="h2">
-        <Box textAlign="center">
-          Log on {formattedDatePerformed}
-        </Box>
-      </Typography>
+      <StyledTypography variant="h2">
+        {category[0].name} on {formattedDatePerformed}
+      </StyledTypography>
       <List>
         <StyledLogListItem alignItems="flex-start">
           <Typography variant="h5" color="primary">Performed On:</Typography>

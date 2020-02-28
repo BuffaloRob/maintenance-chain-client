@@ -3,8 +3,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import AddIcon from '@material-ui/icons/Add';
 import List from "@material-ui/core/List";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import { BottomButtons, StyledTypography } from './styles'

@@ -2,13 +2,11 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import { BottomButtons } from './styles'
+import { BottomButtons, StyledTypography } from './styles'
 import Category from './Category';
 
 const CategoryList = ({ item, selectCategory, match, editCategoryClick, deleteCategoryClick, location, history }) => {
@@ -32,9 +30,9 @@ const CategoryList = ({ item, selectCategory, match, editCategoryClick, deleteCa
   }
   return (
     <Container>
-      <Typography variant="h2">
-        <Box textAlign="center">Maintenance Categories for {item.name}</Box>
-      </Typography>
+      <StyledTypography variant="h2">
+        {item.name}
+      </StyledTypography>
       <List component="nav">{renderList}</List>
       <BottomButtons>
         <Fab
