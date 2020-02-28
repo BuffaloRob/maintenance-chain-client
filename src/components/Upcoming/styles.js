@@ -10,6 +10,9 @@ export const StyledListItem = styled(ListItem)`
   justify-content: flex-start;
   align-content: center;
   padding: 40px 0 40px 26px;
+  @media(max-width: 600px) {
+    padding-left: 18px;
+  }
 `
 
 export const StyledListItemAvatar = styled(ListItemAvatar)`
@@ -21,4 +24,7 @@ export const StyledListItemAvatar = styled(ListItemAvatar)`
 export const StyledTypography = styled(Typography)`
   text-align: start;
   padding: 80px 0 40px 20px;
+  @media(max-width: 600px) {
+    padding: 60px 0 20px 12px;
+  }
 `
