@@ -36,14 +36,14 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
         <ListItem button component={RouterLink} to="/items">
           Items
         </ListItem>
-        <ListItem button component={RouterLink} to="/">
-          Home
+        <ListItem button component={RouterLink} to="/upcoming">
+          Upcoming
         </ListItem>
         <ListItem button component={RouterLink} to="/pastdue">
           Past Due
         </ListItem>
-        <ListItem button component={RouterLink} to="/upcoming">
-          Upcoming
+        <ListItem button component={RouterLink} to="/">
+          Welcome
         </ListItem>
         <ListItem button onClick={e => handleLogout(e)}>
           Log Out
