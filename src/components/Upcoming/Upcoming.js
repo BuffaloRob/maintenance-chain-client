@@ -1,16 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import moment from 'moment'
+import Container from '@material-ui/core/Container';
+import List from '@material-ui/core/List';
 import Avatar from '@material-ui/core/Avatar'
 import Build from '@material-ui/icons/Build';
+import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
 import { fetchUpcoming } from '../../actions/queryActions'
-import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
 class Upcoming extends React.Component {
 
