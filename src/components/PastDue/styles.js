@@ -23,8 +23,8 @@ export const StyledListItemAvatar = styled(ListItemAvatar)`
 
 export const StyledTypography = styled(Typography)`
   text-align: start;
-  padding: 80px 0 40px 20px;
+  padding: 60px 0 40px 20px;
   @media(max-width: 600px) {
-    padding: 60px 0 20px 12px;
+    padding: 40px 0 20px 12px;
   }
 `
