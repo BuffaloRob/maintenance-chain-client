@@ -6,9 +6,11 @@ import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import moment from 'moment'
+import Avatar from '@material-ui/core/Avatar'
+import Build from '@material-ui/icons/Build';
 
 import { fetchUpcoming } from '../../actions/queryActions'
-import { StyledListItem } from './styles';
+import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
 class Upcoming extends React.Component {
 
@@ -26,6 +28,11 @@ class Upcoming extends React.Component {
           onClick={() => this.props.selectUpcoming(log.id, log.category.item_id, log.category_id)}
           divider
         >
+          <StyledListItemAvatar>
+            <Avatar>
+              <Build />
+            </Avatar>
+          </StyledListItemAvatar>
           {log.category.name} will be due on {formattedDateDue}
         </StyledListItem>
       )
@@ -36,9 +43,9 @@ class Upcoming extends React.Component {
   render() {
     return (
       <Container>
-        <Typography variant="h2">
-          <Box textAlign="center">Upcoming Work</Box>
-        </Typography>
+        <StyledTypography variant="h2">
+          Upcoming Work
+        </StyledTypography>
         <List component="nav">{this.renderList()}</List>
       </Container>
     )

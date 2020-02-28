@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Build from '@material-ui/icons/Build';
 
 import { fetchPastDue } from '../../actions/queryActions'
-import { StyledListItem, StyledListItemAvatar } from './styles';
+import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
 class PastDue extends React.Component {
 
@@ -42,9 +42,9 @@ class PastDue extends React.Component {
   render() {
     return (
       <Container>
-        <Typography variant="h2">
-          <Box textAlign="center">Past Due</Box>
-        </Typography>
+        <StyledTypography variant="h2">
+          Past Due
+        </StyledTypography>
         <List component="nav">{this.renderList()}</List>
       </Container>
     )
