@@ -74,7 +74,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
             </Button>
           </MediaQuery> */}
           {/* <MediaQuery maxDeviceWidth={499}> */}
-            <IconButton edge="start" onClick={toggleDrawer('left', true)}>
+          <IconButton edge="start" onClick={toggleDrawer('left', true)} style={{ paddingRight: "4px" }}>
               <MenuIcon />
             </IconButton>
             <StyledDrawer open={state.left} onClose={toggleDrawer('left', false)}>
