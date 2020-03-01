@@ -2,8 +2,6 @@ You can test this out at http://maintenancecha.in or run it locally by running '
 
 
 TODO:
-- remove left padding for welcome container in navbar
-- trim email address
 - make delete button bg hover color same as edit button
 - SSO
 - Push notifications
