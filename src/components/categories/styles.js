@@ -6,6 +6,18 @@ import Divider from '@material-ui/core/Divider'
 import Fab from '@material-ui/core/Fab'
 import ListItemText from '@material-ui/core/ListItemText'
 import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+
+export const StyledTypography = styled(Typography)`
+  text-align: start;
+  padding: 60px 0 40px 20px;
+  @media(max-width: 600px) {
+    padding: 40px 0 20px 12px;
+  }
+  @media(max-width: 374px) {
+    text-align: center;
+  }
+`
 
 export const BottomButtons = styled(Grid)`
   padding-top: 20px;

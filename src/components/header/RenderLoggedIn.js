@@ -5,7 +5,6 @@ import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
-import Drawer from '@material-ui/core/Drawer';
 import ListItem from '@material-ui/core/ListItem';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -17,6 +16,7 @@ import { StyledDrawer } from './styles';
 const RenderLoggedIn = ({ currentUser, handleLogout }) => {
   //taken from example https://material-ui.com/components/drawers/
   const [state, setState] = React.useState({ left: false });
+  const userName = currentUser.email.split("@")[0];
 
   const toggleDrawer = (side, open) => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -36,14 +36,14 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
         <ListItem button component={RouterLink} to="/items">
           Items
         </ListItem>
-        <ListItem button component={RouterLink} to="/">
-          Home
+        <ListItem button component={RouterLink} to="/upcoming">
+          Upcoming
         </ListItem>
         <ListItem button component={RouterLink} to="/pastdue">
           Past Due
         </ListItem>
-        <ListItem button component={RouterLink} to="/upcoming">
-          Upcoming
+        <ListItem button component={RouterLink} to="/">
+          Welcome
         </ListItem>
         <ListItem button onClick={e => handleLogout(e)}>
           Log Out
@@ -74,7 +74,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
             </Button>
           </MediaQuery> */}
           {/* <MediaQuery maxDeviceWidth={499}> */}
-            <IconButton edge="start" onClick={toggleDrawer('left', true)}>
+          <IconButton edge="start" onClick={toggleDrawer('left', true)} style={{ paddingRight: "4px" }}>
               <MenuIcon />
             </IconButton>
             <StyledDrawer open={state.left} onClose={toggleDrawer('left', false)}>
@@ -82,9 +82,9 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
             </StyledDrawer>
           {/* </MediaQuery> */}
         </Container >
-        <Container align="right">
+        <Container align="right" style={{paddingLeft: "4px"}}>
           <Typography variant='body1' noWrap>
-            Welcome {currentUser.email}
+            Welcome {userName}
           </Typography>
         </Container>
       </Toolbar>

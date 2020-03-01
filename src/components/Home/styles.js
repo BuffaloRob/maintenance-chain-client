@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 
 export const StyledHeader = styled(Typography)`
-  color: #fff;
+  color: #F4511E;
   font-size: 50px;
   font-weight: 500;
   @media (max-width: 768px) {

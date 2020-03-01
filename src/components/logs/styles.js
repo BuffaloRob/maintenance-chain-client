@@ -6,6 +6,18 @@ import Divider from '@material-ui/core/Divider'
 import Fab from '@material-ui/core/Fab'
 import ListItemText from '@material-ui/core/ListItemText'
 import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+
+export const StyledTypography = styled(Typography)`
+  text-align: start;
+  padding: 60px 0 40px 20px;
+  @media(max-width: 600px) {
+    padding: 40px 0 20px 12px;
+  }
+  @media(max-width: 374px) {
+    text-align: center;
+  }
+`
 
 export const BottomButtons = styled(Grid)`
   padding-top: 20px;
@@ -49,6 +61,37 @@ export const StyledListItem = styled(ListItem)`
   }
   @media(max-width: 374px) {
     padding: 30px 10px;
+  }
+`
+
+export const StyledLogListItem = styled(ListItem)`
+  align-items: flex-start;
+  h5:nth-of-type(1) {
+    min-width: 20%;
+  }
+  h5:nth-of-type(2) {
+    padding-left: 4px;
+    font-weight: 500;
+  }
+  @media(max-width: 768px) {
+    h5:nth-of-type(1) {
+      min-width: 25%;
+    }
+  }
+  @media(max-width: 600px) {
+    h5:nth-of-type(1) {
+      min-width: 30%;
+    }
+  }
+  @media(max-width: 500px) {
+    h5:nth-of-type(1) {
+      min-width: 35%;
+    }
+  }
+  @media(max-width: 435px) {
+    h5:nth-of-type(1) {
+      min-width: 45%;
+    }
   }
 `
 

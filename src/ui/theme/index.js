@@ -37,10 +37,10 @@ let theme = createMuiTheme({
         padding: "40px 0 80px",
       },
       h3: {
-        padding: "40px 0",
+        padding: "20px 0",
       },
       h4: {
-        padding: "40px 0",
+        padding: "0 0",
       },
     },
 

@@ -3,11 +3,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import AddIcon from '@material-ui/icons/Add';
 import List from "@material-ui/core/List";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
-import { BottomButtons } from './styles'
+import { BottomButtons, StyledTypography } from './styles'
 
 import Item from './Item';
 
@@ -27,9 +25,9 @@ const ItemList = ({ items, selectItem, deleteItemClick }) => {
   }
   return (
     <Container>
-      <Typography variant="h2" >
-        <Box textAlign="center">Items</Box>
-      </Typography>
+      <StyledTypography variant="h2">
+        Items
+      </StyledTypography>
       <List component="nav">{renderList}</List>
       <BottomButtons>
         <Fab
