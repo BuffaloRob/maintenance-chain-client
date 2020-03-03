@@ -11,6 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Tooltip from '@material-ui/core/Tooltip';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const Item = ({ item, selectItem, deleteItemClick }) => {
@@ -33,14 +34,18 @@ const Item = ({ item, selectItem, deleteItemClick }) => {
         component={RouterLink} 
         to={`/item/${item.id}/edit`}
       >
-        <Icon>edit_icon</Icon>
+        <Tooltip title="Edit" placement="top">
+          <Icon>edit_icon</Icon>
+        </Tooltip>
       </Fab>
       <DeleteFab
         size="small"
         aria-label="Delete"
         onClick={handleClickOpen}
       >
-        <DeleteIcon />
+        <Tooltip title="Delete" placement="top">
+          <DeleteIcon />
+        </Tooltip>
       </DeleteFab>
       
       {/* Dialog code used for delete confirmation */}
@@ -60,7 +65,7 @@ const Item = ({ item, selectItem, deleteItemClick }) => {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => deleteItemClick(item.id)} color="primary" autoFocus>
+          <Button onClick={() => deleteItemClick(item.id)} color="primary">
             Delete
           </Button>
         </DialogActions>

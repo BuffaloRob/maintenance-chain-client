@@ -83,6 +83,12 @@ export const DeleteFab = styled(Fab)`
   .MuiSvgIcon-root {
     fill: #ba000d;
   }
+  .MuiFab-root:hover {
+    background-color: rgb(84, 100, 109);
+  }
+  .hover {
+    background-color: rgb(84, 100, 109);
+  }
 `
 
 export const StyledAvatar = styled(ListItemAvatar)`
