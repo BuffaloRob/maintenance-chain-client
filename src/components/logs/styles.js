@@ -111,6 +111,9 @@ export const StyledListText = styled(ListItemText)`
 
 export const DeleteFab = styled(Fab)`
   background-color: #78909C;
+  &:hover {
+    background-color: rgb(84, 100, 109);
+  }
   .MuiSvgIcon-root {
     fill: #ba000d;
   }
