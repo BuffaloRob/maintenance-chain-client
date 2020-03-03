@@ -55,7 +55,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Container >
+        <Container maxWidth="md">
           {/* <MediaQuery minDeviceWidth={500}>
             <Button component={RouterLink} to="/items" color="inherit">
               Items
@@ -74,7 +74,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
             </Button>
           </MediaQuery> */}
           {/* <MediaQuery maxDeviceWidth={499}> */}
-          <IconButton edge="start" onClick={toggleDrawer('left', true)} style={{ paddingRight: "4px" }}>
+          <IconButton edge="start" onClick={toggleDrawer('left', true)}>
               <MenuIcon />
             </IconButton>
             <StyledDrawer open={state.left} onClose={toggleDrawer('left', false)}>
