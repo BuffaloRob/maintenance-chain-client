@@ -4,15 +4,17 @@ import Box from "@material-ui/core/Box";
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 
-import shop from '../../assets/shop-prog.jpg';
+import car from '../../assets/racecar-on-stands-prog.jpg';
+import tools from '../../assets/set-of-tools.jpg';
+import enginePic from '../../assets/cobraMotorProg.jpg';
 import { withStyles } from "@material-ui/styles";
-import { StyledHeader, StyledCTA, CtaHeader, StyledDivider, StyledIntro } from "./styles";
+import { StyledHeader, StyledCTA, CtaHeader, StyledDivider, StyledIntro, GridContainer } from "./styles";
 
 // This adds the background pic to only the home page
 const styles = {
   "@global": {
     body: {
-      backgroundImage: `url(${shop})`,
+      backgroundImage: `url(${car})`,
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center center",
       backgroundSize: "cover",
@@ -28,8 +30,8 @@ class Home extends React.Component {
   render() {
     const {classes} = this.props;
     return (
-      <Box textAlign="center" className={classes.body}>
-        <StyledHeader variant='h1'>
+      <GridContainer className={classes.body}>
+        <StyledHeader variant='h1' align='center'>
           Maintenance Chain 
         </StyledHeader>
         <StyledIntro>
@@ -37,7 +39,7 @@ class Home extends React.Component {
         </StyledIntro>
         <StyledDivider />
         <StyledCTA>
-          <CtaHeader>
+          <CtaHeader align='center'>
             How to use this app:
           </CtaHeader>
           <div>
@@ -55,13 +57,13 @@ class Home extends React.Component {
           </div>
         </StyledCTA>
         <StyledDivider/>
-        <Typography variant='h5'>
+        <Typography variant='h3' align='center'>
           Go to your 
           <Link to={'/items'} component={RouterLink}>
             Items
           </Link>
         </Typography>
-      </Box>
+      </GridContainer>
     );
   }
 }
