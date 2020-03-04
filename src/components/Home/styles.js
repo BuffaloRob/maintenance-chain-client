@@ -26,7 +26,7 @@ export const CtaHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 20px;
-  /* color: black; */
+  color: #F4511E;
 `
 
 export const StyledDivider = styled(Divider)` 

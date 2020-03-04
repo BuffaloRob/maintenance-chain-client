@@ -4,7 +4,7 @@ import Box from "@material-ui/core/Box";
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 
-import shop from '../../assets/shop-2.jpg';
+import shop from '../../assets/shop-prog.jpg';
 import { withStyles } from "@material-ui/styles";
 import { StyledHeader, StyledCTA, CtaHeader, StyledDivider } from "./styles";
 

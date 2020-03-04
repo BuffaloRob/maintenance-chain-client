@@ -47,19 +47,19 @@ const RenderLoggedOut = () => {
           <MediaQuery minDeviceWidth={405}>
             <StyledNavButton
               component={RouterLink}
-              to="/signup"
-              color="primary"
-              variant="contained"
-            >
-              Sign Up
-            </StyledNavButton>
-            <StyledNavButton
-              component={RouterLink}
               to="/login"
               color="primary"
               variant="contained"
             >
               Log In
+            </StyledNavButton>
+            <StyledNavButton
+              component={RouterLink}
+              to="/signup"
+              color="primary"
+              variant="contained"
+            >
+              Sign Up
             </StyledNavButton>
           </MediaQuery>
           <MediaQuery maxDeviceWidth={404}>
