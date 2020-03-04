@@ -30,7 +30,6 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
   }
   ////
   const renderAdmin = () => (
-    
     <ButtonGrid>
       <Fab
         color="secondary"
