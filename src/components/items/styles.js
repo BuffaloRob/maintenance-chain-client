@@ -14,7 +14,7 @@ export const StyledTypography = styled(Typography)`
   @media(max-width: 600px) {
     padding: 40px 0 20px 12px;
   }
-  @media(max-width: 374px) {
+  @media(max-width: 500px) {
     text-align: center;
   }
 `
@@ -26,16 +26,14 @@ export const BottomButtons = styled(Grid)`
     margin-left: 11px;
   }
   @media(max-width: 500px) {
-    margin-left: 15px;
-  }
-  @media(max-width: 374px) {
+    /* margin-left: 15px; */
     text-align: center;
     margin-left: 0px;
   }
 `
 
 export const ListItemGrid = styled(Grid)`  
-  @media(max-width: 374px) { 
+  @media(max-width: 500px) { 
     .MuiListItem-root {
       text-align: center;
     }
@@ -46,7 +44,7 @@ export const ButtonGrid = styled(Grid)`
   @media(max-width: 768px) {
     min-width: 46px;
   }
-  @media(max-width: 374px) {
+  @media(max-width: 500px) {
     display: none;
   }
 `
@@ -57,7 +55,7 @@ export const StyledListItem = styled(ListItem)`
     padding: 40px 16px;
   }
   @media(max-width: 500px) {
-    padding: 35px 16px;
+    padding: 20px 20px;
   }
   @media(max-width: 374px) {
     padding: 10px 10px;
@@ -80,6 +78,9 @@ export const StyledListText = styled(ListItemText)`
 
 export const DeleteFab = styled(Fab)`
   background-color: #78909C;
+  &:hover {
+    background-color: rgb(84, 100, 109);
+  }
   .MuiSvgIcon-root {
     fill: #ba000d;
   }

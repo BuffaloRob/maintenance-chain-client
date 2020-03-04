@@ -2,8 +2,6 @@ You can test this out at http://maintenancecha.in or run it locally by running '
 
 
 TODO:
-- make delete button bg hover color same as edit button
-- add tooltip to all fab's
 - Make log form styling consistent with rest of site 
 - SSO
 - Push notifications

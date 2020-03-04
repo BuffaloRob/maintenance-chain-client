@@ -32,7 +32,7 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
         aria-label="Edit"
         onClick={() => editCategoryClick(category.id, itemId)}
       >
-        <Tooltip title="edit">
+        <Tooltip title="Edit" placement="top">
           <Icon>edit_icon</Icon>
         </Tooltip>
       </Fab>
@@ -42,7 +42,9 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
         aria-label="Delete"
         onClick={handleClickOpen}
       >
-        <DeleteIcon />
+        <Tooltip title="Delete" placement="top">
+          <DeleteIcon />
+        </Tooltip>
       </DeleteFab>
 
       {/* Dialog code used for delete confirmation */}

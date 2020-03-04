@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -11,12 +10,13 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import { createLog } from '../../actions/logActions';
+import { StyledTextField, StyledContainer, StyledTypography, StyledForm } from "./styles";
 
 class LogCreate extends React.Component {
 
   textFieldWithAdornment = ({ InputProps = {}, input, ...restProps }) => {
     return (
-      <TextField
+      <StyledTextField
         InputProps={{
           ...InputProps, startAdornment: (
             < InputAdornment >
@@ -31,7 +31,7 @@ class LogCreate extends React.Component {
 
   customTextField =({ input, ...restProps }) => {
     return (
-      <TextField
+      <StyledTextField
         {...input}
         {...restProps}
       />
@@ -40,7 +40,7 @@ class LogCreate extends React.Component {
 
   customDateField = ({ InputLabelProps = {}, meta: { touched, error }, input, ...restProps }) => {
     return (
-      <TextField
+      <StyledTextField
         InputLabelProps={{ ...InputLabelProps, shrink: true }}
         error={touched && error}
         helperText={ touched && error ? error : null}
@@ -58,8 +58,11 @@ class LogCreate extends React.Component {
 
   render() {
     return (
-      <Box textAlign="center">
-        <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
+      <StyledContainer>
+        <StyledTypography variant="h2">
+          Create New Log
+        </StyledTypography>
+        <StyledForm onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
           <Field
             name='date_performed'
             type='date'
@@ -107,21 +110,21 @@ class LogCreate extends React.Component {
             <Button color="primary" type='submit'>Submit</Button>
           </Box>
           <br/>
-          <Box>
-            <Fab
-              color="secondary"
-              aria-label="Back to Logs"
-              size="small"
-              to={`/item/${this.props.match.params.itemId}/category/${this.props.match.params.id}`}
-              component={RouterLink}
-            >
-              <Tooltip title="Back to Logs">
-                <ArrowBack />
-              </Tooltip>
-            </Fab>
-          </Box>
-        </form>
-      </Box>
+        </StyledForm>
+        <Box>
+          <Fab
+            color="secondary"
+            aria-label="Back to Logs"
+            size="small"
+            to={`/item/${this.props.match.params.itemId}/category/${this.props.match.params.id}`}
+            component={RouterLink}
+          >
+            <Tooltip title="Back to Logs">
+              <ArrowBack />
+            </Tooltip>
+          </Fab>
+        </Box>
+      </StyledContainer>
     )
   }
 }
