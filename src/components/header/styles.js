@@ -8,7 +8,7 @@ export const StyledDrawer = styled(Drawer)`
     color: #F4511E;
     width: 25%;
     font-size: 30px;
-    padding-top: 40px;
+    /* padding-top: 40px; */
     // padding: 40px 0 0 30px;
     @media (max-width: 768px) {
       width: 70%;
@@ -17,10 +17,10 @@ export const StyledDrawer = styled(Drawer)`
 
   .MuiListItem-root {
     padding-left: 30px;
-    margin: 30px 0;
+    margin: 20px 0;
     @media(max-width: 768px) {
       padding-left: 40px;
-      margin: 40px 0;
+      margin: 20px 0;
     }
   
   }
