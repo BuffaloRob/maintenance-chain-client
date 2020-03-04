@@ -1,11 +1,10 @@
 import React from "react";
 import {Link as RouterLink} from 'react-router-dom';
 import Box from "@material-ui/core/Box";
-import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 
-import enginePic from '../../assets/cobraMotorProg.jpg';
+import shop from '../../assets/shop-2.jpg';
 import { withStyles } from "@material-ui/styles";
 import { StyledHeader, StyledCTA, CtaHeader, StyledDivider } from "./styles";
 
@@ -13,7 +12,7 @@ import { StyledHeader, StyledCTA, CtaHeader, StyledDivider } from "./styles";
 const styles = {
   "@global": {
     body: {
-      backgroundImage: `url(${enginePic})`,
+      backgroundImage: `url(${shop})`,
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center center",
       backgroundSize: "cover",
