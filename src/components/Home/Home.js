@@ -7,7 +7,7 @@ import Link from '@material-ui/core/Link';
 
 import enginePic from '../../assets/cobraMotorProg.jpg';
 import { withStyles } from "@material-ui/styles";
-import { StyledHeader, StyledCTA } from "./styles";
+import { StyledHeader, StyledCTA, CtaHeader, StyledDivider } from "./styles";
 
 // This adds the background pic to only the home page
 const styles = {
@@ -30,19 +30,31 @@ class Home extends React.Component {
     const {classes} = this.props;
     return (
       <Box textAlign="center" className={classes.body}>
-        <StyledHeader>
+        <StyledHeader variant='h2'>
           Welcome to Maintenance Chain 
         </StyledHeader>
         <StyledCTA>
-          To get started create an
-          <Link color="primary" to={'/item/new'} component={RouterLink} >
-            Item
-          </Link>
-          such as your car. Then make a category (oil change is a common example) to track. Once that's done just make a log entry for every oil change you perform.
+          <CtaHeader>
+            How to use this app:
+          </CtaHeader>
+          <StyledDivider />
+          <div>
+            1) Create an 
+            <Link color="primary" to={'/item/new'} component={RouterLink} >
+              Item
+            </Link>
+            to track, a common example would be your car.
+          </div>
+          <div>
+            2) Create a maintenance category for your item, in the case of your car a good example would be an oil change.
+          </div>
+          <div>
+            3) Make a log for every time you perform a maintenance category.
+          </div>
         </StyledCTA>
-        <Divider/>
-        <Typography>
-          And if you've been here before you can just go to your
+        <StyledDivider/>
+        <Typography variant='h5'>
+          Go to your 
           <Link to={'/items'} component={RouterLink}>
             Items
           </Link>
