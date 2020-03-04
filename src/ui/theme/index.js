@@ -8,25 +8,12 @@ let theme = createMuiTheme({
     primary: { main: '#F4511E' },
     secondary: { main: '#78909C' },
     error: { main: '#388e3c' },
-    info: {main: '#ba000d'},
+    text: { secondary: '#000000de' },
   },
   overrides: {
-    // MuiCssBaseline: {
-    //   "@global": {
-    //     body: {
-    //       backgroundImage: `url(${enginePic})`,
-    //       backgroundRepeat: "no-repeat",
-    //       backgroundPosition: "center center",
-    //       backgroundSize: "cover",
-    //       backgroundAttachment: "fixed",
-    //       height: "100%",
-    //     }
-    //   }
-    // },
     MuiFab: {
       root: {
-        margin: "5px",
-        // padding: "5px"
+        margin: "8px",
       }
     },
     MuiTypography: {
