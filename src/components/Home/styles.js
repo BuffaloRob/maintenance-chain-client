@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider';
 
 export const StyledHeader = styled(Typography)`
-  /* padding: 60px 0 40px; */
+  padding: 40px 0 20px;
   color: #F4511E;
   /* font-size: 50px; */
   font-weight: 500;
@@ -27,6 +27,17 @@ export const CtaHeader = styled.div`
   font-weight: 600;
   margin-bottom: 20px;
   color: #F4511E;
+`
+
+export const StyledIntro = styled.div`
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  color: #fff;
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
 `
 
 export const StyledDivider = styled(Divider)` 
