@@ -107,6 +107,9 @@ export const StyledListText = styled(ListItemText)`
     font-size: 20px;
     font-weight: 500;
   }
+  .MuiTypography-colorTextSecondary {
+    color: #ffff;
+  }
 `
 
 export const DeleteFab = styled(Fab)`
