@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
@@ -8,9 +7,9 @@ import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button'
 import MediaQuery from 'react-responsive';
 import MenuIcon from '@material-ui/icons/Menu';
+import { StyledNavButton, StyledMessage } from './styles';
 
 const RenderLoggedOut = () => {
   //taken from example https://material-ui.com/components/drawers/
@@ -46,20 +45,22 @@ const RenderLoggedOut = () => {
       <Toolbar >
         <Container>
           <MediaQuery minDeviceWidth={405}>
-            <Button
+            <StyledNavButton
               component={RouterLink}
               to="/signup"
-              color="inherit"
+              color="primary"
+              variant="contained"
             >
               Sign Up
-            </Button>
-            <Button
+            </StyledNavButton>
+            <StyledNavButton
               component={RouterLink}
               to="/login"
-              color="inherit"
+              color="primary"
+              variant="contained"
             >
               Log In
-            </Button>
+            </StyledNavButton>
           </MediaQuery>
           <MediaQuery maxDeviceWidth={404}>
             <IconButton edge="start" onClick={toggleDrawer('left', true)}>
@@ -71,9 +72,9 @@ const RenderLoggedOut = () => {
           </MediaQuery>
         </Container>
         <Container align="right">
-          <Typography variant='body1' noWrap>
+          <StyledMessage noWrap>
             Please Login
-          </Typography>
+          </StyledMessage>
         </Container>
       </Toolbar>
     </AppBar>

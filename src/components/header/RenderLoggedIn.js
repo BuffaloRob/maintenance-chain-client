@@ -75,7 +75,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
           </MediaQuery> */}
           {/* <MediaQuery maxDeviceWidth={499}> */}
           <IconButton edge="start" onClick={toggleDrawer('left', true)}>
-              <MenuIcon />
+            <MenuIcon style={{ fill: '#000000de' }} />
             </IconButton>
             <StyledDrawer open={state.left} onClose={toggleDrawer('left', false)}>
               {sideList('left')}
@@ -83,7 +83,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
           {/* </MediaQuery> */}
         </Container >
         <Container align="right" style={{paddingLeft: "4px"}}>
-          <Typography variant='body1' noWrap>
+          <Typography variant='h5' noWrap color="textSecondary">
             Welcome {userName}
           </Typography>
         </Container>
