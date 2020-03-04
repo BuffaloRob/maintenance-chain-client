@@ -7,6 +7,8 @@ import Fab from '@material-ui/core/Fab'
 import ListItemText from '@material-ui/core/ListItemText'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import TextField from "@material-ui/core/TextField"
+import Container from '@material-ui/core/Container'
 
 export const StyledTypography = styled(Typography)`
   text-align: start;
@@ -127,4 +129,19 @@ export const StyledAvatar = styled(ListItemAvatar)`
 
 export const StyledDivider = styled(Divider)`
   margin: 20px 0;
+`
+// ********* Log Create / Log Edit *********
+
+export const StyledTextField = styled(TextField)` 
+  .MuiFormLabel-root {
+    font-size: 1.4rem;
+  }
+`
+
+export const StyledContainer = styled(Container)`
+
+`
+
+export const StyledForm = styled.form`
+  margin: 40px 0 20px;
 `

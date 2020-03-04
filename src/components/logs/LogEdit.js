@@ -7,14 +7,14 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";import ArrowBack from '@material-ui/icons/ArrowBack';
-
+import { StyledTextField, StyledContainer, StyledTypography, StyledForm } from "./styles";
 import { editLog } from '../../actions/logActions';
 
 class LogEdit extends React.Component {
 
   customTextField = ({ input, ...restProps }) => {
     return (
-      <TextField
+      <StyledTextField
         {...input}
         {...restProps}
       />
@@ -23,7 +23,7 @@ class LogEdit extends React.Component {
 
   customDateField = ({ InputLabelProps = {}, meta: { touched, error }, input, ...restProps }) => {
     return (
-      <TextField
+      <StyledTextField
         InputLabelProps={{ ...InputLabelProps, shrink: true }}
         error={touched && error}
         helperText={touched && error ? error : null}
@@ -46,8 +46,11 @@ class LogEdit extends React.Component {
     }
 
     return (
-      <Box textAlign="center">
-        <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
+      <StyledContainer>
+        <StyledTypography variant="h2">
+          Edit Log
+        </StyledTypography>
+        <StyledForm onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
           <Field
             name='date_performed'
             type='date'
@@ -95,21 +98,21 @@ class LogEdit extends React.Component {
             <Button color='primary' type='submit'>Submit</Button>
           </Box>
           <br/>
-          <Box>
-            <Fab
-              color="secondary"
-              aria-label="Back to Logs"
-              size="small"
-              to={`/item/${this.props.match.params.id}/category/${this.props.selectedLog.category_id}`}
-              component={RouterLink}
-            >
-              <Tooltip title="Back to Logs">
-                <ArrowBack />
-              </Tooltip>
-            </Fab>
-          </Box>
-        </form>
-      </Box>
+        </StyledForm>
+        <Box>
+          <Fab
+            color="secondary"
+            aria-label="Back to Logs"
+            size="small"
+            to={`/item/${this.props.match.params.id}/category/${this.props.selectedLog.category_id}`}
+            component={RouterLink}
+          >
+            <Tooltip title="Back to Logs">
+              <ArrowBack />
+            </Tooltip>
+          </Fab>
+        </Box>
+      </StyledContainer>
     )
   }
 
