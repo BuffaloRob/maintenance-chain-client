@@ -39,7 +39,7 @@ class Login extends React.Component {
       
       // handleSubmit comes from reduxForm
       <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-        <Typography>Log In</Typography>
+        <Typography variant='h2'>Log In</Typography>
         <Field 
           name='email' 
           type='email' 
