@@ -5,11 +5,10 @@ import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import MediaQuery from 'react-responsive';
 import MenuIcon from '@material-ui/icons/Menu';
-import { StyledNavButton, StyledMessage } from './styles';
+import { StyledNavButton, StyledMessage, StyledDrawer } from './styles';
 
 const RenderLoggedOut = () => {
   //taken from example https://material-ui.com/components/drawers/
@@ -44,7 +43,7 @@ const RenderLoggedOut = () => {
     <AppBar position="static" >
       <Toolbar >
         <Container>
-          <MediaQuery minDeviceWidth={405}>
+          <MediaQuery minDeviceWidth={690}>
             <StyledNavButton
               component={RouterLink}
               to="/login"
@@ -62,13 +61,13 @@ const RenderLoggedOut = () => {
               Sign Up
             </StyledNavButton>
           </MediaQuery>
-          <MediaQuery maxDeviceWidth={404}>
+          <MediaQuery maxDeviceWidth={689}>
             <IconButton edge="start" onClick={toggleDrawer('left', true)}>
-              <MenuIcon />
+              <MenuIcon style={{ fill: '#000000de' }}/>
             </IconButton>
-            <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
+            <StyledDrawer open={state.left} onClose={toggleDrawer('left', false)}>
               {sideList('left')}
-            </Drawer>
+            </StyledDrawer>
           </MediaQuery>
         </Container>
         <Container align="right">
