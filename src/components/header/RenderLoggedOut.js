@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import MediaQuery from 'react-responsive';
 import MenuIcon from '@material-ui/icons/Menu';
-import { StyledNavButton, StyledMessage, StyledDrawer } from './styles';
+import { StyledNavButton, StyledDrawer, LogInButton, LeftNavContainer } from './styles';
 
 const RenderLoggedOut = () => {
   //taken from example https://material-ui.com/components/drawers/
@@ -42,7 +42,7 @@ const RenderLoggedOut = () => {
   return (
     <AppBar position="static" >
       <Toolbar >
-        <Container>
+        <LeftNavContainer>
           <MediaQuery minDeviceWidth={690}>
             <StyledNavButton
               component={RouterLink}
@@ -73,11 +73,16 @@ const RenderLoggedOut = () => {
               {sideList('left')}
             </StyledDrawer>
           </MediaQuery>
-        </Container>
+        </LeftNavContainer>
         <Container align="right">
-          <StyledMessage noWrap>
-            Please Login
-          </StyledMessage>
+          <LogInButton
+            component={RouterLink}
+            to="/login"
+            color="primary"
+            variant="contained"
+          >
+            Please Log In
+            </LogInButton>
         </Container>
       </Toolbar>
     </AppBar>
