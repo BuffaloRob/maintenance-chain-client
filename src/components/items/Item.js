@@ -81,7 +81,6 @@ const Item = ({ item, selectItem, deleteItemClick }) => {
         button 
         disableGutters
         onClick={() => selectItem(item.id)}
-        item
       >
         <StyledAvatar>
           <Avatar>

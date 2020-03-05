@@ -5,15 +5,15 @@ import List from "@material-ui/core/List";
 import Container from "@material-ui/core/Container";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
+import { v4 as uuidv4 } from 'uuid';
 import { BottomButtons, StyledTypography } from './styles'
 
 import Item from './Item';
 
 const ItemList = ({ items, selectItem, deleteItemClick }) => {
-
   const renderList = Object.keys(items).map(item => (
     <Item
-      key={items[item].id}
+      key={uuidv4()}
       item={items[item]}
       selectItem={selectItem}
       deleteItemClick={deleteItemClick}

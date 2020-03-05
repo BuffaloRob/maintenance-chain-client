@@ -27,8 +27,7 @@ export const StyledIntro = styled.div`
   }
 `
 
-export const StyledCTA = styled(Typography)`
-  white-space: pre-wrap;
+export const StyledCTA = styled.div`
   font-size: 24px;
   font-weight: 500;
   line-height: 2;

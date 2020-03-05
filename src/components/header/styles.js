@@ -2,6 +2,13 @@ import styled from 'styled-components'
 import Drawer from '@material-ui/core/Drawer'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+
+export const LeftNavContainer =styled(Container)` 
+  @media(max-width: 500px) {
+    max-width: 40px;
+  }
+`
 
 export const StyledDrawer = styled(Drawer)`
   .MuiDrawer-paperAnchorLeft {
@@ -29,6 +36,14 @@ export const StyledDrawer = styled(Drawer)`
 export const StyledNavButton = styled(Button)`
   margin-right: 20px;
   .MuiButton-label {
+    color: #000000de;
+    font-size: 20px;
+    font-weight: 500;
+  }
+`
+export const LogInButton = styled(Button)`
+  .MuiButton-label {
+    display: inline-block;
     color: #000000de;
     font-size: 20px;
     font-weight: 500;
