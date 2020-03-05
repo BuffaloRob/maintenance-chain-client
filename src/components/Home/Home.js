@@ -1,20 +1,16 @@
 import React from "react";
 import {Link as RouterLink} from 'react-router-dom';
-import Box from "@material-ui/core/Box";
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-
 import car from '../../assets/racecar-on-stands-prog.jpg';
-import tools from '../../assets/set-of-tools.jpg';
-import enginePic from '../../assets/cobraMotorProg.jpg';
 import { withStyles } from "@material-ui/styles";
-import { StyledHeader, StyledCTA, CtaHeader, StyledDivider, StyledIntro, GridContainer } from "./styles";
+import { StyledHeader, StyledCTA, CtaHeader, StyledDivider, StyledIntro, GridContainer, HowToDiv } from "./styles";
 
 // This adds the background pic to only the home page
 const styles = {
   "@global": {
     body: {
-      backgroundImage: `url(${car})`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${car})`,
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center center",
       backgroundSize: "cover",
@@ -42,19 +38,19 @@ class Home extends React.Component {
           <CtaHeader align='center'>
             How to use this app:
           </CtaHeader>
-          <div>
+          <HowToDiv>
             1) Create an 
-            <Link color="primary" to={'/item/new'} component={RouterLink} >
+            <Link color="textPrimary" to={'/item/new'} component={RouterLink} >
               Item
             </Link>
             to track, a common example would be your car.
-          </div>
-          <div>
+          </HowToDiv>
+          <HowToDiv>
             2) Create a maintenance category for your item, in the case of your car a good example would be an oil change.
-          </div>
-          <div>
+          </HowToDiv>
+          <HowToDiv>
             3) Make a log for every time you perform a maintenance category.
-          </div>
+          </HowToDiv>
         </StyledCTA>
         <StyledDivider/>
         <Typography variant='h3' align='center'>
