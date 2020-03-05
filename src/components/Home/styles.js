@@ -4,11 +4,11 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 
 export const GridContainer = styled(Grid)` 
-  padding-bottom: 80px;
+  padding-bottom: 60px;
 `
 
 export const StyledHeader = styled(Typography)`
-  padding: 30px 0 10px;
+  padding: 60px 0 20px;
   color: #F4511E;
   font-weight: 500;
   @media (max-width: 768px) {
@@ -21,7 +21,7 @@ export const StyledIntro = styled.div`
   font-weight: 500;
   margin-bottom: 20px;
   padding-bottom: 20px;
-  color: #F4511E;
+  color: #fff;
   @media (max-width: 768px) {
     font-size: 15px;
   }
@@ -38,10 +38,23 @@ export const StyledCTA = styled(Typography)`
 `
 
 export const CtaHeader = styled(Typography)`
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 600;
   margin-bottom: 20px;
   color: #F4511E;
+`
+
+export const HowToDiv = styled.div` 
+  color: #fff;
+`
+
+export const BottomDiv = styled(Typography)` 
+  color: #F4511E;
+  font-size: 40px;
+  font-weight: 500;
+  @media (max-width: 768px) {
+    font-size: 30px
+  }
 `
 
 export const StyledDivider = styled(Divider)` 

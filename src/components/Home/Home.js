@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import car from '../../assets/racecar-on-stands-prog.jpg';
 import { withStyles } from "@material-ui/styles";
-import { StyledHeader, StyledCTA, CtaHeader, StyledDivider, StyledIntro, GridContainer, HowToDiv } from "./styles";
+import { StyledHeader, StyledCTA, CtaHeader, StyledDivider, StyledIntro, GridContainer, HowToDiv, BottomDiv } from "./styles";
 
 // This adds the background pic to only the home page
 const styles = {
@@ -40,7 +40,7 @@ class Home extends React.Component {
           </CtaHeader>
           <HowToDiv>
             1) Create an 
-            <Link color="textPrimary" to={'/item/new'} component={RouterLink} >
+            <Link color="primary" to={'/item/new'} component={RouterLink} >
               Item
             </Link>
             to track, a common example would be your car.
@@ -53,12 +53,12 @@ class Home extends React.Component {
           </HowToDiv>
         </StyledCTA>
         <StyledDivider/>
-        <Typography variant='h3' align='center'>
+        <BottomDiv align='center'>
           Go to your 
-          <Link to={'/items'} component={RouterLink}>
+          <Link to={'/items'} component={RouterLink} color="textPrimary">
             Items
           </Link>
-        </Typography>
+        </BottomDiv>
       </GridContainer>
     );
   }
