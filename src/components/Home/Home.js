@@ -1,8 +1,7 @@
 import React from "react";
 import {Link as RouterLink} from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import car from '../../assets/racecar-on-stands-prog.jpg';
+import car from '../../assets/racecar-on-stands-optimized.jpg';
 import { withStyles } from "@material-ui/styles";
 import { StyledHeader, StyledCTA, CtaHeader, StyledDivider, StyledIntro, GridContainer, HowToDiv, BottomDiv } from "./styles";
 
