@@ -9,7 +9,7 @@ import { StyledHeader, StyledCTA, CtaHeader, StyledDivider, StyledIntro, GridCon
 const styles = {
   "@global": {
     body: {
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${car})`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${car})`,
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center center",
       backgroundSize: "cover",
