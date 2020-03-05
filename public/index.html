@@ -5,9 +5,6 @@
     <meta name="description" content="Keep track of common maintenance tasks">
     <meta name="keywords" content="Maintenance, Oil Change, Car Service, tune-up, Car Maintenance, Home Maintenance, upkeep">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link defer rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" />
-    <link defer rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" /> -->
     
     <!-- <script src="https://apis.google.com/js/api.js"></script> -->
 
@@ -21,6 +18,10 @@
       homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/icon?family=Material+Icons" as="style"
+      onload="this.onload=null;this.rel='stylesheet'">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
