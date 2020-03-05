@@ -13,7 +13,7 @@ import Item from './Item';
 const ItemList = ({ items, selectItem, deleteItemClick }) => {
   const renderList = Object.keys(items).map(item => (
     <Item
-      key={items[item].id}
+      key={uuidv4()}
       item={items[item]}
       selectItem={selectItem}
       deleteItemClick={deleteItemClick}
