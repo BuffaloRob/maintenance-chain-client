@@ -62,7 +62,11 @@ const RenderLoggedOut = () => {
             </StyledNavButton>
           </MediaQuery>
           <MediaQuery maxDeviceWidth={689}>
-            <IconButton edge="start" onClick={toggleDrawer('left', true)}>
+            <IconButton 
+              edge="start" 
+              onClick={toggleDrawer('left', true)} 
+              aria-label="Menu Button"
+            >
               <MenuIcon style={{ fill: '#000000de' }}/>
             </IconButton>
             <StyledDrawer open={state.left} onClose={toggleDrawer('left', false)}>

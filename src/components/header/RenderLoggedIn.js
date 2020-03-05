@@ -74,12 +74,16 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
             </Button>
           </MediaQuery> */}
           {/* <MediaQuery maxDeviceWidth={499}> */}
-          <IconButton edge="start" onClick={toggleDrawer('left', true)}>
+          <IconButton 
+            edge="start" 
+            onClick={toggleDrawer('left', true)} 
+            aria-label="Menu Button"
+          >
             <MenuIcon style={{ fill: '#000000de' }} />
-            </IconButton>
-            <StyledDrawer open={state.left} onClose={toggleDrawer('left', false)}>
-              {sideList('left')}
-            </StyledDrawer>
+          </IconButton>
+          <StyledDrawer open={state.left} onClose={toggleDrawer('left', false)}>
+            {sideList('left')}
+          </StyledDrawer>
           {/* </MediaQuery> */}
         </Container >
         <Container align="right" style={{paddingLeft: "4px"}}>
