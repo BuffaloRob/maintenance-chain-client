@@ -40,7 +40,7 @@ const RenderLoggedOut = () => {
   )
 
   return (
-    <AppBar position="static" >
+    <AppBar position="sticky" style={{ borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px' }} >
       <Toolbar >
         <LeftNavContainer>
           <MediaQuery minDeviceWidth={690}>
