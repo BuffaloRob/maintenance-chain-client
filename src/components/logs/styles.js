@@ -102,7 +102,7 @@ export const StyledSecondaryAction = styled(ListItemSecondaryAction)`
 `
 
 export const StyledListText = styled(ListItemText)`
-  color: #F4511E;
+  color: #F55932;
   .MuiTypography-body1 {
     font-size: 20px;
     font-weight: 500;

@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 export const StyledListItem = styled(ListItem)`
   font-size: 24px;
   font-weight: 500;
-  color: #F4511E;
+  color: #F55932;
   justify-content: flex-start;
   align-content: center;
   padding: 40px 0 40px 26px;

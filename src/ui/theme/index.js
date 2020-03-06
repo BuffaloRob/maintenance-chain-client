@@ -5,10 +5,11 @@ import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 let theme = createMuiTheme({
   palette: {
     type: 'dark',
-    primary: { main: '#F4511E' },
+    primary: { main: '#F55932' },
     secondary: { main: '#78909C' },
-    error: { main: '#388e3c' },
+    error: { main: '#0CCF16' },
     text: { secondary: '#000000de' },
+    background: { default: '#262626', background: '#303030' },
   },
   overrides: {
     MuiFab: {
@@ -29,6 +30,18 @@ let theme = createMuiTheme({
       h4: {
         padding: "0 0",
       },
+    },
+    MuiFormLabel: {
+      root: {
+        color: "#F55932",
+      }
+    },
+    MuiInput: {
+      underline: {
+        '&:hover:not(.Mui-disabled):before': {
+        borderBottom: '2px solid #F55932',
+        },
+      }
     },
   }
 });

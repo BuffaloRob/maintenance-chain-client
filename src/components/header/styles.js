@@ -12,7 +12,7 @@ export const LeftNavContainer =styled(Container)`
 
 export const StyledDrawer = styled(Drawer)`
   .MuiDrawer-paperAnchorLeft {
-    color: #F4511E;
+    color: #F55932;
     width: 25%;
     font-size: 30px;
     /* padding-top: 40px; */

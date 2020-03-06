@@ -9,7 +9,7 @@ export const GridContainer = styled(Grid)`
 
 export const StyledHeader = styled(Typography)`
   padding: 60px 0 20px;
-  color: #F4511E;
+  color: #F55932;
   font-weight: 500;
   @media (max-width: 768px) {
     font-size: 35px
@@ -40,7 +40,7 @@ export const CtaHeader = styled(Typography)`
   font-size: 40px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: #F4511E;
+  color: #F55932;
 `
 
 export const HowToDiv = styled.div` 
@@ -48,7 +48,7 @@ export const HowToDiv = styled.div`
 `
 
 export const BottomDiv = styled(Typography)` 
-  color: #F4511E;
+  color: #F55932;
   font-size: 40px;
   font-weight: 500;
   @media (max-width: 768px) {
@@ -57,7 +57,7 @@ export const BottomDiv = styled(Typography)`
 `
 
 export const StyledDivider = styled(Divider)` 
-  background-color: #F4511E;
+  background-color: #F55932;
   height: 3px;
   margin: 20px 0;
 `
