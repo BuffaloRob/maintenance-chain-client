@@ -1,16 +1,23 @@
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
-import { StyledDrawer } from './styles';
-// import Button from '@material-ui/core/Button'
-// import MediaQuery from 'react-responsive';
+import Grid from '@material-ui/core/Grid';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import HomeIcon from '@material-ui/icons/Home';
+import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { StyledDrawer, StyledNavButton } from './styles';
+
+import Button from '@material-ui/core/Button';
+import MediaQuery from 'react-responsive';
 
 
 const RenderLoggedIn = ({ currentUser, handleLogout }) => {
@@ -55,25 +62,67 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Container maxWidth="md">
-          {/* <MediaQuery minDeviceWidth={500}>
-            <Button component={RouterLink} to="/items" color="inherit">
-              Items
-            </Button> */}
-            {/* <Button component={RouterLink} to="/" color="inherit">
-              Home
-            </Button>
-            <Button component={RouterLink} to="/pastdue" color="inherit">
-              Past Due
-            </Button>
-            <Button component={RouterLink} to="/upcoming" color="inherit">
-              Upcoming
-            </Button> */}
-            {/* <Button onClick={e => handleLogout(e)} color="inherit">
-              Log Out
-            </Button>
-          </MediaQuery> */}
-          {/* <MediaQuery maxDeviceWidth={499}> */}
+        <Grid container>
+          <MediaQuery minDeviceWidth={700}>
+            <Grid 
+              container 
+              justify='flex-start' 
+              alignItems='center'
+            >
+              <Grid item xs={3}>
+                <Fab
+                  color='primary'
+                  aria-label='Home'
+                  size='small'
+                  to="/items"
+                  component={RouterLink}
+                >
+                  <Tooltip title='Items'>
+                    <HomeIcon />
+                  </Tooltip>
+                </Fab>
+              </Grid>
+              <Grid item xs={3}>
+                <Fab
+                  color='primary'
+                  aria-label='Upcoming'
+                  size='small'
+                  to="/upcoming"
+                  component={RouterLink}
+                >
+                  <Tooltip title='Upcoming'>
+                    <ArrowUpwardIcon />
+                  </Tooltip>
+                </Fab>
+              </Grid>
+              <Grid item xs={3}>
+                <Fab
+                  color='primary'
+                  aria-label='Past Due'
+                  size='small'
+                  to="/pastdue"
+                  component={RouterLink}
+                >
+                  <Tooltip title='Past Due'>
+                    <AccessAlarmIcon />
+                  </Tooltip>
+                </Fab>
+              </Grid>
+              <Grid item xs={3}>
+                <Fab
+                  color='primary'
+                  aria-label='Log Out'
+                  size='small'
+                  onClick={e => handleLogout(e)}
+                >
+                  <Tooltip title='Log Out'>
+                    <ExitToAppIcon />
+                  </Tooltip>
+                </Fab>
+              </Grid>
+            </Grid>
+          </MediaQuery>
+          <MediaQuery maxDeviceWidth={699}>
           <IconButton 
             edge="start" 
             onClick={toggleDrawer('left', true)} 
@@ -81,16 +130,24 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
           >
             <MenuIcon style={{ fill: '#000000de' }} />
           </IconButton>
-          <StyledDrawer open={state.left} onClose={toggleDrawer('left', false)}>
+          <StyledDrawer 
+            open={state.left} 
+            onClose={toggleDrawer('left', false)}
+          >
             {sideList('left')}
           </StyledDrawer>
-          {/* </MediaQuery> */}
-        </Container >
-        <Container align="right" style={{paddingLeft: "4px"}}>
+          </MediaQuery>
+        </Grid >
+        <Grid 
+          maxWidth='md' 
+          container 
+          justify="flex-end" 
+          style={{paddingLeft: "4px"}}
+        >
           <Typography variant='h5' noWrap color="textSecondary">
             Welcome {userName}
           </Typography>
-        </Container>
+        </Grid>
       </Toolbar>
     </AppBar>
   );

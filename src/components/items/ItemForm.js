@@ -3,11 +3,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import ArrowBack from '@material-ui/icons/ArrowBack';
+import { FabContainer } from './styles';
 
 class ItemForm extends React.Component {
 
@@ -33,7 +34,7 @@ class ItemForm extends React.Component {
 
   render() {
     return (
-      <Box textAlign="center">
+      <Grid container justify='center'>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
           <Field
             name='name'
@@ -41,11 +42,17 @@ class ItemForm extends React.Component {
             label='Enter Item Name '
           /><br/>
           <br/>
-          <Box>
-            <Button color='primary' type='submit'>Submit</Button>
-          </Box>
+          <Grid container justify='center'> 
+            <Button 
+              color='primary' 
+              variant='outlined' 
+              type='submit'
+            >
+              Submit
+            </Button>
+          </Grid>
           <br/>
-          <Box>
+          <FabContainer container justify='center'>
             <Fab
               color="secondary"
               aria-label="Back to Items"
@@ -57,9 +64,9 @@ class ItemForm extends React.Component {
                 <ArrowBack />
               </Tooltip>
             </Fab>
-          </Box>
+          </FabContainer>
         </form>
-      </Box>
+      </Grid>
     )
   }
 }
