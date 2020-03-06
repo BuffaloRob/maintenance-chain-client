@@ -72,6 +72,8 @@ export const StyledLogListItem = styled(ListItem)`
   h5:nth-of-type(2) {
     padding-left: 4px;
     font-weight: 500;
+    white-space: pre-line;
+    overflow-x: auto;
   }
   @media(max-width: 768px) {
     h5:nth-of-type(1) {
