@@ -13,17 +13,17 @@ class ItemForm extends React.Component {
 
   renderInput = ({ input, label, meta: {touched, error} }) => (
     <>
-    <TextField
-      label={label}
-      autoComplete="off"
-      {...input}
-      margin="normal"
-      error={touched && error}
-      helperText={touched && error ? error : null}
-    />
-    <FormHelperText
-      error={touched && error}
-    />
+      <TextField
+        label={label}
+        autoComplete="off"
+        {...input}
+        margin="normal"
+        error={touched && error}
+        helperText={touched && error ? error : null}
+      />
+      <FormHelperText
+        error={touched && error}
+      />
     </>
   )
 

@@ -118,7 +118,7 @@ export const DeleteFab = styled(Fab)`
     background-color: rgb(84, 100, 109);
   }
   .MuiSvgIcon-root {
-    fill: #ba000d;
+    fill: #d4000f;
   }
 `
 
