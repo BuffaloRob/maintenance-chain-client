@@ -4,4 +4,5 @@ You can test this out at http://maintenancecha.in or run it locally by running '
 TODO:
 - SSO
 - Push notifications
-- Update log form styling
+- make log forms left align with hamburger
+- make log edit same as log create
