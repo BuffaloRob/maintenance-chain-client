@@ -39,7 +39,7 @@ class Login extends React.Component {
       <Grid justify='center' container>
         {/* handleSubmit comes from reduxForm */}
         <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-          <Typography variant='h2'>Log In</Typography>
+          <Typography variant='h3' align='center'>Log In</Typography>
           <Field 
             name='email' 
             type='email' 
@@ -56,7 +56,7 @@ class Login extends React.Component {
             <Button
               type='submit'
               size='large'
-              variant='contained'
+              variant='outlined'
               color='primary'
               style={{ margin: '40px 0' }}
             >Submit</Button>
