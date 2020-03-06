@@ -59,6 +59,7 @@ class SignUp extends React.Component {
               size='large' 
               variant='contained'
               color='primary'  
+              style={{ margin: '40px 0' }}
             >Submit</Button>
           </Grid>
         </form>
