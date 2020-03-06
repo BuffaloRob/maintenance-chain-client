@@ -15,6 +15,9 @@ let theme = createMuiTheme({
     MuiFab: {
       root: {
         margin: "8px",
+      },
+      primary: {
+        color: "#000000de",
       }
     },
     MuiTypography: {
