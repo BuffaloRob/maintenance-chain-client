@@ -60,7 +60,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
   )
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky" style={{ borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px' }} >
       <Toolbar>
         <Grid container>
           <MediaQuery minDeviceWidth={700}>
