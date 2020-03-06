@@ -12,22 +12,12 @@ import Container from '@material-ui/core/Container'
 
 export const StyledTypography = styled(Typography)`
   text-align: start;
-  padding: 60px 0 40px 0px;
-  margin: 0 0 0 -2px;
+  padding: 60px 0 40px 20px;
   @media(max-width: 600px) {
-    padding: 40px 0 20px 0px;
+    padding: 40px 0 20px 12px;
   }
   @media(max-width: 500px) {
     text-align: center;
-  }
-`
-
-export const StyledTitle = styled(Typography)`
-  text-align: start;
-  padding: 60px 0 40px 0px;
-  margin: 0 0 0 -2px;
-  @media(max-width: 600px) {
-    padding: 40px 0 20px 0px;
   }
 `
 
@@ -143,6 +133,15 @@ export const StyledDivider = styled(Divider)`
 `
 // ********* Log Create / Log Edit *********
 
+export const StyledTitle = styled(Typography)`
+  text-align: start;
+  padding: 60px 0 40px 0px;
+  margin: 0 0 0 -2px;
+  @media(max-width: 600px) {
+    padding: 40px 0 20px 0px;
+  }
+`
+
 export const StyledTextField = styled(TextField)` 
   .MuiFormLabel-root {
     font-size: 1.4rem;
@@ -158,4 +157,12 @@ export const StyledContainer = styled(Container)`
 
 export const StyledForm = styled.form`
   margin: 40px 0 20px;
+`
+
+export const BottomNav = styled(Grid)`
+  margin-left: -6px;
+`
+
+export const FormSubmit = styled(Grid)`
+  /* margin-left: -8px; */
 `

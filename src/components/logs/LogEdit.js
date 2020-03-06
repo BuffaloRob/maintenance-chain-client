@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
 import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
 import Fab from "@material-ui/core/Fab";
-import Tooltip from "@material-ui/core/Tooltip";import ArrowBack from '@material-ui/icons/ArrowBack';
-import { StyledTextField, StyledContainer, StyledTypography, StyledForm, StyledTitle } from "./styles";
+import Tooltip from "@material-ui/core/Tooltip";
+import ArrowBack from '@material-ui/icons/ArrowBack';
+import { StyledTextField, StyledContainer, BottomNav, StyledForm, StyledTitle, FormSubmit } from "./styles";
 import { editLog } from '../../actions/logActions';
 
 class LogEdit extends React.Component {
@@ -93,12 +93,18 @@ class LogEdit extends React.Component {
             fullWidth
           /><br />
           <br/>
-          <Box>
-            <Button color='primary' type='submit'>Submit</Button>
-          </Box>
+          <FormSubmit>
+            <Button
+              color='primary'
+              variant='outlined'
+              type='submit'
+            >
+              Submit
+            </Button>
+          </FormSubmit>
           <br/>
         </StyledForm>
-        <Box>
+        <BottomNav>
           <Fab
             color="secondary"
             aria-label="Back to Logs"
@@ -110,7 +116,7 @@ class LogEdit extends React.Component {
               <ArrowBack />
             </Tooltip>
           </Fab>
-        </Box>
+        </BottomNav>
       </StyledContainer>
     )
   }
