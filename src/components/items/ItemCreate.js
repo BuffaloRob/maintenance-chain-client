@@ -15,7 +15,7 @@ class ItemCreate extends React.Component {
   render() {
     return (
       <StyledGridContainer container justify='center'>
-        <Typography variant='h3'>Make a new item to track</Typography>
+        <Typography variant='h3' align='center'>Make a new item to track</Typography>
         <ItemForm onSubmit={this.onSubmit} />
       </StyledGridContainer>
     )

@@ -15,7 +15,7 @@ class ItemEdit extends React.Component {
   render() {
     return (
       <StyledGridContainer container justify='center'>
-        <Typography variant='h3'>Edit the Name</Typography>
+        <Typography variant='h3' align='center'>Edit the Name</Typography>
         <ItemForm 
           onSubmit={this.onSubmit}
           initialValues={this.props.initialValues} 
