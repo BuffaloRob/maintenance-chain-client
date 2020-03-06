@@ -80,7 +80,6 @@ export const fetchUser = () => {
     fetch(`${process.env.REACT_APP_API_URL}/user`, data)
       .then(resp => resp.json())
       .then(user => {
-        // if (user.error) {
         if (user.message) {
           dispatch({
             type: AUTHENTICATION_FAILURE,
