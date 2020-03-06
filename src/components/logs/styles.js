@@ -135,10 +135,10 @@ export const StyledDivider = styled(Divider)`
 
 export const StyledTitle = styled(Typography)`
   text-align: start;
-  padding: 60px 0 40px 0px;
+  padding: 60px 0 20px 0px;
   margin: 0 0 0 -2px;
   @media(max-width: 600px) {
-    padding: 40px 0 20px 0px;
+    padding: 20px 0 10px 0px;
   }
 `
 
