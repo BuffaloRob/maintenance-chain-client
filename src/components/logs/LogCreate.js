@@ -10,7 +10,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import { createLog } from '../../actions/logActions';
-import { StyledTextField, StyledContainer, StyledTypography, StyledForm } from "./styles";
+import { StyledTextField, StyledContainer, StyledTypography, StyledForm, StyledTitle } from "./styles";
 
 class LogCreate extends React.Component {
 
@@ -59,9 +59,9 @@ class LogCreate extends React.Component {
   render() {
     return (
       <StyledContainer>
-        <StyledTypography variant="h2">
+        <StyledTitle variant="h2">
           Create New Log
-        </StyledTypography>
+        </StyledTitle>
         <StyledForm onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
           <Field
             name='date_performed'

@@ -12,12 +12,22 @@ import Container from '@material-ui/core/Container'
 
 export const StyledTypography = styled(Typography)`
   text-align: start;
-  padding: 60px 0 40px 20px;
+  padding: 60px 0 40px 0px;
+  margin: 0 0 0 -2px;
   @media(max-width: 600px) {
-    padding: 40px 0 20px 12px;
+    padding: 40px 0 20px 0px;
   }
   @media(max-width: 500px) {
     text-align: center;
+  }
+`
+
+export const StyledTitle = styled(Typography)`
+  text-align: start;
+  padding: 60px 0 40px 0px;
+  margin: 0 0 0 -2px;
+  @media(max-width: 600px) {
+    padding: 40px 0 20px 0px;
   }
 `
 
@@ -140,7 +150,10 @@ export const StyledTextField = styled(TextField)`
 `
 
 export const StyledContainer = styled(Container)`
-
+  margin-left: 26px;
+  @media( max-width: 600px) {
+    margin-left: 18px;
+  }
 `
 
 export const StyledForm = styled.form`
