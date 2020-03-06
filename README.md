@@ -2,6 +2,6 @@ You can test this out at http://maintenancecha.in or run it locally by running '
 
 
 TODO:
-- Make log form styling consistent with rest of site 
 - SSO
 - Push notifications
+- Update log form styling
