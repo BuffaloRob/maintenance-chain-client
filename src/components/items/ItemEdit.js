@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from 'react-redux';
-import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
 
 import { editItem } from '../../actions/itemActions';
 import ItemForm from "./ItemForm";
+import { StyledGridContainer } from './styles'
 
 class ItemEdit extends React.Component {
 
@@ -13,12 +14,13 @@ class ItemEdit extends React.Component {
 
   render() {
     return (
-      <Container>
+      <StyledGridContainer container justify='center'>
+        <Typography variant='h3'>Edit the Name</Typography>
         <ItemForm 
           onSubmit={this.onSubmit}
           initialValues={this.props.initialValues} 
         />
-      </Container>
+      </StyledGridContainer>
     )
   }
    
