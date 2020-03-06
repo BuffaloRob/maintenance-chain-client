@@ -2,12 +2,11 @@ import React from "react";
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";import ArrowBack from '@material-ui/icons/ArrowBack';
-import { StyledTextField, StyledContainer, StyledTypography, StyledForm } from "./styles";
+import { StyledTextField, StyledContainer, StyledTypography, StyledForm, StyledTitle } from "./styles";
 import { editLog } from '../../actions/logActions';
 
 class LogEdit extends React.Component {
@@ -47,15 +46,15 @@ class LogEdit extends React.Component {
 
     return (
       <StyledContainer>
-        <StyledTypography variant="h2">
+        <StyledTitle variant="h2">
           Edit Log
-        </StyledTypography>
+        </StyledTitle>
         <StyledForm onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
           <Field
             name='date_performed'
             type='date'
             component={this.customDateField}
-            variant='filled'
+            margin='normal'
             label='Date Performed'
             fullWidth
           /><br />
@@ -64,14 +63,14 @@ class LogEdit extends React.Component {
             type='date'
             component={this.customDateField}
             label='Date Due'
-            variant='filled'
+            margin='normal'
             fullWidth
           /><br />
           <Field
             name='cost'
             type='number'
             component={this.customTextField}
-            variant='filled'
+            margin='normal'
             label='Cost $'
             fullWidth
           /><br />
@@ -81,7 +80,7 @@ class LogEdit extends React.Component {
             component={this.customTextField}
             label='Notes'
             multiline={true}
-            variant='filled'
+            margin='normal'
             fullWidth
           /><br />
           <Field
@@ -90,7 +89,7 @@ class LogEdit extends React.Component {
             component={this.customTextField}
             label='Tools Used'
             multiline={true}
-            variant='filled'
+            margin='normal'
             fullWidth
           /><br />
           <br/>
