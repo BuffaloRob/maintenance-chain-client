@@ -6,5 +6,7 @@ To deploy:
 
 TODO:
 - SSO
+- Code splitting/ lazy loading
+- Ux for Oboarding 
 - Push notifications
 - enable HTTPS/HTTP2
