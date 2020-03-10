@@ -10,7 +10,11 @@ import MediaQuery from 'react-responsive';
 import MenuIcon from '@material-ui/icons/Menu';
 import { StyledNavButton, StyledDrawer, LogInButton, LeftNavContainer } from './styles';
 
+import { useAuth0 } from "../../react-auth0-spa";
+
+
 const RenderLoggedOut = () => {
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   //taken from example https://material-ui.com/components/drawers/
   const [state, setState] = React.useState({ left: false });
 
@@ -44,14 +48,16 @@ const RenderLoggedOut = () => {
       <Toolbar >
         <LeftNavContainer>
           <MediaQuery minDeviceWidth={690}>
-            <StyledNavButton
+            <button onClick={() => loginWithRedirect({})}>Log in</button>
+            <button onClick={() => logout()}>Log out</button>
+            {/* <StyledNavButton
               component={RouterLink}
               to="/login"
               color="primary"
               variant="contained"
             >
               Log In
-            </StyledNavButton>
+            </StyledNavButton> */}
             <StyledNavButton
               component={RouterLink}
               to="/signup"

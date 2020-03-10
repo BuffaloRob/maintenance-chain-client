@@ -19,11 +19,15 @@ import { StyledDrawer, StyledNavButton } from './styles';
 import Button from '@material-ui/core/Button';
 import MediaQuery from 'react-responsive';
 
+import { useAuth0 } from "../../react-auth0-spa";
+
 
 const RenderLoggedIn = ({ currentUser, handleLogout }) => {
+  const { isAuthenticated, user, logout } = useAuth0();
   //taken from example https://material-ui.com/components/drawers/
   const [state, setState] = React.useState({ left: false });
-  const userName = currentUser.email.split("@")[0];
+  // const userName = currentUser.email.split("@")[0];
+  const userName = user;
 
   const toggleDrawer = (side, open) => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -52,9 +56,9 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
         <ListItem button component={RouterLink} to="/">
           Welcome
         </ListItem>
-        <ListItem button onClick={e => handleLogout(e)}>
+        {/* <ListItem button onClick={e => handleLogout(e)}>
           Log Out
-        </ListItem>
+        </ListItem> */}
       </List>
     </div>
   )
@@ -109,7 +113,8 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
                 </Fab>
               </Grid>
               <Grid item xs={3}>
-                <Fab
+                <button onClick={() => logout()}>Log out</button>
+                {/* <Fab
                   color='primary'
                   aria-label='Log Out'
                   size='small'
@@ -118,7 +123,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
                   <Tooltip title='Log Out'>
                     <ExitToAppIcon />
                   </Tooltip>
-                </Fab>
+                </Fab> */}
               </Grid>
             </Grid>
           </MediaQuery>

@@ -5,34 +5,53 @@ import RenderLoggedIn from './RenderLoggedIn';
 import RenderLoggedOut from './RenderLoggedOut'
 import { logout, fetchUser } from '../../actions/authActions';
 
-class HeaderContainer extends React.Component {
+import { useAuth0 } from "../../react-auth0-spa";
 
-  componentDidMount() {
-    this.props.fetchUser();
-  }
+const HeaderContainer = () => {
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
-  handleLogout = e => {
-    e.preventDefault();
-    this.props.logout();
-  }
+  return (
+    <div>
+      {!isAuthenticated && (
+        <RenderLoggedOut />
+        // <button onClick={() => loginWithRedirect({})}>Log in</button>
+      )}
+      {isAuthenticated && <RenderLoggedIn />}
+    </div>
+  );
+};
 
-  render() {
-      if (
-        this.props.isAuthenticated &&
-        this.props.currentUser.email
-      ) {
-        return <RenderLoggedIn currentUser={this.props.currentUser} handleLogout={this.handleLogout}/>
-      } else {
-        return <RenderLoggedOut />
-      }
-  }
-}
+export default HeaderContainer;
 
-const mapStateToProps = state => {
-  return { 
-    isAuthenticated: state.auth.isAuthenticated,
-    currentUser: state.auth.currentUser
-  }
-}
+// class HeaderContainer extends React.Component {
+//   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
-export default connect(mapStateToProps, { logout, fetchUser })(HeaderContainer);
+//   componentDidMount() {
+//     this.props.fetchUser();
+//   }
+
+//   handleLogout = e => {
+//     e.preventDefault();
+//     this.props.logout();
+//   }
+
+//   render() {
+//       if (
+//         this.props.isAuthenticated &&
+//         this.props.currentUser.email
+//       ) {
+//         return <RenderLoggedIn currentUser={this.props.currentUser} handleLogout={this.handleLogout}/>
+//       } else {
+//         return <RenderLoggedOut />
+//       }
+//   }
+// }
+
+// const mapStateToProps = state => {
+//   return { 
+//     isAuthenticated: state.auth.isAuthenticated,
+//     currentUser: state.auth.currentUser
+//   }
+// }
+
+// export default connect(mapStateToProps, { logout, fetchUser })(HeaderContainer);
