@@ -12,6 +12,7 @@
 /build
 
 # misc
+auth_config.json
 .env
 .DS_Store
 .env.local
