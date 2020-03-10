@@ -13,6 +13,7 @@
 
 # misc
 auth_config.json
+auth_config.js
 .env
 .DS_Store
 .env.local
