@@ -28,6 +28,8 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
   const [state, setState] = React.useState({ left: false });
   // const userName = currentUser.email.split("@")[0];
 
+  // Need to use conditional here otherwise an error is thrown
+  // on initial render because the user object is undefined
   const renderWelcome = () => {
     if(loading || !user) {
       return (
