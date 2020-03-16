@@ -10,3 +10,8 @@ TODO:
 - Ux for Oboarding 
 - Push notifications
 - enable HTTPS/HTTP2
+
+auth0:
+- my hoc for checking if logged in and wrap App in it
+- implement rails api to receive token
+- test that shit
