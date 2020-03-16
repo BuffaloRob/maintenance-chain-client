@@ -16,7 +16,6 @@ import rootReducer from './reducers'
 import theme from './ui/theme';
 
 import { Auth0Provider } from "./react-auth0-spa";
-import authConfig from "./auth_config.json";
 
 // TODO: 
   // 1) If there are faults on server have them displayed on client instead of breaking app
@@ -70,8 +69,8 @@ ReactDOM.render(
         <CssBaseline />
         <Router history={history}>
           <Auth0Provider
-            domain={authConfig.domain}
-            client_id={authConfig.clientId}
+            domain={process.env.REACT_APP_AUTH0_DOMAIN}
+            client_id={process.env.REACT_APP_AUTH0_CLIENT_ID}
             redirect_uri={window.location.origin}
             onRedirectCallback={onRedirectCallback}
           >

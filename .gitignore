@@ -12,8 +12,6 @@
 /build
 
 # misc
-auth_config.json
-auth.config.js
 .env
 .DS_Store
 .env.local
