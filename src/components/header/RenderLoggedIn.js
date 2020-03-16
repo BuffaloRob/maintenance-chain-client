@@ -23,11 +23,26 @@ import { useAuth0 } from "../../react-auth0-spa";
 
 
 const RenderLoggedIn = ({ currentUser, handleLogout }) => {
-  const { isAuthenticated, user, logout } = useAuth0();
+  const { isAuthenticated, user, logout, loading } = useAuth0();
   //taken from example https://material-ui.com/components/drawers/
   const [state, setState] = React.useState({ left: false });
   // const userName = currentUser.email.split("@")[0];
-  const userName = user;
+
+  const renderWelcome = () => {
+    if(loading || !user) {
+      return (
+        <Typography variant='h5' noWrap color="textSecondary">
+          ...Loading
+        </Typography>
+      )
+    } else {
+      return (
+        <Typography variant='h5' noWrap color="textSecondary">
+          Welcome {user.nickname}
+        </Typography>
+      )
+    }
+  }
 
   const toggleDrawer = (side, open) => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -149,9 +164,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
           justify="flex-end" 
           style={{paddingLeft: "4px"}}
         >
-          <Typography variant='h5' noWrap color="textSecondary">
-            Welcome {userName}
-          </Typography>
+          {renderWelcome()}
         </Grid>
       </Toolbar>
     </AppBar>
