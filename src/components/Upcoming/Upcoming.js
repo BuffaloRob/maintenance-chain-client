@@ -1,13 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import moment from 'moment'
+import { connect } from 'react-redux';
+import moment from 'moment';
 import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
-import Avatar from '@material-ui/core/Avatar'
+import Avatar from '@material-ui/core/Avatar';
 import Build from '@material-ui/icons/Build';
 import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
-import { fetchUpcoming } from '../../actions/queryActions'
+import { fetchUpcoming } from '../../actions/queryActions';
 
 class Upcoming extends React.Component {
 
