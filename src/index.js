@@ -16,7 +16,7 @@ import rootReducer from './reducers'
 import theme from './ui/theme';
 
 import { Auth0Provider } from "./react-auth0-spa";
-import {authConfig} from "./auth.config";
+import authConfig from "./auth_config.json";
 
 // TODO: 
   // 1) If there are faults on server have them displayed on client instead of breaking app
