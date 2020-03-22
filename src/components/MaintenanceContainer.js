@@ -22,6 +22,8 @@ import { itemSelector, categorySelector, logSelector } from '../actions/selectAc
 import PastDue from "../components/PastDue/PastDue";
 import Upcoming from '../components/Upcoming/Upcoming';
 
+import PrivateRoute from './PrivateRoute';
+
 class MaintenanceContainer extends React.Component {
   componentDidMount() {
     this.props.fetchItems();
@@ -95,7 +97,7 @@ class MaintenanceContainer extends React.Component {
 
   render() {
 
-    if (this.props.isAuthenticated) {
+    // if (this.props.isAuthenticated) {
       return (
         <div className="ui container">
           <>
@@ -139,6 +141,12 @@ class MaintenanceContainer extends React.Component {
               {/* CategoryEdit */}
               <Route exact path='/item/:itemId/category/:id/edit' component={CategoryEdit} />
               {/* ItemList */}
+              {/* <PrivateRoute exact path="/items" component={<ItemList
+                  items={Object.values(this.props.items)}
+                  selectItem={this.selectItem}
+                  deleteItemClick={this.deleteItemClick}
+                />}
+              /> */}
               <Route exact path="/items" render={props =>
                 <ItemList {...props}
                   items={Object.values(this.props.items)}
@@ -165,14 +173,14 @@ class MaintenanceContainer extends React.Component {
         </div>
       )
     }
-    else {
-      return ( 
-        <Box textAlign="center">
-          <Typography>You must be logged in to do that</Typography>
-        </Box >
-      )
-    }
-  }
+  //   else {
+  //     return ( 
+  //       <Box textAlign="center">
+  //         <Typography>You must be logged in to do that</Typography>
+  //       </Box >
+  //     )
+  //   }
+  // }
 }
 
 const mapStateToProps = state => {
