@@ -20,10 +20,11 @@ import Button from '@material-ui/core/Button';
 import MediaQuery from 'react-responsive';
 
 import { useAuth0 } from "../../react-auth0-spa";
+import PrivateRoute from '../PrivateRoute';
 
 
 const RenderLoggedIn = ({ currentUser, handleLogout }) => {
-  const { isAuthenticated, user, logout, loading } = useAuth0();
+  const { isAuthenticated, user, logout, loading, loginWithRedirect } = useAuth0();
   //taken from example https://material-ui.com/components/drawers/
   const [state, setState] = React.useState({ left: false });
   // const userName = currentUser.email.split("@")[0];
@@ -130,7 +131,13 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
                 </Fab>
               </Grid>
               <Grid item xs={3}>
-                <button onClick={() => logout()}>Log out</button>
+                {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
+                {isAuthenticated && (
+                  <span>
+                    <RouterLink to="/">Home</RouterLink>&nbsp;
+                    <RouterLink to="/profile">Profile</RouterLink>
+                </span>
+                )}
                 {/* <Fab
                   color='primary'
                   aria-label='Log Out'
@@ -161,7 +168,6 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
           </MediaQuery>
         </Grid >
         <Grid 
-          maxWidth='md' 
           container 
           justify="flex-end" 
           style={{paddingLeft: "4px"}}
