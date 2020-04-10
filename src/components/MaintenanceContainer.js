@@ -23,6 +23,7 @@ import PastDue from "../components/PastDue/PastDue";
 import Upcoming from '../components/Upcoming/Upcoming';
 
 import PrivateRoute from './PrivateRoute';
+import Profile from "./Profile";
 
 class MaintenanceContainer extends React.Component {
   componentDidMount() {
@@ -102,6 +103,8 @@ class MaintenanceContainer extends React.Component {
         <div className="ui container">
           <>
             <Switch>
+              {/* Profile */}
+              <PrivateRoute path="/profile" component={Profile} />
               {/* Past Due */}
               <Route exact path='/pastdue' render={props =>
                 <PastDue {...props}
@@ -141,19 +144,14 @@ class MaintenanceContainer extends React.Component {
               {/* CategoryEdit */}
               <Route exact path='/item/:itemId/category/:id/edit' component={CategoryEdit} />
               {/* ItemList */}
-              {/* <PrivateRoute exact path="/items" component={<ItemList
-                  items={Object.values(this.props.items)}
-                  selectItem={this.selectItem}
-                  deleteItemClick={this.deleteItemClick}
-                />}
-              /> */}
-              <Route exact path="/items" render={props =>
+              <PrivateRoute exact path="/items" component={ItemList} />
+              {/* <Route exact path="/items" render={props =>
                 <ItemList {...props}
                   items={Object.values(this.props.items)}
                   selectItem={this.selectItem}
                   deleteItemClick={this.deleteItemClick}
                 />}
-              />
+              /> */}
               {/* ItemCreate */}
               <Route exact path="/item/new" component={ItemCreate} />
               {/* ItemEdit */}
