@@ -6,6 +6,7 @@ To deploy:
 
 TODO:
 - SSO
+- Make sure auth0 rails & react credentials match deployed versions
 - Code splitting/ lazy loading
 - Ux for Oboarding 
 - Push notifications
