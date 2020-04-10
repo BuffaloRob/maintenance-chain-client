@@ -5,6 +5,7 @@ import { Route } from "react-router-dom";
 import { useAuth0 } from "../react-auth0-spa";
 
 const PrivateRoute = ({ component: Component, path, ...rest }) => {
+  debugger
   const { loading, isAuthenticated, loginWithRedirect } = useAuth0();
 
   useEffect(() => {
@@ -13,7 +14,9 @@ const PrivateRoute = ({ component: Component, path, ...rest }) => {
     }
     const fn = async () => {
       await loginWithRedirect({
-        appState: { targetUrl: path }
+        // https://github.com/auth0/docs/commit/2f71c36d4e468b1f7321d19e6da1e985d94173fd
+        // appState: { targetUrl: path }
+        appState: { targetUrl: window.location.pathname }
       });
     };
     fn();
