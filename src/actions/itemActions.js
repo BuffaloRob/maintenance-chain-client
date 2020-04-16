@@ -1,5 +1,6 @@
 import history from '../history';
 import * as types from './types';
+import {getTokenSilently} from '../react-auth0-spa';
 
 export const createItem = formValues => {
   return dispatch => {
@@ -73,25 +74,55 @@ export const deleteItem = id => {
 }
 
 export const fetchItems = () => {
-  let data = {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.jwt
+  return async dispatch => {
+    try {
+      const token = await getTokenSilently();
+      let data = {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      }
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/items`, data)
+      const items = await response.json()
+      dispatch({
+        type: types.FETCH_ITEMS,
+        payload: items
+      })
+    }
+
+    catch(error) {
+      console.log(error)
     }
   }
-  return dispatch => {
-    fetch(`${process.env.REACT_APP_API_URL}/items`, data)
-      .then(resp => resp.json())
-      .then(resp => {
-        if (!resp.error) {
-          dispatch({
-            type: types.FETCH_ITEMS,
-            payload: resp
-          })
-        }
-      })
-      .catch(err => err)
-  }
 }
+
+
+// export const fetchItems = () => {
+//   let token = getTokenSilently();
+//   debugger;
+//   let data = {
+//     method: 'GET',
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer ' + token
+//     }
+//   }
+//   return dispatch => {
+//     fetch(`${process.env.REACT_APP_API_URL}/items`, data)
+//       .then(resp => resp.json())
+//       .then(resp => {
+//         if (!resp.error) {
+//           dispatch({
+//             type: types.FETCH_ITEMS,
+//             payload: resp
+//           })
+//         }
+//       })
+//       .catch(err => err)
+//   }
+// }
+//
