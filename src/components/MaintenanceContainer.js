@@ -144,7 +144,8 @@ class MaintenanceContainer extends React.Component {
               {/* CategoryEdit */}
               <Route exact path='/item/:itemId/category/:id/edit' component={CategoryEdit} />
               {/* ItemList */}
-              <PrivateRoute exact path="/items" component={ItemList} />
+              {/* <PrivateRoute exact path="/items" component={ItemList} /> */}
+              <Route exact path="/items" component={ItemList} />
               {/* <Route exact path="/items" render={props =>
                 <ItemList {...props}
                   items={Object.values(this.props.items)}
