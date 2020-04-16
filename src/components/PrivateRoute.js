@@ -5,7 +5,6 @@ import { Route } from "react-router-dom";
 import { useAuth0 } from "../react-auth0-spa";
 
 const PrivateRoute = ({ component: Component, path, ...rest }) => {
-  debugger
   const { loading, isAuthenticated, loginWithRedirect } = useAuth0();
 
   useEffect(() => {
