@@ -8,7 +8,11 @@ import { logout, fetchUser } from '../../actions/authActions';
 import { useAuth0 } from "../../react-auth0-spa";
 
 const HeaderContainer = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  // const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const handleLogout = e =>
+    e.preventDefault();
+    logout();
 
   return (
     <div>
@@ -16,7 +20,7 @@ const HeaderContainer = () => {
         <RenderLoggedOut />
         // <button onClick={() => loginWithRedirect({})}>Log in</button>
       )}
-      {isAuthenticated && <RenderLoggedIn />}
+      {isAuthenticated && <RenderLoggedIn handleLogout={handleLogout}/>}
     </div>
   );
 };

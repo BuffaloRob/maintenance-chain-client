@@ -2,6 +2,7 @@
 import history from '../history';
 import { CLEAR_DATA, AUTHENTICATION_FAILURE, AUTHENTICATION_SUCCESS } from './types';
 import jwtDecode from 'jwt-decode';
+import { getTokenSilently } from '../react-auth0-spa'
 
 // REACT_APP_API_URL = "http://localhost:3000/api/v1"
 // REACT_APP_API_URL = 'https://maintenance-chain-api.herokuapp.com/api/v1'
@@ -68,32 +69,59 @@ export const login = (user, callback) => {
 }
 
 export const fetchUser = () => {
-  let data = {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.jwt
+  return async dispatch => {
+    try {
+      const token = await getTokenSilently();
+      let data = {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      }
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/signup`, data)
+      const user = await response.json()
+      debugger
+      dispatch({
+        type: AUTHENTICATION_SUCCESS,
+        payload: user
+      })
+    }
+
+    catch(error) {
+      console.log(error)
     }
   }
-  return dispatch => {
-    fetch(`${process.env.REACT_APP_API_URL}/user`, data)
-      .then(resp => resp.json())
-      .then(user => {
-        if (user.message) {
-          dispatch({
-            type: AUTHENTICATION_FAILURE,
-            payload: user.message
-          })        
-        } else {
-          dispatch({
-            type: AUTHENTICATION_SUCCESS,
-            payload: user.user
-          })
-        }
-      })
-  }
 }
+
+// export const fetchUser = () => {
+//   let data = {
+//     method: 'GET',
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer ' + localStorage.jwt
+//     }
+//   }
+//   return dispatch => {
+//     fetch(`${process.env.REACT_APP_API_URL}/user`, data)
+//       .then(resp => resp.json())
+//       .then(user => {
+//         if (user.message) {
+//           dispatch({
+//             type: AUTHENTICATION_FAILURE,
+//             payload: user.message
+//           })        
+//         } else {
+//           dispatch({
+//             type: AUTHENTICATION_SUCCESS,
+//             payload: user.user
+//           })
+//         }
+//       })
+//   }
+// }
 
 export const logout = () => {
   let data = {

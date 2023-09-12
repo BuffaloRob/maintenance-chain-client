@@ -19,6 +19,7 @@ import { fetchItems, deleteItem } from '../actions/itemActions';
 import { deleteCategory } from '../actions/categoryActions';
 import { deleteLog } from '../actions/logActions';
 import { itemSelector, categorySelector, logSelector } from '../actions/selectActions';
+import { fetchUser } from '../actions/authActions';
 import PastDue from "../components/PastDue/PastDue";
 import Upcoming from '../components/Upcoming/Upcoming';
 
@@ -27,7 +28,8 @@ import Profile from "./Profile";
 
 class MaintenanceContainer extends React.Component {
   componentDidMount() {
-    this.props.fetchItems();
+    this.props.fetchUser()
+    // this.props.fetchItems();
   }
 
   selectItem = (itemId) => {
@@ -197,6 +199,7 @@ export default connect(mapStateToProps, {
   categorySelector,
   logSelector,
   fetchItems,
+  fetchUser,
   deleteItem,
   deleteCategory,
   deleteLog,

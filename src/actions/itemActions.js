@@ -2,28 +2,56 @@ import history from '../history';
 import * as types from './types';
 import {getTokenSilently} from '../react-auth0-spa';
 
+// export const createItem = formValues => {
+//   return dispatch => {
+//     fetch(`${process.env.REACT_APP_API_URL}/items`, { 
+//       method:'POST',
+//       body: JSON.stringify(formValues),
+//       headers: {
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json',
+//         'Authorization': 'Bearer ' + localStorage.jwt
+//       }
+//     })
+//       .then(resp => resp.json())
+//       .then(resp => {
+//         if (!resp.error) {
+//           dispatch({
+//             type: types.CREATE_ITEM,
+//             payload: resp
+//           })
+//           history.push('/items');
+//         }
+//       })
+//       .catch(err => err)
+//   }
+// }
+
 export const createItem = formValues => {
-  return dispatch => {
-    fetch(`${process.env.REACT_APP_API_URL}/items`, { 
-      method:'POST',
-      body: JSON.stringify(formValues),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.jwt
-      }
-    })
-      .then(resp => resp.json())
-      .then(resp => {
-        if (!resp.error) {
-          dispatch({
-            type: types.CREATE_ITEM,
-            payload: resp
-          })
-          history.push('/items');
+  return async dispatch => {
+    try {
+      const token = await getTokenSilently();
+      let data = {
+        method: 'POST',
+        body: JSON.stringify(formValues),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
         }
+      }
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/items`, data)
+      const item = await response.json()
+      dispatch({
+        type: types.CREATE_ITEM,
+        payload: item
       })
-      .catch(err => err)
+      history.push('/items')
+    }
+
+    catch(error) {
+      console.log(error)
+    }
   }
 }
 

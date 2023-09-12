@@ -74,9 +74,9 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
         <ListItem button component={RouterLink} to="/">
           Welcome
         </ListItem>
-        {/* <ListItem button onClick={e => handleLogout(e)}>
+        <ListItem button onClick={e => handleLogout(e)}>
           Log Out
-        </ListItem> */}
+        </ListItem>
       </List>
     </div>
   )
