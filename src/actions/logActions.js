@@ -1,7 +1,7 @@
 import history from '../history';
 import * as types from './types';
 
-import { fetchItems } from '../actions/itemActions';
+import { maintenanceApi } from '../store/api/maintenanceApi';
 
 export const createLog = (formValues, itemId, catId) => {
   return dispatch => {
@@ -24,7 +24,7 @@ export const createLog = (formValues, itemId, catId) => {
           history.push(`/item/${itemId}/category/${catId}`)
         }
       })
-      .then(() => dispatch(fetchItems()))
+      .then(() => dispatch(maintenanceApi.util.invalidateTags(['Item'])))
       .catch(err => err)
   }
 }
@@ -41,7 +41,7 @@ export const createLog = (formValues, itemId, catId) => {
 
 // export const editLog = (formValues, id, catId, itemId) => async dispatch => {
 //   const response = await apiURL.put(`/items/${itemId}/categories/${catId}/logs/${id}`, formValues);
-//   dispatch(fetchItems());
+//   dispatch(maintenanceApi.util.invalidateTags(['Item']));
 //   dispatch({ type: types.EDIT_LOG, payload: response.data });
 //   history.push(`/item/${itemId}/category/${catId}`);
 // }
@@ -67,14 +67,14 @@ export const editLog = (formValues, id, catId, itemId) => {
           history.push(`/item/${itemId}/category/${catId}`)
         }
       })
-      .then(() => dispatch(fetchItems()))
+      .then(() => dispatch(maintenanceApi.util.invalidateTags(['Item'])))
       .catch(err => err)
   }
 }
 
 // export const deleteLog = (id, catId, itemId) => async dispatch => {
 //   await apiURL.delete(`/items/${itemId}/categories/${catId}/logs/${id}`);
-//   dispatch(fetchItems());
+//   dispatch(maintenanceApi.util.invalidateTags(['Item']));
 //   dispatch({ type: types.DELETE_LOG, payload: id });
 //   history.push(`/item/${itemId}/category/${catId}`);
 // }
@@ -96,7 +96,7 @@ export const deleteLog = (id, catId, itemId) => {
         })
         history.push(`/item/${itemId}/category/${catId}`);
       })
-      .then(() => dispatch(fetchItems()))
+      .then(() => dispatch(maintenanceApi.util.invalidateTags(['Item'])))
       .catch(err => err)
   }
 }

@@ -1,26 +1,29 @@
 import React from "react";
-import { connect } from 'react-redux';
 import Typography from "@material-ui/core/Typography";
 
+import history from '../../history';
 import ItemForm from './ItemForm';
-import { createItem } from '../../actions/itemActions';
+import { useCreateItemMutation } from '../../store/api/maintenanceApi';
 import { StyledGridContainer } from "./styles";
 
-class ItemCreate extends React.Component {
+const ItemCreate = () => {
+  const [createItem] = useCreateItemMutation();
 
-  onSubmit = formValues => {
-    this.props.createItem(formValues);
-  }
+  const onSubmit = async formValues => {
+    try {
+      await createItem(formValues).unwrap();
+      history.push('/items');
+    } catch (err) {
+      // stay on the form on failure
+    }
+  };
 
-  render() {
-    return (
-      <StyledGridContainer container justify='center'>
-        <Typography variant='h3' align='center'>Make a new item to track</Typography>
-        <ItemForm onSubmit={this.onSubmit} />
-      </StyledGridContainer>
-    )
-  }
-  
-}
+  return (
+    <StyledGridContainer container justify='center'>
+      <Typography variant='h3' align='center'>Make a new item to track</Typography>
+      <ItemForm onSubmit={onSubmit} />
+    </StyledGridContainer>
+  );
+};
 
-export default connect(null, { createItem })(ItemCreate);
+export default ItemCreate;

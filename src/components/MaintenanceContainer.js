@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -15,7 +16,7 @@ import LogCreate from './logs/LogCreate';
 import LogEdit from './logs/LogEdit';
 import LogShow from './logs/LogShow';
 import LogList from './logs/LogList';
-import { fetchItems, deleteItem } from '../actions/itemActions';
+import { maintenanceApi } from '../store/api/maintenanceApi';
 import { deleteCategory } from '../actions/categoryActions';
 import { deleteLog } from '../actions/logActions';
 import { itemSelector, categorySelector, logSelector } from '../actions/selectActions';
@@ -23,12 +24,15 @@ import PastDue from "../components/PastDue/PastDue";
 import Upcoming from '../components/Upcoming/Upcoming';
 
 class MaintenanceContainer extends React.Component {
-  componentDidMount() {
-    this.props.fetchItems();
+  // Reads items from the RTK Query getItems cache (fetches only if not cached)
+  getItem = async (itemId) => {
+    const items = await this.props.loadItems()
+    return items.find(item => item.id === Number(itemId))
   }
 
-  selectItem = (itemId) => {
-    const item = this.props.items[itemId]
+  selectItem = async (itemId) => {
+    const item = await this.getItem(itemId)
+    if (!item) return
     this.props.itemSelector(item)
     history.push(`/item/${item.id}`)
   }
@@ -61,10 +65,6 @@ class MaintenanceContainer extends React.Component {
     history.push(`/item/${itemId}/log/${logId}/edit`)
   }
 
-  deleteItemClick = itemId => {
-    this.props.deleteItem(itemId)
-  }
-
   deleteCategoryClick = (catId, itemId) => {
     this.props.deleteCategory(catId, itemId)
   }
@@ -73,8 +73,9 @@ class MaintenanceContainer extends React.Component {
     this.props.deleteLog(logId, itemId)
   }
 
-  selectPastDue = (logId, itemId, catId) => {
-    const item = this.props.items[itemId] 
+  selectPastDue = async (logId, itemId, catId) => {
+    const item = await this.getItem(itemId)
+    if (!item) return
     this.props.itemSelector(item)
     const cat = item.categories.filter(cat => (cat.id === catId))
     this.props.categorySelector(cat, itemId)
@@ -83,8 +84,9 @@ class MaintenanceContainer extends React.Component {
     history.push(`/log/${log[0].id}`)
   }
 
-  selectUpcoming = (logId, itemId, catId) => {
-    const item = this.props.items[itemId] 
+  selectUpcoming = async (logId, itemId, catId) => {
+    const item = await this.getItem(itemId)
+    if (!item) return
     this.props.itemSelector(item)
     const cat = item.categories.filter(cat => (cat.id === catId))
     this.props.categorySelector(cat, itemId)
@@ -141,9 +143,7 @@ class MaintenanceContainer extends React.Component {
               {/* ItemList */}
               <Route exact path="/items" render={props =>
                 <ItemList {...props}
-                  items={Object.values(this.props.items)}
                   selectItem={this.selectItem}
-                  deleteItemClick={this.deleteItemClick}
                 />}
               />
               {/* ItemCreate */}
@@ -178,19 +178,22 @@ class MaintenanceContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    items: state.items,
     selectedItem: state.selectedItem,
     selectedCategory: state.selectedCategory,
     selectedLog: state.selectedLog,
   }
 }
 
-export default connect(mapStateToProps, {
+const mapDispatchToProps = dispatch => ({
+  loadItems: () =>
+    dispatch(maintenanceApi.endpoints.getItems.initiate(undefined, { subscribe: false })).unwrap(),
+  ...bindActionCreators({
   itemSelector,
   categorySelector,
   logSelector,
-  fetchItems,
-  deleteItem,
   deleteCategory,
   deleteLog,
-})(MaintenanceContainer);
+  }, dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MaintenanceContainer);

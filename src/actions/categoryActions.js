@@ -1,7 +1,7 @@
 import history from '../history';
 import * as types from './types';
 
-import { fetchItems } from '../actions/itemActions';
+import { maintenanceApi } from '../store/api/maintenanceApi';
 
 export const createCategory = (formValues, itemId) => {
   return dispatch => {
@@ -24,7 +24,7 @@ export const createCategory = (formValues, itemId) => {
           history.push(`/item/${itemId}`)
         }
       })
-      .then(() => dispatch(fetchItems()))
+      .then(() => dispatch(maintenanceApi.util.invalidateTags(['Item'])))
       .catch(err => err)
   }
 }
@@ -50,7 +50,7 @@ export const editCategory = (formValues, id, itemId) => {
           history.push(`/item/${itemId}`)
         }
       })
-      .then(() => dispatch(fetchItems()))
+      .then(() => dispatch(maintenanceApi.util.invalidateTags(['Item'])))
       .catch(err => err)
   }
 }
@@ -72,7 +72,7 @@ export const deleteCategory = (id, itemId) => {
         })
         history.push(`/item/${itemId}`);
       })
-      .then(() => dispatch(fetchItems()))
+      .then(() => dispatch(maintenanceApi.util.invalidateTags(['Item'])))
       .catch(err => err)
   }
 }

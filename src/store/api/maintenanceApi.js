@@ -56,7 +56,7 @@ export const maintenanceApi = createApi({
         method: "PUT",
         body: patch,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Item", id }],
+      invalidatesTags: ["Item"],
     }),
     deleteItem: builder.mutation({
       query: (id) => ({

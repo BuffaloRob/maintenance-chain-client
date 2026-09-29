@@ -12,9 +12,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Tooltip from '@material-ui/core/Tooltip';
+import history from '../../history';
+import { useDeleteItemMutation } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
-const Item = ({ item, selectItem, deleteItemClick }) => {
+const Item = ({ item, selectItem }) => {
+  const [deleteItem] = useDeleteItemMutation();
+  const deleteItemClick = async (id) => {
+    try {
+      await deleteItem(id).unwrap();
+      setOpen(false);
+      history.push('/items');
+    } catch (err) {
+      // keep dialog open on failure
+    }
+  };
 
   //Used in delete dialog pop up
   const [open, setOpen] = React.useState(false);
