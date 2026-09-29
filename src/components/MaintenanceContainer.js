@@ -17,7 +17,6 @@ import LogEdit from './logs/LogEdit';
 import LogShow from './logs/LogShow';
 import LogList from './logs/LogList';
 import { maintenanceApi } from '../store/api/maintenanceApi';
-import { deleteCategory } from '../actions/categoryActions';
 import { deleteLog } from '../actions/logActions';
 import { itemSelector, categorySelector, logSelector } from '../actions/selectActions';
 import PastDue from "../components/PastDue/PastDue";
@@ -37,8 +36,10 @@ class MaintenanceContainer extends React.Component {
     history.push(`/item/${item.id}`)
   }
 
-  selectCategory = (catId, itemId) => {
-    const item = this.props.selectedItem
+  selectCategory = async (catId, itemId) => {
+    const item = await this.getItem(itemId)
+    if (!item) return
+    this.props.itemSelector(item)
     const cat = item.categories.filter(cat => (cat.id === catId))
     this.props.categorySelector(cat, itemId)
     history.push(`/item/${itemId}/category/${catId}`)
@@ -51,22 +52,11 @@ class MaintenanceContainer extends React.Component {
     history.push(`/log/${logId}`)
   }
 
-  editCategoryClick = (catId, itemId) => {
-    const item = this.props.selectedItem
-    const cat = item.categories.filter(cat => (cat.id === catId))
-    this.props.categorySelector(cat, itemId)
-    history.push(`/item/${itemId}/category/${catId}/edit`)
-  }
-
   editLogClick = (logId, itemId) => {
     const item = this.props.selectedItem
     const log = item.logs.filter(log => (log.id === logId))
     this.props.logSelector(log)
     history.push(`/item/${itemId}/log/${logId}/edit`)
-  }
-
-  deleteCategoryClick = (catId, itemId) => {
-    this.props.deleteCategory(catId, itemId)
   }
 
   deleteLogClick = (logId, itemId) => {
@@ -153,10 +143,7 @@ class MaintenanceContainer extends React.Component {
               {/* CategoryList / Item Show */}
               <Route exact path="/item/:id" render={props =>
                 <CategoryList {...props}
-                  item={this.props.selectedItem}
                   selectCategory={this.selectCategory}
-                  editCategoryClick={this.editCategoryClick}
-                  deleteCategoryClick={this.deleteCategoryClick}
                 />}
               />
               <Redirect to="/" />
@@ -191,7 +178,6 @@ const mapDispatchToProps = dispatch => ({
   itemSelector,
   categorySelector,
   logSelector,
-  deleteCategory,
   deleteLog,
   }, dispatch),
 })

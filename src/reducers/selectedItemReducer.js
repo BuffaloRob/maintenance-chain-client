@@ -1,8 +1,5 @@
 import { 
   SELECT_ITEM, 
-  CREATE_CATEGORY,
-  DELETE_CATEGORY,
-  EDIT_CATEGORY,
   CREATE_LOG,
   DELETE_LOG,
   EDIT_LOG,
@@ -12,37 +9,6 @@ export default (state = {}, action) => {
   switch (action.type) {
     case SELECT_ITEM:
       return Object.assign({}, state, action.payload)
-    case CREATE_CATEGORY:
-      return {
-        ...state,
-        categories: [
-          ...state.categories, 
-          // How can I assign this to the action.payload.id?
-          action.payload
-        ]
-      }
-    case EDIT_CATEGORY:
-      return {
-        ...state,
-        categories: [
-          ...state.categories.map((cat) => {
-            if (cat.id === action.payload.id) {
-              return {
-                ...cat,
-                name: action.payload.name
-              }
-            }
-            return cat
-          })
-        ]
-      }
-    case DELETE_CATEGORY:
-      return {
-        ...state,
-        categories: [
-          ...state.categories.filter(cat => cat.id !== action.payload)
-        ]
-      }
     case CREATE_LOG: 
       return {
         ...state,

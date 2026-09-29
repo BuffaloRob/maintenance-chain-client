@@ -12,11 +12,7 @@ export const FETCH_LOGS = 'FETCH_LOGS';
 export const DELETE_LOG = 'DELETE_LOG';
 export const EDIT_LOG = 'EDIT_LOG';
 
-export const CREATE_CATEGORY = 'CREATE_CATEGORY';
-export const FETCH_CATEGORY = 'FETCH_CATEGORY';
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
-export const DELETE_CATEGORY = 'DELETE_CATEGORY';
-export const EDIT_CATEGORY = 'EDIT_CATEGORY';
 
 export const FETCH_PAST_DUE = 'FETCH_PAST_DUE';
 export const FETCH_UPCOMING = 'FETCH_UPCOMING';
