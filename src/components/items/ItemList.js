@@ -7,7 +7,6 @@ import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
-import { v4 as uuidv4 } from "uuid";
 import { useGetItemsQuery } from "../../store/api/maintenanceApi";
 import { BottomButtons, StyledTypography } from "./styles";
 import Item from "./Item";
@@ -25,7 +24,7 @@ const ItemList = () => {
     }
 
     return Object.keys(items).map((itemKey) => (
-      <Item key={uuidv4()} item={items[itemKey]} />
+      <Item key={items[itemKey].id} item={items[itemKey]} />
     ));
   };
 
