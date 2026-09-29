@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
 import Button from "@material-ui/core/Button";
@@ -7,7 +6,8 @@ import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { StyledTextField, StyledContainer, BottomNav, StyledForm, StyledTitle, FormSubmit } from "./styles";
-import { editLog } from '../../actions/logActions';
+import history from '../../history';
+import { useGetItemsQuery, useUpdateLogMutation } from '../../store/api/maintenanceApi';
 
 class LogEdit extends React.Component {
 
@@ -34,16 +34,14 @@ class LogEdit extends React.Component {
 
   onSubmit = formValues => {
     const logId = this.props.match.params.id
-    const catId = this.props.selectedLog.category_id
+    const catId = this.props.log.category_id
     const itemId = this.props.match.params.itemId
-    this.props.editLog(formValues, logId, catId, itemId);
+    return this.props.updateLog({ ...formValues, id: logId, categoryId: catId, itemId }).unwrap()
+      .then(() => history.push(`/item/${itemId}/category/${catId}`))
+      .catch(() => {});
   }
 
   render() {
-    if (!this.props.selectedLog) {
-      return <div>Loading...</div>
-    }
-
     return (
       <StyledContainer>
         <StyledTitle variant="h2">
@@ -109,7 +107,7 @@ class LogEdit extends React.Component {
             color="secondary"
             aria-label="Back to Logs"
             size="small"
-            to={`/item/${this.props.match.params.id}/category/${this.props.selectedLog.category_id}`}
+            to={`/item/${this.props.match.params.itemId}/category/${this.props.log.category_id}`}
             component={RouterLink}
           >
             <Tooltip title="Back to Logs">
@@ -137,17 +135,26 @@ const validate = values => {
   return errors
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    selectedLog: state.selectedLog[0],
-    initialValues: state.selectedLog[0]
-  };
-}
-
 LogEdit = reduxForm({
   form: 'logForm',
   validate: validate,
   // enableReinitialize: true
 })(LogEdit)
 
-export default connect(mapStateToProps, { editLog })(LogEdit);
+const LogEditContainer = (props) => {
+  const { match } = props;
+  const { log } = useGetItemsQuery(undefined, {
+    selectFromResult: ({ data }) => {
+      const item = data && data.find(i => String(i.id) === String(match.params.itemId));
+      return { log: item && item.logs.find(l => String(l.id) === String(match.params.id)) };
+    },
+  });
+  const [updateLog] = useUpdateLogMutation();
+
+  if (!log) {
+    return <div>Loading...</div>
+  }
+  return <LogEdit {...props} log={log} initialValues={log} updateLog={updateLog} />;
+};
+
+export default LogEditContainer;

@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
 import Button from "@material-ui/core/Button";
@@ -8,7 +7,8 @@ import Fab from "@material-ui/core/Fab";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
-import { createLog } from '../../actions/logActions';
+import history from '../../history';
+import { useCreateLogMutation } from '../../store/api/maintenanceApi';
 import { StyledTextField, StyledContainer, FormSubmit, StyledForm, StyledTitle, BottomNav } from "./styles";
 
 class LogCreate extends React.Component {
@@ -52,7 +52,9 @@ class LogCreate extends React.Component {
   onSubmit = (formValues) => {
     const itemId = this.props.match.params.itemId;
     const catId = this.props.match.params.id;
-    this.props.createLog(formValues, itemId, catId);
+    return this.props.createLog({ ...formValues, itemId, categoryId: catId }).unwrap()
+      .then(() => history.push(`/item/${itemId}/category/${catId}`))
+      .catch(() => {});
   }
 
   render() {
@@ -153,4 +155,9 @@ LogCreate = reduxForm({
   validate: validate
 })(LogCreate);
 
-export default connect(null, { createLog })(LogCreate);
+const LogCreateContainer = (props) => {
+  const [createLog] = useCreateLogMutation();
+  return <LogCreate {...props} createLog={createLog} />;
+};
+
+export default LogCreateContainer;

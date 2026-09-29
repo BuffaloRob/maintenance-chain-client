@@ -6,20 +6,12 @@ export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
 
 
-export const CREATE_LOG = 'CREATE_LOG';
-export const FETCH_LOG = 'FETCH_LOG';
-export const FETCH_LOGS = 'FETCH_LOGS';
-export const DELETE_LOG = 'DELETE_LOG';
-export const EDIT_LOG = 'EDIT_LOG';
 
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
 
 export const FETCH_PAST_DUE = 'FETCH_PAST_DUE';
 export const FETCH_UPCOMING = 'FETCH_UPCOMING';
 
-export const SELECT_ITEM = 'SELECT_ITEM';
-export const SELECT_CATEGORY = 'SELECT_CATEGORY';
-export const SELECT_LOG = 'SELECT_LOG';
 
 export const AUTHENTICATION_REQUEST = "AUTHENTICATION_REQUEST";
 export const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";

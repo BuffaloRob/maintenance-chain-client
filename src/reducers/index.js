@@ -1,8 +1,5 @@
 import { reducer as formReducer } from 'redux-form';
 
-import selectedItemReducer from './selectedItemReducer';
-import selectedCategoryReducer from './selectedCategoryReducer';
-import selectedLogReducer from './selectedLogReducer';
 import upcomingReducer from './upcomingReducer';
 import pastDueReducer from './pastDueReducer';
 
@@ -11,9 +8,6 @@ import pastDueReducer from './pastDueReducer';
 // CLEAR_DATA reset. Auth now lives in src/store/slices/authSlice.js.
 const legacyReducers = {
   form: formReducer,
-  selectedItem: selectedItemReducer,
-  selectedCategory: selectedCategoryReducer,
-  selectedLog: selectedLogReducer,
   pastDue: pastDueReducer,
   upcoming: upcomingReducer,
 }
