@@ -2,6 +2,7 @@
 import history from '../history';
 import { CLEAR_DATA, AUTHENTICATION_FAILURE, AUTHENTICATION_SUCCESS } from './types';
 import jwtDecode from 'jwt-decode';
+import { setToken } from '../store/slices/authSlice';
 
 // REACT_APP_API_URL = "http://localhost:3000/api/v1"
 // REACT_APP_API_URL = 'https://maintenance-chain-api.herokuapp.com/api/v1'
@@ -20,6 +21,7 @@ export const signup = (user, callback) => {
       .then(resp => resp.json())
       .then(user => {
         localStorage.setItem('jwt', user.jwt);
+        dispatch(setToken(user.jwt));
         // sessionStorage.setItem('jwt', user.jwt);
         // let decoded = jwtDecode(user.jwt);
         dispatch({
@@ -51,6 +53,7 @@ export const login = (user, callback) => {
       .then(resp => resp.json())
       .then(user => {
         localStorage.setItem('jwt', user.jwt);
+        dispatch(setToken(user.jwt));
         if (user.message) {
           dispatch({
             type: AUTHENTICATION_FAILURE,

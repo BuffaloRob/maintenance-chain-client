@@ -1,48 +1,46 @@
 // src/store/api/maintenanceApi.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// Define your API base URL
-const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:3001/api";
-
+// Base URL comes from REACT_APP_API_URL (e.g. http://localhost:3000/api/v1)
 export const maintenanceApi = createApi({
   reducerPath: "maintenanceApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
+    baseUrl: process.env.REACT_APP_API_URL,
     prepareHeaders: (headers, { getState }) => {
-      // Include auth token in requests
       const token = getState().auth.token;
+      headers.set("Accept", "application/json");
       if (token) {
-        headers.set("authorization", `Bearer ${token}`);
+        headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
   tagTypes: ["Item", "Category", "Log", "User"],
   endpoints: (builder) => ({
-    // Authentication
+    // Authentication (mirrors src/actions/authActions.js)
     login: builder.mutation({
-      query: (credentials) => ({
-        url: "/auth/login",
+      query: (user) => ({
+        url: "/login",
         method: "POST",
-        body: credentials,
+        body: { user },
       }),
     }),
-    register: builder.mutation({
-      query: (userData) => ({
-        url: "/auth/register",
+    signup: builder.mutation({
+      query: (user) => ({
+        url: "/signup",
         method: "POST",
-        body: userData,
+        body: { user },
       }),
+    }),
+    getUser: builder.query({
+      query: () => "/user",
+      providesTags: ["User"],
     }),
 
     // Items
     getItems: builder.query({
       query: () => "/items",
       providesTags: ["Item"],
-    }),
-    getItem: builder.query({
-      query: (id) => `/items/${id}`,
-      providesTags: (result, error, id) => [{ type: "Item", id }],
     }),
     createItem: builder.mutation({
       query: (newItem) => ({
@@ -55,7 +53,7 @@ export const maintenanceApi = createApi({
     updateItem: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `/items/${id}`,
-        method: "PATCH",
+        method: "PUT",
         body: patch,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Item", id }],
@@ -69,16 +67,6 @@ export const maintenanceApi = createApi({
     }),
 
     // Categories
-    getCategories: builder.query({
-      query: (itemId) => `/items/${itemId}/categories`,
-      providesTags: (result, error, itemId) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({ type: "Category", id })),
-              { type: "Category", id: "LIST" },
-            ]
-          : [{ type: "Category", id: "LIST" }],
-    }),
     createCategory: builder.mutation({
       query: ({ itemId, ...category }) => ({
         url: `/items/${itemId}/categories`,
@@ -90,7 +78,7 @@ export const maintenanceApi = createApi({
     updateCategory: builder.mutation({
       query: ({ itemId, id, ...patch }) => ({
         url: `/items/${itemId}/categories/${id}`,
-        method: "PATCH",
+        method: "PUT",
         body: patch,
       }),
       invalidatesTags: (result, error, { id }) => [
@@ -108,28 +96,18 @@ export const maintenanceApi = createApi({
     }),
 
     // Logs
-    getLogs: builder.query({
-      query: (itemId) => `/items/${itemId}/logs`,
-      providesTags: (result, error, itemId) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({ type: "Log", id })),
-              { type: "Log", id: "LIST" },
-            ]
-          : [{ type: "Log", id: "LIST" }],
-    }),
     createLog: builder.mutation({
-      query: ({ itemId, ...log }) => ({
-        url: `/items/${itemId}/logs`,
+      query: ({ itemId, categoryId, ...log }) => ({
+        url: `/items/${itemId}/categories/${categoryId}/logs`,
         method: "POST",
         body: log,
       }),
       invalidatesTags: [{ type: "Log", id: "LIST" }, "Item"],
     }),
     updateLog: builder.mutation({
-      query: ({ itemId, id, ...patch }) => ({
-        url: `/items/${itemId}/logs/${id}`,
-        method: "PATCH",
+      query: ({ itemId, categoryId, id, ...patch }) => ({
+        url: `/items/${itemId}/categories/${categoryId}/logs/${id}`,
+        method: "PUT",
         body: patch,
       }),
       invalidatesTags: (result, error, { id }) => [
@@ -139,8 +117,8 @@ export const maintenanceApi = createApi({
       ],
     }),
     deleteLog: builder.mutation({
-      query: ({ itemId, id }) => ({
-        url: `/items/${itemId}/logs/${id}`,
+      query: ({ itemId, categoryId, id }) => ({
+        url: `/items/${itemId}/categories/${categoryId}/logs/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: [{ type: "Log", id: "LIST" }, "Item"],
@@ -148,11 +126,11 @@ export const maintenanceApi = createApi({
 
     // Dashboard queries
     getPastDueItems: builder.query({
-      query: () => "/dashboard/past-due",
+      query: () => "/past_due",
       providesTags: ["Item"],
     }),
     getUpcomingItems: builder.query({
-      query: () => "/dashboard/upcoming",
+      query: () => "/upcoming",
       providesTags: ["Item"],
     }),
   }),
@@ -162,23 +140,21 @@ export const maintenanceApi = createApi({
 export const {
   // Auth
   useLoginMutation,
-  useRegisterMutation,
+  useSignupMutation,
+  useGetUserQuery,
 
   // Items
   useGetItemsQuery,
-  useGetItemQuery,
   useCreateItemMutation,
   useUpdateItemMutation,
   useDeleteItemMutation,
 
   // Categories
-  useGetCategoriesQuery,
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
 
   // Logs
-  useGetLogsQuery,
   useCreateLogMutation,
   useUpdateLogMutation,
   useDeleteLogMutation,
