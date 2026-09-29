@@ -1,68 +1,61 @@
 // src/store/slices/authSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  AUTHENTICATION_SUCCESS,
-  AUTHENTICATION_FAILURE,
-  LOGOUT,
-} from "../../actions/types";
+import { maintenanceApi } from "../api/maintenanceApi";
 
-// Lazy initial state so a reset (CLEAR_DATA) re-reads localStorage, which
-// legacy logout clears. The state shape keeps the legacy reducer's fields
-// (currentUser, isAuthenticated) so unmigrated components keep working.
-const getInitialState = () => {
-  let token = null;
-  try {
-    token = localStorage.getItem("jwt");
-  } catch (e) {
-    // localStorage unavailable
-  }
-  return {
-    token: token && token !== "undefined" ? token : null,
-    currentUser: {},
-    isAuthenticated: false,
-  };
+// Single source of truth for auth. Persisted by redux-persist (see store/index.js).
+const initialState = {
+  token: null,
+  currentUser: {},
+  isAuthenticated: false,
+};
+
+const clearAuth = (state) => {
+  state.token = null;
+  state.currentUser = {};
+  state.isAuthenticated = false;
 };
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: getInitialState,
+  initialState,
   reducers: {
-    // Legacy thunks still write localStorage.jwt themselves; this mirrors the
-    // token into state (used by RTK Query prepareHeaders).
     setToken: (state, action) => {
       state.token = action.payload || null;
     },
-    setCredentials: (state, action) => {
-      const { user, token } = action.payload;
-      state.currentUser = user;
-      state.isAuthenticated = true;
-      if (token) {
-        state.token = token;
-        try {
-          localStorage.setItem("jwt", token);
-        } catch (e) {}
-      }
-    },
+    // Dispatching this resets the whole store (see rootReducer in store/index.js)
+    loggedOut: clearAuth,
   },
   extraReducers: (builder) => {
+    const { login, signup, getUser } = maintenanceApi.endpoints;
     builder
-      .addCase(AUTHENTICATION_SUCCESS, (state, action) => {
-        state.currentUser = action.payload;
-        state.isAuthenticated = true;
+      .addMatcher(
+        (action) =>
+          login.matchFulfilled(action) || signup.matchFulfilled(action),
+        (state, { payload }) => {
+          // A 200 response carrying `message` is a failure (legacy behavior)
+          if (payload && payload.jwt && !payload.message) {
+            state.token = payload.jwt;
+            state.currentUser = payload.user || {};
+            state.isAuthenticated = true;
+          }
+        }
+      )
+      .addMatcher(getUser.matchFulfilled, (state, { payload }) => {
+        if (payload && payload.user && !payload.message) {
+          state.currentUser = payload.user;
+          state.isAuthenticated = true;
+        } else {
+          clearAuth(state);
+        }
       })
-      .addCase(AUTHENTICATION_FAILURE, (state) => {
-        state.currentUser = {};
-        state.isAuthenticated = false;
-      })
-      .addCase(LOGOUT, (state) => {
-        state.currentUser = {};
-        state.isAuthenticated = false;
-        state.token = null;
+      .addMatcher(getUser.matchRejected, (state, { payload }) => {
+        // Token rejected by the server: drop the session
+        if (payload && payload.status === 401) clearAuth(state);
       });
   },
 });
 
-export const { setToken, setCredentials } = authSlice.actions;
+export const { setToken, loggedOut } = authSlice.actions;
 
 export const selectToken = (state) => state.auth.token;
 export const selectCurrentUser = (state) => state.auth.currentUser;

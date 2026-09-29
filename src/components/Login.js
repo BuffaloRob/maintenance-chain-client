@@ -1,72 +1,75 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import { login } from '../actions/authActions';
+import { useLoginMutation } from '../store/api/maintenanceApi';
 
-class Login extends React.Component {
-  renderError({ error, touched }) {
-    if (touched && error) {
-      return (
-        <div className='ui error message'>
-          <div className='header'>{error}</div>
-        </div>
-      );
+const renderInput = ({ input, label, meta, type }) => (
+  <TextField
+    label={label}
+    autoComplete="off"
+    type={type}
+    {...input}
+    margin="normal"
+  />
+);
+
+const Login = ({ handleSubmit, error, history }) => {
+  const [login] = useLoginMutation();
+
+  const onSubmit = async formValues => {
+    try {
+      const res = await login(formValues).unwrap();
+      if (res.message || !res.jwt) {
+        throw new SubmissionError({ _error: res.message || 'Something went wrong' });
+      }
+      history.push("/");
+    } catch (err) {
+      if (err instanceof SubmissionError) throw err;
+      const data = err && err.data;
+      const message =
+        (data && (data.message || (data.errors && JSON.stringify(data.errors)))) ||
+        'Something went wrong';
+      throw new SubmissionError({ _error: message });
     }
-  }
+  };
 
-  //   const className = `field ${meta.error && meta.touched ? 'error' : ''}`
-  renderInput = ({ input, label, meta, type }) => (
-    <TextField
-      label={label}
-      autoComplete="off"
-      type={type}
-      {...input}
-      margin="normal"
-    />
-  )
-
-  onSubmit = formValues => {
-    this.props.login(formValues, () => this.props.history.push("/"));
-  }
-
-  render() {
-    return (
-      <Grid justify='center' container>
-        {/* handleSubmit comes from reduxForm */}
-        <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-          <Typography variant='h3' align='center'>Log In</Typography>
-          <Field 
-            name='email' 
-            type='email' 
-            component={this.renderInput} 
-            label='Enter Your Email'
-          /><br/>
-          <Field 
-            name='password' 
-            type='password' 
-            component={this.renderInput} 
-            label='Enter Your Password'
-          />
-          <Grid container justify='center'>
-            <Button
-              type='submit'
-              size='large'
-              variant='outlined'
-              color='primary'
-              style={{ margin: '40px 0' }}
-            >Submit</Button>
-          </Grid>
-        </form>
-      </Grid>
-    )
-  }
-
-}
+  return (
+    <Grid justify='center' container>
+      {/* handleSubmit comes from reduxForm */}
+      <form onSubmit={handleSubmit(onSubmit)} className='ui form error'>
+        <Typography variant='h3' align='center'>Log In</Typography>
+        <Field
+          name='email'
+          type='email'
+          component={renderInput}
+          label='Enter Your Email'
+        /><br />
+        <Field
+          name='password'
+          type='password'
+          component={renderInput}
+          label='Enter Your Password'
+        />
+        {error && (
+          <Typography color='error' align='center' role='alert'>{error}</Typography>
+        )}
+        <Grid container justify='center'>
+          <Button
+            type='submit'
+            size='large'
+            variant='outlined'
+            color='primary'
+            style={{ margin: '40px 0' }}
+          >Submit</Button>
+        </Grid>
+      </form>
+    </Grid>
+  );
+};
 
 const validate = formValues => {
   const errors = {};
@@ -85,4 +88,4 @@ const formWrapped = reduxForm({
   validate
 })(Login);
 
-export default connect(null, { login })(formWrapped);
+export default formWrapped;

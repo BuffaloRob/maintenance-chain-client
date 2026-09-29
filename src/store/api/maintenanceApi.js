@@ -17,7 +17,7 @@ export const maintenanceApi = createApi({
   }),
   tagTypes: ["Item", "Category", "Log", "User"],
   endpoints: (builder) => ({
-    // Authentication (mirrors src/actions/authActions.js)
+    // Authentication (credentials are stored by authSlice's extraReducers)
     login: builder.mutation({
       query: (user) => ({
         url: "/login",
@@ -35,6 +35,9 @@ export const maintenanceApi = createApi({
     getUser: builder.query({
       query: () => "/user",
       providesTags: ["User"],
+    }),
+    logout: builder.mutation({
+      query: () => ({ url: "/logout", method: "GET" }),
     }),
 
     // Items
@@ -142,6 +145,7 @@ export const {
   useLoginMutation,
   useSignupMutation,
   useGetUserQuery,
+  useLogoutMutation,
 
   // Items
   useGetItemsQuery,
