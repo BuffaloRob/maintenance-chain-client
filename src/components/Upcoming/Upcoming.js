@@ -1,28 +1,55 @@
 import React from 'react';
-import { connect } from 'react-redux'
 import moment from 'moment'
 import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
 import Avatar from '@material-ui/core/Avatar'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
 import Build from '@material-ui/icons/Build';
+import history from '../../history';
+import { useGetUpcomingItemsQuery } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
-import { fetchUpcoming } from '../../actions/queryActions'
+const Upcoming = () => {
+  const { data: logs, error, isLoading } = useGetUpcomingItemsQuery();
 
-class Upcoming extends React.Component {
-
-  componentDidMount() {
-    this.props.fetchUpcoming();
+  if (isLoading) {
+    return (
+      <Container>
+        <StyledTypography variant="h2">Upcoming Work</StyledTypography>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 40 }}>
+          <CircularProgress />
+        </div>
+      </Container>
+    );
   }
 
-  renderList() {
-    return this.props.logs.map(log => {
+  if (error) {
+    return (
+      <Container>
+        <StyledTypography variant="h2">Upcoming Work</StyledTypography>
+        <Typography variant="h6" color="error" align="center" style={{ marginTop: 20 }}>
+          Error loading upcoming items: {error.message || error.error || "Something went wrong"}
+        </Typography>
+      </Container>
+    );
+  }
+
+  const renderList = () => {
+    if (!logs || logs.length === 0) {
+      return (
+        <Typography variant="body1" align="center" style={{ marginTop: 20 }}>
+          No upcoming items found.
+        </Typography>
+      );
+    }
+    return logs.map(log => {
       const formattedDateDue = moment(log.date_due).format("MMM Do YYYY");
       return (
         <StyledListItem
           key={log.id}
           button
-          onClick={() => this.props.selectUpcoming(log.id, log.category.item_id, log.category_id)}
+          onClick={() => history.push(`/log/${log.id}`)}
           divider
         >
           <StyledListItemAvatar>
@@ -33,27 +60,17 @@ class Upcoming extends React.Component {
           {log.category.name} will be due on {formattedDateDue}
         </StyledListItem>
       )
-
     })
   }
 
-  render() {
-    return (
-      <Container>
-        <StyledTypography variant="h2">
-          Upcoming Work
-        </StyledTypography>
-        <List component="nav">{this.renderList()}</List>
-      </Container>
-    )
-  }
-
+  return (
+    <Container>
+      <StyledTypography variant="h2">
+        Upcoming Work
+      </StyledTypography>
+      <List component="nav">{renderList()}</List>
+    </Container>
+  )
 }
 
-const mapStateToProps = state => {
-  return {
-    logs: Object.values(state.upcoming),
-  }
-}
-
-export default connect(mapStateToProps, { fetchUpcoming })(Upcoming);
+export default Upcoming;

@@ -16,7 +16,7 @@ import history from '../../history';
 import { useDeleteCategoryMutation } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
-const Category = ({ category, selectCategory, itemId }) => {
+const Category = ({ category, itemId }) => {
   const [deleteCategory] = useDeleteCategoryMutation();
   const deleteCategoryClick = async (id) => {
     try {
@@ -93,7 +93,7 @@ const Category = ({ category, selectCategory, itemId }) => {
         key={category.id} 
         button 
         disableGutters
-        onClick={() => selectCategory(category.id, itemId)}
+        onClick={() => history.push(`/item/${itemId}/category/${category.id}`)}
       >
         <StyledAvatar>
           <Avatar>

@@ -4,7 +4,6 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
-import history from '../history';
 import ItemList from './items/ItemList';
 import ItemCreate from './items/ItemCreate';
 import ItemEdit from './items/ItemEdit';
@@ -19,24 +18,6 @@ import PastDue from "../components/PastDue/PastDue";
 import Upcoming from '../components/Upcoming/Upcoming';
 
 class MaintenanceContainer extends React.Component {
-  // Navigation only: selected item/category/log are derived from the
-  // RTK Query getItems cache by the URL params in each component.
-  selectItem = (itemId) => {
-    history.push(`/item/${itemId}`)
-  }
-
-  selectCategory = (catId, itemId) => {
-    history.push(`/item/${itemId}/category/${catId}`)
-  }
-
-  selectPastDue = (logId) => {
-    history.push(`/log/${logId}`)
-  }
-
-  selectUpcoming = (logId) => {
-    history.push(`/log/${logId}`)
-  }
-
   render() {
 
     if (this.props.isAuthenticated) {
@@ -45,17 +26,9 @@ class MaintenanceContainer extends React.Component {
           <>
             <Switch>
               {/* Past Due */}
-              <Route exact path='/pastdue' render={props =>
-                <PastDue {...props}
-                  selectPastDue={this.selectPastDue}
-                />}
-              />
+              <Route exact path='/pastdue' component={PastDue} />
               {/* Upcoming */}
-              <Route exact path='/upcoming' render={props =>
-                <Upcoming {...props}
-                  selectUpcoming={this.selectUpcoming}
-                />}
-              />
+              <Route exact path='/upcoming' component={Upcoming} />
               {/* LogCreate */}
               <Route exact path='/item/:itemId/category/:id/log/new' component={LogCreate} />
               {/* LogShow */}
@@ -69,21 +42,13 @@ class MaintenanceContainer extends React.Component {
               {/* CategoryEdit */}
               <Route exact path='/item/:itemId/category/:id/edit' component={CategoryEdit} />
               {/* ItemList */}
-              <Route exact path="/items" render={props =>
-                <ItemList {...props}
-                  selectItem={this.selectItem}
-                />}
-              />
+              <Route exact path="/items" component={ItemList} />
               {/* ItemCreate */}
               <Route exact path="/item/new" component={ItemCreate} />
               {/* ItemEdit */}
               <Route exact path="/item/:id/edit" component={ItemEdit} />
               {/* CategoryList / Item Show */}
-              <Route exact path="/item/:id" render={props =>
-                <CategoryList {...props}
-                  selectCategory={this.selectCategory}
-                />}
-              />
+              <Route exact path="/item/:id" component={CategoryList} />
               <Redirect to="/" />
             </Switch>
           </>

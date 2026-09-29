@@ -12,7 +12,7 @@ import { useGetItemsQuery } from "../../store/api/maintenanceApi";
 import { BottomButtons, StyledTypography } from "./styles";
 import Item from "./Item";
 
-const ItemList = ({ selectItem }) => {
+const ItemList = () => {
   const { data: items, error, isLoading } = useGetItemsQuery();
 
   const renderList = () => {
@@ -25,7 +25,7 @@ const ItemList = ({ selectItem }) => {
     }
 
     return Object.keys(items).map((itemKey) => (
-      <Item key={uuidv4()} item={items[itemKey]} selectItem={selectItem} />
+      <Item key={uuidv4()} item={items[itemKey]} />
     ));
   };
 
@@ -111,7 +111,7 @@ export default ItemList;
 //     <Item
 //       key={uuidv4()}
 //       item={items[item]}
-//       selectItem={selectItem}
+//      
 //       deleteItemClick={deleteItemClick}
 //     />
 //   ));

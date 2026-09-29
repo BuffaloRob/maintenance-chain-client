@@ -16,7 +16,7 @@ import history from '../../history';
 import { useDeleteItemMutation } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
-const Item = ({ item, selectItem }) => {
+const Item = ({ item }) => {
   const [deleteItem] = useDeleteItemMutation();
   const deleteItemClick = async (id) => {
     try {
@@ -92,7 +92,7 @@ const Item = ({ item, selectItem }) => {
         key={item.id} 
         button 
         disableGutters
-        onClick={() => selectItem(item.id)}
+        onClick={() => history.push(`/item/${item.id}`)}
       >
         <StyledAvatar>
           <Avatar>

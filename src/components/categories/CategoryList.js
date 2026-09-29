@@ -10,7 +10,7 @@ import { BottomButtons, StyledTypography } from './styles'
 import Category from './Category';
 import { useGetItemsQuery } from '../../store/api/maintenanceApi';
 
-const CategoryList = ({ selectCategory, match }) => {
+const CategoryList = ({ match }) => {
   const { item } = useGetItemsQuery(undefined, {
     selectFromResult: ({ data }) => ({
       item: data && data.find(i => String(i.id) === String(match.params.id)),
@@ -25,7 +25,6 @@ const CategoryList = ({ selectCategory, match }) => {
     <Category
       key={category.id}
       category={category}
-      selectCategory={selectCategory}
       itemId={item.id}
     />
   ));

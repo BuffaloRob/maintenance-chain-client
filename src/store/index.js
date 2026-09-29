@@ -19,7 +19,7 @@ const appReducer = combineReducers({
   [maintenanceApi.reducerPath]: maintenanceApi.reducer,
   auth: authSlice.reducer,
   ui: uiSlice.reducer,
-  // Legacy reducers for unmigrated domains (items, selected*, pastDue, upcoming, form)
+  // Legacy reducers for unmigrated domains (form)
   ...legacyReducers,
 });
 

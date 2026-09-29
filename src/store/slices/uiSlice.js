@@ -2,9 +2,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedItemId: null,
-  selectedCategoryId: null,
-  selectedLogId: null,
   // You can add more UI state here like:
   // modals, loading states, filters, etc.
   filters: {
@@ -24,37 +21,6 @@ const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    // Item selection
-    selectItem: (state, action) => {
-      state.selectedItemId = action.payload;
-    },
-    clearSelectedItem: (state) => {
-      state.selectedItemId = null;
-    },
-
-    // Category selection
-    selectCategory: (state, action) => {
-      state.selectedCategoryId = action.payload;
-    },
-    clearSelectedCategory: (state) => {
-      state.selectedCategoryId = null;
-    },
-
-    // Log selection
-    selectLog: (state, action) => {
-      state.selectedLogId = action.payload;
-    },
-    clearSelectedLog: (state) => {
-      state.selectedLogId = null;
-    },
-
-    // Clear all selections
-    clearAllSelections: (state) => {
-      state.selectedItemId = null;
-      state.selectedCategoryId = null;
-      state.selectedLogId = null;
-    },
-
     // Filters
     setFilter: (state, action) => {
       const { filterType, value } = action.payload;
@@ -80,13 +46,6 @@ const uiSlice = createSlice({
 });
 
 export const {
-  selectItem,
-  clearSelectedItem,
-  selectCategory,
-  clearSelectedCategory,
-  selectLog,
-  clearSelectedLog,
-  clearAllSelections,
   setFilter,
   clearFilters,
   openModal,
@@ -95,9 +54,6 @@ export const {
 } = uiSlice.actions;
 
 // Selectors
-export const selectSelectedItemId = (state) => state.ui.selectedItemId;
-export const selectSelectedCategoryId = (state) => state.ui.selectedCategoryId;
-export const selectSelectedLogId = (state) => state.ui.selectedLogId;
 export const selectFilters = (state) => state.ui.filters;
 export const selectModals = (state) => state.ui.modals;
 export const selectIsModalOpen = (state, modalName) =>
