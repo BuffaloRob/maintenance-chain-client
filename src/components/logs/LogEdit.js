@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, reduxForm } from 'redux-form'
+import { useForm, Controller } from 'react-hook-form';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import Button from "@mui/material/Button";
 import Fab from "@mui/material/Fab";
@@ -8,153 +8,103 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { StyledTextField, StyledContainer, BottomNav, StyledForm, StyledTitle, FormSubmit } from "./styles";
 import { useGetItemsQuery, useUpdateLogMutation } from '../../store/api/maintenanceApi';
 
-class LogEdit extends React.Component {
+// Previously the redux-form validate(): every required field -> 'Required'
+const rules = {
+  date_performed: { required: 'Required' },
+  date_due: { required: 'Required' },
+};
 
-  customTextField = ({ input, ...restProps }) => {
-    return (
-      <StyledTextField
-        {...input}
-        {...restProps}
-      />
-    )
-  }
-
-  customDateField = ({ meta: { touched, error }, input, ...restProps }) => {
-    return (
-      <StyledTextField
-        slotProps={{ inputLabel: { shrink: true } }}
-        error={touched && error}
-        helperText={touched && error ? error : null}
-        {...input}
-        {...restProps}
-      />
-    )
-  }
-
-  onSubmit = formValues => {
-    const logId = this.props.params.id
-    const catId = this.props.log.category_id
-    const itemId = this.props.params.itemId
-    return this.props.updateLog({ ...formValues, id: logId, categoryId: catId, itemId }).unwrap()
-      .then(() => this.props.navigate(`/item/${itemId}/category/${catId}`))
-      .catch(() => {});
-  }
-
-  render() {
-    return (
-      <StyledContainer>
-        <StyledTitle variant="h2">
-          Edit Log
-        </StyledTitle>
-        <StyledForm onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-          <Field
-            name='date_performed'
-            type='date'
-            component={this.customDateField}
-            margin='normal'
-            label='Date Performed'
-            fullWidth
-          /><br />
-          <Field
-            name='date_due'
-            type='date'
-            component={this.customDateField}
-            label='Date Due'
-            margin='normal'
-            fullWidth
-          /><br />
-          <Field
-            name='cost'
-            type='number'
-            component={this.customTextField}
-            margin='normal'
-            label='Cost $'
-            fullWidth
-          /><br />
-          <Field
-            name='notes'
-            type='text'
-            component={this.customTextField}
-            label='Notes'
-            multiline={true}
-            margin='normal'
-            fullWidth
-          /><br />
-          <Field
-            name='tools'
-            type='text'
-            component={this.customTextField}
-            label='Tools Used'
-            multiline={true}
-            margin='normal'
-            fullWidth
-          /><br />
-          <br/>
-          <FormSubmit>
-            <Button
-              color='primary'
-              variant='outlined'
-              type='submit'
-            >
-              Submit
-            </Button>
-          </FormSubmit>
-          <br/>
-        </StyledForm>
-        <BottomNav>
-          <Fab
-            color="secondary"
-            aria-label="Back to Logs"
-            size="small"
-            to={`/item/${this.props.params.itemId}/category/${this.props.log.category_id}`}
-            component={RouterLink}
-          >
-            <Tooltip title="Back to Logs">
-              <ArrowBack />
-            </Tooltip>
-          </Fab>
-        </BottomNav>
-      </StyledContainer>
-    )
-  }
-
-}
-
-const validate = values => {
-  const errors = {};
-  const requiredFields = [
-    'date_performed',
-    'date_due'
-  ]
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = 'Required'
-    }
-  })
-  return errors
-}
-
-LogEdit = reduxForm({
-  form: 'logForm',
-  validate: validate,
-  // enableReinitialize: true
-})(LogEdit)
-
-const LogEditContainer = (props) => {
-  const params = useParams();
+// Mounted only once the cached log is available, so the log record is the
+// form's defaults (redux-form initialValues semantics, no reinitialize). All
+// of its fields are submitted, as before; the mutation strips id/itemId/categoryId.
+const LogEditForm = ({ log, itemId, logId }) => {
   const navigate = useNavigate();
+  const [updateLog] = useUpdateLogMutation();
+  const { control, handleSubmit } = useForm({ mode: 'onTouched', defaultValues: log });
+  const catId = log.category_id;
+
+  const onSubmit = formValues =>
+    updateLog({ ...formValues, id: logId, categoryId: catId, itemId }).unwrap()
+      .then(() => navigate(`/item/${itemId}/category/${catId}`))
+      .catch(() => {});
+
+  // Date fields show their validation error; the other fields have no rules.
+  const renderField = (name, props) => (
+    <Controller
+      name={name}
+      control={control}
+      rules={rules[name]}
+      render={({ field: { ref, value, ...field }, fieldState: { error } }) => {
+        // API nulls would make the input uncontrolled
+        const common = { ...field, value: value ?? '', inputRef: ref };
+        return props.type === 'date' ? (
+          <StyledTextField
+            slotProps={{ inputLabel: { shrink: true } }}
+            error={!!error}
+            helperText={error ? error.message : null}
+            {...common}
+            {...props}
+          />
+        ) : (
+          <StyledTextField {...common} {...props} />
+        );
+      }}
+    />
+  );
+
+  return (
+    <StyledContainer>
+      <StyledTitle variant="h2">
+        Edit Log
+      </StyledTitle>
+      <StyledForm onSubmit={handleSubmit(onSubmit)} className='ui form error'>
+        {renderField('date_performed', { type: 'date', margin: 'normal', label: 'Date Performed', fullWidth: true })}<br />
+        {renderField('date_due', { type: 'date', label: 'Date Due', margin: 'normal', fullWidth: true })}<br />
+        {renderField('cost', { type: 'number', margin: 'normal', label: 'Cost $', fullWidth: true })}<br />
+        {renderField('notes', { type: 'text', label: 'Notes', multiline: true, margin: 'normal', fullWidth: true })}<br />
+        {renderField('tools', { type: 'text', label: 'Tools Used', multiline: true, margin: 'normal', fullWidth: true })}<br />
+        <br/>
+        <FormSubmit>
+          <Button
+            color='primary'
+            variant='outlined'
+            type='submit'
+          >
+            Submit
+          </Button>
+        </FormSubmit>
+        <br/>
+      </StyledForm>
+      <BottomNav>
+        <Fab
+          color="secondary"
+          aria-label="Back to Logs"
+          size="small"
+          to={`/item/${itemId}/category/${catId}`}
+          component={RouterLink}
+        >
+          <Tooltip title="Back to Logs">
+            <ArrowBack />
+          </Tooltip>
+        </Fab>
+      </BottomNav>
+    </StyledContainer>
+  );
+};
+
+const LogEdit = () => {
+  const { itemId, id } = useParams();
   const { log } = useGetItemsQuery(undefined, {
     selectFromResult: ({ data }) => {
-      const item = data && data.find(i => String(i.id) === String(params.itemId));
-      return { log: item && item.logs.find(l => String(l.id) === String(params.id)) };
+      const item = data && data.find(i => String(i.id) === String(itemId));
+      return { log: item && item.logs.find(l => String(l.id) === String(id)) };
     },
   });
-  const [updateLog] = useUpdateLogMutation();
 
   if (!log) {
     return <div>Loading...</div>
   }
-  return <LogEdit {...props} params={params} navigate={navigate} log={log} initialValues={log} updateLog={updateLog} />;
+  return <LogEditForm log={log} itemId={itemId} logId={id} />;
 };
 
-export default LogEditContainer;
+export default LogEdit;

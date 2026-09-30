@@ -1,66 +1,85 @@
 import React from 'react';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
+import { useForm, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 import { useSignupMutation } from '../store/api/maintenanceApi';
 
-const renderInput = ({ input, label, meta, type }) => (
-  <TextField
-    label={label}
-    autoComplete="off"
-    type={type}
-    {...input}
-    margin="normal"
-  />
-);
+const rules = {
+  email: { required: "You must enter an email address" },
+  password: { required: "You must enter a password" },
+};
 
-const SignUp = ({ handleSubmit, error }) => {
+// Message for a rejected mutation (e.g. 401 {message} or 422 {errors})
+const serverErrorMessage = err => {
+  const data = err && err.data;
+  return (
+    (data && (data.message || (data.errors && JSON.stringify(data.errors)))) ||
+    'Something went wrong'
+  );
+};
+
+const SignUp = () => {
   const navigate = useNavigate();
   const [signup] = useSignupMutation();
+  const { control, handleSubmit, setError, clearErrors, formState: { errors } } = useForm({
+    mode: 'onTouched',
+    defaultValues: { email: '', password: '' },
+  });
 
   const onSubmit = async formValues => {
     try {
       const res = await signup(formValues).unwrap();
       if (res.message || !res.jwt) {
-        throw new SubmissionError({ _error: res.message || 'Something went wrong' });
+        setError('root.serverError', { message: res.message || 'Something went wrong' });
+        return;
       }
       navigate("/");
     } catch (err) {
-      if (err instanceof SubmissionError) throw err;
-      const data = err && err.data;
-      const message =
-        (data && (data.message || (data.errors && JSON.stringify(data.errors)))) ||
-        'Something went wrong';
-      throw new SubmissionError({ _error: message });
+      setError('root.serverError', { message: serverErrorMessage(err) });
     }
   };
+
+  const renderInput = (name, type, label) => (
+    <Controller
+      name={name}
+      control={control}
+      rules={rules[name]}
+      render={({ field: { ref, onChange, ...field }, fieldState: { error } }) => (
+        <TextField
+          label={label}
+          autoComplete="off"
+          type={type}
+          {...field}
+          onChange={e => {
+            // As with redux-form, editing a field clears the server error
+            clearErrors('root.serverError');
+            onChange(e);
+          }}
+          inputRef={ref}
+          margin="normal"
+          error={!!error}
+          helperText={error ? error.message : null}
+        />
+      )}
+    />
+  );
+
+  const serverError = errors.root?.serverError?.message;
 
   return (
     <Grid container sx={{
       justifyContent: 'center'
     }}>
-      {/* handleSubmit comes from reduxForm */}
       <form onSubmit={handleSubmit(onSubmit)} className='ui form error'>
         <Typography variant='h3' align='center'>Sign Up</Typography>
-        <Field
-          name='email'
-          type='email'
-          component={renderInput}
-          label='Enter Your Email'
-        /><br />
-        <Field
-          name='password'
-          type='password'
-          component={renderInput}
-          label='Enter Your Password'
-        />
-        {error && (
-          <Typography color='error' align='center' role='alert'>{error}</Typography>
+        {renderInput('email', 'email', 'Enter Your Email')}<br />
+        {renderInput('password', 'password', 'Enter Your Password')}
+        {serverError && (
+          <Typography color='error' align='center' role='alert'>{serverError}</Typography>
         )}
         <Grid container sx={{
           justifyContent: 'center'
@@ -78,21 +97,4 @@ const SignUp = ({ handleSubmit, error }) => {
   );
 };
 
-const validate = formValues => {
-  const errors = {};
-  if (!formValues.email) {
-    errors.email = "You must enter an email address";
-  }
-  if (!formValues.password) {
-    errors.password = "You must enter a password";
-  }
-  return errors;
-}
-
-const formWrapped = reduxForm({ 
-  form: 'signup',
-  validate
-})(SignUp);
-
-export default formWrapped;
-  
+export default SignUp;

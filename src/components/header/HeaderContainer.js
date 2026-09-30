@@ -32,7 +32,7 @@ const HeaderContainer = () => {
         new Promise(resolve => setTimeout(resolve, 3000)),
       ]);
     } catch (err) {}
-    // Clear auth + all legacy state, then drop the RTK Query cache and persisted state
+    // Clear auth + all app state, then drop the RTK Query cache and persisted state
     dispatch(loggedOut());
     dispatch(maintenanceApi.util.resetApiState());
     persistor.purge();
