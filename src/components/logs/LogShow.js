@@ -8,22 +8,17 @@ import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
 import Fab from '@mui/material/Fab';
 import ArrowBack from '@mui/icons-material/ArrowBack';
-import { useGetItemsQuery } from '../../store/api/maintenanceApi';
+import RecordStatus from '../common/RecordStatus';
+import { useLog } from '../../store/api/lookups';
 import { BottomButtons, StyledLogListItem, StyledTypography } from "./styles";
 
 const LogShow = () => {
   const params = useParams();
-  // The URL only carries the log id, so find the owning item/log in the cache
-  const { item, log } = useGetItemsQuery(undefined, {
-    selectFromResult: ({ data }) => {
-      const item = data && data.find(i => i.logs.some(l => String(l.id) === String(params.id)));
-      return { item, log: item && item.logs.find(l => String(l.id) === String(params.id)) };
-    },
-  });
-  const category = item && item.categories.find(c => c.id === log.category_id);
+  // The URL only carries the log id, so the owning item is found by it
+  const { item, log, category, isLoading, error } = useLog(params.id);
 
-  if (!item || !log) {
-    return <h3>...Loading</h3>
+  if (!log) {
+    return <RecordStatus isLoading={isLoading} error={error} what="log" backTo="/items" backLabel="Back to items" />;
   }
   const itemId = item.id;
 

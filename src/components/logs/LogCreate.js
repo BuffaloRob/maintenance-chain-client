@@ -6,7 +6,9 @@ import Tooltip from "@mui/material/Tooltip";
 import Fab from "@mui/material/Fab";
 import ArrowBack from '@mui/icons-material/ArrowBack';
 
+import FormError from '../common/FormError';
 import { useCreateLogMutation } from '../../store/api/maintenanceApi';
+import { errorMessage } from '../../store/api/errorMessage';
 import { StyledTextField, StyledContainer, FormSubmit, StyledForm, StyledTitle, BottomNav } from "./styles";
 
 // Previously the redux-form validate(): every required field -> 'Required'
@@ -26,12 +28,16 @@ const LogCreate = () => {
   const { itemId, id: catId } = useParams();
   const navigate = useNavigate();
   const [createLog] = useCreateLogMutation();
-  const { control, handleSubmit } = useForm({ mode: 'onTouched', defaultValues });
+  const { control, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({ mode: 'onTouched', defaultValues });
 
-  const onSubmit = formValues =>
-    createLog({ ...withoutEmpty(formValues), itemId, categoryId: catId }).unwrap()
-      .then(() => navigate(`/item/${itemId}/category/${catId}`))
-      .catch(() => {});
+  const onSubmit = async formValues => {
+    try {
+      await createLog({ ...withoutEmpty(formValues), itemId, categoryId: catId }).unwrap();
+      navigate(`/item/${itemId}/category/${catId}`);
+    } catch (err) {
+      setError('root.serverError', { message: errorMessage(err) });
+    }
+  };
 
   // Date fields show their validation error; the other fields have no rules.
   const renderField = (name, props) => (
@@ -67,12 +73,14 @@ const LogCreate = () => {
         {renderField('cost', { type: 'number', label: 'Cost $', margin: 'normal', fullWidth: true })}<br />
         {renderField('notes', { type: 'text', label: 'Notes', multiline: true, margin: 'normal', fullWidth: true })}<br />
         {renderField('tools', { type: 'text', label: 'Tools Used', multiline: true, margin: 'normal', fullWidth: true })}<br />
+        <FormError errors={errors} />
         <br/>
         <FormSubmit>
           <Button
             color='primary'
             variant='outlined'
             type='submit'
+            disabled={isSubmitting}
           >
             Submit
           </Button>

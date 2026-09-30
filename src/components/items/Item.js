@@ -14,24 +14,25 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Tooltip from '@mui/material/Tooltip';
 import ListItem from '@mui/material/ListItem';
 import { useDeleteItemMutation } from '../../store/api/maintenanceApi';
+import { errorMessage } from '../../store/api/errorMessage';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const Item = ({ item }) => {
   const navigate = useNavigate();
-  const [deleteItem] = useDeleteItemMutation();
+  const [deleteItem, { isLoading: isDeleting, error: deleteError, reset }] = useDeleteItemMutation();
   const deleteItemClick = async (id) => {
     try {
       await deleteItem(id).unwrap();
       setOpen(false);
-      navigate('/items');
     } catch (err) {
-      // keep dialog open on failure
+      // keep the dialog open; the error is shown in it
     }
   };
 
   //Used in delete dialog pop up
   const [open, setOpen] = React.useState(false);
   const handleClickOpen= () => {
+    reset();
     setOpen(true);
   }
   const handleClose = () => {
@@ -73,12 +74,15 @@ const Item = ({ item }) => {
           <DialogContentText id="alert-dialog-description">
             You will lose all records associated with this item.
           </DialogContentText>
+          {deleteError && (
+            <DialogContentText color="error" role="alert">{errorMessage(deleteError)}</DialogContentText>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => deleteItemClick(item.id)} color="primary">
+          <Button onClick={() => deleteItemClick(item.id)} color="primary" disabled={isDeleting}>
             Delete
           </Button>
         </DialogActions>

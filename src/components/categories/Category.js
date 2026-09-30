@@ -14,24 +14,25 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Tooltip from '@mui/material/Tooltip';
 import ListItem from '@mui/material/ListItem';
 import { useDeleteCategoryMutation } from '../../store/api/maintenanceApi';
+import { errorMessage } from '../../store/api/errorMessage';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const Category = ({ category, itemId }) => {
   const navigate = useNavigate();
-  const [deleteCategory] = useDeleteCategoryMutation();
+  const [deleteCategory, { isLoading: isDeleting, error: deleteError, reset }] = useDeleteCategoryMutation();
   const deleteCategoryClick = async (id) => {
     try {
       await deleteCategory({ id, itemId }).unwrap();
       setOpen(false);
-      navigate(`/item/${itemId}`);
     } catch (err) {
-      // keep dialog open on failure
+      // keep the dialog open; the error is shown in it
     }
   };
 
   //Used in delete dialog pop up
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
+    reset();
     setOpen(true);
   }
   const handleClose = () => {
@@ -74,12 +75,15 @@ const Category = ({ category, itemId }) => {
           <DialogContentText id="alert-dialog-description">
             You will lose all records associated with this category.
           </DialogContentText>
+          {deleteError && (
+            <DialogContentText color="error" role="alert">{errorMessage(deleteError)}</DialogContentText>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => deleteCategoryClick(category.id)} color="primary" autoFocus>
+          <Button onClick={() => deleteCategoryClick(category.id)} color="primary" autoFocus disabled={isDeleting}>
             Delete
           </Button>
         </DialogActions>

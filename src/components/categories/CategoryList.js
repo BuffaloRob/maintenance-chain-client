@@ -8,18 +8,15 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { BottomButtons, StyledTypography } from './styles'
 import Category from './Category';
-import { useGetItemsQuery } from '../../store/api/maintenanceApi';
+import RecordStatus from '../common/RecordStatus';
+import { useItem } from '../../store/api/lookups';
 
 const CategoryList = () => {
   const params = useParams();
-  const { item } = useGetItemsQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      item: data && data.find(i => String(i.id) === String(params.id)),
-    }),
-  });
+  const { item, isLoading, error } = useItem(params.id);
 
   if (!item) {
-    return <h3>...Loading</h3>
+    return <RecordStatus isLoading={isLoading} error={error} what="item" backTo="/items" backLabel="Back to items" />;
   }
 
   const renderList = item.categories.map(category => (

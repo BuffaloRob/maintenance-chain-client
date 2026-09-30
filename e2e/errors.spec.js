@@ -1,9 +1,6 @@
 // Failure paths: slow or failing saves and deletes, missing records, load errors
 import { test, expect, login, sent } from './fixtures';
 
-// Declares a test that currently fails because of a known bug (see the test title)
-const knownBug = test.fail;
-
 test.beforeEach(async ({ page }) => {
   await login(page);
 });
@@ -36,7 +33,7 @@ const forms = [
 ];
 
 for (const form of forms) {
-  knownBug(`${form.name}: clicking Submit twice sends one request`, async ({ page, api }) => {
+  test(`${form.name}: clicking Submit twice sends one request`, async ({ page, api }) => {
     api.override({ method: form.method, path: form.path, delay: 1000 });
     await page.goto(form.url);
     await form.fill?.(page);
@@ -48,7 +45,7 @@ for (const form of forms) {
     expect(sent(api, form.method, form.path)).toHaveLength(1);
   });
 
-  knownBug(`${form.name}: a failed save shows the server's message`, async ({ page, api }) => {
+  test(`${form.name}: a failed save shows the server's message`, async ({ page, api }) => {
     api.override({ method: form.method, path: form.path, status: 500, body: { message: 'Could not save' } });
     await page.goto(form.url);
     await form.fill?.(page);
@@ -58,7 +55,7 @@ for (const form of forms) {
   });
 }
 
-knownBug('validation errors from the server are shown on the form', async ({ page, api }) => {
+test('validation errors from the server are shown on the form', async ({ page, api }) => {
   api.override({ method: 'POST', path: '/items', status: 422, body: { errors: { name: ['has already been taken'] } } });
   await page.goto('/item/new');
   await page.getByLabel('Enter Item Name').fill('Civic');
@@ -79,7 +76,7 @@ for (const { name, url, row, path } of deletes) {
     return page.getByRole('dialog');
   };
 
-  knownBug(`${name}: a failed delete keeps the dialog open with the server's message`, async ({ page, api }) => {
+  test(`${name}: a failed delete keeps the dialog open with the server's message`, async ({ page, api }) => {
     api.override({ method: 'DELETE', path, status: 500, body: { message: 'Could not delete' } });
     const dialog = await openDialog(page);
     await dialog.getByRole('button', { name: 'Delete' }).click();
@@ -87,7 +84,7 @@ for (const { name, url, row, path } of deletes) {
     await expect(dialog).toBeVisible();
   });
 
-  knownBug(`${name}: clicking Delete twice sends one request`, async ({ page, api }) => {
+  test(`${name}: clicking Delete twice sends one request`, async ({ page, api }) => {
     api.override({ method: 'DELETE', path, delay: 1000 });
     const dialog = await openDialog(page);
     const confirm = dialog.getByRole('button', { name: 'Delete' });
@@ -109,7 +106,7 @@ const missing = [
 ];
 
 for (const [url, what] of missing) {
-  knownBug(`${url} says the ${what} doesn't exist instead of loading forever`, async ({ page }) => {
+  test(`${url} says the ${what} doesn't exist instead of loading forever`, async ({ page }) => {
     await page.goto(url);
     await expect(page.getByText(`We couldn't find that ${what}.`)).toBeVisible();
   });
@@ -124,14 +121,14 @@ const loadFailures = [
 ];
 
 for (const { name, url, path } of loadFailures) {
-  knownBug(`${name} shows the server's message when loading fails`, async ({ page, api }) => {
+  test(`${name} shows the server's message when loading fails`, async ({ page, api }) => {
     api.override({ method: 'GET', path, status: 500, body: { message: 'Database unavailable' } });
     await page.goto(url);
     await expect(page.getByText('Database unavailable')).toBeVisible();
   });
 }
 
-knownBug('an unreachable server gets a clear message', async ({ page, api }) => {
+test('an unreachable server gets a clear message', async ({ page, api }) => {
   api.override({ method: 'GET', path: '/items', abort: true });
   await page.goto('/items');
   await expect(page.getByText("Couldn't reach the server")).toBeVisible();

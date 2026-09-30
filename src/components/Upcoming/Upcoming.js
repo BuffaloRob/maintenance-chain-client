@@ -8,6 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Build from '@mui/icons-material/Build';
 import { useGetUpcomingItemsQuery } from '../../store/api/maintenanceApi';
+import { errorMessage } from '../../store/api/errorMessage';
 import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
 const Upcoming = () => {
@@ -30,7 +31,7 @@ const Upcoming = () => {
       <Container>
         <StyledTypography variant="h2">Upcoming Work</StyledTypography>
         <Typography variant="h6" color="error" align="center" style={{ marginTop: 20 }}>
-          Error loading upcoming items: {error.message || error.error || "Something went wrong"}
+          Error loading upcoming items: {errorMessage(error)}
         </Typography>
       </Container>
     );

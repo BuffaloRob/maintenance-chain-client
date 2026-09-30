@@ -9,7 +9,11 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-import { useGetItemsQuery, useUpdateCategoryMutation } from '../../store/api/maintenanceApi';
+import FormError from '../common/FormError';
+import RecordStatus from '../common/RecordStatus';
+import { useUpdateCategoryMutation } from '../../store/api/maintenanceApi';
+import { errorMessage } from '../../store/api/errorMessage';
+import { useCategory } from '../../store/api/lookups';
 import { FabContainer, StyledGridContainer } from "./styles";
 
 // Previously the redux-form validate(): every required field -> 'Required'
@@ -36,11 +40,22 @@ const renderInput = (control, name, label) => (
 
 // Mounted only once the cached category is available, so its values are the
 // form defaults (redux-form initialValues semantics, no reinitialize).
-const CategoryEditForm = ({ itemId, category, onSubmit }) => {
-  const { control, handleSubmit } = useForm({
+const CategoryEditForm = ({ itemId, category }) => {
+  const navigate = useNavigate();
+  const [updateCategory] = useUpdateCategoryMutation();
+  const { control, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({
     mode: 'onTouched',
     defaultValues: category,
   });
+
+  const onSubmit = async formValues => {
+    try {
+      await updateCategory({ name: formValues.name, id: category.id, itemId }).unwrap();
+      navigate(`/item/${itemId}`);
+    } catch (err) {
+      setError('root.serverError', { message: errorMessage(err) });
+    }
+  };
 
   return (
     <StyledGridContainer container sx={{ justifyContent: 'center' }}>
@@ -50,11 +65,12 @@ const CategoryEditForm = ({ itemId, category, onSubmit }) => {
       }}>
         <form onSubmit={handleSubmit(onSubmit)} className='ui form error'>
           {renderInput(control, 'name', 'Edit Category Name ')}<br />
+          <FormError errors={errors} />
           <br />
           <Grid container sx={{
             justifyContent: 'center'
           }}>
-            <Button color='primary' variant='outlined' type='submit'>Submit</Button>
+            <Button color='primary' variant='outlined' type='submit' disabled={isSubmitting}>Submit</Button>
           </Grid>
           <br />
           <FabContainer container sx={{ justifyContent: 'center' }}>
@@ -79,28 +95,14 @@ const CategoryEditForm = ({ itemId, category, onSubmit }) => {
 
 const CategoryEdit = () => {
   const { itemId, id } = useParams();
-  const navigate = useNavigate();
-  const { category } = useGetItemsQuery(undefined, {
-    selectFromResult: ({ data }) => {
-      const item = data && data.find(i => String(i.id) === String(itemId));
-      return {
-        category: item && item.categories.find(c => String(c.id) === String(id)),
-      };
-    },
-  });
-  const [updateCategory] = useUpdateCategoryMutation();
+  const { item, category, isLoading, error } = useCategory(itemId, id);
 
-  const onSubmit = async formValues => {
-    try {
-      await updateCategory({ name: formValues.name, id, itemId }).unwrap();
-      navigate(`/item/${itemId}`);
-    } catch (err) {
-      // stay on the form on failure
-    }
-  };
-
-  if (!category) return null;
-  return <CategoryEditForm itemId={itemId} onSubmit={onSubmit} category={category} />;
+  if (!category) {
+    return item
+      ? <RecordStatus isLoading={isLoading} error={error} what="category" backTo={`/item/${itemId}`} backLabel={`Back to ${item.name}`} />
+      : <RecordStatus isLoading={isLoading} error={error} what="item" backTo="/items" backLabel="Back to items" />;
+  }
+  return <CategoryEditForm itemId={itemId} category={category} />;
 };
 
 export default CategoryEdit;

@@ -8,19 +8,17 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { BottomButtons, StyledTypography } from './styles'
 import Log from '../logs/Log';
-import { useGetItemsQuery } from '../../store/api/maintenanceApi';
+import RecordStatus from '../common/RecordStatus';
+import { useCategory } from '../../store/api/lookups';
 
 const LogList = () => {
   const params = useParams();
-  const { item } = useGetItemsQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      item: data && data.find(i => String(i.id) === String(params.itemId)),
-    }),
-  });
-  const category = item && item.categories.find(c => String(c.id) === String(params.id));
+  const { item, category, isLoading, error } = useCategory(params.itemId, params.id);
 
-  if (!item || !category) {
-    return <h3>...Loading</h3>
+  if (!category) {
+    return item
+      ? <RecordStatus isLoading={isLoading} error={error} what="category" backTo={`/item/${item.id}`} backLabel={`Back to ${item.name}`} />
+      : <RecordStatus isLoading={isLoading} error={error} what="item" backTo="/items" backLabel="Back to items" />;
   }
 
   const logs = item.logs.filter(log => (log.category_id === category.id))

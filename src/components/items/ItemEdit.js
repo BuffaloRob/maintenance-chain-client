@@ -3,32 +3,30 @@ import { useNavigate, useParams } from 'react-router';
 import Typography from "@mui/material/Typography";
 
 import ItemForm from "./ItemForm";
-import { useGetItemsQuery, useUpdateItemMutation } from '../../store/api/maintenanceApi';
+import RecordStatus from '../common/RecordStatus';
+import { useUpdateItemMutation } from '../../store/api/maintenanceApi';
+import { useItem } from '../../store/api/lookups';
 import { StyledGridContainer } from './styles'
 
 const ItemEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { item } = useGetItemsQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      item: data && data.find(i => String(i.id) === String(id)),
-    }),
-  });
+  const { item, isLoading, error } = useItem(id);
   const [updateItem] = useUpdateItemMutation();
 
+  // Errors are shown by ItemForm
   const onSubmit = async formValues => {
-    try {
-      await updateItem({ ...formValues, id }).unwrap();
-      navigate('/items');
-    } catch (err) {
-      // stay on the form on failure
-    }
+    await updateItem({ ...formValues, id }).unwrap();
+    navigate('/items');
   };
 
+  if (!item) {
+    return <RecordStatus isLoading={isLoading} error={error} what="item" backTo="/items" backLabel="Back to items" />;
+  }
   return (
     <StyledGridContainer container sx={{ justifyContent: 'center' }}>
       <Typography variant='h3' align='center'>Edit the Name</Typography>
-      {item && <ItemForm onSubmit={onSubmit} initialValues={item} />}
+      <ItemForm onSubmit={onSubmit} initialValues={item} />
     </StyledGridContainer>
   );
 };

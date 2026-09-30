@@ -1,8 +1,5 @@
 import { test, expect, login, sent, users } from './fixtures';
 
-// Declares a test that currently fails because of a known bug (see the message)
-const knownBug = test.fail;
-
 test('a first visit sends no API requests', async ({ page, api }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Maintenance Chain' })).toBeVisible();
@@ -53,7 +50,7 @@ for (const [label, response] of [
 }
 
 for (const [path, email] of [['/login', users.alice.email], ['/signup', 'carol@example.com']]) {
-  knownBug(`${path}: clicking Submit twice sends one request`, async ({ page, api }) => {
+  test(`${path}: clicking Submit twice sends one request`, async ({ page, api }) => {
     api.override({ method: 'POST', path, delay: 1000 });
     await page.goto(path);
     await page.getByLabel('Enter Your Email').fill(email);
