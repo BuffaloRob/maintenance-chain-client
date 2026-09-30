@@ -1,5 +1,5 @@
 import React from "react";
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router';
 import Link from '@mui/material/Link';
 import car from '../../assets/racecar-on-stands-optimized.jpg';
 import GlobalStyles from "@mui/material/GlobalStyles";

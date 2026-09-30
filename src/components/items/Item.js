@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router';
 import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
 import Icon from '@mui/material/Icon'

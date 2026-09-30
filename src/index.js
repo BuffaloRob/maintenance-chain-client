@@ -1,8 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -20,20 +20,19 @@ import theme from './ui/theme';
 // uncomment to clear store, for dev purposes only
 // persistor.purge();
 
-ReactDOM.render(
+createRoot(document.querySelector("#root")).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme} >
           <CssBaseline />
-          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <BrowserRouter>
             <App />
           </BrowserRouter>
         </ThemeProvider>
       </StyledEngineProvider>
     </PersistGate>
-  </Provider>,
-  document.querySelector("#root")
+  </Provider>
 );
 
 // If you want your app to work offline and load faster, you can change

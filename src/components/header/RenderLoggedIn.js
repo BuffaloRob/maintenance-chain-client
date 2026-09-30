@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router';
 import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';

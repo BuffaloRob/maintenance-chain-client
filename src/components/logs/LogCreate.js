@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm, Controller } from 'react-hook-form';
-import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router';
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Fab from "@mui/material/Fab";

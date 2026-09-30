@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import moment from 'moment'
 import Container from '@mui/material/Container';
 import List from '@mui/material/List';
