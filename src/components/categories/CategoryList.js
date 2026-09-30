@@ -8,26 +8,27 @@ import AddIcon from '@material-ui/icons/Add';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { BottomButtons, StyledTypography } from './styles'
 import Category from './Category';
+import { useGetItemsQuery } from '../../store/api/maintenanceApi';
 
-const CategoryList = ({ item, selectCategory, match, editCategoryClick, deleteCategoryClick, location, history }) => {
-  
-  const renderList = item.categories.map(category => (
-    <Category
-      key={category.id}
-      category={category}
-      selectCategory={selectCategory}
-      match={match}
-      history={history}
-      itemId={item.id}
-      location={location}
-      editCategoryClick={editCategoryClick}
-      deleteCategoryClick={deleteCategoryClick}
-    />
-  ));
+const CategoryList = ({ match }) => {
+  const { item } = useGetItemsQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      item: data && data.find(i => String(i.id) === String(match.params.id)),
+    }),
+  });
 
   if (!item) {
     return <h3>...Loading</h3>
   }
+
+  const renderList = item.categories.map(category => (
+    <Category
+      key={category.id}
+      category={category}
+      itemId={item.id}
+    />
+  ));
+
   return (
     <Container>
       <StyledTypography variant="h2">

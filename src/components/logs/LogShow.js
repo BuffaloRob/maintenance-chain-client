@@ -8,16 +8,31 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Divider from '@material-ui/core/Divider';
 import Fab from '@material-ui/core/Fab';
 import ArrowBack from '@material-ui/icons/ArrowBack';
+import { useGetItemsQuery } from '../../store/api/maintenanceApi';
 import { BottomButtons, StyledLogListItem, StyledTypography } from "./styles";
 
-const LogShow = ({ log, category, itemId }) => {
-  const formattedDatePerformed = moment(log[0].date_performed).format("MMM Do YYYY");
-  const formattedDateDue = moment(log[0].date_due).format("MMM Do YYYY");
+const LogShow = ({ match }) => {
+  // The URL only carries the log id, so find the owning item/log in the cache
+  const { item, log } = useGetItemsQuery(undefined, {
+    selectFromResult: ({ data }) => {
+      const item = data && data.find(i => i.logs.some(l => String(l.id) === String(match.params.id)));
+      return { item, log: item && item.logs.find(l => String(l.id) === String(match.params.id)) };
+    },
+  });
+  const category = item && item.categories.find(c => c.id === log.category_id);
+
+  if (!item || !log) {
+    return <h3>...Loading</h3>
+  }
+  const itemId = item.id;
+
+  const formattedDatePerformed = moment(log.date_performed).format("MMM Do YYYY");
+  const formattedDateDue = moment(log.date_due).format("MMM Do YYYY");
 
   return (
     <Container>
       <StyledTypography variant="h2">
-        {category[0].name} on {formattedDatePerformed}
+        {(category ? category.name : '')} on {formattedDatePerformed}
       </StyledTypography>
       <List>
         <StyledLogListItem alignItems="flex-start">
@@ -32,17 +47,17 @@ const LogShow = ({ log, category, itemId }) => {
         <Divider />
         <StyledLogListItem>
           <Typography variant="h5" color="primary">Cost:</Typography>
-          <Typography variant="h5">${log[0].cost}</Typography>
+          <Typography variant="h5">${log.cost}</Typography>
         </StyledLogListItem>
         <Divider />
         <StyledLogListItem>
           <Typography variant="h5" color="primary">Tools Used:</Typography>
-          <Typography variant="h5">{log[0].tools}</Typography>
+          <Typography variant="h5">{log.tools}</Typography>
         </StyledLogListItem>
         <Divider />
         <StyledLogListItem>
           <Typography variant="h5" color="primary">Notes:</Typography>
-          <Typography variant="h5">{log[0].notes}</Typography>
+          <Typography variant="h5">{log.notes}</Typography>
         </StyledLogListItem>
         <Divider />
       </List>
@@ -51,7 +66,7 @@ const LogShow = ({ log, category, itemId }) => {
           color="secondary"
           aria-label="Back to Logs"
           size="small"
-          to={`/item/${itemId}/category/${log[0].category_id}`}
+          to={`/item/${itemId}/category/${log.category_id}`}
           component={RouterLink}
         >
           <Tooltip title="Back to Logs">

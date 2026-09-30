@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
 import TextField from "@material-ui/core/TextField";
@@ -10,10 +9,11 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-import { editCategory } from '../../actions/categoryActions';
+import history from '../../history';
+import { useGetItemsQuery, useUpdateCategoryMutation } from '../../store/api/maintenanceApi';
 import { FabContainer, StyledGridContainer } from "./styles";
 
-class CategoryEdit extends React.Component {
+class CategoryForm extends React.Component {
 
   renderError({ error, touched }) {
     if (touched && error) {
@@ -32,18 +32,12 @@ class CategoryEdit extends React.Component {
     />
   )
 
-  onSubmit = formValues => {
-    const itemId = this.props.match.params.itemId
-    const catId = this.props.match.params.id
-    this.props.editCategory(formValues, catId , itemId);
-  }
-
   render() {
     return (
       <StyledGridContainer container justify='center'>
         <Typography variant='h3' align='center'>Edit the category name</Typography>
         <Grid container justify='center'>
-          <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
+          <form onSubmit={this.props.handleSubmit(this.props.onSubmit)} className='ui form error'>
             <Field
               name='name'
               component={this.renderInput}
@@ -88,14 +82,34 @@ const validate = values => {
   return errors
 }
 
-const mapStateToProps = state => ({
-  initialValues: state.selectedCategory[0]
-})
-
-CategoryEdit = reduxForm({
+const CategoryFormRedux = reduxForm({
   form: 'categoryForm',
   validate: validate,
-  // enableReinitialize: true
-})(CategoryEdit);
+})(CategoryForm);
 
-export default connect(mapStateToProps, { editCategory })(CategoryEdit)
+const CategoryEdit = ({ match }) => {
+  const { itemId, id } = match.params;
+  const { category } = useGetItemsQuery(undefined, {
+    selectFromResult: ({ data }) => {
+      const item = data && data.find(i => String(i.id) === String(itemId));
+      return {
+        category: item && item.categories.find(c => String(c.id) === String(id)),
+      };
+    },
+  });
+  const [updateCategory] = useUpdateCategoryMutation();
+
+  const onSubmit = async formValues => {
+    try {
+      await updateCategory({ name: formValues.name, id, itemId }).unwrap();
+      history.push(`/item/${itemId}`);
+    } catch (err) {
+      // stay on the form on failure
+    }
+  };
+
+  if (!category) return null;
+  return <CategoryFormRedux match={match} onSubmit={onSubmit} initialValues={category} />;
+};
+
+export default CategoryEdit;

@@ -13,9 +13,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Tooltip from '@material-ui/core/Tooltip';
+import history from '../../history';
+import { useDeleteLogMutation } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
-const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLogClick }) => {
+const Log = ({ log, itemId, categoryId }) => {
+  const [deleteLog] = useDeleteLogMutation();
+  const deleteLogClick = async () => {
+    try {
+      await deleteLog({ id: log.id, categoryId, itemId }).unwrap();
+      setOpen(false);
+      history.push(`/item/${itemId}/category/${categoryId}`);
+    } catch (err) {
+      // keep dialog open on failure
+    }
+  };
 
   const datePerformed = moment(log.date_performed).format("MMM Do YYYY");
   const dateDue = moment(log.date_due).format("MMM Do YYYY");
@@ -35,7 +47,7 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
         color="secondary"
         size="small"
         aria-label="Edit"
-        onClick={() => editLogClick(log.id, itemId)}
+        onClick={() => history.push(`/item/${itemId}/log/${log.id}/edit`)}
       >
         <Tooltip title="Edit" placement="top">
           <Icon>edit_icon</Icon>
@@ -69,7 +81,7 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => deleteLogClick(log.id, categoryId, itemId)} color="primary" autoFocus>
+          <Button onClick={() => deleteLogClick()} color="primary" autoFocus>
             Delete
           </Button>
         </DialogActions>
@@ -83,7 +95,7 @@ const Log = ({ log, selectLog, match, itemId, categoryId, deleteLogClick, editLo
         key={log.id}
         button
         disableGutters
-        onClick={() => selectLog(log.id, itemId, categoryId)}
+        onClick={() => history.push(`/log/${log.id}`)}
       >
         <StyledAvatar>
           <Avatar>

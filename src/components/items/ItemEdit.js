@@ -1,35 +1,35 @@
 import React from "react";
-import { connect } from 'react-redux';
 import Typography from "@material-ui/core/Typography";
 
-import { editItem } from '../../actions/itemActions';
+import history from '../../history';
 import ItemForm from "./ItemForm";
+import { useGetItemsQuery, useUpdateItemMutation } from '../../store/api/maintenanceApi';
 import { StyledGridContainer } from './styles'
 
-class ItemEdit extends React.Component {
+const ItemEdit = ({ match }) => {
+  const id = match.params.id;
+  const { item } = useGetItemsQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      item: data && data.find(i => String(i.id) === String(id)),
+    }),
+  });
+  const [updateItem] = useUpdateItemMutation();
 
-  onSubmit = formValues => {
-    this.props.editItem(this.props.match.params.id, formValues);
-  }
-
-  render() {
-    return (
-      <StyledGridContainer container justify='center'>
-        <Typography variant='h3' align='center'>Edit the Name</Typography>
-        <ItemForm 
-          onSubmit={this.onSubmit}
-          initialValues={this.props.initialValues} 
-        />
-      </StyledGridContainer>
-    )
-  }
-   
-}
-
-const mapStateToProps = (state, ownProps) => {
-  return { 
-    initialValues: state.items[ownProps.match.params.id]
+  const onSubmit = async formValues => {
+    try {
+      await updateItem({ ...formValues, id }).unwrap();
+      history.push('/items');
+    } catch (err) {
+      // stay on the form on failure
+    }
   };
-}
 
-export default connect(mapStateToProps, { editItem })(ItemEdit);
+  return (
+    <StyledGridContainer container justify='center'>
+      <Typography variant='h3' align='center'>Edit the Name</Typography>
+      {item && <ItemForm onSubmit={onSubmit} initialValues={item} />}
+    </StyledGridContainer>
+  );
+};
+
+export default ItemEdit;

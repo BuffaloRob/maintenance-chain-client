@@ -4,7 +4,6 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
-import history from '../history';
 import ItemList from './items/ItemList';
 import ItemCreate from './items/ItemCreate';
 import ItemEdit from './items/ItemEdit';
@@ -15,84 +14,10 @@ import LogCreate from './logs/LogCreate';
 import LogEdit from './logs/LogEdit';
 import LogShow from './logs/LogShow';
 import LogList from './logs/LogList';
-import { fetchItems, deleteItem } from '../actions/itemActions';
-import { deleteCategory } from '../actions/categoryActions';
-import { deleteLog } from '../actions/logActions';
-import { itemSelector, categorySelector, logSelector } from '../actions/selectActions';
 import PastDue from "../components/PastDue/PastDue";
 import Upcoming from '../components/Upcoming/Upcoming';
 
 class MaintenanceContainer extends React.Component {
-  componentDidMount() {
-    this.props.fetchItems();
-  }
-
-  selectItem = (itemId) => {
-    const item = this.props.items[itemId]
-    this.props.itemSelector(item)
-    history.push(`/item/${item.id}`)
-  }
-
-  selectCategory = (catId, itemId) => {
-    const item = this.props.selectedItem
-    const cat = item.categories.filter(cat => (cat.id === catId))
-    this.props.categorySelector(cat, itemId)
-    history.push(`/item/${itemId}/category/${catId}`)
-  }
-
-  selectLog = (logId, itemId, categoryId) => {
-    const item = this.props.selectedItem
-    const log = item.logs.filter(log => (log.id === logId))
-    this.props.logSelector(log, itemId)
-    history.push(`/log/${logId}`)
-  }
-
-  editCategoryClick = (catId, itemId) => {
-    const item = this.props.selectedItem
-    const cat = item.categories.filter(cat => (cat.id === catId))
-    this.props.categorySelector(cat, itemId)
-    history.push(`/item/${itemId}/category/${catId}/edit`)
-  }
-
-  editLogClick = (logId, itemId) => {
-    const item = this.props.selectedItem
-    const log = item.logs.filter(log => (log.id === logId))
-    this.props.logSelector(log)
-    history.push(`/item/${itemId}/log/${logId}/edit`)
-  }
-
-  deleteItemClick = itemId => {
-    this.props.deleteItem(itemId)
-  }
-
-  deleteCategoryClick = (catId, itemId) => {
-    this.props.deleteCategory(catId, itemId)
-  }
-
-  deleteLogClick = (logId, itemId) => {
-    this.props.deleteLog(logId, itemId)
-  }
-
-  selectPastDue = (logId, itemId, catId) => {
-    const item = this.props.items[itemId] 
-    this.props.itemSelector(item)
-    const cat = item.categories.filter(cat => (cat.id === catId))
-    this.props.categorySelector(cat, itemId)
-    const log = item.logs.filter(log => (log.id === logId))
-    this.props.logSelector(log)
-    history.push(`/log/${log[0].id}`)
-  }
-
-  selectUpcoming = (logId, itemId, catId) => {
-    const item = this.props.items[itemId] 
-    this.props.itemSelector(item)
-    const cat = item.categories.filter(cat => (cat.id === catId))
-    this.props.categorySelector(cat, itemId)
-    const log = item.logs.filter(log => (log.id === logId))
-    this.props.logSelector(log)
-    history.push(`/log/${log[0].id}`)
-  }
-
   render() {
 
     if (this.props.isAuthenticated) {
@@ -101,64 +26,29 @@ class MaintenanceContainer extends React.Component {
           <>
             <Switch>
               {/* Past Due */}
-              <Route exact path='/pastdue' render={props =>
-                <PastDue {...props}
-                  selectPastDue={this.selectPastDue}
-                />}
-              />
+              <Route exact path='/pastdue' component={PastDue} />
               {/* Upcoming */}
-              <Route exact path='/upcoming' render={props =>
-                <Upcoming {...props}
-                  selectUpcoming={this.selectUpcoming}
-                />}
-              />
+              <Route exact path='/upcoming' component={Upcoming} />
               {/* LogCreate */}
               <Route exact path='/item/:itemId/category/:id/log/new' component={LogCreate} />
               {/* LogShow */}
-              <Route exact path='/log/:id' render={props =>
-                <LogShow {...props}
-                  log={this.props.selectedLog}
-                  category={this.props.selectedCategory}
-                  itemId={this.props.selectedItem.id}
-                />}
-              />
+              <Route exact path='/log/:id' component={LogShow} />
               {/* LogEdit */}
               <Route exact path='/item/:itemId/log/:id/edit' component={LogEdit} />
               {/* CategoryCreate */}
               <Route exact path='/item/:itemId/category/new' component={CategoryCreate} />
               {/* LogList / Category Show */}
-              <Route exact path='/item/:itemId/category/:id' render={props =>
-                <LogList {...props}
-                  category={this.props.selectedCategory}
-                  item={this.props.selectedItem}
-                  selectLog={this.selectLog}
-                  editLogClick={this.editLogClick}
-                  deleteLogClick={this.deleteLogClick}
-                />}
-              />
+              <Route exact path='/item/:itemId/category/:id' component={LogList} />
               {/* CategoryEdit */}
               <Route exact path='/item/:itemId/category/:id/edit' component={CategoryEdit} />
               {/* ItemList */}
-              <Route exact path="/items" render={props =>
-                <ItemList {...props}
-                  items={Object.values(this.props.items)}
-                  selectItem={this.selectItem}
-                  deleteItemClick={this.deleteItemClick}
-                />}
-              />
+              <Route exact path="/items" component={ItemList} />
               {/* ItemCreate */}
               <Route exact path="/item/new" component={ItemCreate} />
               {/* ItemEdit */}
               <Route exact path="/item/:id/edit" component={ItemEdit} />
               {/* CategoryList / Item Show */}
-              <Route exact path="/item/:id" render={props =>
-                <CategoryList {...props}
-                  item={this.props.selectedItem}
-                  selectCategory={this.selectCategory}
-                  editCategoryClick={this.editCategoryClick}
-                  deleteCategoryClick={this.deleteCategoryClick}
-                />}
-              />
+              <Route exact path="/item/:id" component={CategoryList} />
               <Redirect to="/" />
             </Switch>
           </>
@@ -178,19 +68,7 @@ class MaintenanceContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    items: state.items,
-    selectedItem: state.selectedItem,
-    selectedCategory: state.selectedCategory,
-    selectedLog: state.selectedLog,
   }
 }
 
-export default connect(mapStateToProps, {
-  itemSelector,
-  categorySelector,
-  logSelector,
-  fetchItems,
-  deleteItem,
-  deleteCategory,
-  deleteLog,
-})(MaintenanceContainer);
+export default connect(mapStateToProps)(MaintenanceContainer);

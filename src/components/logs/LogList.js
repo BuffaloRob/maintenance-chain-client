@@ -8,27 +8,34 @@ import AddIcon from '@material-ui/icons/Add';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { BottomButtons, StyledTypography } from './styles'
 import Log from '../logs/Log';
+import { useGetItemsQuery } from '../../store/api/maintenanceApi';
 
-const LogList = ({ category, selectLog, match, item, deleteLogClick, editLogClick }) => {
-  
-  const logs = item.logs.filter(log => (log.category_id === category[0].id))
+const LogList = ({ match }) => {
+  const { item } = useGetItemsQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      item: data && data.find(i => String(i.id) === String(match.params.itemId)),
+    }),
+  });
+  const category = item && item.categories.find(c => String(c.id) === String(match.params.id));
+
+  if (!item || !category) {
+    return <h3>...Loading</h3>
+  }
+
+  const logs = item.logs.filter(log => (log.category_id === category.id))
   const renderList = logs.map(log => (
     <Log
       key={log.id}
       log={log}
       itemId={item.id}
-      selectLog={selectLog}
-      match={match}
       categoryId={category.id}
-      deleteLogClick={deleteLogClick}
-      editLogClick={editLogClick}
     />
   ));
 
   return (
     <Container>
       <StyledTypography variant="h2">
-        {category[0].name} for {item.name}
+        {category.name} for {item.name}
       </StyledTypography>
       <List component="nav">{renderList}</List>
       <BottomButtons>
@@ -47,7 +54,7 @@ const LogList = ({ category, selectLog, match, item, deleteLogClick, editLogClic
           color="primary" 
           aria-label="Create New"
           size="small"
-          to={`/item/${item.id}/category/${category[0].id}/log/new`}
+          to={`/item/${item.id}/category/${category.id}/log/new`}
           component={RouterLink}
         >
           <Tooltip title="Create New Log">

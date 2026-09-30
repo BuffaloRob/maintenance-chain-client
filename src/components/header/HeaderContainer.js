@@ -1,38 +1,47 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import RenderLoggedIn from './RenderLoggedIn';
 import RenderLoggedOut from './RenderLoggedOut'
-import { logout, fetchUser } from '../../actions/authActions';
+import history from '../../history';
+import { persistor } from '../../store';
+import {
+  maintenanceApi,
+  useGetUserQuery,
+  useLogoutMutation,
+} from '../../store/api/maintenanceApi';
+import { loggedOut, selectToken, selectCurrentUser, selectIsAuthenticated } from '../../store/slices/authSlice';
 
-class HeaderContainer extends React.Component {
+const HeaderContainer = () => {
+  const dispatch = useDispatch();
+  const token = useSelector(selectToken);
+  const currentUser = useSelector(selectCurrentUser);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const [logout] = useLogoutMutation();
 
-  componentDidMount() {
-    this.props.fetchUser();
-  }
+  // Refresh the user from the server; nothing to fetch without a token
+  useGetUserQuery(undefined, { skip: !token });
 
-  handleLogout = e => {
+  const handleLogout = async e => {
     e.preventDefault();
-    this.props.logout();
+    try {
+      // Server logout failing or hanging must not block logging out locally
+      await Promise.race([
+        logout().unwrap(),
+        new Promise(resolve => setTimeout(resolve, 3000)),
+      ]);
+    } catch (err) {}
+    // Clear auth + all legacy state, then drop the RTK Query cache and persisted state
+    dispatch(loggedOut());
+    dispatch(maintenanceApi.util.resetApiState());
+    persistor.purge();
+    history.push('/');
   }
 
-  render() {
-      if (
-        this.props.isAuthenticated &&
-        this.props.currentUser.email
-      ) {
-        return <RenderLoggedIn currentUser={this.props.currentUser} handleLogout={this.handleLogout}/>
-      } else {
-        return <RenderLoggedOut />
-      }
+  if (isAuthenticated && currentUser.email) {
+    return <RenderLoggedIn currentUser={currentUser} handleLogout={handleLogout}/>
   }
+  return <RenderLoggedOut />
 }
 
-const mapStateToProps = state => {
-  return { 
-    isAuthenticated: state.auth.isAuthenticated,
-    currentUser: state.auth.currentUser
-  }
-}
-
-export default connect(mapStateToProps, { logout, fetchUser })(HeaderContainer);
+export default HeaderContainer;

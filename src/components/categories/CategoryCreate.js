@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'
 import TextField from "@material-ui/core/TextField";
@@ -10,10 +9,11 @@ import Grid from "@material-ui/core/Grid";
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import Typography from "@material-ui/core/Typography";
 
-import { createCategory } from '../../actions/categoryActions';
+import history from '../../history';
+import { useCreateCategoryMutation } from '../../store/api/maintenanceApi';
 import { StyledGridContainer, FabContainer } from './styles'
 
-class CategoryCreate extends React.Component {
+class CategoryForm extends React.Component {
 
   renderError({ error, touched }) {
     if (touched && error) {
@@ -32,17 +32,12 @@ class CategoryCreate extends React.Component {
     />
   )
 
-  onSubmit = formValues => {
-    const itemId = this.props.match.params.itemId
-    this.props.createCategory(formValues, itemId);
-  }
-
   render() {
     return (
       <StyledGridContainer container justify='center'>
         <Typography variant='h3' align='center'>Make a new maintenance category</Typography>
         <Grid container justify='center'>
-          <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
+          <form onSubmit={this.props.handleSubmit(this.props.onSubmit)} className='ui form error'>
             <Field
               name='name'
               component={this.renderInput}
@@ -87,9 +82,25 @@ const validate = values => {
   return errors
 }
 
-CategoryCreate = reduxForm({
+const CategoryFormRedux = reduxForm({
   form: 'categoryForm',
   validate: validate
-})(CategoryCreate);
+})(CategoryForm);
 
-export default connect(null, { createCategory })(CategoryCreate)
+const CategoryCreate = ({ match }) => {
+  const itemId = match.params.itemId;
+  const [createCategory] = useCreateCategoryMutation();
+
+  const onSubmit = async formValues => {
+    try {
+      await createCategory({ ...formValues, itemId }).unwrap();
+      history.push(`/item/${itemId}`);
+    } catch (err) {
+      // stay on the form on failure
+    }
+  };
+
+  return <CategoryFormRedux match={match} onSubmit={onSubmit} />;
+};
+
+export default CategoryCreate;

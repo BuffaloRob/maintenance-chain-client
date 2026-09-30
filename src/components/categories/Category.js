@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon'
 import Fab from '@material-ui/core/Fab'
 import Avatar from '@material-ui/core/Avatar'
@@ -11,9 +12,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Tooltip from '@material-ui/core/Tooltip';
+import history from '../../history';
+import { useDeleteCategoryMutation } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
-const Category = ({ category, selectCategory, match, itemId, editCategoryClick, deleteCategoryClick }) => {
+const Category = ({ category, itemId }) => {
+  const [deleteCategory] = useDeleteCategoryMutation();
+  const deleteCategoryClick = async (id) => {
+    try {
+      await deleteCategory({ id, itemId }).unwrap();
+      setOpen(false);
+      history.push(`/item/${itemId}`);
+    } catch (err) {
+      // keep dialog open on failure
+    }
+  };
 
   //Used in delete dialog pop up
   const [open, setOpen] = React.useState(false);
@@ -30,7 +43,8 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
         color="secondary"
         size="small"
         aria-label="Edit"
-        onClick={() => editCategoryClick(category.id, itemId)}
+        component={RouterLink}
+        to={`/item/${itemId}/category/${category.id}/edit`}
       >
         <Tooltip title="Edit" placement="top">
           <Icon>edit_icon</Icon>
@@ -64,7 +78,7 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => deleteCategoryClick(category.id, itemId)} color="primary" autoFocus>
+          <Button onClick={() => deleteCategoryClick(category.id)} color="primary" autoFocus>
             Delete
           </Button>
         </DialogActions>
@@ -79,7 +93,7 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
         key={category.id} 
         button 
         disableGutters
-        onClick={() => selectCategory(category.id, itemId)}
+        onClick={() => history.push(`/item/${itemId}/category/${category.id}`)}
       >
         <StyledAvatar>
           <Avatar>
