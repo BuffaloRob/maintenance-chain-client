@@ -1,18 +1,19 @@
 import React from 'react';
 import moment from 'moment';
-import Icon from '@material-ui/core/Icon'
-import Fab from '@material-ui/core/Fab'
-import Avatar from '@material-ui/core/Avatar'
-import Divider from '@material-ui/core/Divider'
-import Button from '@material-ui/core/Button'
-import Build from '@material-ui/icons/Build';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Tooltip from '@material-ui/core/Tooltip';
+import Icon from '@mui/material/Icon'
+import Fab from '@mui/material/Fab'
+import Avatar from '@mui/material/Avatar'
+import Divider from '@mui/material/Divider'
+import Button from '@mui/material/Button'
+import Build from '@mui/icons-material/Build';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Tooltip from '@mui/material/Tooltip';
+import ListItem from '@mui/material/ListItem';
 import history from '../../history';
 import { useDeleteLogMutation } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
@@ -91,26 +92,27 @@ const Log = ({ log, itemId, categoryId }) => {
   
   return (
     <ListItemGrid>
-      <StyledListItem
+      <ListItem
         key={log.id}
-        button
-        disableGutters
-        onClick={() => history.push(`/log/${log.id}`)}
+        disablePadding
+        secondaryAction={renderAdmin(log)}
+        slots={{ secondaryAction: StyledSecondaryAction }}
       >
-        <StyledAvatar>
-          <Avatar>
-            <Build />
-          </Avatar>
-        </StyledAvatar>
-        <StyledListText 
-          primary={datePerformed}
-          secondary={`Due on: ${dateDue}`}
-          
-        />
-        <StyledSecondaryAction>
-          {renderAdmin(log)}
-        </StyledSecondaryAction>
-      </StyledListItem>
+        <StyledListItem
+          disableGutters
+          onClick={() => history.push(`/log/${log.id}`)}
+        >
+          <StyledAvatar>
+            <Avatar>
+              <Build />
+            </Avatar>
+          </StyledAvatar>
+          <StyledListText 
+            primary={datePerformed}
+            secondary={`Due on: ${dateDue}`}
+          />
+        </StyledListItem>
+      </ListItem>
       <Divider />
     </ListItemGrid>
   )

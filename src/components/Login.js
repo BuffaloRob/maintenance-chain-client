@@ -1,9 +1,9 @@
 import React from 'react';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 import { useLoginMutation } from '../store/api/maintenanceApi';
 
@@ -38,7 +38,9 @@ const Login = ({ handleSubmit, error, history }) => {
   };
 
   return (
-    <Grid justify='center' container>
+    <Grid container sx={{
+      justifyContent: 'center'
+    }}>
       {/* handleSubmit comes from reduxForm */}
       <form onSubmit={handleSubmit(onSubmit)} className='ui form error'>
         <Typography variant='h3' align='center'>Log In</Typography>
@@ -57,7 +59,9 @@ const Login = ({ handleSubmit, error, history }) => {
         {error && (
           <Typography color='error' align='center' role='alert'>{error}</Typography>
         )}
-        <Grid container justify='center'>
+        <Grid container sx={{
+          justifyContent: 'center'
+        }}>
           <Button
             type='submit'
             size='large'

@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 import ItemList from './items/ItemList';
 import ItemCreate from './items/ItemCreate';
@@ -56,11 +56,13 @@ class MaintenanceContainer extends React.Component {
       )
     }
     else {
-      return ( 
-        <Box textAlign="center">
+      return (
+        <Box sx={{
+          textAlign: "center"
+        }}>
           <Typography>You must be logged in to do that</Typography>
         </Box >
-      )
+      );
     }
   }
 }

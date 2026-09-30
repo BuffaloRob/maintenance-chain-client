@@ -1,13 +1,13 @@
 import React from "react";
 import { Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
-import Container from '@material-ui/core/Container';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
-import Divider from '@material-ui/core/Divider';
-import Fab from '@material-ui/core/Fab';
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import Container from '@mui/material/Container';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import Divider from '@mui/material/Divider';
+import Fab from '@mui/material/Fab';
+import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useGetItemsQuery } from '../../store/api/maintenanceApi';
 import { BottomButtons, StyledLogListItem, StyledTypography } from "./styles";
 

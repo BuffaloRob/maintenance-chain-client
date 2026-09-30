@@ -1,13 +1,13 @@
 import React from "react";
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Fab from "@material-ui/core/Fab";
-import Tooltip from "@material-ui/core/Tooltip";
-import ArrowBack from '@material-ui/icons/ArrowBack';
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Fab from "@mui/material/Fab";
+import Tooltip from "@mui/material/Tooltip";
+import ArrowBack from '@mui/icons-material/ArrowBack';
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 import history from '../../history';
 import { useGetItemsQuery, useUpdateCategoryMutation } from '../../store/api/maintenanceApi';
@@ -34,9 +34,11 @@ class CategoryForm extends React.Component {
 
   render() {
     return (
-      <StyledGridContainer container justify='center'>
+      <StyledGridContainer container sx={{ justifyContent: 'center' }}>
         <Typography variant='h3' align='center'>Edit the category name</Typography>
-        <Grid container justify='center'>
+        <Grid container sx={{
+          justifyContent: 'center'
+        }}>
           <form onSubmit={this.props.handleSubmit(this.props.onSubmit)} className='ui form error'>
             <Field
               name='name'
@@ -44,11 +46,13 @@ class CategoryForm extends React.Component {
               label='Edit Category Name '
             /><br />
             <br />
-            <Grid container justify='center'>
+            <Grid container sx={{
+              justifyContent: 'center'
+            }}>
               <Button color='primary'variant='outlined' type='submit'>Submit</Button>
             </Grid>
             <br />
-            <FabContainer container justify='center'>
+            <FabContainer container sx={{ justifyContent: 'center' }}>
               <Fab
                 color="secondary"
                 aria-label="Back to Categories"
@@ -65,7 +69,7 @@ class CategoryForm extends React.Component {
         </Grid>
 
       </StyledGridContainer>
-    )
+    );
   }
 }
 

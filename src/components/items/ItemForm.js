@@ -1,13 +1,13 @@
 import React from "react";
 import { Link as RouterLink } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Fab from "@material-ui/core/Fab";
-import Tooltip from "@material-ui/core/Tooltip";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Fab from "@mui/material/Fab";
+import Tooltip from "@mui/material/Tooltip";
+import FormHelperText from "@mui/material/FormHelperText";
+import ArrowBack from '@mui/icons-material/ArrowBack';
 import { FabContainer } from './styles';
 
 class ItemForm extends React.Component {
@@ -34,7 +34,9 @@ class ItemForm extends React.Component {
 
   render() {
     return (
-      <Grid container justify='center'>
+      <Grid container sx={{
+        justifyContent: 'center'
+      }}>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
           <Field
             name='name'
@@ -42,7 +44,9 @@ class ItemForm extends React.Component {
             label='Enter Item Name '
           /><br/>
           <br/>
-          <Grid container justify='center'> 
+          <Grid container sx={{
+            justifyContent: 'center'
+          }}> 
             <Button 
               color='primary' 
               variant='outlined' 
@@ -52,7 +56,7 @@ class ItemForm extends React.Component {
             </Button>
           </Grid>
           <br/>
-          <FabContainer container justify='center'>
+          <FabContainer container sx={{ justifyContent: 'center' }}>
             <Fab
               color="secondary"
               aria-label="Back to Items"
@@ -67,7 +71,7 @@ class ItemForm extends React.Component {
           </FabContainer>
         </form>
       </Grid>
-    )
+    );
   }
 }
 

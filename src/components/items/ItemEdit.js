@@ -1,5 +1,5 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 
 import history from '../../history';
 import ItemForm from "./ItemForm";
@@ -25,7 +25,7 @@ const ItemEdit = ({ match }) => {
   };
 
   return (
-    <StyledGridContainer container justify='center'>
+    <StyledGridContainer container sx={{ justifyContent: 'center' }}>
       <Typography variant='h3' align='center'>Edit the Name</Typography>
       {item && <ItemForm onSubmit={onSubmit} initialValues={item} />}
     </StyledGridContainer>

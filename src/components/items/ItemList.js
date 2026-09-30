@@ -1,12 +1,12 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import AddIcon from "@material-ui/icons/Add";
-import List from "@material-ui/core/List";
-import Container from "@material-ui/core/Container";
-import Fab from "@material-ui/core/Fab";
-import Tooltip from "@material-ui/core/Tooltip";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Typography from "@material-ui/core/Typography";
+import AddIcon from "@mui/icons-material/Add";
+import List from "@mui/material/List";
+import Container from "@mui/material/Container";
+import Fab from "@mui/material/Fab";
+import Tooltip from "@mui/material/Tooltip";
+import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
 import { useGetItemsQuery } from "../../store/api/maintenanceApi";
 import { BottomButtons, StyledTypography } from "./styles";
 import Item from "./Item";
@@ -95,11 +95,11 @@ export default ItemList;
 
 // import React from 'react';
 // import { Link as RouterLink } from 'react-router-dom';
-// import AddIcon from '@material-ui/icons/Add';
-// import List from "@material-ui/core/List";
-// import Container from "@material-ui/core/Container";
-// import Fab from "@material-ui/core/Fab";
-// import Tooltip from "@material-ui/core/Tooltip";
+// import AddIcon from '@mui/icons-material/Add';
+// import List from "@mui/material/List";
+// import Container from "@mui/material/Container";
+// import Fab from "@mui/material/Fab";
+// import Tooltip from "@mui/material/Tooltip";
 // import { v4 as uuidv4 } from 'uuid';
 // import { BottomButtons, StyledTypography } from './styles'
 

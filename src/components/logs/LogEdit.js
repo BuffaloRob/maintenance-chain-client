@@ -1,10 +1,10 @@
 import React from "react";
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
-import Button from "@material-ui/core/Button";
-import Fab from "@material-ui/core/Fab";
-import Tooltip from "@material-ui/core/Tooltip";
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import Button from "@mui/material/Button";
+import Fab from "@mui/material/Fab";
+import Tooltip from "@mui/material/Tooltip";
+import ArrowBack from '@mui/icons-material/ArrowBack';
 import { StyledTextField, StyledContainer, BottomNav, StyledForm, StyledTitle, FormSubmit } from "./styles";
 import history from '../../history';
 import { useGetItemsQuery, useUpdateLogMutation } from '../../store/api/maintenanceApi';
@@ -20,10 +20,10 @@ class LogEdit extends React.Component {
     )
   }
 
-  customDateField = ({ InputLabelProps = {}, meta: { touched, error }, input, ...restProps }) => {
+  customDateField = ({ meta: { touched, error }, input, ...restProps }) => {
     return (
       <StyledTextField
-        InputLabelProps={{ ...InputLabelProps, shrink: true }}
+        slotProps={{ inputLabel: { shrink: true } }}
         error={touched && error}
         helperText={touched && error ? error : null}
         {...input}

@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom';
-import AppBar from '@material-ui/core/AppBar';
-import Container from '@material-ui/core/Container';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import IconButton from '@material-ui/core/IconButton';
-import Toolbar from '@material-ui/core/Toolbar';
+import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
+import List from '@mui/material/List';
+import IconButton from '@mui/material/IconButton';
+import Toolbar from '@mui/material/Toolbar';
 import MediaQuery from 'react-responsive';
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
 import { StyledNavButton, StyledDrawer, LogInButton, LeftNavContainer } from './styles';
+import ListItemButton from "@mui/material/ListItemButton";
 
 const RenderLoggedOut = () => {
   //taken from example https://material-ui.com/components/drawers/
@@ -29,12 +29,12 @@ const RenderLoggedOut = () => {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        <ListItem button component={RouterLink} to="/login">
+        <ListItemButton component={RouterLink} to="/login">
           Log In
-        </ListItem>
-        <ListItem button component={RouterLink} to="/signup">
+        </ListItemButton>
+        <ListItemButton component={RouterLink} to="/signup">
           Sign Up
-        </ListItem>
+        </ListItemButton>
       </List>
     </div>
   )
@@ -43,7 +43,7 @@ const RenderLoggedOut = () => {
     <AppBar position="sticky" style={{ borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px' }} >
       <Toolbar >
         <LeftNavContainer>
-          <MediaQuery minDeviceWidth={690}>
+          <MediaQuery minWidth={690}>
             <StyledNavButton
               component={RouterLink}
               to="/login"
@@ -61,12 +61,12 @@ const RenderLoggedOut = () => {
               Sign Up
             </StyledNavButton>
           </MediaQuery>
-          <MediaQuery maxDeviceWidth={689}>
-            <IconButton 
-              edge="start" 
-              onClick={toggleDrawer('left', true)} 
+          <MediaQuery maxWidth={689}>
+            <IconButton
+              edge="start"
+              onClick={toggleDrawer('left', true)}
               aria-label="Menu Button"
-            >
+              size="large">
               <MenuIcon style={{ fill: '#000000de' }}/>
             </IconButton>
             <StyledDrawer open={state.left} onClose={toggleDrawer('left', false)}>

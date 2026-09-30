@@ -1,11 +1,11 @@
 import React from "react";
 import { Field, reduxForm } from 'redux-form'
 import { Link as RouterLink } from 'react-router-dom';
-import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
-import Fab from "@material-ui/core/Fab";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import Fab from "@mui/material/Fab";
+import InputAdornment from "@mui/material/InputAdornment";
+import ArrowBack from '@mui/icons-material/ArrowBack';
 
 import history from '../../history';
 import { useCreateLogMutation } from '../../store/api/maintenanceApi';
@@ -13,15 +13,18 @@ import { StyledTextField, StyledContainer, FormSubmit, StyledForm, StyledTitle, 
 
 class LogCreate extends React.Component {
 
-  textFieldWithAdornment = ({ InputProps = {}, input, ...restProps }) => {
+  textFieldWithAdornment = ({ input, ...restProps }) => {
     return (
       <StyledTextField
-        InputProps={{
-          ...InputProps, startAdornment: (
-            < InputAdornment >
-              $
-            </InputAdornment>
-          ) }}
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                $
+              </InputAdornment>
+            ),
+          },
+        }}
         {...input}
         {...restProps}
       />
@@ -37,10 +40,10 @@ class LogCreate extends React.Component {
     )
   }
 
-  customDateField = ({ InputLabelProps = {}, meta: { touched, error }, input, ...restProps }) => {
+  customDateField = ({ meta: { touched, error }, input, ...restProps }) => {
     return (
       <StyledTextField
-        InputLabelProps={{ ...InputLabelProps, shrink: true }}
+        slotProps={{ inputLabel: { shrink: true } }}
         error={touched && error}
         helperText={ touched && error ? error : null}
         {...input}

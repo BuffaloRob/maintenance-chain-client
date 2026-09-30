@@ -4,8 +4,8 @@ import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
 import history from './history';
 import { Router } from 'react-router-dom'
-import ThemeProvider from '@material-ui/styles/ThemeProvider';
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import CssBaseline from "@mui/material/CssBaseline";
 
 import App from "./components/App";
 import { store, persistor } from './store';
@@ -24,12 +24,14 @@ import theme from './ui/theme';
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <ThemeProvider theme={theme} >
-        <CssBaseline />
-        <Router history={history}>
-          <App />
-        </Router>
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme} >
+          <CssBaseline />
+          <Router history={history}>
+            <App />
+          </Router>
+        </ThemeProvider>
+      </StyledEngineProvider>
     </PersistGate>
   </Provider>,
   document.querySelector("#root")
