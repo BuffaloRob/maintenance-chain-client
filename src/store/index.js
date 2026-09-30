@@ -1,26 +1,28 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { persistStore, persistReducer } from "redux-persist";
+import { persistStore, persistReducer, createMigrate } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import { maintenanceApi } from "./api/maintenanceApi";
 import authSlice, { loggedOut, setToken } from "./slices/authSlice";
 import uiSlice from "./slices/uiSlice";
-import legacyReducers from "../reducers";
 
 const persistConfig = {
   key: "root",
   storage,
-  // Persist everything (auth, ui, legacy reducers) except the RTK Query cache
+  // Persist everything (auth, ui) except the RTK Query cache
   blacklist: [maintenanceApi.reducerPath],
+  // v0: drop the `form` key persisted by the removed redux-form reducer
+  version: 0,
+  migrate: createMigrate({
+    0: ({ form, ...state }) => state,
+  }),
 };
 
 const appReducer = combineReducers({
   [maintenanceApi.reducerPath]: maintenanceApi.reducer,
   auth: authSlice.reducer,
   ui: uiSlice.reducer,
-  // Legacy redux-form reducer
-  ...legacyReducers,
 });
 
 // Reset all state upon logout so persist doesn't keep data from a previous user

@@ -1,23 +1,23 @@
 import React from 'react'
-import { Link as RouterLink } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Toolbar from '@material-ui/core/Toolbar';
-import MenuIcon from '@material-ui/icons/Menu';
-import Grid from '@material-ui/core/Grid';
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import HomeIcon from '@material-ui/icons/Home';
-import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Link as RouterLink } from 'react-router';
+import Typography from '@mui/material/Typography';
+import AppBar from '@mui/material/AppBar';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import Toolbar from '@mui/material/Toolbar';
+import MenuIcon from '@mui/icons-material/Menu';
+import Grid from '@mui/material/Grid';
+import Fab from '@mui/material/Fab';
+import Tooltip from '@mui/material/Tooltip';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import HomeIcon from '@mui/icons-material/Home';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { StyledDrawer, StyledNavButton } from './styles';
+import Button from '@mui/material/Button';
 
-import Button from '@material-ui/core/Button';
 import MediaQuery from 'react-responsive';
+import ListItemButton from "@mui/material/ListItemButton";
 
 
 const RenderLoggedIn = ({ currentUser, handleLogout }) => {
@@ -40,21 +40,21 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        <ListItem button component={RouterLink} to="/items">
+        <ListItemButton component={RouterLink} to="/items">
           Items
-        </ListItem>
-        <ListItem button component={RouterLink} to="/upcoming">
+        </ListItemButton>
+        <ListItemButton component={RouterLink} to="/upcoming">
           Upcoming
-        </ListItem>
-        <ListItem button component={RouterLink} to="/pastdue">
+        </ListItemButton>
+        <ListItemButton component={RouterLink} to="/pastdue">
           Past Due
-        </ListItem>
-        <ListItem button component={RouterLink} to="/">
+        </ListItemButton>
+        <ListItemButton component={RouterLink} to="/">
           Welcome
-        </ListItem>
-        <ListItem button onClick={e => handleLogout(e)}>
+        </ListItemButton>
+        <ListItemButton onClick={e => handleLogout(e)}>
           Log Out
-        </ListItem>
+        </ListItemButton>
       </List>
     </div>
   )
@@ -63,13 +63,14 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
     <AppBar position="sticky" style={{ borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px' }} >
       <Toolbar>
         <Grid container>
-          <MediaQuery minDeviceWidth={700}>
-            <Grid 
-              container 
-              justify='flex-start' 
-              alignItems='center'
-            >
-              <Grid item xs={3}>
+          <MediaQuery minWidth={700}>
+            <Grid
+              container
+              sx={{
+                justifyContent: 'flex-start',
+                alignItems: 'center'
+              }}>
+              <Grid size={3}>
                 <Fab
                   color='primary'
                   aria-label='Home'
@@ -82,7 +83,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
                   </Tooltip>
                 </Fab>
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <Fab
                   color='primary'
                   aria-label='Upcoming'
@@ -95,7 +96,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
                   </Tooltip>
                 </Fab>
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <Fab
                   color='primary'
                   aria-label='Past Due'
@@ -108,7 +109,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
                   </Tooltip>
                 </Fab>
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <Fab
                   color='primary'
                   aria-label='Log Out'
@@ -122,12 +123,12 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
               </Grid>
             </Grid>
           </MediaQuery>
-          <MediaQuery maxDeviceWidth={699}>
-          <IconButton 
-            edge="start" 
-            onClick={toggleDrawer('left', true)} 
+          <MediaQuery maxWidth={699}>
+          <IconButton
+            edge="start"
+            onClick={toggleDrawer('left', true)}
             aria-label="Menu Button"
-          >
+            size="large">
             <MenuIcon style={{ fill: '#000000de' }} />
           </IconButton>
           <StyledDrawer 
@@ -138,12 +139,12 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
           </StyledDrawer>
           </MediaQuery>
         </Grid >
-        <Grid 
-          maxWidth='md' 
-          container 
-          justify="flex-end" 
+        <Grid
+          container
           style={{paddingLeft: "4px"}}
-        >
+          sx={{
+            justifyContent: "flex-end"
+          }}>
           <Typography variant='h5' noWrap color="textSecondary">
             Welcome {userName}
           </Typography>

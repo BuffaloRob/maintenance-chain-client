@@ -1,163 +1,99 @@
 import React from "react";
-import { Field, reduxForm } from 'redux-form'
-import { Link as RouterLink } from 'react-router-dom';
-import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
-import Fab from "@material-ui/core/Fab";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import { useForm, Controller } from 'react-hook-form';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router';
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import Fab from "@mui/material/Fab";
+import ArrowBack from '@mui/icons-material/ArrowBack';
 
-import history from '../../history';
 import { useCreateLogMutation } from '../../store/api/maintenanceApi';
 import { StyledTextField, StyledContainer, FormSubmit, StyledForm, StyledTitle, BottomNav } from "./styles";
 
-class LogCreate extends React.Component {
-
-  textFieldWithAdornment = ({ InputProps = {}, input, ...restProps }) => {
-    return (
-      <StyledTextField
-        InputProps={{
-          ...InputProps, startAdornment: (
-            < InputAdornment >
-              $
-            </InputAdornment>
-          ) }}
-        {...input}
-        {...restProps}
-      />
-    )
-  }
-
-  customTextField =({ input, ...restProps }) => {
-    return (
-      <StyledTextField
-        {...input}
-        {...restProps}
-      />
-    )
-  }
-
-  customDateField = ({ InputLabelProps = {}, meta: { touched, error }, input, ...restProps }) => {
-    return (
-      <StyledTextField
-        InputLabelProps={{ ...InputLabelProps, shrink: true }}
-        error={touched && error}
-        helperText={ touched && error ? error : null}
-        {...input}
-        {...restProps}
-      />
-    )
-  }
-
-  onSubmit = (formValues) => {
-    const itemId = this.props.match.params.itemId;
-    const catId = this.props.match.params.id;
-    return this.props.createLog({ ...formValues, itemId, categoryId: catId }).unwrap()
-      .then(() => history.push(`/item/${itemId}/category/${catId}`))
-      .catch(() => {});
-  }
-
-  render() {
-    return (
-      <StyledContainer>
-        <StyledTitle variant="h2">
-          Create New Log
-        </StyledTitle>
-        <StyledForm onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-          <Field
-            name='date_performed'
-            type='date'
-            component={this.customDateField}
-            label='Date Performed'
-            margin='normal'
-            fullWidth
-          /><br />
-          <Field
-            name='date_due'
-            type='date'
-            component={this.customDateField}
-            label='Date Due'
-            margin='normal'
-            fullWidth
-          /><br />
-          <Field
-            name='cost'
-            type='number'
-            component={this.customTextField}
-            label='Cost $'
-            margin='normal'
-            fullWidth
-          /><br />
-          <Field
-            name='notes'
-            type='text'
-            component={this.customTextField}
-            label='Notes'
-            multiline={true}
-            margin='normal'
-            fullWidth
-          /><br />
-          <Field
-            name='tools'
-            type='text'
-            component={this.customTextField}
-            label='Tools Used'
-            multiline={true}
-            margin='normal'
-            fullWidth
-          /><br />
-          <br/>
-          <FormSubmit>
-            <Button 
-              color='primary' 
-              variant='outlined' 
-              type='submit'
-            >
-              Submit
-            </Button>
-          </FormSubmit>
-          <br/>
-        </StyledForm>
-        <BottomNav>
-          <Fab
-            color="secondary"
-            aria-label="Back to Logs"
-            size="small"
-            to={`/item/${this.props.match.params.itemId}/category/${this.props.match.params.id}`}
-            component={RouterLink}
-          >
-            <Tooltip title="Back to Logs">
-              <ArrowBack />
-            </Tooltip>
-          </Fab>
-        </BottomNav>
-      </StyledContainer>
-    )
-  }
-}
-
-const validate = values => {
-  const errors = {};
-  const requiredFields = [
-    'date_performed',
-    'date_due'
-  ]
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = 'Required'
-    }
-  })
-  return errors
-}
-
-LogCreate = reduxForm({
-  form: 'logForm',
-  validate: validate
-})(LogCreate);
-
-const LogCreateContainer = (props) => {
-  const [createLog] = useCreateLogMutation();
-  return <LogCreate {...props} createLog={createLog} />;
+// Previously the redux-form validate(): every required field -> 'Required'
+const rules = {
+  date_performed: { required: 'Required' },
+  date_due: { required: 'Required' },
 };
 
-export default LogCreateContainer;
+const defaultValues = { date_performed: '', date_due: '', cost: '', notes: '', tools: '' };
+
+// redux-form dropped fields left empty (no initial value) from the submitted
+// values; keep that so the POST body only contains filled-in fields.
+const withoutEmpty = values =>
+  Object.fromEntries(Object.entries(values).filter(([, v]) => v !== ''));
+
+const LogCreate = () => {
+  const { itemId, id: catId } = useParams();
+  const navigate = useNavigate();
+  const [createLog] = useCreateLogMutation();
+  const { control, handleSubmit } = useForm({ mode: 'onTouched', defaultValues });
+
+  const onSubmit = formValues =>
+    createLog({ ...withoutEmpty(formValues), itemId, categoryId: catId }).unwrap()
+      .then(() => navigate(`/item/${itemId}/category/${catId}`))
+      .catch(() => {});
+
+  // Date fields show their validation error; the other fields have no rules.
+  const renderField = (name, props) => (
+    <Controller
+      name={name}
+      control={control}
+      rules={rules[name]}
+      render={({ field: { ref, ...field }, fieldState: { error } }) => (
+        props.type === 'date' ? (
+          <StyledTextField
+            slotProps={{ inputLabel: { shrink: true } }}
+            error={!!error}
+            helperText={error ? error.message : null}
+            {...field}
+            inputRef={ref}
+            {...props}
+          />
+        ) : (
+          <StyledTextField {...field} inputRef={ref} {...props} />
+        )
+      )}
+    />
+  );
+
+  return (
+    <StyledContainer>
+      <StyledTitle variant="h2">
+        Create New Log
+      </StyledTitle>
+      <StyledForm onSubmit={handleSubmit(onSubmit)} className='ui form error'>
+        {renderField('date_performed', { type: 'date', label: 'Date Performed', margin: 'normal', fullWidth: true })}<br />
+        {renderField('date_due', { type: 'date', label: 'Date Due', margin: 'normal', fullWidth: true })}<br />
+        {renderField('cost', { type: 'number', label: 'Cost $', margin: 'normal', fullWidth: true })}<br />
+        {renderField('notes', { type: 'text', label: 'Notes', multiline: true, margin: 'normal', fullWidth: true })}<br />
+        {renderField('tools', { type: 'text', label: 'Tools Used', multiline: true, margin: 'normal', fullWidth: true })}<br />
+        <br/>
+        <FormSubmit>
+          <Button
+            color='primary'
+            variant='outlined'
+            type='submit'
+          >
+            Submit
+          </Button>
+        </FormSubmit>
+        <br/>
+      </StyledForm>
+      <BottomNav>
+        <Fab
+          color="secondary"
+          aria-label="Back to Logs"
+          size="small"
+          to={`/item/${itemId}/category/${catId}`}
+          component={RouterLink}
+        >
+          <Tooltip title="Back to Logs">
+            <ArrowBack />
+          </Tooltip>
+        </Fab>
+      </BottomNav>
+    </StyledContainer>
+  );
+};
+
+export default LogCreate;

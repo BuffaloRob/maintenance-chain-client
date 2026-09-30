@@ -1,28 +1,29 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import Button from '@material-ui/core/Button'
-import Avatar from '@material-ui/core/Avatar'
-import Icon from '@material-ui/core/Icon'
-import Fab from '@material-ui/core/Fab'
-import Build from '@material-ui/icons/Build';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Tooltip from '@material-ui/core/Tooltip';
-import history from '../../history';
+import { Link as RouterLink, useNavigate } from 'react-router';
+import Button from '@mui/material/Button'
+import Avatar from '@mui/material/Avatar'
+import Icon from '@mui/material/Icon'
+import Fab from '@mui/material/Fab'
+import Build from '@mui/icons-material/Build';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Tooltip from '@mui/material/Tooltip';
+import ListItem from '@mui/material/ListItem';
 import { useDeleteItemMutation } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const Item = ({ item }) => {
+  const navigate = useNavigate();
   const [deleteItem] = useDeleteItemMutation();
   const deleteItemClick = async (id) => {
     try {
       await deleteItem(id).unwrap();
       setOpen(false);
-      history.push('/items');
+      navigate('/items');
     } catch (err) {
       // keep dialog open on failure
     }
@@ -88,22 +89,24 @@ const Item = ({ item }) => {
     
   return (
     <ListItemGrid>
-      <StyledListItem 
-        key={item.id} 
-        button 
-        disableGutters
-        onClick={() => history.push(`/item/${item.id}`)}
+      <ListItem
+        key={item.id}
+        disablePadding
+        secondaryAction={renderAdmin(item)}
+        slots={{ secondaryAction: StyledSecondaryAction }}
       >
-        <StyledAvatar>
-          <Avatar>
-            <Build />
-          </Avatar>
-        </StyledAvatar>
-        <StyledListText primary={item.name} />
-        <StyledSecondaryAction>
-          {renderAdmin(item)}
-        </StyledSecondaryAction>
-      </StyledListItem>
+        <StyledListItem
+          disableGutters
+          onClick={() => navigate(`/item/${item.id}`)}
+        >
+          <StyledAvatar>
+            <Avatar>
+              <Build />
+            </Avatar>
+          </StyledAvatar>
+          <StyledListText primary={item.name} />
+        </StyledListItem>
+      </ListItem>
       <StyledDivider />
     </ListItemGrid>
   )

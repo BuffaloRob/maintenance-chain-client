@@ -1,16 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 import moment from 'moment'
-import Container from '@material-ui/core/Container';
-import List from '@material-ui/core/List';
-import Avatar from '@material-ui/core/Avatar'
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
-import Build from '@material-ui/icons/Build';
-import history from '../../history';
+import Container from '@mui/material/Container';
+import List from '@mui/material/List';
+import Avatar from '@mui/material/Avatar'
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import Build from '@mui/icons-material/Build';
 import { useGetPastDueItemsQuery } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
 const PastDue = () => {
+  const navigate = useNavigate();
   const { data: logs, error, isLoading } = useGetPastDueItemsQuery();
 
   if (isLoading) {
@@ -48,8 +49,7 @@ const PastDue = () => {
       return (
         <StyledListItem
           key={log.id}
-          button
-          onClick={() => history.push(`/log/${log.id}`)}
+          onClick={() => navigate(`/log/${log.id}`)}
           divider
         >
           <StyledListItemAvatar>

@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import Typography from '@material-ui/core/Typography';
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import Typography from '@mui/material/Typography';
 
-export const StyledListItem = styled(ListItem)`
+export const StyledListItem = styled(ListItemButton)`
   font-size: 24px;
   font-weight: 500;
   color: #F55932;

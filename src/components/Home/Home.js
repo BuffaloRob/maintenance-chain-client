@@ -1,21 +1,20 @@
 import React from "react";
-import {Link as RouterLink} from 'react-router-dom';
-import Link from '@material-ui/core/Link';
+import {Link as RouterLink} from 'react-router';
+import Link from '@mui/material/Link';
 import car from '../../assets/racecar-on-stands-optimized.jpg';
-import { withStyles } from "@material-ui/styles";
+import GlobalStyles from "@mui/material/GlobalStyles";
 import { StyledHeader, StyledCTA, CtaHeader, StyledDivider, StyledIntro, GridContainer, HowToDiv, BottomDiv } from "./styles";
 
 // This adds the background pic to only the home page
-const styles = {
-  "@global": {
-    body: {
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${car})`,
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center center",
-      backgroundSize: "cover",
-      backgroundAttachment: "fixed",
-      // height: "100%",
-    }
+// (rendered via GlobalStyles, which removes the rule when Home unmounts)
+const globalStyles = {
+  body: {
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${car})`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center center",
+    backgroundSize: "cover",
+    backgroundAttachment: "fixed",
+    // height: "100%",
   }
 }
 
@@ -23,9 +22,9 @@ class Home extends React.Component {
   
 
   render() {
-    const {classes} = this.props;
     return (
-      <GridContainer className={classes.body}>
+      <GridContainer>
+        <GlobalStyles styles={globalStyles} />
         <StyledHeader variant='h1' align='center'>
           Maintenance Chain 
         </StyledHeader>
@@ -63,4 +62,4 @@ class Home extends React.Component {
   }
 }
 
-export default withStyles(styles)(Home);
+export default Home;

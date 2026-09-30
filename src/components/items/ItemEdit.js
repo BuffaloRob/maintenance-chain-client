@@ -1,13 +1,14 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
+import { useNavigate, useParams } from 'react-router';
+import Typography from "@mui/material/Typography";
 
-import history from '../../history';
 import ItemForm from "./ItemForm";
 import { useGetItemsQuery, useUpdateItemMutation } from '../../store/api/maintenanceApi';
 import { StyledGridContainer } from './styles'
 
-const ItemEdit = ({ match }) => {
-  const id = match.params.id;
+const ItemEdit = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const { item } = useGetItemsQuery(undefined, {
     selectFromResult: ({ data }) => ({
       item: data && data.find(i => String(i.id) === String(id)),
@@ -18,14 +19,14 @@ const ItemEdit = ({ match }) => {
   const onSubmit = async formValues => {
     try {
       await updateItem({ ...formValues, id }).unwrap();
-      history.push('/items');
+      navigate('/items');
     } catch (err) {
       // stay on the form on failure
     }
   };
 
   return (
-    <StyledGridContainer container justify='center'>
+    <StyledGridContainer container sx={{ justifyContent: 'center' }}>
       <Typography variant='h3' align='center'>Edit the Name</Typography>
       {item && <ItemForm onSubmit={onSubmit} initialValues={item} />}
     </StyledGridContainer>

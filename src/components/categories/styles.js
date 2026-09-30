@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import Divider from '@material-ui/core/Divider'
-import Fab from '@material-ui/core/Fab'
-import ListItemText from '@material-ui/core/ListItemText'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import Divider from '@mui/material/Divider'
+import Fab from '@mui/material/Fab'
+import ListItemText from '@mui/material/ListItemText'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
 export const StyledTypography = styled(Typography)`
   text-align: start;
@@ -34,7 +34,7 @@ export const BottomButtons = styled(Grid)`
 
 export const ListItemGrid = styled(Grid)`  
   @media(max-width: 500px) { 
-    .MuiListItem-root {
+    .MuiListItemButton-root {
       text-align: center;
     }
   }
@@ -49,7 +49,7 @@ export const ButtonGrid = styled(Grid)`
   }
 `
 
-export const StyledListItem = styled(ListItem)`
+export const StyledListItem = styled(ListItemButton)`
   padding: 20px 16px;
   @media(max-width: 768px) {
     padding: 40px 16px;
