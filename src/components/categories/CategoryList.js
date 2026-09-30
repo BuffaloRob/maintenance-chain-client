@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import List from '@mui/material/List';
 import Tooltip from '@mui/material/Tooltip';
@@ -10,10 +10,11 @@ import { BottomButtons, StyledTypography } from './styles'
 import Category from './Category';
 import { useGetItemsQuery } from '../../store/api/maintenanceApi';
 
-const CategoryList = ({ match }) => {
+const CategoryList = () => {
+  const params = useParams();
   const { item } = useGetItemsQuery(undefined, {
     selectFromResult: ({ data }) => ({
-      item: data && data.find(i => String(i.id) === String(match.params.id)),
+      item: data && data.find(i => String(i.id) === String(params.id)),
     }),
   });
 

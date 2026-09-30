@@ -2,8 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
-import history from './history';
-import { Router } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -27,9 +26,9 @@ ReactDOM.render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme} >
           <CssBaseline />
-          <Router history={history}>
+          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <App />
-          </Router>
+          </BrowserRouter>
         </ThemeProvider>
       </StyledEngineProvider>
     </PersistGate>

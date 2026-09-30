@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -24,33 +24,33 @@ class MaintenanceContainer extends React.Component {
       return (
         <div className="ui container">
           <>
-            <Switch>
+            <Routes>
               {/* Past Due */}
-              <Route exact path='/pastdue' component={PastDue} />
+              <Route path='/pastdue' element={<PastDue />} />
               {/* Upcoming */}
-              <Route exact path='/upcoming' component={Upcoming} />
+              <Route path='/upcoming' element={<Upcoming />} />
               {/* LogCreate */}
-              <Route exact path='/item/:itemId/category/:id/log/new' component={LogCreate} />
+              <Route path='/item/:itemId/category/:id/log/new' element={<LogCreate />} />
               {/* LogShow */}
-              <Route exact path='/log/:id' component={LogShow} />
+              <Route path='/log/:id' element={<LogShow />} />
               {/* LogEdit */}
-              <Route exact path='/item/:itemId/log/:id/edit' component={LogEdit} />
+              <Route path='/item/:itemId/log/:id/edit' element={<LogEdit />} />
               {/* CategoryCreate */}
-              <Route exact path='/item/:itemId/category/new' component={CategoryCreate} />
+              <Route path='/item/:itemId/category/new' element={<CategoryCreate />} />
               {/* LogList / Category Show */}
-              <Route exact path='/item/:itemId/category/:id' component={LogList} />
+              <Route path='/item/:itemId/category/:id' element={<LogList />} />
               {/* CategoryEdit */}
-              <Route exact path='/item/:itemId/category/:id/edit' component={CategoryEdit} />
+              <Route path='/item/:itemId/category/:id/edit' element={<CategoryEdit />} />
               {/* ItemList */}
-              <Route exact path="/items" component={ItemList} />
+              <Route path="/items" element={<ItemList />} />
               {/* ItemCreate */}
-              <Route exact path="/item/new" component={ItemCreate} />
+              <Route path="/item/new" element={<ItemCreate />} />
               {/* ItemEdit */}
-              <Route exact path="/item/:id/edit" component={ItemEdit} />
+              <Route path="/item/:id/edit" element={<ItemEdit />} />
               {/* CategoryList / Item Show */}
-              <Route exact path="/item/:id" component={CategoryList} />
-              <Redirect to="/" />
-            </Switch>
+              <Route path="/item/:id" element={<CategoryList />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
           </>
         </div>
       )

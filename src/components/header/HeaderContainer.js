@@ -1,9 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import RenderLoggedIn from './RenderLoggedIn';
 import RenderLoggedOut from './RenderLoggedOut'
-import history from '../../history';
 import { persistor } from '../../store';
 import {
   maintenanceApi,
@@ -13,6 +13,7 @@ import {
 import { loggedOut, selectToken, selectCurrentUser, selectIsAuthenticated } from '../../store/slices/authSlice';
 
 const HeaderContainer = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const currentUser = useSelector(selectCurrentUser);
@@ -35,7 +36,7 @@ const HeaderContainer = () => {
     dispatch(loggedOut());
     dispatch(maintenanceApi.util.resetApiState());
     persistor.purge();
-    history.push('/');
+    navigate('/');
   }
 
   if (isAuthenticated && currentUser.email) {

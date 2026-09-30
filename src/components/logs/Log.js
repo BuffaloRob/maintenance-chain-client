@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import Icon from '@mui/material/Icon'
 import Fab from '@mui/material/Fab'
@@ -14,17 +15,17 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Tooltip from '@mui/material/Tooltip';
 import ListItem from '@mui/material/ListItem';
-import history from '../../history';
 import { useDeleteLogMutation } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const Log = ({ log, itemId, categoryId }) => {
+  const navigate = useNavigate();
   const [deleteLog] = useDeleteLogMutation();
   const deleteLogClick = async () => {
     try {
       await deleteLog({ id: log.id, categoryId, itemId }).unwrap();
       setOpen(false);
-      history.push(`/item/${itemId}/category/${categoryId}`);
+      navigate(`/item/${itemId}/category/${categoryId}`);
     } catch (err) {
       // keep dialog open on failure
     }
@@ -48,7 +49,7 @@ const Log = ({ log, itemId, categoryId }) => {
         color="secondary"
         size="small"
         aria-label="Edit"
-        onClick={() => history.push(`/item/${itemId}/log/${log.id}/edit`)}
+        onClick={() => navigate(`/item/${itemId}/log/${log.id}/edit`)}
       >
         <Tooltip title="Edit" placement="top">
           <Icon>edit_icon</Icon>
@@ -100,7 +101,7 @@ const Log = ({ log, itemId, categoryId }) => {
       >
         <StyledListItem
           disableGutters
-          onClick={() => history.push(`/log/${log.id}`)}
+          onClick={() => navigate(`/log/${log.id}`)}
         >
           <StyledAvatar>
             <Avatar>

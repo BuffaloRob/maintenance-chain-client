@@ -1,5 +1,5 @@
 import React from "react";
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import moment from 'moment';
 import Container from '@mui/material/Container';
 import List from '@mui/material/List';
@@ -11,12 +11,13 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useGetItemsQuery } from '../../store/api/maintenanceApi';
 import { BottomButtons, StyledLogListItem, StyledTypography } from "./styles";
 
-const LogShow = ({ match }) => {
+const LogShow = () => {
+  const params = useParams();
   // The URL only carries the log id, so find the owning item/log in the cache
   const { item, log } = useGetItemsQuery(undefined, {
     selectFromResult: ({ data }) => {
-      const item = data && data.find(i => i.logs.some(l => String(l.id) === String(match.params.id)));
-      return { item, log: item && item.logs.find(l => String(l.id) === String(match.params.id)) };
+      const item = data && data.find(i => i.logs.some(l => String(l.id) === String(params.id)));
+      return { item, log: item && item.logs.find(l => String(l.id) === String(params.id)) };
     },
   });
   const category = item && item.categories.find(c => c.id === log.category_id);

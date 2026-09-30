@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
+import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -18,7 +19,8 @@ const renderInput = ({ input, label, meta, type }) => (
   />
 );
 
-const SignUp = ({ handleSubmit, error, history }) => {
+const SignUp = ({ handleSubmit, error }) => {
+  const navigate = useNavigate();
   const [signup] = useSignupMutation();
 
   const onSubmit = async formValues => {
@@ -27,7 +29,7 @@ const SignUp = ({ handleSubmit, error, history }) => {
       if (res.message || !res.jwt) {
         throw new SubmissionError({ _error: res.message || 'Something went wrong' });
       }
-      history.push("/");
+      navigate("/");
     } catch (err) {
       if (err instanceof SubmissionError) throw err;
       const data = err && err.data;

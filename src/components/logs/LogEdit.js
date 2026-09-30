@@ -1,12 +1,11 @@
 import React from "react";
 import { Field, reduxForm } from 'redux-form'
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import Button from "@mui/material/Button";
 import Fab from "@mui/material/Fab";
 import Tooltip from "@mui/material/Tooltip";
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { StyledTextField, StyledContainer, BottomNav, StyledForm, StyledTitle, FormSubmit } from "./styles";
-import history from '../../history';
 import { useGetItemsQuery, useUpdateLogMutation } from '../../store/api/maintenanceApi';
 
 class LogEdit extends React.Component {
@@ -33,11 +32,11 @@ class LogEdit extends React.Component {
   }
 
   onSubmit = formValues => {
-    const logId = this.props.match.params.id
+    const logId = this.props.params.id
     const catId = this.props.log.category_id
-    const itemId = this.props.match.params.itemId
+    const itemId = this.props.params.itemId
     return this.props.updateLog({ ...formValues, id: logId, categoryId: catId, itemId }).unwrap()
-      .then(() => history.push(`/item/${itemId}/category/${catId}`))
+      .then(() => this.props.navigate(`/item/${itemId}/category/${catId}`))
       .catch(() => {});
   }
 
@@ -107,7 +106,7 @@ class LogEdit extends React.Component {
             color="secondary"
             aria-label="Back to Logs"
             size="small"
-            to={`/item/${this.props.match.params.itemId}/category/${this.props.log.category_id}`}
+            to={`/item/${this.props.params.itemId}/category/${this.props.log.category_id}`}
             component={RouterLink}
           >
             <Tooltip title="Back to Logs">
@@ -142,11 +141,12 @@ LogEdit = reduxForm({
 })(LogEdit)
 
 const LogEditContainer = (props) => {
-  const { match } = props;
+  const params = useParams();
+  const navigate = useNavigate();
   const { log } = useGetItemsQuery(undefined, {
     selectFromResult: ({ data }) => {
-      const item = data && data.find(i => String(i.id) === String(match.params.itemId));
-      return { log: item && item.logs.find(l => String(l.id) === String(match.params.id)) };
+      const item = data && data.find(i => String(i.id) === String(params.itemId));
+      return { log: item && item.logs.find(l => String(l.id) === String(params.id)) };
     },
   });
   const [updateLog] = useUpdateLogMutation();
@@ -154,7 +154,7 @@ const LogEditContainer = (props) => {
   if (!log) {
     return <div>Loading...</div>
   }
-  return <LogEdit {...props} log={log} initialValues={log} updateLog={updateLog} />;
+  return <LogEdit {...props} params={params} navigate={navigate} log={log} initialValues={log} updateLog={updateLog} />;
 };
 
 export default LogEditContainer;

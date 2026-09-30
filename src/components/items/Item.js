@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
 import Icon from '@mui/material/Icon'
@@ -13,17 +13,17 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Tooltip from '@mui/material/Tooltip';
 import ListItem from '@mui/material/ListItem';
-import history from '../../history';
 import { useDeleteItemMutation } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const Item = ({ item }) => {
+  const navigate = useNavigate();
   const [deleteItem] = useDeleteItemMutation();
   const deleteItemClick = async (id) => {
     try {
       await deleteItem(id).unwrap();
       setOpen(false);
-      history.push('/items');
+      navigate('/items');
     } catch (err) {
       // keep dialog open on failure
     }
@@ -97,7 +97,7 @@ const Item = ({ item }) => {
       >
         <StyledListItem
           disableGutters
-          onClick={() => history.push(`/item/${item.id}`)}
+          onClick={() => navigate(`/item/${item.id}`)}
         >
           <StyledAvatar>
             <Avatar>

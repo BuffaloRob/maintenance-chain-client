@@ -1,6 +1,6 @@
 import React from "react";
 import { Field, reduxForm } from 'redux-form'
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Fab from "@mui/material/Fab";
@@ -9,7 +9,6 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-import history from '../../history';
 import { useGetItemsQuery, useUpdateCategoryMutation } from '../../store/api/maintenanceApi';
 import { FabContainer, StyledGridContainer } from "./styles";
 
@@ -57,7 +56,7 @@ class CategoryForm extends React.Component {
                 color="secondary"
                 aria-label="Back to Categories"
                 size="small"
-                to={`/item/${this.props.match.params.itemId}`}
+                to={`/item/${this.props.itemId}`}
                 component={RouterLink}
               >
                 <Tooltip title="Back to Categories">
@@ -91,8 +90,9 @@ const CategoryFormRedux = reduxForm({
   validate: validate,
 })(CategoryForm);
 
-const CategoryEdit = ({ match }) => {
-  const { itemId, id } = match.params;
+const CategoryEdit = () => {
+  const { itemId, id } = useParams();
+  const navigate = useNavigate();
   const { category } = useGetItemsQuery(undefined, {
     selectFromResult: ({ data }) => {
       const item = data && data.find(i => String(i.id) === String(itemId));
@@ -106,14 +106,14 @@ const CategoryEdit = ({ match }) => {
   const onSubmit = async formValues => {
     try {
       await updateCategory({ name: formValues.name, id, itemId }).unwrap();
-      history.push(`/item/${itemId}`);
+      navigate(`/item/${itemId}`);
     } catch (err) {
       // stay on the form on failure
     }
   };
 
   if (!category) return null;
-  return <CategoryFormRedux match={match} onSubmit={onSubmit} initialValues={category} />;
+  return <CategoryFormRedux itemId={itemId} onSubmit={onSubmit} initialValues={category} />;
 };
 
 export default CategoryEdit;

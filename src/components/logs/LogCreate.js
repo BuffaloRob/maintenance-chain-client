@@ -1,13 +1,12 @@
 import React from "react";
 import { Field, reduxForm } from 'redux-form'
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Fab from "@mui/material/Fab";
 import InputAdornment from "@mui/material/InputAdornment";
 import ArrowBack from '@mui/icons-material/ArrowBack';
 
-import history from '../../history';
 import { useCreateLogMutation } from '../../store/api/maintenanceApi';
 import { StyledTextField, StyledContainer, FormSubmit, StyledForm, StyledTitle, BottomNav } from "./styles";
 
@@ -53,10 +52,10 @@ class LogCreate extends React.Component {
   }
 
   onSubmit = (formValues) => {
-    const itemId = this.props.match.params.itemId;
-    const catId = this.props.match.params.id;
+    const itemId = this.props.params.itemId;
+    const catId = this.props.params.id;
     return this.props.createLog({ ...formValues, itemId, categoryId: catId }).unwrap()
-      .then(() => history.push(`/item/${itemId}/category/${catId}`))
+      .then(() => this.props.navigate(`/item/${itemId}/category/${catId}`))
       .catch(() => {});
   }
 
@@ -126,7 +125,7 @@ class LogCreate extends React.Component {
             color="secondary"
             aria-label="Back to Logs"
             size="small"
-            to={`/item/${this.props.match.params.itemId}/category/${this.props.match.params.id}`}
+            to={`/item/${this.props.params.itemId}/category/${this.props.params.id}`}
             component={RouterLink}
           >
             <Tooltip title="Back to Logs">
@@ -159,8 +158,10 @@ LogCreate = reduxForm({
 })(LogCreate);
 
 const LogCreateContainer = (props) => {
+  const params = useParams();
+  const navigate = useNavigate();
   const [createLog] = useCreateLogMutation();
-  return <LogCreate {...props} createLog={createLog} />;
+  return <LogCreate {...props} params={params} navigate={navigate} createLog={createLog} />;
 };
 
 export default LogCreateContainer;

@@ -15,6 +15,6 @@ The order is driven by peer ranges: no @mui/material release supports React 16 (
 4. @material-ui/* → @mui/material + @mui/icons-material via @mui/codemod; manually review makeStyles/withStyles and styled-components usage. Capture before/after screenshots and fix visual regressions.
 5. react-router-dom v5 → v7. Replace src/history.js usage with useNavigate / a data router.
 6. redux-form → react-hook-form, one form at a time. Must precede React 19.
-7. react/react-dom 17 → 19, react-redux 9. Use createRoot. Check for removed APIs (defaultProps on function components, string refs, legacy context, findDOMNode).
+7. react/react-dom 17 → 19, react-redux 9. Use createRoot. Check for removed APIs (defaultProps on function components, string refs, legacy context, findDOMNode). Then bump react-router-dom 6 → 7 (v7 needs React ≥18; the v7 future flags are already enabled, so it should be a package bump plus imports from `react-router`).
 
 After each stage, start `npm start` and run the headless regression scripts (mocked API) to confirm the app still works. Report the diff summary and residual warnings. Commit nothing.

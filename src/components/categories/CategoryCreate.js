@@ -1,5 +1,5 @@
 import React from "react";
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -9,7 +9,6 @@ import Grid from "@mui/material/Grid";
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import Typography from "@mui/material/Typography";
 
-import history from '../../history';
 import { useCreateCategoryMutation } from '../../store/api/maintenanceApi';
 import { StyledGridContainer, FabContainer } from './styles'
 
@@ -57,7 +56,7 @@ class CategoryForm extends React.Component {
                 color="secondary"
                 aria-label="Back to Categories"
                 size="small"
-                to={`/item/${this.props.match.params.itemId}`}
+                to={`/item/${this.props.itemId}`}
                 component={RouterLink}
               >
                 <Tooltip title="Back to Categories">
@@ -91,20 +90,21 @@ const CategoryFormRedux = reduxForm({
   validate: validate
 })(CategoryForm);
 
-const CategoryCreate = ({ match }) => {
-  const itemId = match.params.itemId;
+const CategoryCreate = () => {
+  const { itemId } = useParams();
+  const navigate = useNavigate();
   const [createCategory] = useCreateCategoryMutation();
 
   const onSubmit = async formValues => {
     try {
       await createCategory({ ...formValues, itemId }).unwrap();
-      history.push(`/item/${itemId}`);
+      navigate(`/item/${itemId}`);
     } catch (err) {
       // stay on the form on failure
     }
   };
 
-  return <CategoryFormRedux match={match} onSubmit={onSubmit} />;
+  return <CategoryFormRedux itemId={itemId} onSubmit={onSubmit} />;
 };
 
 export default CategoryCreate;

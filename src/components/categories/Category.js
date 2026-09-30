@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Icon from '@mui/material/Icon'
 import Fab from '@mui/material/Fab'
 import Avatar from '@mui/material/Avatar'
@@ -13,17 +13,17 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Tooltip from '@mui/material/Tooltip';
 import ListItem from '@mui/material/ListItem';
-import history from '../../history';
 import { useDeleteCategoryMutation } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const Category = ({ category, itemId }) => {
+  const navigate = useNavigate();
   const [deleteCategory] = useDeleteCategoryMutation();
   const deleteCategoryClick = async (id) => {
     try {
       await deleteCategory({ id, itemId }).unwrap();
       setOpen(false);
-      history.push(`/item/${itemId}`);
+      navigate(`/item/${itemId}`);
     } catch (err) {
       // keep dialog open on failure
     }
@@ -98,7 +98,7 @@ const Category = ({ category, itemId }) => {
       >
         <StyledListItem
           disableGutters
-          onClick={() => history.push(`/item/${itemId}/category/${category.id}`)}
+          onClick={() => navigate(`/item/${itemId}/category/${category.id}`)}
         >
           <StyledAvatar>
             <Avatar>

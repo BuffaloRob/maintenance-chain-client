@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment'
 import Container from '@mui/material/Container';
 import List from '@mui/material/List';
@@ -6,11 +7,11 @@ import Avatar from '@mui/material/Avatar'
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Build from '@mui/icons-material/Build';
-import history from '../../history';
 import { useGetUpcomingItemsQuery } from '../../store/api/maintenanceApi';
 import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
 const Upcoming = () => {
+  const navigate = useNavigate();
   const { data: logs, error, isLoading } = useGetUpcomingItemsQuery();
 
   if (isLoading) {
@@ -48,7 +49,7 @@ const Upcoming = () => {
       return (
         <StyledListItem
           key={log.id}
-          onClick={() => history.push(`/log/${log.id}`)}
+          onClick={() => navigate(`/log/${log.id}`)}
           divider
         >
           <StyledListItemAvatar>

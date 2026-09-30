@@ -1,40 +1,24 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Router, Route, Switch, withRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Container from '@mui/material/Container';
 
-import history from '../history';
 import Home from './Home/Home';
 import SignUp from './SignUp';
 import Login from './Login';
 import MaintenanceContainer from './MaintenanceContainer';
 import HeaderContainer from './header/HeaderContainer';
 
-class App extends React.Component {
+const App = () => (
+  <Container maxWidth='md'>
+    <HeaderContainer />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
+      {/* Everything else is handled (and auth-gated) by MaintenanceContainer */}
+      <Route path="/*" element={<MaintenanceContainer />} />
+    </Routes>
+  </Container>
+);
 
-  render() {
-    return (
-      <Container maxWidth='md'>
-        <Router history={history}>
-          <>
-            <HeaderContainer />
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/login" component={Login} />
-              <MaintenanceContainer />
-            </Switch>
-          </>
-        </Router>
-      </Container>
-    )
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    auth: state.auth,
-  }
-}
-
-export default withRouter(connect(mapStateToProps, {})(App));
+export default App;
