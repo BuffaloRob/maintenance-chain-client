@@ -8,18 +8,29 @@ import Fab from "@mui/material/Fab";
 import Tooltip from "@mui/material/Tooltip";
 import FormHelperText from "@mui/material/FormHelperText";
 import ArrowBack from '@mui/icons-material/ArrowBack';
+import FormError from '../common/FormError';
+import { errorMessage } from '../../store/api/errorMessage';
 import { FabContainer } from './styles';
 
 // Previously the redux-form validate(): every required field -> 'Required'
 const rules = { name: { required: 'Required' } };
 
+// onSubmit should throw (e.g. via unwrap()) when the save fails
 const ItemForm = ({ onSubmit, initialValues }) => {
   // ItemEdit only mounts this once the cached item is available, so the
   // defaults are the record itself (redux-form initialValues semantics).
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({
     mode: 'onTouched',
     defaultValues: initialValues || { name: '' },
   });
+
+  const submit = async formValues => {
+    try {
+      await onSubmit(formValues);
+    } catch (err) {
+      setError('root.serverError', { message: errorMessage(err) });
+    }
+  };
 
   const renderInput = (name, label) => (
     <Controller
@@ -47,16 +58,18 @@ const ItemForm = ({ onSubmit, initialValues }) => {
     <Grid container sx={{
       justifyContent: 'center'
     }}>
-      <form onSubmit={handleSubmit(onSubmit)} className='ui form error'>
+      <form onSubmit={handleSubmit(submit)} className='ui form error'>
         {renderInput('name', 'Enter Item Name ')}<br/>
+        <FormError errors={errors} />
         <br/>
         <Grid container sx={{
           justifyContent: 'center'
-        }}> 
-          <Button 
-            color='primary' 
-            variant='outlined' 
+        }}>
+          <Button
+            color='primary'
+            variant='outlined'
             type='submit'
+            disabled={isSubmitting}
           >
             Submit
           </Button>

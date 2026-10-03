@@ -6,26 +6,19 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
+import FormError from './common/FormError';
 import { useSignupMutation } from '../store/api/maintenanceApi';
+import { errorMessage } from '../store/api/errorMessage';
 
 const rules = {
   email: { required: "You must enter an email address" },
   password: { required: "You must enter a password" },
 };
 
-// Message for a rejected mutation (e.g. 401 {message} or 422 {errors})
-const serverErrorMessage = err => {
-  const data = err && err.data;
-  return (
-    (data && (data.message || (data.errors && JSON.stringify(data.errors)))) ||
-    'Something went wrong'
-  );
-};
-
 const SignUp = () => {
   const navigate = useNavigate();
   const [signup] = useSignupMutation();
-  const { control, handleSubmit, setError, clearErrors, formState: { errors } } = useForm({
+  const { control, handleSubmit, setError, clearErrors, formState: { errors, isSubmitting } } = useForm({
     mode: 'onTouched',
     defaultValues: { email: '', password: '' },
   });
@@ -39,7 +32,7 @@ const SignUp = () => {
       }
       navigate("/");
     } catch (err) {
-      setError('root.serverError', { message: serverErrorMessage(err) });
+      setError('root.serverError', { message: errorMessage(err) });
     }
   };
 
@@ -68,8 +61,6 @@ const SignUp = () => {
     />
   );
 
-  const serverError = errors.root?.serverError?.message;
-
   return (
     <Grid container sx={{
       justifyContent: 'center'
@@ -78,9 +69,7 @@ const SignUp = () => {
         <Typography variant='h3' align='center'>Sign Up</Typography>
         {renderInput('email', 'email', 'Enter Your Email')}<br />
         {renderInput('password', 'password', 'Enter Your Password')}
-        {serverError && (
-          <Typography color='error' align='center' role='alert'>{serverError}</Typography>
-        )}
+        <FormError errors={errors} />
         <Grid container sx={{
           justifyContent: 'center'
         }}>
@@ -90,6 +79,7 @@ const SignUp = () => {
             variant='outlined'
             color='primary'
             style={{ margin: '40px 0' }}
+            disabled={isSubmitting}
           >Submit</Button>
         </Grid>
       </form>

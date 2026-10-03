@@ -9,7 +9,9 @@ import Grid from "@mui/material/Grid";
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import Typography from "@mui/material/Typography";
 
+import FormError from '../common/FormError';
 import { useCreateCategoryMutation } from '../../store/api/maintenanceApi';
+import { errorMessage } from '../../store/api/errorMessage';
 import { StyledGridContainer, FabContainer } from './styles'
 
 // Previously the redux-form validate(): every required field -> 'Required'
@@ -38,7 +40,7 @@ const CategoryCreate = () => {
   const { itemId } = useParams();
   const navigate = useNavigate();
   const [createCategory] = useCreateCategoryMutation();
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({
     mode: 'onTouched',
     defaultValues: { name: '' },
   });
@@ -48,7 +50,7 @@ const CategoryCreate = () => {
       await createCategory({ ...formValues, itemId }).unwrap();
       navigate(`/item/${itemId}`);
     } catch (err) {
-      // stay on the form on failure
+      setError('root.serverError', { message: errorMessage(err) });
     }
   };
 
@@ -60,11 +62,12 @@ const CategoryCreate = () => {
       }}>
         <form onSubmit={handleSubmit(onSubmit)} className='ui form error'>
           {renderInput(control, 'name', 'Enter Category Name ')}<br />
+          <FormError errors={errors} />
           <br />
           <Grid container sx={{
             justifyContent: 'center'
           }}>
-            <Button color='primary' variant='outlined' type='submit'>Submit</Button>
+            <Button color='primary' variant='outlined' type='submit' disabled={isSubmitting}>Submit</Button>
           </Grid>
           <br />
           <FabContainer container sx={{ justifyContent: 'center' }}>

@@ -8,6 +8,7 @@ import Tooltip from "@mui/material/Tooltip";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import { useGetItemsQuery } from "../../store/api/maintenanceApi";
+import { errorMessage } from "../../store/api/errorMessage";
 import { BottomButtons, StyledTypography } from "./styles";
 import Item from "./Item";
 
@@ -51,7 +52,7 @@ const ItemList = () => {
           align="center"
           style={{ marginTop: 20 }}
         >
-          Error loading items: {error.message || "Something went wrong"}
+          Error loading items: {errorMessage(error)}
         </Typography>
         <BottomButtons>
           <Fab

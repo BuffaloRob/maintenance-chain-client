@@ -16,18 +16,18 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Tooltip from '@mui/material/Tooltip';
 import ListItem from '@mui/material/ListItem';
 import { useDeleteLogMutation } from '../../store/api/maintenanceApi';
+import { errorMessage } from '../../store/api/errorMessage';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const Log = ({ log, itemId, categoryId }) => {
   const navigate = useNavigate();
-  const [deleteLog] = useDeleteLogMutation();
+  const [deleteLog, { isLoading: isDeleting, error: deleteError, reset }] = useDeleteLogMutation();
   const deleteLogClick = async () => {
     try {
       await deleteLog({ id: log.id, categoryId, itemId }).unwrap();
       setOpen(false);
-      navigate(`/item/${itemId}/category/${categoryId}`);
     } catch (err) {
-      // keep dialog open on failure
+      // keep the dialog open; the error is shown in it
     }
   };
 
@@ -37,6 +37,7 @@ const Log = ({ log, itemId, categoryId }) => {
   //Used in delete dialog pop up
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
+    reset();
     setOpen(true);
   }
   const handleClose = () => {
@@ -78,12 +79,15 @@ const Log = ({ log, itemId, categoryId }) => {
           <DialogContentText id="alert-dialog-description">
             You will lose all records associated with this log.
           </DialogContentText>
+          {deleteError && (
+            <DialogContentText color="error" role="alert">{errorMessage(deleteError)}</DialogContentText>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => deleteLogClick()} color="primary" autoFocus>
+          <Button onClick={() => deleteLogClick()} color="primary" autoFocus disabled={isDeleting}>
             Delete
           </Button>
         </DialogActions>
