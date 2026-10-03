@@ -37,7 +37,7 @@ export const maintenanceApi = createApi({
       providesTags: ["User"],
     }),
     logout: builder.mutation({
-      query: () => ({ url: "/logout", method: "GET" }),
+      query: () => ({ url: "/logout", method: "POST" }),
     }),
 
     // Items

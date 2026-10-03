@@ -53,7 +53,7 @@ export function createMockApi() {
   // Make matching requests fail, stall or never answer, e.g.
   //   override({ method: 'POST', path: '/items', status: 500, body: { message: 'Nope' } })
   //   override({ method: 'POST', path: '/items', delay: 1000 })  (then handled normally)
-  //   override({ method: 'GET', path: '/logout', hang: true })
+  //   override({ method: 'POST', path: '/logout', hang: true })
   //   override({ method: 'GET', path: '/items', abort: true })  (network failure)
   const override = spec => overrides.push(spec);
 
@@ -76,7 +76,7 @@ export function createMockApi() {
     if (!user) return [401, { message: 'Please log in' }];
 
     if (method === 'GET' && path === '/user') return [200, { user }];
-    if (method === 'GET' && path === '/logout') return [200, {}];
+    if (method === 'POST' && path === '/logout') return [200, {}];
 
     if (path === '/past_due' || path === '/upcoming') {
       const due = items.flatMap(item =>

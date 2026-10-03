@@ -98,7 +98,7 @@ test('logging out ends the session and the next user sees only their data', asyn
   await page.getByRole('button', { name: 'Log Out' }).click();
   await expect(page.getByRole('link', { name: 'Please Log In' })).toBeVisible();
   await expect(page).toHaveURL('/');
-  expect(sent(api, 'GET', '/logout')[0].auth).toBe('Bearer token-1');
+  expect(sent(api, 'POST', '/logout')[0].auth).toBe('Bearer token-1');
 
   await page.reload();
   await expect(page.getByRole('link', { name: 'Please Log In' })).toBeVisible();
@@ -110,7 +110,7 @@ test('logging out ends the session and the next user sees only their data', asyn
 });
 
 test('logging out still completes when the server never answers', async ({ page, api }) => {
-  api.override({ method: 'GET', path: '/logout', hang: true });
+  api.override({ method: 'POST', path: '/logout', hang: true });
   await login(page);
   await page.getByRole('button', { name: 'Log Out' }).click();
   await expect(page.getByRole('link', { name: 'Please Log In' })).toBeVisible({ timeout: 6000 });
