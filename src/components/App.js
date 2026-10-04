@@ -5,6 +5,8 @@ import Container from '@mui/material/Container';
 import Home from './Home/Home';
 import SignUp from './SignUp';
 import Login from './Login';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 import VerifyEmail from './VerifyEmail';
 import VerifyEmailBanner from './VerifyEmailBanner';
 import MaintenanceContainer from './MaintenanceContainer';
@@ -20,6 +22,8 @@ const App = () => (
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
       <Route path="/verify-email" element={<VerifyEmail />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       {/* Everything else is handled (and auth-gated) by MaintenanceContainer */}
       <Route path="/*" element={<MaintenanceContainer />} />
     </Routes>

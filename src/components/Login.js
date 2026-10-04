@@ -1,9 +1,10 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { Link as RouterLink, useNavigate } from 'react-router';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
 import FormError from './common/FormError';
@@ -70,6 +71,9 @@ const Login = () => {
         <Typography variant='h3' align='center'>Log In</Typography>
         {renderInput('email', 'email', 'Enter Your Email')}<br />
         {renderInput('password', 'password', 'Enter Your Password')}
+        <Typography variant='body2' align='center' sx={{ mt: 1 }}>
+          <Link component={RouterLink} to='/forgot-password'>Forgot your password?</Link>
+        </Typography>
         <FormError errors={errors} />
         <Grid container sx={{
           justifyContent: 'center'

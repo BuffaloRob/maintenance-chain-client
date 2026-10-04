@@ -22,6 +22,9 @@ export const GOOGLE_CREDENTIAL = 'google-id-token-for-alice';
 // The token in the link of user `id`'s verification email
 export const verificationToken = id => `verify-${id}`;
 
+// The token in the link of user `id`'s password reset email
+export const resetToken = id => `reset-${id}`;
+
 const seedItems = () => ({
   [users.alice.id]: [
     {
@@ -90,6 +93,14 @@ export function createMockApi() {
       if (!account) return [422, { message: 'This link is invalid or has expired' }];
       account.email_verified = true;
       return [204];
+    }
+    if (method === 'POST' && path === '/forgot_password') return [204];
+    if (method === 'POST' && path === '/reset_password') {
+      const account = accounts.find(a => body?.token === resetToken(a.id));
+      if (!account) return [422, { message: 'This link is invalid or has expired' }];
+      if (!body.password) return [422, { message: "Password can't be blank" }];
+      account.email_verified = true;
+      return [200, { jwt: `token-${account.id}`, user: account }];
     }
     if (!user) return [401, { message: 'Please log in' }];
 

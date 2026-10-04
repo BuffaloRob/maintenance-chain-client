@@ -61,6 +61,23 @@ export const maintenanceApi = createApi({
       query: () => ({ url: "/resend_verification_email", method: "POST" }),
     }),
 
+    // Password reset: the token comes from the link in the email. Resetting
+    // logs the user in (see authSlice)
+    forgotPassword: builder.mutation({
+      query: (email) => ({
+        url: "/forgot_password",
+        method: "POST",
+        body: { email },
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: ({ token, password, password_confirmation }) => ({
+        url: "/reset_password",
+        method: "POST",
+        body: { token, password, password_confirmation },
+      }),
+    }),
+
     // Items
     getItems: builder.query({
       query: () => "/items",
@@ -170,6 +187,8 @@ export const {
   useLogoutMutation,
   useVerifyEmailMutation,
   useResendVerificationEmailMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
 
   // Items
   useGetItemsQuery,
