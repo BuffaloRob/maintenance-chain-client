@@ -45,7 +45,8 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
   const [state, setState] = React.useState({ left: false });
   const userName = currentUser.email.split("@")[0];
   const { pathname } = useLocation();
-  const { overdueCount, soonCount } = useDueCounts();
+  // false rather than missing: the Rails API doesn't send email_verified
+  const { overdueCount, soonCount } = useDueCounts({ skip: currentUser.email_verified === false });
 
   const toggleDrawer = (side, open) => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

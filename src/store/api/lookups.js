@@ -7,8 +7,9 @@ import { allCategoryStatuses } from './dueStatus';
 // from one that is still loading or failed to load.
 const sameId = (a, b) => String(a) === String(b);
 
-const useItemsLookup = select =>
+const useItemsLookup = (select, options) =>
   useGetItemsQuery(undefined, {
+    ...options,
     selectFromResult: ({ data, isLoading, error }) => ({ ...(data && select(data)), isLoading, error }),
   });
 
@@ -31,12 +32,14 @@ export const useLog = (logId, itemId) =>
     return { item, log, category: log && item.categories.find(c => c.id === log.category_id) };
   });
 
-// How many categories are past due and coming due, for the header
-export const useDueCounts = () =>
+// How many categories are past due and coming due, for the header. skip for
+// users the API turns away (unverified email addresses): the header is shown
+// to them, unlike the app pages.
+export const useDueCounts = ({ skip } = {}) =>
   useItemsLookup(items => {
     const statuses = allCategoryStatuses(items);
     return {
       overdueCount: statuses.filter(s => s.status === 'overdue').length,
       soonCount: statuses.filter(s => s.status === 'soon').length,
     };
-  });
+  }, { skip });

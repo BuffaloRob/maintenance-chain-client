@@ -11,7 +11,7 @@ for (const [path, label] of [['/login', 'Sign in with Google'], ['/signup', 'Sig
     ]);
 
     await page.goto('/items');
-    await expect(page.getByText('Civic')).toBeVisible();
+    await expect(page.getByRole('main').getByText('Civic')).toBeVisible();
     expect(sent(api, 'GET', '/items')[0].auth).toBe('Bearer token-1');
   });
 }

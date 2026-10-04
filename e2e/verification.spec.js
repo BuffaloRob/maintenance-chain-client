@@ -66,7 +66,7 @@ test('verifying while logged in removes the banner', async ({ page }) => {
 test('verified users see no banner', async ({ page }) => {
   await login(page);
   await page.goto('/items');
-  await expect(page.getByText('Civic')).toBeVisible();
+  await expect(page.getByRole('main').getByText('Civic')).toBeVisible();
   await expect(banner(page)).toHaveCount(0);
 });
 

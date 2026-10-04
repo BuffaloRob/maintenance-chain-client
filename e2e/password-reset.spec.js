@@ -55,7 +55,7 @@ test('the link in the email sets a new password and logs the user in', async ({ 
   });
 
   await page.goto('/items');
-  await expect(page.getByText('Civic')).toBeVisible();
+  await expect(page.getByRole('main').getByText('Civic')).toBeVisible();
   expect(sent(api, 'GET', '/items')[0].auth).toBe('Bearer token-1');
 });
 
