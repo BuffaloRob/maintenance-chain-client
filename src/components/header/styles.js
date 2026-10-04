@@ -46,7 +46,34 @@ export const LogInButton = styled(Button)`
   font-weight: 500;
 `
 
-export const StyledMessage = styled(Typography)` 
+// ********* Desktop navigation *********
+
+export const Brand = styled(Typography)`
+  margin: 0 16px 0 0;
+  color: #000000de;
+  font-weight: 700;
+  text-decoration: none;
+  @media (max-width: 959px) {
+    display: none;
+  }
+`
+
+export const NavButton = styled(Button)`
+  color: #000000de;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+  &[aria-current='page'] {
+    background-color: rgba(0, 0, 0, 0.16);
+  }
+`
+
+export const StyledMessage = styled(Typography)`
   color: #000000de;
   font-size: 24px;
   font-weight: 500;
