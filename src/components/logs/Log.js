@@ -19,6 +19,7 @@ import { useDeleteLogMutation } from '../../store/api/maintenanceApi';
 import { errorMessage } from '../../store/api/errorMessage';
 import { costOf, formatMoney } from '../../store/api/dueStatus';
 import { useWideLayout } from '../common/PageLayout';
+import RowActionsMenu from '../common/RowActionsMenu';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
 
 const NOTES_PREVIEW = 60;
@@ -111,7 +112,12 @@ const Log = ({ log, itemId, categoryId }) => {
       <ListItem
         key={log.id}
         disablePadding
-        secondaryAction={renderAdmin(log)}
+        secondaryAction={
+          <>
+            {renderAdmin(log)}
+            <RowActionsMenu editTo={`/item/${itemId}/log/${log.id}/edit`} onDelete={handleClickOpen} />
+          </>
+        }
         slots={{ secondaryAction: StyledSecondaryAction }}
       >
         <StyledListItem

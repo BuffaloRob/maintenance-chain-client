@@ -18,6 +18,7 @@ import { errorMessage } from '../../store/api/errorMessage';
 import { dueText, formatDate, statusOf } from '../../store/api/dueStatus';
 import { useWideLayout } from '../common/PageLayout';
 import { StatusAvatar, StatusChip } from '../common/Status';
+import RowActionsMenu from '../common/RowActionsMenu';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid, NameWithStatus } from './styles';
 
 // log: the category's latest log, which sets its due status
@@ -103,7 +104,12 @@ const Category = ({ category, itemId, log }) => {
       <ListItem
         key={category.id}
         disablePadding
-        secondaryAction={renderAdmin(category)}
+        secondaryAction={
+          <>
+            {renderAdmin(category)}
+            <RowActionsMenu editTo={`/item/${itemId}/category/${category.id}/edit`} onDelete={handleClickOpen} />
+          </>
+        }
         slots={{ secondaryAction: StyledSecondaryAction }}
       >
         <StyledListItem

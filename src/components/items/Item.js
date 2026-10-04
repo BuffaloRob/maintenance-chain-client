@@ -24,6 +24,7 @@ import { useDeleteItemMutation } from '../../store/api/maintenanceApi';
 import { errorMessage } from '../../store/api/errorMessage';
 import { categoryStatuses, dueText, formatMoney, mostUrgentFirst, totalCost, worstStatus } from '../../store/api/dueStatus';
 import { StatusAvatar, StatusDot } from '../common/Status';
+import RowActionsMenu from '../common/RowActionsMenu';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid, StyledCard, CardTitle, CardMeta } from './styles';
 
 const plural = (count, one, many = `${one}s`) => `${count} ${count === 1 ? one : many}`;
@@ -164,7 +165,12 @@ const Item = ({ item, variant = 'row' }) => {
       <ListItem
         key={item.id}
         disablePadding
-        secondaryAction={renderAdmin(item)}
+        secondaryAction={
+          <>
+            {renderAdmin(item)}
+            <RowActionsMenu editTo={`/item/${item.id}/edit`} onDelete={handleClickOpen} />
+          </>
+        }
         slots={{ secondaryAction: StyledSecondaryAction }}
       >
         <StyledListItem
