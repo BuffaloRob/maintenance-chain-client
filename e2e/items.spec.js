@@ -13,8 +13,8 @@ test('lists items and opens one', async ({ page }) => {
   await main(page).getByText('Civic').click();
   await expect(page).toHaveURL('/item/1');
   await expect(page.getByRole('heading', { name: 'Civic' })).toBeVisible();
-  await expect(page.getByText('Oil change')).toBeVisible();
-  await expect(page.getByText('Tires')).toBeVisible();
+  await expect(main(page).getByText('Oil change')).toBeVisible();
+  await expect(main(page).getByText('Tires')).toBeVisible();
 });
 
 test('creates an item', async ({ page, api }) => {

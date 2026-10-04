@@ -15,10 +15,16 @@ import Tooltip from '@mui/material/Tooltip';
 import ListItem from '@mui/material/ListItem';
 import { useDeleteCategoryMutation } from '../../store/api/maintenanceApi';
 import { errorMessage } from '../../store/api/errorMessage';
-import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
+import { dueText, formatDate, statusOf } from '../../store/api/dueStatus';
+import { useWideLayout } from '../common/PageLayout';
+import { StatusAvatar, StatusChip } from '../common/Status';
+import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid, NameWithStatus } from './styles';
 
-const Category = ({ category, itemId }) => {
+// log: the category's latest log, which sets its due status
+const Category = ({ category, itemId, log }) => {
   const navigate = useNavigate();
+  const wide = useWideLayout();
+  const status = statusOf(log);
   const [deleteCategory, { isLoading: isDeleting, error: deleteError, reset }] = useDeleteCategoryMutation();
   const deleteCategoryClick = async (id) => {
     try {
@@ -105,11 +111,27 @@ const Category = ({ category, itemId }) => {
           onClick={() => navigate(`/item/${itemId}/category/${category.id}`)}
         >
           <StyledAvatar>
-            <Avatar>
-              <Build />
-            </Avatar>
+            {wide ? <StatusAvatar status={status} /> : (
+              <Avatar>
+                <Build />
+              </Avatar>
+            )}
           </StyledAvatar>
-          <StyledListText primary={category.name} />
+          {wide ? (
+            <StyledListText
+              primary={
+                <NameWithStatus>
+                  {category.name}
+                  {(status === 'overdue' || status === 'soon') && <StatusChip status={status} />}
+                </NameWithStatus>
+              }
+              secondary={log
+                ? `Last done ${formatDate(log.date_performed)} · ${dueText(log)}`
+                : 'No logs yet'}
+            />
+          ) : (
+            <StyledListText primary={category.name} />
+          )}
         </StyledListItem>
       </ListItem>
       <StyledDivider />

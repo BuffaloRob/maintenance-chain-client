@@ -17,7 +17,11 @@ import Tooltip from '@mui/material/Tooltip';
 import ListItem from '@mui/material/ListItem';
 import { useDeleteLogMutation } from '../../store/api/maintenanceApi';
 import { errorMessage } from '../../store/api/errorMessage';
+import { costOf, formatMoney } from '../../store/api/dueStatus';
+import { useWideLayout } from '../common/PageLayout';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
+
+const NOTES_PREVIEW = 60;
 
 const Log = ({ log, itemId, categoryId }) => {
   const navigate = useNavigate();
@@ -33,6 +37,13 @@ const Log = ({ log, itemId, categoryId }) => {
 
   const datePerformed = moment(log.date_performed).format("MMM Do YYYY");
   const dateDue = moment(log.date_due).format("MMM Do YYYY");
+
+  // From sm up the row also shows the cost and the start of the notes
+  const wide = useWideLayout();
+  const notes = log.notes && log.notes.length > NOTES_PREVIEW ? `${log.notes.slice(0, NOTES_PREVIEW)}…` : log.notes;
+  const details = [`Due on: ${dateDue}`, costOf(log) > 0 && formatMoney(costOf(log)), notes]
+    .filter(Boolean)
+    .join(' · ');
 
   //Used in delete dialog pop up
   const [open, setOpen] = React.useState(false);
@@ -112,9 +123,9 @@ const Log = ({ log, itemId, categoryId }) => {
               <Build />
             </Avatar>
           </StyledAvatar>
-          <StyledListText 
+          <StyledListText
             primary={datePerformed}
-            secondary={`Due on: ${dateDue}`}
+            secondary={wide ? details : `Due on: ${dateDue}`}
           />
         </StyledListItem>
       </ListItem>

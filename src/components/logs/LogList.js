@@ -8,7 +8,9 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { BottomButtons, StyledTypography } from './styles'
 import Log from '../logs/Log';
+import CategorySummaryPanels from './CategorySummaryPanels';
 import RecordStatus from '../common/RecordStatus';
+import PageLayout from '../common/PageLayout';
 import { useCategory } from '../../store/api/lookups';
 
 const LogList = () => {
@@ -33,34 +35,40 @@ const LogList = () => {
 
   return (
     <Container>
-      <StyledTypography variant="h2">
-        {category.name} for {item.name}
-      </StyledTypography>
-      <List component="nav">{renderList}</List>
-      <BottomButtons>
-        <Fab
-          color="secondary"
-          aria-label="Back to Categories"
-          size="small"
-          to={`/item/${item.id}`}
-          component={RouterLink}
-        >
-          <Tooltip title="Back to Categories">
-            <ArrowBack />
-          </Tooltip>
-        </Fab>       
-        <Fab 
-          color="primary" 
-          aria-label="Create New"
-          size="small"
-          to={`/item/${item.id}/category/${category.id}/log/new`}
-          component={RouterLink}
-        >
-          <Tooltip title="Create New Log">
-            <AddIcon />
-          </Tooltip>
-        </Fab>
-      </BottomButtons>
+      <PageLayout
+        title={
+          <StyledTypography variant="h2">
+            {category.name} for {item.name}
+          </StyledTypography>
+        }
+        aside={<CategorySummaryPanels item={item} category={category} logs={logs} />}
+      >
+        <List component="nav">{renderList}</List>
+        <BottomButtons>
+          <Fab
+            color="secondary"
+            aria-label="Back to Categories"
+            size="small"
+            to={`/item/${item.id}`}
+            component={RouterLink}
+          >
+            <Tooltip title="Back to Categories">
+              <ArrowBack />
+            </Tooltip>
+          </Fab>
+          <Fab
+            color="primary"
+            aria-label="Create New"
+            size="small"
+            to={`/item/${item.id}/category/${category.id}/log/new`}
+            component={RouterLink}
+          >
+            <Tooltip title="Create New Log">
+              <AddIcon />
+            </Tooltip>
+          </Fab>
+        </BottomButtons>
+      </PageLayout>
     </Container>
   )
 
