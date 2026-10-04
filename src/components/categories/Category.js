@@ -17,7 +17,7 @@ import { useDeleteCategoryMutation } from '../../store/api/maintenanceApi';
 import { errorMessage } from '../../store/api/errorMessage';
 import { dueText, formatDate, statusOf } from '../../store/api/dueStatus';
 import { useWideLayout } from '../common/PageLayout';
-import { StatusAvatar, StatusChip } from '../common/Status';
+import { StatusAvatar, StatusChip, StatusText } from '../common/Status';
 import RowActionsMenu from '../common/RowActionsMenu';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid, NameWithStatus } from './styles';
 
@@ -136,7 +136,10 @@ const Category = ({ category, itemId, log }) => {
                 : 'No logs yet'}
             />
           ) : (
-            <StyledListText primary={category.name} />
+            <StyledListText
+              primary={category.name}
+              secondary={<StatusText status={status}>{log ? dueText(log) : 'No logs yet'}</StatusText>}
+            />
           )}
         </StyledListItem>
       </ListItem>

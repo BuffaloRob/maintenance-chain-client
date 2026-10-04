@@ -10,6 +10,19 @@ test.beforeEach(async ({ page }) => {
 
 const row = (page, text) => page.getByRole('main').locator('li').filter({ hasText: text });
 
+test('rows say what needs attention', async ({ page }) => {
+  await page.goto('/items');
+  await expect(row(page, 'Civic')).toContainText('1 overdue');
+
+  await page.goto('/item/1');
+  await expect(row(page, 'Oil change')).toContainText(/Due .* ago/);
+  await expect(row(page, 'Tires')).toContainText('Due in');
+
+  await page.goto('/pastdue');
+  const pastDue = page.getByRole('main').getByRole('button', { name: /Oil change was due on Jul 5th 2024/ });
+  await expect(pastDue).toContainText(/Civic · .* ago/);
+});
+
 test("a row's menu edits it", async ({ page }) => {
   await page.goto('/item/1');
   await row(page, 'Oil change').getByRole('button', { name: 'More actions' }).click();
