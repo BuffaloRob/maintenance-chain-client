@@ -23,7 +23,7 @@ export default defineConfig({
     command: `npx vite --port ${PORT} --strictPort`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
-    // Overrides .env so the app talks to the mock API
-    env: { REACT_APP_API_URL: API_URL },
+    // Overrides .env so the app talks to the mock API, and shows the (fake) Google button
+    env: { REACT_APP_API_URL: API_URL, VITE_GOOGLE_CLIENT_ID: 'test.apps.googleusercontent.com' },
   },
 });

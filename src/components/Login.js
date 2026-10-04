@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import FormError from './common/FormError';
+import GoogleSignIn from './GoogleSignIn';
 import { useLoginMutation } from '../store/api/maintenanceApi';
 import { errorMessage } from '../store/api/errorMessage';
 
@@ -83,6 +84,7 @@ const Login = () => {
           >Submit</Button>
         </Grid>
       </form>
+      <GoogleSignIn text='signin_with' />
     </Grid>
   );
 };

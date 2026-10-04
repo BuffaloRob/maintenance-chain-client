@@ -32,12 +32,33 @@ export const maintenanceApi = createApi({
         body: { user },
       }),
     }),
+    // The ID token from Google's sign-in button (see components/GoogleSignIn.js)
+    googleLogin: builder.mutation({
+      query: (credential) => ({
+        url: "/auth/google",
+        method: "POST",
+        body: { credential },
+      }),
+    }),
     getUser: builder.query({
       query: () => "/user",
       providesTags: ["User"],
     }),
     logout: builder.mutation({
       query: () => ({ url: "/logout", method: "POST" }),
+    }),
+
+    // Email verification: the token comes from the link in the email
+    verifyEmail: builder.mutation({
+      query: (token) => ({
+        url: "/verify_email",
+        method: "POST",
+        body: { token },
+      }),
+      invalidatesTags: ["User"],
+    }),
+    resendVerificationEmail: builder.mutation({
+      query: () => ({ url: "/resend_verification_email", method: "POST" }),
     }),
 
     // Items
@@ -144,8 +165,11 @@ export const {
   // Auth
   useLoginMutation,
   useSignupMutation,
+  useGoogleLoginMutation,
   useGetUserQuery,
   useLogoutMutation,
+  useVerifyEmailMutation,
+  useResendVerificationEmailMutation,
 
   // Items
   useGetItemsQuery,

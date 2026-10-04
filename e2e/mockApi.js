@@ -11,9 +11,16 @@ const CORS = {
 };
 
 export const users = {
-  alice: { id: 1, email: 'alice@example.com' },
-  bob: { id: 2, email: 'bob@example.com' },
+  alice: { id: 1, email: 'alice@example.com', email_verified: true },
+  bob: { id: 2, email: 'bob@example.com', email_verified: true },
 };
+
+// The ID token the fake Google sign-in button (see fixtures.js) hands the app,
+// for alice's Google account
+export const GOOGLE_CREDENTIAL = 'google-id-token-for-alice';
+
+// The token in the link of user `id`'s verification email
+export const verificationToken = id => `verify-${id}`;
 
 const seedItems = () => ({
   [users.alice.id]: [
@@ -66,17 +73,30 @@ export function createMockApi() {
       const email = body?.user?.email;
       let account = accounts.find(a => a.email === email);
       if (path === '/signup' && !account) {
-        account = { id: nextId++, email };
+        account = { id: nextId++, email, email_verified: false };
         accounts.push(account);
         itemsByUser[account.id] = [];
       }
       if (!account) return [401, { message: 'Invalid email or password' }];
       return [200, { jwt: `token-${account.id}`, user: account }];
     }
+    if (method === 'POST' && path === '/auth/google') {
+      if (body?.credential !== GOOGLE_CREDENTIAL) return [401, { message: "Couldn't sign in with Google" }];
+      const account = accounts.find(a => a.id === users.alice.id);
+      return [200, { jwt: `token-${account.id}`, user: account }];
+    }
+    if (method === 'POST' && path === '/verify_email') {
+      const account = accounts.find(a => body?.token === verificationToken(a.id));
+      if (!account) return [422, { message: 'This link is invalid or has expired' }];
+      account.email_verified = true;
+      return [204];
+    }
     if (!user) return [401, { message: 'Please log in' }];
 
     if (method === 'GET' && path === '/user') return [200, { user }];
     if (method === 'POST' && path === '/logout') return [200, {}];
+    if (method === 'POST' && path === '/resend_verification_email') return [204];
+    if (!user.email_verified) return [403, { message: 'Please verify your email address' }];
 
     if (path === '/past_due' || path === '/upcoming') {
       const due = items.flatMap(item =>
@@ -162,6 +182,7 @@ export function createMockApi() {
       const user = accounts.find(a => auth === `Bearer token-${a.id}`);
       [status, payload] = await route(method, path, body, user);
     }
+    if (status === 204) return pwRoute.fulfill({ status, headers: CORS });
     await pwRoute.fulfill({ status, headers: CORS, contentType: 'application/json', body: JSON.stringify(payload) });
   };
 

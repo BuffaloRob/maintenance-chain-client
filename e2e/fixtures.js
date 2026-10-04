@@ -1,5 +1,22 @@
 import { test as base, expect } from '@playwright/test';
-import { API_URL, createMockApi, users } from './mockApi';
+import { API_URL, GOOGLE_CREDENTIAL, createMockApi, users } from './mockApi';
+
+export const GOOGLE_SCRIPT_URL = 'https://accounts.google.com/gsi/client';
+
+// Stands in for Google Identity Services: its button signs in at once, as if
+// alice had picked her Google account in Google's popup
+const fakeGoogleScript = `
+  window.google = { accounts: { id: {
+    initialize(options) { window.googleOptions = options; },
+    renderButton(parent, { text }) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = text === 'signup_with' ? 'Sign up with Google' : 'Sign in with Google';
+      button.onclick = () => window.googleOptions.callback({ credential: ${JSON.stringify(GOOGLE_CREDENTIAL)} });
+      parent.replaceChildren(button);
+    },
+  } } };
+`;
 
 export const test = base.extend({
   // Every test gets a fresh mock API; `api.requests` records what the app sent
@@ -8,6 +25,15 @@ export const test = base.extend({
       const api = createMockApi();
       await page.route(`${API_URL}/**`, api.handle);
       await use(api);
+    },
+    { auto: true },
+  ],
+  google: [
+    async ({ page }, use) => {
+      await page.route(GOOGLE_SCRIPT_URL, route =>
+        route.fulfill({ contentType: 'text/javascript', body: fakeGoogleScript })
+      );
+      await use();
     },
     { auto: true },
   ],
@@ -23,7 +49,7 @@ export const test = base.extend({
   ],
 });
 
-export { expect, users };
+export { expect, users, GOOGLE_CREDENTIAL };
 
 export async function login(page, user = users.alice) {
   await page.goto('/login');

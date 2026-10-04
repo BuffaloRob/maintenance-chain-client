@@ -20,8 +20,9 @@ const HeaderContainer = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [logout] = useLogoutMutation();
 
-  // Refresh the user from the server; nothing to fetch without a token
-  useGetUserQuery(undefined, { skip: !token });
+  // Refresh the user from the server; nothing to fetch without a token. Again
+  // on coming back to the tab, as after verifying the email address in another.
+  useGetUserQuery(undefined, { skip: !token, refetchOnFocus: true });
 
   const handleLogout = async e => {
     e.preventDefault();

@@ -20,6 +20,16 @@ import Upcoming from '../components/Upcoming/Upcoming';
 class MaintenanceContainer extends React.Component {
   render() {
 
+    // false rather than missing: the Rails API doesn't send email_verified.
+    // The API turns away unverified users, and the banner above says why.
+    if (this.props.isAuthenticated && this.props.emailVerified === false) {
+      return (
+        <Box sx={{ textAlign: "center", mt: 5 }}>
+          <Typography>You need to verify your email address before you can do that</Typography>
+        </Box>
+      );
+    }
+
     if (this.props.isAuthenticated) {
       return (
         <div className="ui container">
@@ -70,6 +80,7 @@ class MaintenanceContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
+    emailVerified: state.auth.currentUser.email_verified,
   }
 }
 

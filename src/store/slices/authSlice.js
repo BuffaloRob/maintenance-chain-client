@@ -26,11 +26,13 @@ const authSlice = createSlice({
     loggedOut: clearAuth,
   },
   extraReducers: (builder) => {
-    const { login, signup, getUser } = maintenanceApi.endpoints;
+    const { login, signup, googleLogin, getUser } = maintenanceApi.endpoints;
     builder
       .addMatcher(
         (action) =>
-          login.matchFulfilled(action) || signup.matchFulfilled(action),
+          login.matchFulfilled(action) ||
+          signup.matchFulfilled(action) ||
+          googleLogin.matchFulfilled(action),
         (state, { payload }) => {
           // A 200 response carrying `message` is a failure (legacy behavior)
           if (payload && payload.jwt && !payload.message) {
