@@ -4,6 +4,8 @@ import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 
 export const GridContainer = styled(Grid)` 
+  max-width: 960px;
+  margin: 0 auto;
   padding-bottom: 60px;
 `
 

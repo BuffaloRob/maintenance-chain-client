@@ -13,8 +13,11 @@ let theme = createTheme({
     secondary: { main: '#78909C' },
     error: { main: '#0CCF16' },
     text: { secondary: '#000000de' },
-    // paper matches the MUI v4 dark default (v5+ defaults to #121212)
-    background: { default: '#262626', paper: '#424242' },
+    // paper matches the MUI v4 dark default (v5+ defaults to #121212);
+    // card is the surface for desktop cards and sidebar panels
+    background: { default: '#262626', paper: '#424242', card: '#2E2E2E' },
+    // Due status of a category (store/api/dueStatus.js)
+    status: { overdue: '#FF5C7A', soon: '#FFC857', ok: '#5CC689', none: '#90A4AE' },
   },
   components: {
     // v4 CssBaseline set body to typography.body2; v5+ uses body1 (larger size/line-height).

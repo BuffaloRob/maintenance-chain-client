@@ -9,7 +9,8 @@ import MaintenanceContainer from './MaintenanceContainer';
 import HeaderContainer from './header/HeaderContainer';
 
 const App = () => (
-  <Container maxWidth='md'>
+  // lg leaves room for the sidebar that pages add on wide screens
+  <Container maxWidth='lg'>
     <HeaderContainer />
     <Routes>
       <Route path="/" element={<Home />} />
