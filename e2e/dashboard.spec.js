@@ -17,7 +17,8 @@ test('Upcoming lists maintenance coming due', async ({ page }) => {
   await page.getByRole('link', { name: 'Upcoming' }).click();
   await expect(page).toHaveURL('/upcoming');
   await expect(page.getByText('Tires will be due on Mar 1st 2099')).toBeVisible();
-  await expect(page.getByText('Oil change')).toHaveCount(0);
+  // The sidebar lists what's overdue, so only the main list is checked
+  await expect(page.getByRole('main').getByText('Oil change')).toHaveCount(0);
 });
 
 test('lists refresh after a log is added', async ({ page }) => {

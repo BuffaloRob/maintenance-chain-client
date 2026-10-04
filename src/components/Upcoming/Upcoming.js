@@ -7,13 +7,24 @@ import Avatar from '@mui/material/Avatar'
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Build from '@mui/icons-material/Build';
-import { useGetUpcomingItemsQuery } from '../../store/api/maintenanceApi';
+import { useGetItemsQuery, useGetUpcomingItemsQuery } from '../../store/api/maintenanceApi';
 import { errorMessage } from '../../store/api/errorMessage';
+import { allCategoryStatuses, mostUrgentFirst } from '../../store/api/dueStatus';
+import PageLayout, { useWideLayout } from '../common/PageLayout';
+import DueLogRow from '../common/DueLogRow';
+import DuePanel from '../sidebar/DuePanel';
 import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
 const Upcoming = () => {
   const navigate = useNavigate();
   const { data: logs, error, isLoading } = useGetUpcomingItemsQuery();
+  // Items name each log's item and fill the sidebar
+  const { data: items = [] } = useGetItemsQuery();
+  const wide = useWideLayout();
+  const itemName = log => {
+    const item = items.find(i => i.id === log.category.item_id);
+    return item ? item.name : '';
+  };
 
   if (isLoading) {
     return (
@@ -47,6 +58,16 @@ const Upcoming = () => {
     }
     return logs.map(log => {
       const formattedDateDue = moment(log.date_due).format("MMM Do YYYY");
+      if (wide) {
+        return (
+          <DueLogRow
+            key={log.id}
+            log={log}
+            text={`${log.category.name} will be due on ${formattedDateDue}`}
+            itemName={itemName(log)}
+          />
+        );
+      }
       return (
         <StyledListItem
           key={log.id}
@@ -64,12 +85,20 @@ const Upcoming = () => {
     })
   }
 
+  const overdue = mostUrgentFirst(allCategoryStatuses(items).filter(s => s.status === 'overdue'));
+
   return (
     <Container>
-      <StyledTypography variant="h2">
-        Upcoming Work
-      </StyledTypography>
-      <List component="nav">{renderList()}</List>
+      <PageLayout
+        title={
+          <StyledTypography variant="h2">
+            Upcoming Work
+          </StyledTypography>
+        }
+        aside={<DuePanel title="Already overdue" statuses={overdue} empty="Nothing is overdue." />}
+      >
+        <List component="nav">{renderList()}</List>
+      </PageLayout>
     </Container>
   )
 }
