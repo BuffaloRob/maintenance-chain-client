@@ -23,7 +23,8 @@ import CardActionArea from '@mui/material/CardActionArea';
 import { useDeleteItemMutation } from '../../store/api/maintenanceApi';
 import { errorMessage } from '../../store/api/errorMessage';
 import { categoryStatuses, dueText, formatMoney, mostUrgentFirst, totalCost, worstStatus } from '../../store/api/dueStatus';
-import { StatusAvatar, StatusDot } from '../common/Status';
+import { StatusAvatar, StatusDot, StatusText } from '../common/Status';
+import RowActionsMenu from '../common/RowActionsMenu';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid, StyledCard, CardTitle, CardMeta } from './styles';
 
 const plural = (count, one, many = `${one}s`) => `${count} ${count === 1 ? one : many}`;
@@ -159,12 +160,27 @@ const Item = ({ item, variant = 'row' }) => {
   if (variant === 'card') {
     return <ItemCard item={item} admin={renderAdmin(item)} />;
   }
+
+  // The row (narrow screens) says only what needs attention, e.g. "2 overdue · 1 due soon"
+  const statuses = categoryStatuses(item);
+  const attention = ['overdue', 'soon']
+    .map(status => [status, statuses.filter(s => s.status === status).length])
+    .filter(([, count]) => count > 0)
+    .map(([status, count]) => (
+      <StatusText key={status} status={status}>{count} {status === 'soon' ? 'due soon' : 'overdue'}</StatusText>
+    ));
+
   return (
     <ListItemGrid>
       <ListItem
         key={item.id}
         disablePadding
-        secondaryAction={renderAdmin(item)}
+        secondaryAction={
+          <>
+            {renderAdmin(item)}
+            <RowActionsMenu editTo={`/item/${item.id}/edit`} onDelete={handleClickOpen} />
+          </>
+        }
         slots={{ secondaryAction: StyledSecondaryAction }}
       >
         <StyledListItem
@@ -176,7 +192,10 @@ const Item = ({ item, variant = 'row' }) => {
               <Build />
             </Avatar>
           </StyledAvatar>
-          <StyledListText primary={item.name} />
+          <StyledListText
+            primary={item.name}
+            secondary={attention.length > 0 ? attention.flatMap((el, i) => (i ? [' · ', el] : [el])) : null}
+          />
         </StyledListItem>
       </ListItem>
       <StyledDivider />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -45,5 +46,16 @@ const DueLogRow = ({ log, text, itemName }) => {
     </ListItem>
   );
 };
+
+// The narrow-screen row's text: the sentence, with the item and how far off
+// the due date is underneath
+export const DueLogText = ({ log, text, itemName }) => (
+  <Box component="span" sx={{ display: 'block' }}>
+    <span>{text}</span>
+    <Box component="span" sx={{ display: 'block', mt: 0.5, fontSize: 14, fontWeight: 400, color: 'grey.400' }}>
+      {[itemName, fromToday(log.date_due)].filter(Boolean).join(' · ')}
+    </Box>
+  </Box>
+);
 
 export default DueLogRow;

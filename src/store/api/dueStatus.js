@@ -83,3 +83,11 @@ export const dueInterval = log => {
   const days = moment(log.date_due).diff(moment(log.date_performed), 'days');
   return days > 0 ? days : null;
 };
+
+// A due date (YYYY-MM-DD) the same time after datePerformed, or today if it's
+// empty, as last time; null if the last log has no interval to go by
+export const suggestedDueDate = (lastLog, datePerformed) => {
+  const interval = dueInterval(lastLog);
+  const from = datePerformed ? moment(datePerformed) : moment();
+  return interval && from.isValid() ? from.add(interval, 'days').format('YYYY-MM-DD') : null;
+};

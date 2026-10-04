@@ -75,6 +75,10 @@ export const StyledListText = styled(ListItemText)`
     font-size: 20px;
     font-weight: 500;
   }
+  .MuiListItemText-secondary {
+    margin-top: 2px;
+    color: #bdbdbd;
+  }
 `
 
 export const DeleteFab = styled(Fab)`

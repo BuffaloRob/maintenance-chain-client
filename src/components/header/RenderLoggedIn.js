@@ -13,26 +13,27 @@ import HomeIcon from '@mui/icons-material/Home';
 import EventIcon from '@mui/icons-material/Event';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { StyledDrawer, NavButton, Brand } from './styles';
+import { StyledDrawer, NavButton, Brand, MenuBadge } from './styles';
 import { useDueCounts } from '../../store/api/lookups';
 
 import MediaQuery from 'react-responsive';
 import ListItemButton from "@mui/material/ListItemButton";
 
-// How many categories a nav link's page lists, colored by their status
-const NavCount = ({ status, children }) => (
+// How many categories a nav link's page lists, colored by their status.
+// large is for the phone drawer's bigger text.
+const NavCount = ({ status, large, children }) => (
   <Box
     component="span"
     sx={{
-      ml: 1,
+      ml: large ? 1.5 : 1,
       px: 0.875,
-      minWidth: 22,
-      borderRadius: 11,
+      minWidth: large ? 30 : 22,
+      borderRadius: large ? 15 : 11,
       bgcolor: 'background.default',
       color: `status.${status}`,
-      fontSize: 12,
+      fontSize: large ? 16 : 12,
       fontWeight: 700,
-      lineHeight: '22px',
+      lineHeight: large ? '30px' : '22px',
       textAlign: 'center',
     }}
   >
@@ -67,10 +68,12 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
           Items
         </ListItemButton>
         <ListItemButton component={RouterLink} to="/upcoming">
-          Upcoming
+          <span>Upcoming</span>
+          {soonCount > 0 && <NavCount status="soon" large>{soonCount}</NavCount>}
         </ListItemButton>
         <ListItemButton component={RouterLink} to="/pastdue">
-          Past Due
+          <span>Past Due</span>
+          {overdueCount > 0 && <NavCount status="overdue" large>{overdueCount}</NavCount>}
         </ListItemButton>
         <ListItemButton component={RouterLink} to="/">
           Welcome
@@ -114,7 +117,9 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
               onClick={toggleDrawer('left', true)}
               aria-label="Menu Button"
               size="large">
-              <MenuIcon style={{ fill: '#000000de' }} />
+              <MenuBadge badgeContent={overdueCount} invisible={!overdueCount}>
+                <MenuIcon style={{ fill: '#000000de' }} />
+              </MenuBadge>
             </IconButton>
             <StyledDrawer
               open={state.left}

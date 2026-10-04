@@ -11,7 +11,7 @@ import { useGetItemsQuery, useGetUpcomingItemsQuery } from '../../store/api/main
 import { errorMessage } from '../../store/api/errorMessage';
 import { allCategoryStatuses, mostUrgentFirst } from '../../store/api/dueStatus';
 import PageLayout, { useWideLayout } from '../common/PageLayout';
-import DueLogRow from '../common/DueLogRow';
+import DueLogRow, { DueLogText } from '../common/DueLogRow';
 import DuePanel from '../sidebar/DuePanel';
 import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
@@ -58,15 +58,9 @@ const Upcoming = () => {
     }
     return logs.map(log => {
       const formattedDateDue = moment(log.date_due).format("MMM Do YYYY");
+      const text = `${log.category.name} will be due on ${formattedDateDue}`;
       if (wide) {
-        return (
-          <DueLogRow
-            key={log.id}
-            log={log}
-            text={`${log.category.name} will be due on ${formattedDateDue}`}
-            itemName={itemName(log)}
-          />
-        );
+        return <DueLogRow key={log.id} log={log} text={text} itemName={itemName(log)} />;
       }
       return (
         <StyledListItem
@@ -79,7 +73,7 @@ const Upcoming = () => {
               <Build />
             </Avatar>
           </StyledListItemAvatar>
-          {log.category.name} will be due on {formattedDateDue}
+          <DueLogText log={log} text={text} itemName={itemName(log)} />
         </StyledListItem>
       )
     })

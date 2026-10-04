@@ -10,8 +10,8 @@ import FormError from '../common/FormError';
 import { useCreateLogMutation } from '../../store/api/maintenanceApi';
 import { errorMessage } from '../../store/api/errorMessage';
 import { useItem } from '../../store/api/lookups';
-import { byRecentlyPerformed } from '../../store/api/dueStatus';
-import PageLayout from '../common/PageLayout';
+import { byRecentlyPerformed, formatDate, suggestedDueDate } from '../../store/api/dueStatus';
+import PageLayout, { useSidebarLayout } from '../common/PageLayout';
 import LastTimePanels from './LastTimePanels';
 import { StyledTextField, StyledContainer, FormSubmit, StyledForm, StyledTitle, BottomNav } from "./styles";
 
@@ -38,6 +38,8 @@ const LogCreate = () => {
   const lastLog = item && item.logs
     .filter(log => String(log.category_id) === String(catId))
     .sort(byRecentlyPerformed)[0];
+  const withSidebar = useSidebarLayout();
+  const suggestedDue = lastLog && suggestedDueDate(lastLog, datePerformed);
 
   const onSubmit = async formValues => {
     try {
@@ -84,6 +86,16 @@ const LogCreate = () => {
         <StyledForm onSubmit={handleSubmit(onSubmit)} className='ui form error'>
           {renderField('date_performed', { type: 'date', label: 'Date Performed', margin: 'normal', fullWidth: true })}<br />
           {renderField('date_due', { type: 'date', label: 'Date Due', margin: 'normal', fullWidth: true })}<br />
+          {/* Without the sidebar, its due date suggestion goes under the field */}
+          {!withSidebar && suggestedDue && (
+            <Button
+              size="small"
+              sx={{ textTransform: 'none', ml: -1 }}
+              onClick={() => setValue('date_due', suggestedDue, { shouldDirty: true, shouldValidate: true })}
+            >
+              Same as last time: {formatDate(suggestedDue)}
+            </Button>
+          )}
           {renderField('cost', { type: 'number', label: 'Cost $', margin: 'normal', fullWidth: true })}<br />
           {renderField('notes', { type: 'text', label: 'Notes', multiline: true, margin: 'normal', fullWidth: true })}<br />
           {renderField('tools', { type: 'text', label: 'Tools Used', multiline: true, margin: 'normal', fullWidth: true })}<br />

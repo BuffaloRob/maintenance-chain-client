@@ -21,6 +21,16 @@ export const StatusChip = ({ status }) => (
   />
 );
 
+// Text in its status color when it needs attention, muted otherwise
+export const StatusText = ({ status, children }) => (
+  <Box
+    component="span"
+    sx={{ color: status === 'overdue' || status === 'soon' ? `status.${status}` : 'grey.400' }}
+  >
+    {children}
+  </Box>
+);
+
 export const StatusDot = ({ status }) => (
   <Box
     component="span"
