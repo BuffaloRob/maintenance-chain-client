@@ -32,6 +32,14 @@ test('the menu shows how many categories are past due', async ({ page }) => {
   await expect(drawer.getByRole('link', { name: /^Upcoming/ })).toHaveText('Upcoming');
 });
 
+test('the new log form suggests a due date from last time', async ({ page }) => {
+  await page.goto('/item/1/category/10/log/new');
+  // Last time it was due 182 days after it was done
+  await page.getByLabel('Date Performed').fill('2025-03-01');
+  await page.getByRole('button', { name: 'Same as last time: Aug 30th 2025' }).click();
+  await expect(page.getByLabel('Date Due')).toHaveValue('2025-08-30');
+});
+
 test("a row's menu edits it", async ({ page }) => {
   await page.goto('/item/1');
   await row(page, 'Oil change').getByRole('button', { name: 'More actions' }).click();

@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Panel, { PanelRow } from '../common/Panel';
-import { costOf, dueInterval, formatDate, formatMoney } from '../../store/api/dueStatus';
+import { costOf, dueInterval, formatDate, formatMoney, suggestedDueDate } from '../../store/api/dueStatus';
 
 const Detail = ({ label, children }) => (
   <Box sx={{ py: 0.75 }}>
@@ -17,8 +17,7 @@ const Detail = ({ label, children }) => (
 // with shortcuts to reuse it. datePerformed is the form's current value.
 const LastTimePanels = ({ log, datePerformed, setValue }) => {
   const interval = dueInterval(log);
-  const from = datePerformed ? moment(datePerformed) : moment();
-  const suggestedDue = interval && from.isValid() && from.add(interval, 'days').format('YYYY-MM-DD');
+  const suggestedDue = suggestedDueDate(log, datePerformed);
   const fill = (name, value) => setValue(name, value || '', { shouldDirty: true, shouldValidate: true });
 
   return (
