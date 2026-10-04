@@ -4,17 +4,19 @@ test.beforeEach(async ({ page }) => {
   await login(page);
 });
 
-const row = (page, text) => page.locator('li').filter({ hasText: text });
+// The page's main column; on wide screens a sidebar repeats some details
+const main = page => page.getByRole('main');
+const row = (page, text) => main(page).locator('li').filter({ hasText: text });
 
 test("shows a log's details", async ({ page }) => {
   await page.goto('/item/1/category/10');
-  await page.getByText('Jan 5th 2024').click();
+  await main(page).getByText('Jan 5th 2024').click();
   await expect(page).toHaveURL('/log/100');
   await expect(page.getByRole('heading', { name: 'Oil change on Jan 5th 2024' })).toBeVisible();
-  await expect(page.getByText('Jul 5th 2024')).toBeVisible();
-  await expect(page.getByText('$25')).toBeVisible();
-  await expect(page.getByText('Filter wrench')).toBeVisible();
-  await expect(page.getByText('Synthetic 5W-30')).toBeVisible();
+  await expect(main(page).getByText('Jul 5th 2024')).toBeVisible();
+  await expect(main(page).getByText('$25')).toBeVisible();
+  await expect(main(page).getByText('Filter wrench')).toBeVisible();
+  await expect(main(page).getByText('Synthetic 5W-30')).toBeVisible();
 
   await page.getByRole('link', { name: 'Back to Logs' }).click();
   await expect(page).toHaveURL('/item/1/category/10');
@@ -29,7 +31,7 @@ test('creates a log, sending only the fields that were filled in', async ({ page
   await page.getByLabel('Cost $').fill('40');
   await page.getByRole('button', { name: 'Submit' }).click();
   await expect(page).toHaveURL('/item/1/category/10');
-  await expect(page.getByText('Mar 1st 2025')).toBeVisible();
+  await expect(main(page).getByText('Mar 1st 2025')).toBeVisible();
   expect(sent(api, 'POST', '/items/1/categories/10/logs')[0].body).toEqual({
     date_performed: '2025-03-01',
     date_due: '2025-09-01',

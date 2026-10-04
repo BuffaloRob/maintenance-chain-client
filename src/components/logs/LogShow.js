@@ -9,6 +9,8 @@ import Divider from '@mui/material/Divider';
 import Fab from '@mui/material/Fab';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import RecordStatus from '../common/RecordStatus';
+import PageLayout from '../common/PageLayout';
+import LogHistoryPanel from './LogHistoryPanel';
 import { useLog } from '../../store/api/lookups';
 import { BottomButtons, StyledLogListItem, StyledTypography } from "./styles";
 
@@ -27,49 +29,55 @@ const LogShow = () => {
 
   return (
     <Container>
-      <StyledTypography variant="h2">
-        {(category ? category.name : '')} on {formattedDatePerformed}
-      </StyledTypography>
-      <List>
-        <StyledLogListItem alignItems="flex-start">
-          <Typography variant="h5" color="primary">Performed On:</Typography>
-          <Typography variant="h5">{formattedDatePerformed}</Typography>
-        </StyledLogListItem>
-        <Divider />
-        <StyledLogListItem>
-          <Typography variant="h5" color="primary">Due On:</Typography>
-          <Typography variant="h5">{formattedDateDue}</Typography>
-        </StyledLogListItem>
-        <Divider />
-        <StyledLogListItem>
-          <Typography variant="h5" color="primary">Cost:</Typography>
-          <Typography variant="h5">${log.cost}</Typography>
-        </StyledLogListItem>
-        <Divider />
-        <StyledLogListItem>
-          <Typography variant="h5" color="primary">Tools Used:</Typography>
-          <Typography variant="h5">{log.tools}</Typography>
-        </StyledLogListItem>
-        <Divider />
-        <StyledLogListItem>
-          <Typography variant="h5" color="primary">Notes:</Typography>
-          <Typography variant="h5">{log.notes}</Typography>
-        </StyledLogListItem>
-        <Divider />
-      </List>
-      <BottomButtons>
-        <Fab
-          color="secondary"
-          aria-label="Back to Logs"
-          size="small"
-          to={`/item/${itemId}/category/${log.category_id}`}
-          component={RouterLink}
-        >
-          <Tooltip title="Back to Logs">
-            <ArrowBack />
-          </Tooltip>
-        </Fab>
-      </BottomButtons>
+      <PageLayout
+        title={
+          <StyledTypography variant="h2">
+            {(category ? category.name : '')} on {formattedDatePerformed}
+          </StyledTypography>
+        }
+        aside={<LogHistoryPanel item={item} category={category} log={log} />}
+      >
+        <List>
+          <StyledLogListItem alignItems="flex-start">
+            <Typography variant="h5" color="primary">Performed On:</Typography>
+            <Typography variant="h5">{formattedDatePerformed}</Typography>
+          </StyledLogListItem>
+          <Divider />
+          <StyledLogListItem>
+            <Typography variant="h5" color="primary">Due On:</Typography>
+            <Typography variant="h5">{formattedDateDue}</Typography>
+          </StyledLogListItem>
+          <Divider />
+          <StyledLogListItem>
+            <Typography variant="h5" color="primary">Cost:</Typography>
+            <Typography variant="h5">${log.cost}</Typography>
+          </StyledLogListItem>
+          <Divider />
+          <StyledLogListItem>
+            <Typography variant="h5" color="primary">Tools Used:</Typography>
+            <Typography variant="h5">{log.tools}</Typography>
+          </StyledLogListItem>
+          <Divider />
+          <StyledLogListItem>
+            <Typography variant="h5" color="primary">Notes:</Typography>
+            <Typography variant="h5">{log.notes}</Typography>
+          </StyledLogListItem>
+          <Divider />
+        </List>
+        <BottomButtons>
+          <Fab
+            color="secondary"
+            aria-label="Back to Logs"
+            size="small"
+            to={`/item/${itemId}/category/${log.category_id}`}
+            component={RouterLink}
+          >
+            <Tooltip title="Back to Logs">
+              <ArrowBack />
+            </Tooltip>
+          </Fab>
+        </BottomButtons>
+      </PageLayout>
     </Container>
   )
 }

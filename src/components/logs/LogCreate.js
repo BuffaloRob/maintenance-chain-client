@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, useWatch, Controller } from 'react-hook-form';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router';
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
@@ -9,6 +9,10 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import FormError from '../common/FormError';
 import { useCreateLogMutation } from '../../store/api/maintenanceApi';
 import { errorMessage } from '../../store/api/errorMessage';
+import { useItem } from '../../store/api/lookups';
+import { byRecentlyPerformed } from '../../store/api/dueStatus';
+import PageLayout from '../common/PageLayout';
+import LastTimePanels from './LastTimePanels';
 import { StyledTextField, StyledContainer, FormSubmit, StyledForm, StyledTitle, BottomNav } from "./styles";
 
 // Previously the redux-form validate(): every required field -> 'Required'
@@ -28,7 +32,12 @@ const LogCreate = () => {
   const { itemId, id: catId } = useParams();
   const navigate = useNavigate();
   const [createLog] = useCreateLogMutation();
-  const { control, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({ mode: 'onTouched', defaultValues });
+  const { control, handleSubmit, setError, setValue, formState: { errors, isSubmitting } } = useForm({ mode: 'onTouched', defaultValues });
+  const datePerformed = useWatch({ control, name: 'date_performed' });
+  const { item } = useItem(itemId);
+  const lastLog = item && item.logs
+    .filter(log => String(log.category_id) === String(catId))
+    .sort(byRecentlyPerformed)[0];
 
   const onSubmit = async formValues => {
     try {
@@ -64,42 +73,48 @@ const LogCreate = () => {
 
   return (
     <StyledContainer>
-      <StyledTitle variant="h2">
-        Create New Log
-      </StyledTitle>
-      <StyledForm onSubmit={handleSubmit(onSubmit)} className='ui form error'>
-        {renderField('date_performed', { type: 'date', label: 'Date Performed', margin: 'normal', fullWidth: true })}<br />
-        {renderField('date_due', { type: 'date', label: 'Date Due', margin: 'normal', fullWidth: true })}<br />
-        {renderField('cost', { type: 'number', label: 'Cost $', margin: 'normal', fullWidth: true })}<br />
-        {renderField('notes', { type: 'text', label: 'Notes', multiline: true, margin: 'normal', fullWidth: true })}<br />
-        {renderField('tools', { type: 'text', label: 'Tools Used', multiline: true, margin: 'normal', fullWidth: true })}<br />
-        <FormError errors={errors} />
-        <br/>
-        <FormSubmit>
-          <Button
-            color='primary'
-            variant='outlined'
-            type='submit'
-            disabled={isSubmitting}
+      <PageLayout
+        title={
+          <StyledTitle variant="h2">
+            Create New Log
+          </StyledTitle>
+        }
+        aside={lastLog && <LastTimePanels log={lastLog} datePerformed={datePerformed} setValue={setValue} />}
+      >
+        <StyledForm onSubmit={handleSubmit(onSubmit)} className='ui form error'>
+          {renderField('date_performed', { type: 'date', label: 'Date Performed', margin: 'normal', fullWidth: true })}<br />
+          {renderField('date_due', { type: 'date', label: 'Date Due', margin: 'normal', fullWidth: true })}<br />
+          {renderField('cost', { type: 'number', label: 'Cost $', margin: 'normal', fullWidth: true })}<br />
+          {renderField('notes', { type: 'text', label: 'Notes', multiline: true, margin: 'normal', fullWidth: true })}<br />
+          {renderField('tools', { type: 'text', label: 'Tools Used', multiline: true, margin: 'normal', fullWidth: true })}<br />
+          <FormError errors={errors} />
+          <br/>
+          <FormSubmit>
+            <Button
+              color='primary'
+              variant='outlined'
+              type='submit'
+              disabled={isSubmitting}
+            >
+              Submit
+            </Button>
+          </FormSubmit>
+          <br/>
+        </StyledForm>
+        <BottomNav>
+          <Fab
+            color="secondary"
+            aria-label="Back to Logs"
+            size="small"
+            to={`/item/${itemId}/category/${catId}`}
+            component={RouterLink}
           >
-            Submit
-          </Button>
-        </FormSubmit>
-        <br/>
-      </StyledForm>
-      <BottomNav>
-        <Fab
-          color="secondary"
-          aria-label="Back to Logs"
-          size="small"
-          to={`/item/${itemId}/category/${catId}`}
-          component={RouterLink}
-        >
-          <Tooltip title="Back to Logs">
-            <ArrowBack />
-          </Tooltip>
-        </Fab>
-      </BottomNav>
+            <Tooltip title="Back to Logs">
+              <ArrowBack />
+            </Tooltip>
+          </Fab>
+        </BottomNav>
+      </PageLayout>
     </StyledContainer>
   );
 };

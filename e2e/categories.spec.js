@@ -4,15 +4,17 @@ test.beforeEach(async ({ page }) => {
   await login(page);
 });
 
-const row = (page, text) => page.locator('li').filter({ hasText: text });
+// The page's main column; on wide screens a sidebar repeats some names
+const main = page => page.getByRole('main');
+const row = (page, text) => main(page).locator('li').filter({ hasText: text });
 
 test("opens a category and shows its logs", async ({ page }) => {
   await page.goto('/item/1');
-  await page.getByText('Oil change').click();
+  await main(page).getByText('Oil change').click();
   await expect(page).toHaveURL('/item/1/category/10');
   await expect(page.getByRole('heading', { name: 'Oil change for Civic' })).toBeVisible();
-  await expect(page.getByText('Jan 5th 2024')).toBeVisible();
-  await expect(page.getByText('Due on: Jul 5th 2024')).toBeVisible();
+  await expect(main(page).getByText('Jan 5th 2024')).toBeVisible();
+  await expect(main(page).getByText('Due on: Jul 5th 2024')).toBeVisible();
 });
 
 test('creates a category', async ({ page, api }) => {
@@ -22,7 +24,7 @@ test('creates a category', async ({ page, api }) => {
   await page.getByLabel('Enter Category Name').fill('Brakes');
   await page.getByRole('button', { name: 'Submit' }).click();
   await expect(page).toHaveURL('/item/1');
-  await expect(page.getByText('Brakes')).toBeVisible();
+  await expect(main(page).getByText('Brakes')).toBeVisible();
   expect(sent(api, 'POST', '/items/1/categories')[0].body).toEqual({ name: 'Brakes' });
 });
 
@@ -35,7 +37,7 @@ test('edits a category', async ({ page, api }) => {
   await name.fill('Oil and filter');
   await page.getByRole('button', { name: 'Submit' }).click();
   await expect(page).toHaveURL('/item/1');
-  await expect(page.getByText('Oil and filter')).toBeVisible();
+  await expect(main(page).getByText('Oil and filter')).toBeVisible();
   expect(sent(api, 'PUT', '/items/1/categories/10')[0].body).toEqual({ name: 'Oil and filter' });
 });
 
@@ -47,6 +49,6 @@ test('deletes a category after confirmation', async ({ page, api }) => {
   await dialog.getByRole('button', { name: 'Delete' }).click();
   await expect(dialog).toBeHidden();
   await expect(page.getByText('Oil change')).toHaveCount(0);
-  await expect(page.getByText('Tires')).toBeVisible();
+  await expect(main(page).getByText('Tires')).toBeVisible();
   expect(sent(api, 'DELETE', '/items/1/categories/10')).toHaveLength(1);
 });

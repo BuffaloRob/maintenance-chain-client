@@ -9,11 +9,17 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import { useGetItemsQuery } from "../../store/api/maintenanceApi";
 import { errorMessage } from "../../store/api/errorMessage";
-import { BottomButtons, StyledTypography } from "./styles";
+import { allCategoryStatuses, mostUrgentFirst } from "../../store/api/dueStatus";
+import PageLayout, { useWideLayout } from "../common/PageLayout";
+import DuePanel from "../sidebar/DuePanel";
+import RecentLogsPanel from "../sidebar/RecentLogsPanel";
+import { BottomButtons, ItemGrid, StyledTypography } from "./styles";
 import Item from "./Item";
+import ItemStats from "./ItemStats";
 
 const ItemList = () => {
-  const { data: items, error, isLoading } = useGetItemsQuery();
+  const { data: items = [], error, isLoading } = useGetItemsQuery();
+  const wide = useWideLayout();
 
   const renderList = () => {
     if (!items || Object.keys(items).length === 0) {
@@ -71,23 +77,43 @@ const ItemList = () => {
     );
   }
 
+  const needsAttention = mostUrgentFirst(
+    allCategoryStatuses(items).filter(s => s.status === "overdue" || s.status === "soon")
+  );
+
   return (
     <Container>
-      <StyledTypography variant="h2">Items</StyledTypography>
-      <List component="nav">{renderList()}</List>
-      <BottomButtons>
-        <Fab
-          color="primary"
-          aria-label="Create New Item"
-          size="small"
-          to={`/item/new`}
-          component={RouterLink}
-        >
-          <Tooltip title="Create New Item">
-            <AddIcon />
-          </Tooltip>
-        </Fab>
-      </BottomButtons>
+      <PageLayout
+        title={<StyledTypography variant="h2">Items</StyledTypography>}
+        top={wide && items.length > 0 && <ItemStats items={items} />}
+        aside={
+          <>
+            <DuePanel
+              title="Needs attention"
+              statuses={needsAttention}
+              empty="Nothing is due in the next 30 days."
+            />
+            <RecentLogsPanel items={items} />
+          </>
+        }
+      >
+        {wide && items.length > 0
+          ? <ItemGrid>{items.map((item) => <Item key={item.id} item={item} variant="card" />)}</ItemGrid>
+          : <List component="nav">{renderList()}</List>}
+        <BottomButtons>
+          <Fab
+            color="primary"
+            aria-label="Create New Item"
+            size="small"
+            to={`/item/new`}
+            component={RouterLink}
+          >
+            <Tooltip title="Create New Item">
+              <AddIcon />
+            </Tooltip>
+          </Fab>
+        </BottomButtons>
+      </PageLayout>
     </Container>
   );
 };

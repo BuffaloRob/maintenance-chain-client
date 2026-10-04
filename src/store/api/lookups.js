@@ -1,4 +1,5 @@
 import { useGetItemsQuery } from './maintenanceApi';
+import { allCategoryStatuses } from './dueStatus';
 
 // The API has no per-record GET endpoints: items arrive with their categories and
 // logs, so single records are looked up in the getItems cache. Each hook also
@@ -28,4 +29,14 @@ export const useLog = (logId, itemId) =>
     );
     const log = item && item.logs.find(l => sameId(l.id, logId));
     return { item, log, category: log && item.categories.find(c => c.id === log.category_id) };
+  });
+
+// How many categories are past due and coming due, for the header
+export const useDueCounts = () =>
+  useItemsLookup(items => {
+    const statuses = allCategoryStatuses(items);
+    return {
+      overdueCount: statuses.filter(s => s.status === 'overdue').length,
+      soonCount: statuses.filter(s => s.status === 'soon').length,
+    };
   });

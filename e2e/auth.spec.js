@@ -18,7 +18,7 @@ test('logging in sends the credentials and then uses the token', async ({ page, 
   });
 
   await page.goto('/items');
-  await expect(page.getByText('Civic')).toBeVisible();
+  await expect(page.getByRole('main').getByText('Civic')).toBeVisible();
   expect(sent(api, 'GET', '/items')[0].auth).toBe('Bearer token-1');
   expect(api.requests.filter(r => /undefined|null/.test(r.auth ?? ''))).toEqual([]);
 });
@@ -93,7 +93,7 @@ test('a token saved by the previous version of the app is adopted', async ({ pag
 test('logging out ends the session and the next user sees only their data', async ({ page, api }) => {
   await login(page);
   await page.goto('/items');
-  await expect(page.getByText('Civic')).toBeVisible();
+  await expect(page.getByRole('main').getByText('Civic')).toBeVisible();
 
   await page.getByRole('button', { name: 'Log Out' }).click();
   await expect(page.getByRole('link', { name: 'Please Log In' })).toBeVisible();
@@ -105,7 +105,7 @@ test('logging out ends the session and the next user sees only their data', asyn
 
   await login(page, users.bob);
   await page.goto('/items');
-  await expect(page.getByText('Lawn mower')).toBeVisible();
+  await expect(page.getByRole('main').getByText('Lawn mower')).toBeVisible();
   await expect(page.getByText('Civic')).toHaveCount(0);
 });
 

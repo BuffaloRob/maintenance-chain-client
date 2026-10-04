@@ -37,8 +37,9 @@ test.describe('header on a desktop screen', () => {
     await expect(page.getByRole('button', { name: 'Menu Button' })).toBeHidden();
 
     await login(page);
-    for (const name of ['Home', 'Upcoming', 'Past Due']) {
-      await expect(page.getByRole('link', { name })).toBeVisible();
+    const header = page.getByRole('banner');
+    for (const name of ['Items', 'Upcoming', 'Past Due']) {
+      await expect(header.getByRole('link', { name })).toBeVisible();
     }
     await expect(page.getByRole('button', { name: 'Log Out' })).toBeVisible();
   });

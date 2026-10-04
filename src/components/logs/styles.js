@@ -151,7 +151,9 @@ export const StyledTextField = styled(TextField)`
   }
 `
 
+// width: auto so the left margin doesn't push it past the right edge
 export const StyledContainer = styled(Container)`
+  width: auto;
   margin-left: 26px;
   @media( max-width: 600px) {
     margin-left: 18px;
@@ -159,6 +161,7 @@ export const StyledContainer = styled(Container)`
 `
 
 export const StyledForm = styled.form`
+  max-width: 640px;
   margin: 40px 0 20px;
 `
 
