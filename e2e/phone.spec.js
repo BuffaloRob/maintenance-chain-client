@@ -23,6 +23,15 @@ test('rows say what needs attention', async ({ page }) => {
   await expect(pastDue).toContainText(/Civic · .* ago/);
 });
 
+test('the menu shows how many categories are past due', async ({ page }) => {
+  const menu = page.getByRole('button', { name: 'Menu Button' });
+  await expect(menu).toContainText('1');
+  await menu.click();
+  const drawer = page.locator('.MuiDrawer-paper');
+  await expect(drawer.getByRole('link', { name: /^Past Due/ })).toContainText('1');
+  await expect(drawer.getByRole('link', { name: /^Upcoming/ })).toHaveText('Upcoming');
+});
+
 test("a row's menu edits it", async ({ page }) => {
   await page.goto('/item/1');
   await row(page, 'Oil change').getByRole('button', { name: 'More actions' }).click();

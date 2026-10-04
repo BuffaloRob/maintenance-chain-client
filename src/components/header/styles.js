@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import Drawer from '@mui/material/Drawer'
 import Button from '@mui/material/Button'
+import Badge from '@mui/material/Badge'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
@@ -70,6 +71,15 @@ export const NavButton = styled(Button)`
   }
   &[aria-current='page'] {
     background-color: rgba(0, 0, 0, 0.16);
+  }
+`
+
+// The overdue count on the phone's menu button, like the desktop header's
+export const MenuBadge = styled(Badge)`
+  .MuiBadge-badge {
+    background-color: #262626;
+    color: #FF5C7A;
+    font-weight: 700;
   }
 `
 
