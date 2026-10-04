@@ -7,6 +7,7 @@ import Fab from '@mui/material/Fab'
 import ListItemText from '@mui/material/ListItemText'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import Card from '@mui/material/Card'
 
 export const StyledTypography = styled(Typography)`
   text-align: start;
@@ -94,6 +95,40 @@ export const StyledAvatar = styled(ListItemAvatar)`
 
 export const StyledDivider = styled(Divider)`
   margin: 20px 0;
+`
+
+// ********* Item cards (sm and up) *********
+
+export const ItemGrid = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`
+
+export const StyledCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background-color: #2E2E2E;
+`
+
+export const CardTitle = styled(Typography)`
+  margin: 0;
+  color: #F55932;
+  font-size: 20px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
+
+export const CardMeta = styled(Typography)`
+  margin: 0;
+  color: #bdbdbd;
+  font-size: 14px;
 `
 
 // ********* Item Create / Item Edit *********

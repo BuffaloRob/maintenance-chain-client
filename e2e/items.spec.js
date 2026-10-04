@@ -4,11 +4,13 @@ test.beforeEach(async ({ page }) => {
   await login(page);
 });
 
-const row = (page, text) => page.locator('li').filter({ hasText: text });
+// The page's main column; on wide screens a sidebar repeats some names
+const main = page => page.getByRole('main');
+const row = (page, text) => main(page).locator('li').filter({ hasText: text });
 
 test('lists items and opens one', async ({ page }) => {
   await page.goto('/items');
-  await page.getByText('Civic').click();
+  await main(page).getByText('Civic').click();
   await expect(page).toHaveURL('/item/1');
   await expect(page.getByRole('heading', { name: 'Civic' })).toBeVisible();
   await expect(page.getByText('Oil change')).toBeVisible();
@@ -21,7 +23,7 @@ test('creates an item', async ({ page, api }) => {
   await page.getByLabel('Enter Item Name').fill('Truck');
   await page.getByRole('button', { name: 'Submit' }).click();
   await expect(page).toHaveURL('/items');
-  await expect(page.getByText('Truck')).toBeVisible();
+  await expect(main(page).getByText('Truck')).toBeVisible();
   expect(sent(api, 'POST', '/items')[0].body).toEqual({ name: 'Truck' });
 });
 
@@ -41,7 +43,7 @@ test('edits an item', async ({ page, api }) => {
   await name.fill('Civic Si');
   await page.getByRole('button', { name: 'Submit' }).click();
   await expect(page).toHaveURL('/items');
-  await expect(page.getByText('Civic Si')).toBeVisible();
+  await expect(main(page).getByText('Civic Si')).toBeVisible();
   expect(sent(api, 'PUT', '/items/1')[0].body).toMatchObject({ name: 'Civic Si' });
 });
 
@@ -61,6 +63,6 @@ test('cancelling the delete dialog keeps the item', async ({ page, api }) => {
   await row(page, 'Civic').getByRole('button', { name: 'Delete' }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Cancel' }).click();
   await expect(page.getByRole('dialog')).toBeHidden();
-  await expect(page.getByText('Civic')).toBeVisible();
+  await expect(main(page).getByText('Civic')).toBeVisible();
   expect(sent(api, 'DELETE', '/items/1')).toEqual([]);
 });
