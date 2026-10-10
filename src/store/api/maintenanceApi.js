@@ -1,6 +1,9 @@
 // src/store/api/maintenanceApi.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+const receiptsUrl = ({ itemId, categoryId, logId }) =>
+  `/items/${itemId}/categories/${categoryId}/logs/${logId}/receipts`;
+
 // Base URL comes from REACT_APP_API_URL (e.g. http://localhost:3000/api/v1)
 export const maintenanceApi = createApi({
   reducerPath: "maintenanceApi",
@@ -15,7 +18,7 @@ export const maintenanceApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Item", "Category", "Log", "User"],
+  tagTypes: ["Item", "Category", "Log", "Receipt", "User"],
   endpoints: (builder) => ({
     // Authentication (credentials are stored by authSlice's extraReducers)
     login: builder.mutation({
@@ -165,6 +168,47 @@ export const maintenanceApi = createApi({
       invalidatesTags: [{ type: "Log", id: "LIST" }, "Item"],
     }),
 
+    // Receipts: photos attached to a log, each listed as { id, log_id, content_type }
+    getReceipts: builder.query({
+      query: receiptsUrl,
+      providesTags: (result, error, { logId }) => [{ type: "Receipt", id: logId }],
+    }),
+    // A receipt's image, as an object URL for an <img> (whose own request
+    // couldn't send the token). Revoked once the cache entry is dropped.
+    getReceiptImage: builder.query({
+      query: ({ id, ...log }) => ({
+        url: `${receiptsUrl(log)}/${id}`,
+        responseHandler: async (response) =>
+          response.ok ? URL.createObjectURL(await response.blob()) : response.json().catch(() => null),
+      }),
+      async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved }) {
+        try {
+          const { data } = await cacheDataLoaded;
+          await cacheEntryRemoved;
+          URL.revokeObjectURL(data);
+        } catch (err) {
+          // removed before the image loaded
+        }
+      },
+    }),
+    // photo is a Blob, sent as the body with its image type
+    uploadReceipt: builder.mutation({
+      query: ({ photo, ...log }) => ({
+        url: receiptsUrl(log),
+        method: "POST",
+        headers: { "Content-Type": photo.type },
+        body: photo,
+      }),
+      invalidatesTags: (result, error, { logId }) => [{ type: "Receipt", id: logId }],
+    }),
+    deleteReceipt: builder.mutation({
+      query: ({ id, ...log }) => ({
+        url: `${receiptsUrl(log)}/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { logId }) => [{ type: "Receipt", id: logId }],
+    }),
+
     // Dashboard queries
     getPastDueItems: builder.query({
       query: () => "/past_due",
@@ -205,6 +249,12 @@ export const {
   useCreateLogMutation,
   useUpdateLogMutation,
   useDeleteLogMutation,
+
+  // Receipts
+  useGetReceiptsQuery,
+  useGetReceiptImageQuery,
+  useUploadReceiptMutation,
+  useDeleteReceiptMutation,
 
   // Dashboard
   useGetPastDueItemsQuery,
