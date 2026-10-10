@@ -11,6 +11,7 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import RecordStatus from '../common/RecordStatus';
 import PageLayout from '../common/PageLayout';
 import LogHistoryPanel from './LogHistoryPanel';
+import Receipts from './Receipts';
 import { useLog } from '../../store/api/lookups';
 import { BottomButtons, StyledLogListItem, StyledTypography } from "./styles";
 
@@ -61,6 +62,12 @@ const LogShow = () => {
           <StyledLogListItem>
             <Typography variant="h5" color="primary">Notes:</Typography>
             <Typography variant="h5">{log.notes}</Typography>
+          </StyledLogListItem>
+          <Divider />
+          <StyledLogListItem>
+            <Typography variant="h5" color="primary">Receipts:</Typography>
+            {/* keyed so moving to another log drops this one's state */}
+            <Receipts key={log.id} log={log} itemId={itemId} />
           </StyledLogListItem>
           <Divider />
         </List>
