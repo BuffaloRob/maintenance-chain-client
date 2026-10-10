@@ -10,7 +10,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import AddAPhoto from '@mui/icons-material/AddAPhoto';
+import AddPhotoAlternate from '@mui/icons-material/AddPhotoAlternate';
 import ReceiptLong from '@mui/icons-material/ReceiptLong';
 import {
   useDeleteReceiptMutation,
@@ -22,7 +24,7 @@ import { errorMessage } from '../../store/api/errorMessage';
 import { useWideLayout } from '../common/PageLayout';
 import { shrinkPhoto } from './shrinkPhoto';
 
-// Out of sight; the camera button opens it
+// Out of sight; its button opens it
 const hiddenInput = {
   position: 'absolute',
   width: 1,
@@ -87,30 +89,67 @@ const ReceiptDialog = ({ receipt, number, log, onClose }) => {
   );
 };
 
-// A log's photos of receipts: an icon for each, which shows it, and a button
-// that takes another with the phone's camera (or picks a file on a computer)
+// A button that opens a file input for a photo, and shows a spinner while
+// the photo it gave is saved. With capture, phones open the rear camera
+// rather than offering the photos they already have.
+const PhotoButton = ({ label, capture, saving, disabled, onPhoto, children }) => {
+  const input = React.useRef(null);
+  return (
+    <>
+      <Tooltip title={label}>
+        {/* The span lets the tooltip work while the button is disabled */}
+        <span>
+          <IconButton color="primary" aria-label={label} onClick={() => input.current.click()} disabled={disabled}>
+            {saving ? <CircularProgress size={24} aria-label="Saving receipt" /> : children}
+          </IconButton>
+        </span>
+      </Tooltip>
+      <input
+        ref={input}
+        type="file"
+        accept="image/*"
+        capture={capture}
+        onChange={event => {
+          const [file] = event.target.files;
+          event.target.value = ''; // so the same file can be picked again
+          if (file) onPhoto(file);
+        }}
+        tabIndex={-1}
+        aria-hidden="true"
+        style={hiddenInput}
+      />
+    </>
+  );
+};
+
+const TAKE = 'Take a photo of a receipt';
+const CHOOSE = 'Choose a photo of a receipt';
+
+// A log's photos of receipts: an icon for each, which shows it, and buttons
+// that add another, taken with the camera or chosen from the photos already
+// on the device
 const Receipts = ({ log, itemId }) => {
   const ids = { itemId, categoryId: log.category_id, logId: log.id };
   const { data: receipts = [], error } = useGetReceiptsQuery(ids);
   const [uploadReceipt] = useUploadReceiptMutation();
-  const [saving, setSaving] = React.useState(false);
+  // The label of the button whose photo is being saved
+  const [savingFrom, setSavingFrom] = React.useState(null);
   const [saveError, setSaveError] = React.useState(null);
   const [shown, setShown] = React.useState(null);
-  const input = React.useRef(null);
+  // Touchscreens: phones and tablets. A computer's browser opens the same
+  // file picker for both buttons, so it only gets the one for choosing.
+  const touchscreen = useMediaQuery('(pointer: coarse)', { noSsr: true });
 
-  const save = async event => {
-    const [file] = event.target.files;
-    event.target.value = ''; // so the same file can be picked again
-    if (!file) return;
-    setSaving(true);
+  const save = from => async file => {
+    setSavingFrom(from);
     setSaveError(null);
     try {
       await uploadReceipt({ ...ids, photo: await shrinkPhoto(file) }).unwrap();
     } catch (err) {
       // shrinkPhoto rejects with an Error, a failed upload with { status, data }
-      setSaveError(err instanceof Error ? "Couldn't read that photo. Try taking it again." : errorMessage(err));
+      setSaveError(err instanceof Error ? "Couldn't read that photo. Try another one." : errorMessage(err));
     } finally {
-      setSaving(false);
+      setSavingFrom(null);
     }
   };
 
@@ -127,30 +166,20 @@ const Receipts = ({ log, itemId }) => {
           </IconButton>
         </Tooltip>
       ))}
-      <Tooltip title="Take a photo of a receipt">
-        {/* The span lets the tooltip work while the button is disabled */}
-        <span>
-          <IconButton
-            color="primary"
-            aria-label="Take a photo of a receipt"
-            onClick={() => input.current.click()}
-            disabled={saving}
-          >
-            {saving ? <CircularProgress size={24} aria-label="Saving receipt" /> : <AddAPhoto />}
-          </IconButton>
-        </span>
-      </Tooltip>
-      {/* capture opens the rear camera on phones */}
-      <input
-        ref={input}
-        type="file"
-        accept="image/*"
-        capture="environment"
-        onChange={save}
-        tabIndex={-1}
-        aria-hidden="true"
-        style={hiddenInput}
-      />
+      {touchscreen && (
+        <PhotoButton
+          label={TAKE}
+          capture="environment"
+          saving={savingFrom === TAKE}
+          disabled={!!savingFrom}
+          onPhoto={save(TAKE)}
+        >
+          <AddAPhoto />
+        </PhotoButton>
+      )}
+      <PhotoButton label={CHOOSE} saving={savingFrom === CHOOSE} disabled={!!savingFrom} onPhoto={save(CHOOSE)}>
+        <AddPhotoAlternate />
+      </PhotoButton>
       {message && (
         <Typography color="error" role="alert" sx={{ flexBasis: '100%' }}>{message}</Typography>
       )}
