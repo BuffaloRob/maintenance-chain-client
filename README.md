@@ -1,4 +1,4 @@
-You can test this out at http://maintenancecha.in or run it locally by running 'npm install' and then 'npm start' and navigating to localhost:3005 in your browser. To be able to sign in and use all functionality you will also need to have the API running locally, you can find that at https://github.com/BuffaloRob/maintenance_chain_api
+You can test this out at https://maintenancecha.in or run it locally by running 'npm install' and then 'npm start' and navigating to localhost:3005 in your browser. To be able to sign in and use all functionality you will also need to have the API running locally, you can find that at https://github.com/BuffaloRob/maintenance-chain-node-api, and to point the client at it with REACT_APP_API_URL=http://localhost:3001/api/v1 in '.env'
 
 To show the "Sign in with Google" button, set VITE_GOOGLE_CLIENT_ID in '.env' to the OAuth client ID of the app's Google Cloud project, the same one the API's GOOGLE_CLIENT_ID is set to (the API's README explains how to create it). Without it the login and signup pages only have the email and password form.
 
@@ -14,4 +14,4 @@ To deploy:
 TODO:
 - Sign in with Apple
 - Push notifications
-- enable HTTPS/HTTP2
+- Redirect http:// to https:// (surge's free plan can't, and Google sign-in only works over HTTPS)
