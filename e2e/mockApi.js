@@ -47,15 +47,28 @@ const seedItems = () => ({
   ],
 });
 
+// A 30×40 PNG, the photo of the receipt alice keeps with her Jan 5th 2024 oil change
+export const RECEIPT_PNG = Buffer.from(
+  'iVBORw0KGgoAAAANSUhEUgAAAB4AAAAoCAIAAABmcd1FAAAALUlEQVR42u3MMQ0AAAgDsGnCDf418KOCg6RJ72a6jkStVqvVarVarVar1f/rBW51CGocVxjhAAAAAElFTkSuQmCC',
+  'base64'
+);
+
+// Receipts by log id
+const seedReceipts = () => ({
+  100: [{ id: 500, log_id: 100, content_type: 'image/png', data: RECEIPT_PNG }],
+});
+
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const today = () => new Date().toISOString().slice(0, 10);
 
 export function createMockApi() {
   const accounts = Object.values(users).map(u => ({ ...u }));
   const itemsByUser = seedItems();
+  const receiptsByLog = seedReceipts();
   let nextId = 1000;
 
-  // Every request the app made: { method, path, body, auth }
+  // Every request the app made: { method, path, body, auth }. An uploaded
+  // image's body is { type, data }, data being a Buffer.
   const requests = [];
   // Test-controlled responses, matched before the normal routes
   const overrides = [];
@@ -67,6 +80,7 @@ export function createMockApi() {
   //   override({ method: 'GET', path: '/items', abort: true })  (network failure)
   const override = spec => overrides.push(spec);
 
+  // Returns [status, payload], or [status, Buffer, content type] for an image
   const route = async (method, path, body, user) => {
     const items = user && itemsByUser[user.id];
     const findItem = id => items.find(i => i.id === Number(id));
@@ -168,6 +182,27 @@ export function createMockApi() {
         return [200, {}];
       }
     }
+    if ((m = path.match(/^\/items\/(\d+)\/categories\/(\d+)\/logs\/(\d+)\/receipts(?:\/(\d+))?$/))) {
+      const item = findItem(m[1]);
+      const log = item && item.logs.find(l => l.id === Number(m[3]) && l.category_id === Number(m[2]));
+      if (!log) return [404, { message: 'Not found' }];
+      const receipts = (receiptsByLog[log.id] ??= []);
+      const receipt = m[4] && receipts.find(r => r.id === Number(m[4]));
+      if (m[4] && !receipt) return [404, { message: 'Not found' }];
+      // Listed without the image
+      const listed = ({ data, ...rest }) => rest;
+      if (method === 'GET' && !m[4]) return [200, receipts.map(listed)];
+      if (method === 'POST' && !m[4]) {
+        const created = { id: nextId++, log_id: log.id, content_type: body.type, data: body.data };
+        receipts.push(created);
+        return [201, listed(created)];
+      }
+      if (method === 'GET') return [200, receipt.data, receipt.content_type];
+      if (method === 'DELETE') {
+        receipts.splice(receipts.indexOf(receipt), 1);
+        return [204];
+      }
+    }
     return [404, { message: 'Not found' }];
   };
 
@@ -177,7 +212,10 @@ export function createMockApi() {
     if (method === 'OPTIONS') return pwRoute.fulfill({ status: 204, headers: CORS });
 
     const path = new URL(request.url()).pathname.replace(/^\/api/, '');
-    const body = request.postData() ? JSON.parse(request.postData()) : null;
+    const type = request.headers()['content-type'];
+    const body = type?.startsWith('image/')
+      ? { type, data: request.postDataBuffer() }
+      : request.postData() ? JSON.parse(request.postData()) : null;
     const auth = request.headers().authorization ?? null;
     requests.push({ method, path, body, auth });
 
@@ -186,14 +224,15 @@ export function createMockApi() {
     if (spec?.abort) return pwRoute.abort('connectionrefused');
     if (spec?.delay) await sleep(spec.delay);
 
-    let status, payload;
+    let status, payload, payloadType;
     if (spec?.status) {
       [status, payload] = [spec.status, spec.body ?? {}];
     } else {
       const user = accounts.find(a => auth === `Bearer token-${a.id}`);
-      [status, payload] = await route(method, path, body, user);
+      [status, payload, payloadType] = await route(method, path, body, user);
     }
     if (status === 204) return pwRoute.fulfill({ status, headers: CORS });
+    if (Buffer.isBuffer(payload)) return pwRoute.fulfill({ status, headers: CORS, contentType: payloadType, body: payload });
     await pwRoute.fulfill({ status, headers: CORS, contentType: 'application/json', body: JSON.stringify(payload) });
   };
 
