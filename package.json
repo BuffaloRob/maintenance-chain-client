@@ -23,7 +23,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:e2e": "playwright test",
-    "deploy": "npm run build && mv build/index.html build/200.html && surge"
+    "deploy": "npm run build && mv build/index.html build/200.html && surge build publish"
   },
   "browserslist": [
     ">0.2%",

@@ -7,8 +7,9 @@ To run the end-to-end tests:
 - The tests start their own dev server on port 3105 and answer API calls with an in-memory mock (e2e/mockApi.js), so the API doesn't need to be running. Google's sign-in script is replaced by a fake (e2e/fixtures.js) whose button signs in at once
 
 To deploy:
-- Run 'npm run deploy'. This will create a new build, when done add 'build/' to the file path that surge provides and hit enter
-- Paste in the address you want to deploy to
+- Install surge ('npm install -g surge') and run 'surge login' once
+- Set REACT_APP_API_URL (and VITE_GOOGLE_CLIENT_ID, if you want the Google button) to the production values in '.env.production'. Builds read it on top of '.env', so '.env' can keep pointing at the local API
+- Run 'npm run deploy'. This builds the app and publishes 'build/' to the domain in 'public/CNAME'
 
 TODO:
 - Sign in with Apple
