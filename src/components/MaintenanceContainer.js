@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+import { Route, Routes, Navigate } from 'react-router';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-import history from '../history';
 import ItemList from './items/ItemList';
 import ItemCreate from './items/ItemCreate';
 import ItemEdit from './items/ItemEdit';
@@ -15,162 +14,65 @@ import LogCreate from './logs/LogCreate';
 import LogEdit from './logs/LogEdit';
 import LogShow from './logs/LogShow';
 import LogList from './logs/LogList';
-import { fetchItems, deleteItem } from '../actions/itemActions';
-import { deleteCategory } from '../actions/categoryActions';
-import { deleteLog } from '../actions/logActions';
-import { itemSelector, categorySelector, logSelector } from '../actions/selectActions';
 import PastDue from "../components/PastDue/PastDue";
 import Upcoming from '../components/Upcoming/Upcoming';
 
 class MaintenanceContainer extends React.Component {
-  componentDidMount() {
-    this.props.fetchItems();
-  }
-
-  selectItem = (itemId) => {
-    const item = this.props.items[itemId]
-    this.props.itemSelector(item)
-    history.push(`/item/${item.id}`)
-  }
-
-  selectCategory = (catId, itemId) => {
-    const item = this.props.selectedItem
-    const cat = item.categories.filter(cat => (cat.id === catId))
-    this.props.categorySelector(cat, itemId)
-    history.push(`/item/${itemId}/category/${catId}`)
-  }
-
-  selectLog = (logId, itemId, categoryId) => {
-    const item = this.props.selectedItem
-    const log = item.logs.filter(log => (log.id === logId))
-    this.props.logSelector(log, itemId)
-    history.push(`/log/${logId}`)
-  }
-
-  editCategoryClick = (catId, itemId) => {
-    const item = this.props.selectedItem
-    const cat = item.categories.filter(cat => (cat.id === catId))
-    this.props.categorySelector(cat, itemId)
-    history.push(`/item/${itemId}/category/${catId}/edit`)
-  }
-
-  editLogClick = (logId, itemId) => {
-    const item = this.props.selectedItem
-    const log = item.logs.filter(log => (log.id === logId))
-    this.props.logSelector(log)
-    history.push(`/item/${itemId}/log/${logId}/edit`)
-  }
-
-  deleteItemClick = itemId => {
-    this.props.deleteItem(itemId)
-  }
-
-  deleteCategoryClick = (catId, itemId) => {
-    this.props.deleteCategory(catId, itemId)
-  }
-
-  deleteLogClick = (logId, itemId) => {
-    this.props.deleteLog(logId, itemId)
-  }
-
-  selectPastDue = (logId, itemId, catId) => {
-    const item = this.props.items[itemId] 
-    this.props.itemSelector(item)
-    const cat = item.categories.filter(cat => (cat.id === catId))
-    this.props.categorySelector(cat, itemId)
-    const log = item.logs.filter(log => (log.id === logId))
-    this.props.logSelector(log)
-    history.push(`/log/${log[0].id}`)
-  }
-
-  selectUpcoming = (logId, itemId, catId) => {
-    const item = this.props.items[itemId] 
-    this.props.itemSelector(item)
-    const cat = item.categories.filter(cat => (cat.id === catId))
-    this.props.categorySelector(cat, itemId)
-    const log = item.logs.filter(log => (log.id === logId))
-    this.props.logSelector(log)
-    history.push(`/log/${log[0].id}`)
-  }
-
   render() {
+
+    // false rather than missing: the Rails API doesn't send email_verified.
+    // The API turns away unverified users, and the banner above says why.
+    if (this.props.isAuthenticated && this.props.emailVerified === false) {
+      return (
+        <Box sx={{ textAlign: "center", mt: 5 }}>
+          <Typography>You need to verify your email address before you can do that</Typography>
+        </Box>
+      );
+    }
 
     if (this.props.isAuthenticated) {
       return (
         <div className="ui container">
           <>
-            <Switch>
+            <Routes>
               {/* Past Due */}
-              <Route exact path='/pastdue' render={props =>
-                <PastDue {...props}
-                  selectPastDue={this.selectPastDue}
-                />}
-              />
+              <Route path='/pastdue' element={<PastDue />} />
               {/* Upcoming */}
-              <Route exact path='/upcoming' render={props =>
-                <Upcoming {...props}
-                  selectUpcoming={this.selectUpcoming}
-                />}
-              />
+              <Route path='/upcoming' element={<Upcoming />} />
               {/* LogCreate */}
-              <Route exact path='/item/:itemId/category/:id/log/new' component={LogCreate} />
+              <Route path='/item/:itemId/category/:id/log/new' element={<LogCreate />} />
               {/* LogShow */}
-              <Route exact path='/log/:id' render={props =>
-                <LogShow {...props}
-                  log={this.props.selectedLog}
-                  category={this.props.selectedCategory}
-                  itemId={this.props.selectedItem.id}
-                />}
-              />
+              <Route path='/log/:id' element={<LogShow />} />
               {/* LogEdit */}
-              <Route exact path='/item/:itemId/log/:id/edit' component={LogEdit} />
+              <Route path='/item/:itemId/log/:id/edit' element={<LogEdit />} />
               {/* CategoryCreate */}
-              <Route exact path='/item/:itemId/category/new' component={CategoryCreate} />
+              <Route path='/item/:itemId/category/new' element={<CategoryCreate />} />
               {/* LogList / Category Show */}
-              <Route exact path='/item/:itemId/category/:id' render={props =>
-                <LogList {...props}
-                  category={this.props.selectedCategory}
-                  item={this.props.selectedItem}
-                  selectLog={this.selectLog}
-                  editLogClick={this.editLogClick}
-                  deleteLogClick={this.deleteLogClick}
-                />}
-              />
+              <Route path='/item/:itemId/category/:id' element={<LogList />} />
               {/* CategoryEdit */}
-              <Route exact path='/item/:itemId/category/:id/edit' component={CategoryEdit} />
+              <Route path='/item/:itemId/category/:id/edit' element={<CategoryEdit />} />
               {/* ItemList */}
-              <Route exact path="/items" render={props =>
-                <ItemList {...props}
-                  items={Object.values(this.props.items)}
-                  selectItem={this.selectItem}
-                  deleteItemClick={this.deleteItemClick}
-                />}
-              />
+              <Route path="/items" element={<ItemList />} />
               {/* ItemCreate */}
-              <Route exact path="/item/new" component={ItemCreate} />
+              <Route path="/item/new" element={<ItemCreate />} />
               {/* ItemEdit */}
-              <Route exact path="/item/:id/edit" component={ItemEdit} />
+              <Route path="/item/:id/edit" element={<ItemEdit />} />
               {/* CategoryList / Item Show */}
-              <Route exact path="/item/:id" render={props =>
-                <CategoryList {...props}
-                  item={this.props.selectedItem}
-                  selectCategory={this.selectCategory}
-                  editCategoryClick={this.editCategoryClick}
-                  deleteCategoryClick={this.deleteCategoryClick}
-                />}
-              />
-              <Redirect to="/" />
-            </Switch>
+              <Route path="/item/:id" element={<CategoryList />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
           </>
         </div>
       )
     }
     else {
-      return ( 
-        <Box textAlign="center">
+      return (
+        <Box sx={{
+          textAlign: "center"
+        }}>
           <Typography>You must be logged in to do that</Typography>
         </Box >
-      )
+      );
     }
   }
 }
@@ -178,19 +80,8 @@ class MaintenanceContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    items: state.items,
-    selectedItem: state.selectedItem,
-    selectedCategory: state.selectedCategory,
-    selectedLog: state.selectedLog,
+    emailVerified: state.auth.currentUser.email_verified,
   }
 }
 
-export default connect(mapStateToProps, {
-  itemSelector,
-  categorySelector,
-  logSelector,
-  fetchItems,
-  deleteItem,
-  deleteCategory,
-  deleteLog,
-})(MaintenanceContainer);
+export default connect(mapStateToProps)(MaintenanceContainer);

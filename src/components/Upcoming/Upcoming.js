@@ -1,28 +1,71 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import { useNavigate } from 'react-router';
 import moment from 'moment'
-import Container from '@material-ui/core/Container';
-import List from '@material-ui/core/List';
-import Avatar from '@material-ui/core/Avatar'
-import Build from '@material-ui/icons/Build';
+import Container from '@mui/material/Container';
+import List from '@mui/material/List';
+import Avatar from '@mui/material/Avatar'
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import Build from '@mui/icons-material/Build';
+import { useGetItemsQuery, useGetUpcomingItemsQuery } from '../../store/api/maintenanceApi';
+import { errorMessage } from '../../store/api/errorMessage';
+import { allCategoryStatuses, mostUrgentFirst } from '../../store/api/dueStatus';
+import PageLayout, { useWideLayout } from '../common/PageLayout';
+import DueLogRow, { DueLogText } from '../common/DueLogRow';
+import DuePanel from '../sidebar/DuePanel';
 import { StyledListItem, StyledListItemAvatar, StyledTypography } from './styles';
 
-import { fetchUpcoming } from '../../actions/queryActions'
+const Upcoming = () => {
+  const navigate = useNavigate();
+  const { data: logs, error, isLoading } = useGetUpcomingItemsQuery();
+  // Items name each log's item and fill the sidebar
+  const { data: items = [] } = useGetItemsQuery();
+  const wide = useWideLayout();
+  const itemName = log => {
+    const item = items.find(i => i.id === log.category.item_id);
+    return item ? item.name : '';
+  };
 
-class Upcoming extends React.Component {
-
-  componentDidMount() {
-    this.props.fetchUpcoming();
+  if (isLoading) {
+    return (
+      <Container>
+        <StyledTypography variant="h2">Upcoming Work</StyledTypography>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 40 }}>
+          <CircularProgress />
+        </div>
+      </Container>
+    );
   }
 
-  renderList() {
-    return this.props.logs.map(log => {
+  if (error) {
+    return (
+      <Container>
+        <StyledTypography variant="h2">Upcoming Work</StyledTypography>
+        <Typography variant="h6" color="error" align="center" style={{ marginTop: 20 }}>
+          Error loading upcoming items: {errorMessage(error)}
+        </Typography>
+      </Container>
+    );
+  }
+
+  const renderList = () => {
+    if (!logs || logs.length === 0) {
+      return (
+        <Typography variant="body1" align="center" style={{ marginTop: 20 }}>
+          No upcoming items found.
+        </Typography>
+      );
+    }
+    return logs.map(log => {
       const formattedDateDue = moment(log.date_due).format("MMM Do YYYY");
+      const text = `${log.category.name} will be due on ${formattedDateDue}`;
+      if (wide) {
+        return <DueLogRow key={log.id} log={log} text={text} itemName={itemName(log)} />;
+      }
       return (
         <StyledListItem
           key={log.id}
-          button
-          onClick={() => this.props.selectUpcoming(log.id, log.category.item_id, log.category_id)}
+          onClick={() => navigate(`/log/${log.id}`)}
           divider
         >
           <StyledListItemAvatar>
@@ -30,30 +73,28 @@ class Upcoming extends React.Component {
               <Build />
             </Avatar>
           </StyledListItemAvatar>
-          {log.category.name} will be due on {formattedDateDue}
+          <DueLogText log={log} text={text} itemName={itemName(log)} />
         </StyledListItem>
       )
-
     })
   }
 
-  render() {
-    return (
-      <Container>
-        <StyledTypography variant="h2">
-          Upcoming Work
-        </StyledTypography>
-        <List component="nav">{this.renderList()}</List>
-      </Container>
-    )
-  }
+  const overdue = mostUrgentFirst(allCategoryStatuses(items).filter(s => s.status === 'overdue'));
 
+  return (
+    <Container>
+      <PageLayout
+        title={
+          <StyledTypography variant="h2">
+            Upcoming Work
+          </StyledTypography>
+        }
+        aside={<DuePanel title="Already overdue" statuses={overdue} empty="Nothing is overdue." />}
+      >
+        <List component="nav">{renderList()}</List>
+      </PageLayout>
+    </Container>
+  )
 }
 
-const mapStateToProps = state => {
-  return {
-    logs: Object.values(state.upcoming),
-  }
-}
-
-export default connect(mapStateToProps, { fetchUpcoming })(Upcoming);
+export default Upcoming;

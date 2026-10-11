@@ -1,115 +1,112 @@
 import React from "react";
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form'
-import { Link as RouterLink } from 'react-router-dom';
-import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
-import Fab from "@material-ui/core/Fab";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import { useForm, useWatch, Controller } from 'react-hook-form';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router';
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import Fab from "@mui/material/Fab";
+import ArrowBack from '@mui/icons-material/ArrowBack';
 
-import { createLog } from '../../actions/logActions';
+import FormError from '../common/FormError';
+import { useCreateLogMutation } from '../../store/api/maintenanceApi';
+import { errorMessage } from '../../store/api/errorMessage';
+import { useItem } from '../../store/api/lookups';
+import { byRecentlyPerformed, formatDate, suggestedDueDate } from '../../store/api/dueStatus';
+import PageLayout, { useSidebarLayout } from '../common/PageLayout';
+import LastTimePanels from './LastTimePanels';
 import { StyledTextField, StyledContainer, FormSubmit, StyledForm, StyledTitle, BottomNav } from "./styles";
 
-class LogCreate extends React.Component {
+// Previously the redux-form validate(): every required field -> 'Required'
+const rules = {
+  date_performed: { required: 'Required' },
+  date_due: { required: 'Required' },
+};
 
-  textFieldWithAdornment = ({ InputProps = {}, input, ...restProps }) => {
-    return (
-      <StyledTextField
-        InputProps={{
-          ...InputProps, startAdornment: (
-            < InputAdornment >
-              $
-            </InputAdornment>
-          ) }}
-        {...input}
-        {...restProps}
-      />
-    )
-  }
+const defaultValues = { date_performed: '', date_due: '', cost: '', notes: '', tools: '' };
 
-  customTextField =({ input, ...restProps }) => {
-    return (
-      <StyledTextField
-        {...input}
-        {...restProps}
-      />
-    )
-  }
+// redux-form dropped fields left empty (no initial value) from the submitted
+// values; keep that so the POST body only contains filled-in fields.
+const withoutEmpty = values =>
+  Object.fromEntries(Object.entries(values).filter(([, v]) => v !== ''));
 
-  customDateField = ({ InputLabelProps = {}, meta: { touched, error }, input, ...restProps }) => {
-    return (
-      <StyledTextField
-        InputLabelProps={{ ...InputLabelProps, shrink: true }}
-        error={touched && error}
-        helperText={ touched && error ? error : null}
-        {...input}
-        {...restProps}
-      />
-    )
-  }
+const LogCreate = () => {
+  const { itemId, id: catId } = useParams();
+  const navigate = useNavigate();
+  const [createLog] = useCreateLogMutation();
+  const { control, handleSubmit, setError, setValue, formState: { errors, isSubmitting } } = useForm({ mode: 'onTouched', defaultValues });
+  const datePerformed = useWatch({ control, name: 'date_performed' });
+  const { item } = useItem(itemId);
+  const lastLog = item && item.logs
+    .filter(log => String(log.category_id) === String(catId))
+    .sort(byRecentlyPerformed)[0];
+  const withSidebar = useSidebarLayout();
+  const suggestedDue = lastLog && suggestedDueDate(lastLog, datePerformed);
 
-  onSubmit = (formValues) => {
-    const itemId = this.props.match.params.itemId;
-    const catId = this.props.match.params.id;
-    this.props.createLog(formValues, itemId, catId);
-  }
+  const onSubmit = async formValues => {
+    try {
+      await createLog({ ...withoutEmpty(formValues), itemId, categoryId: catId }).unwrap();
+      navigate(`/item/${itemId}/category/${catId}`);
+    } catch (err) {
+      setError('root.serverError', { message: errorMessage(err) });
+    }
+  };
 
-  render() {
-    return (
-      <StyledContainer>
-        <StyledTitle variant="h2">
-          Create New Log
-        </StyledTitle>
-        <StyledForm onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-          <Field
-            name='date_performed'
-            type='date'
-            component={this.customDateField}
-            label='Date Performed'
-            margin='normal'
-            fullWidth
-          /><br />
-          <Field
-            name='date_due'
-            type='date'
-            component={this.customDateField}
-            label='Date Due'
-            margin='normal'
-            fullWidth
-          /><br />
-          <Field
-            name='cost'
-            type='number'
-            component={this.customTextField}
-            label='Cost $'
-            margin='normal'
-            fullWidth
-          /><br />
-          <Field
-            name='notes'
-            type='text'
-            component={this.customTextField}
-            label='Notes'
-            multiline={true}
-            margin='normal'
-            fullWidth
-          /><br />
-          <Field
-            name='tools'
-            type='text'
-            component={this.customTextField}
-            label='Tools Used'
-            multiline={true}
-            margin='normal'
-            fullWidth
-          /><br />
+  // Date fields show their validation error; the other fields have no rules.
+  const renderField = (name, props) => (
+    <Controller
+      name={name}
+      control={control}
+      rules={rules[name]}
+      render={({ field: { ref, ...field }, fieldState: { error } }) => (
+        props.type === 'date' ? (
+          <StyledTextField
+            slotProps={{ inputLabel: { shrink: true } }}
+            error={!!error}
+            helperText={error ? error.message : null}
+            {...field}
+            inputRef={ref}
+            {...props}
+          />
+        ) : (
+          <StyledTextField {...field} inputRef={ref} {...props} />
+        )
+      )}
+    />
+  );
+
+  return (
+    <StyledContainer>
+      <PageLayout
+        title={
+          <StyledTitle variant="h2">
+            Create New Log
+          </StyledTitle>
+        }
+        aside={lastLog && <LastTimePanels log={lastLog} datePerformed={datePerformed} setValue={setValue} />}
+      >
+        <StyledForm onSubmit={handleSubmit(onSubmit)} className='ui form error'>
+          {renderField('date_performed', { type: 'date', label: 'Date Performed', margin: 'normal', fullWidth: true })}<br />
+          {renderField('date_due', { type: 'date', label: 'Date Due', margin: 'normal', fullWidth: true })}<br />
+          {/* Without the sidebar, its due date suggestion goes under the field */}
+          {!withSidebar && suggestedDue && (
+            <Button
+              size="small"
+              sx={{ textTransform: 'none', ml: -1 }}
+              onClick={() => setValue('date_due', suggestedDue, { shouldDirty: true, shouldValidate: true })}
+            >
+              Same as last time: {formatDate(suggestedDue)}
+            </Button>
+          )}
+          {renderField('cost', { type: 'number', label: 'Cost $', margin: 'normal', fullWidth: true })}<br />
+          {renderField('notes', { type: 'text', label: 'Notes', multiline: true, margin: 'normal', fullWidth: true })}<br />
+          {renderField('tools', { type: 'text', label: 'Tools Used', multiline: true, margin: 'normal', fullWidth: true })}<br />
+          <FormError errors={errors} />
           <br/>
           <FormSubmit>
-            <Button 
-              color='primary' 
-              variant='outlined' 
+            <Button
+              color='primary'
+              variant='outlined'
               type='submit'
+              disabled={isSubmitting}
             >
               Submit
             </Button>
@@ -121,7 +118,7 @@ class LogCreate extends React.Component {
             color="secondary"
             aria-label="Back to Logs"
             size="small"
-            to={`/item/${this.props.match.params.itemId}/category/${this.props.match.params.id}`}
+            to={`/item/${itemId}/category/${catId}`}
             component={RouterLink}
           >
             <Tooltip title="Back to Logs">
@@ -129,28 +126,9 @@ class LogCreate extends React.Component {
             </Tooltip>
           </Fab>
         </BottomNav>
-      </StyledContainer>
-    )
-  }
-}
+      </PageLayout>
+    </StyledContainer>
+  );
+};
 
-const validate = values => {
-  const errors = {};
-  const requiredFields = [
-    'date_performed',
-    'date_due'
-  ]
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = 'Required'
-    }
-  })
-  return errors
-}
-
-LogCreate = reduxForm({
-  form: 'logForm',
-  validate: validate
-})(LogCreate);
-
-export default connect(null, { createLog })(LogCreate);
+export default LogCreate;

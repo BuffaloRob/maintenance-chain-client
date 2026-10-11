@@ -1,98 +1,92 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
+import { useForm, Controller } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-import { signup } from '../actions/authActions';
+import FormError from './common/FormError';
+import GoogleSignIn from './GoogleSignIn';
+import { useSignupMutation } from '../store/api/maintenanceApi';
+import { errorMessage } from '../store/api/errorMessage';
 
-class SignUp extends React.Component {
+const rules = {
+  email: { required: "You must enter an email address" },
+  password: { required: "You must enter a password" },
+};
 
-  renderError({ error, touched }) {
-    if (touched && error) {
-      return (
-        <div className='ui error message'>
-          <div className='header'>{error}</div>
-        </div>
-      );
+const SignUp = () => {
+  const navigate = useNavigate();
+  const [signup] = useSignupMutation();
+  const { control, handleSubmit, setError, clearErrors, formState: { errors, isSubmitting } } = useForm({
+    mode: 'onTouched',
+    defaultValues: { email: '', password: '' },
+  });
+
+  const onSubmit = async formValues => {
+    try {
+      const res = await signup(formValues).unwrap();
+      if (res.message || !res.jwt) {
+        setError('root.serverError', { message: res.message || 'Something went wrong' });
+        return;
+      }
+      navigate("/");
+    } catch (err) {
+      setError('root.serverError', { message: errorMessage(err) });
     }
-  }
+  };
 
-  renderInput = ({ input, label, meta, type }) => (
-    <TextField
-      label={label}
-      autoComplete="off"
-      type={type}
-      {...input}
-      margin="normal"
+  const renderInput = (name, type, label) => (
+    <Controller
+      name={name}
+      control={control}
+      rules={rules[name]}
+      render={({ field: { ref, onChange, ...field }, fieldState: { error } }) => (
+        <TextField
+          label={label}
+          autoComplete="off"
+          type={type}
+          {...field}
+          onChange={e => {
+            // As with redux-form, editing a field clears the server error
+            clearErrors('root.serverError');
+            onChange(e);
+          }}
+          inputRef={ref}
+          margin="normal"
+          error={!!error}
+          helperText={error ? error.message : null}
+        />
+      )}
     />
-  )
+  );
 
-  onSubmit = formValues => {
-    this.props.signup(formValues, () => this.props.history.push("/"));
-  }
+  return (
+    <Grid container sx={{
+      justifyContent: 'center'
+    }}>
+      <form onSubmit={handleSubmit(onSubmit)} className='ui form error'>
+        <Typography variant='h3' align='center'>Sign Up</Typography>
+        {renderInput('email', 'email', 'Enter Your Email')}<br />
+        {renderInput('password', 'password', 'Enter Your Password')}
+        <FormError errors={errors} />
+        <Grid container sx={{
+          justifyContent: 'center'
+        }}>
+          <Button
+            type='submit'
+            size='large'
+            variant='outlined'
+            color='primary'
+            style={{ margin: '40px 0' }}
+            disabled={isSubmitting}
+          >Submit</Button>
+        </Grid>
+      </form>
+      <GoogleSignIn text='signup_with' />
+    </Grid>
+  );
+};
 
-  render() {
-    return (
-      <Grid justify='center' container>
-        {/* handleSubmit comes from reduxForm */}
-        <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-          <Typography variant='h3' align='center'>Sign Up</Typography>
-          <Field
-            name='email'
-            type='email'
-            component={this.renderInput}
-            label='Enter Your Email'
-          /><br />
-          <Field
-            name='password'
-            type='password'
-            component={this.renderInput}
-            label='Enter Your Password'
-          />
-          <Grid container justify='center'>
-            <Button 
-              type='submit' 
-              size='large' 
-              variant='outlined'
-              color='primary'  
-              style={{ margin: '40px 0' }}
-            >Submit</Button>
-          </Grid>
-        </form>
-      </Grid>
-    )
-  }
-
-}
-
-const validate = formValues => {
-  const errors = {};
-  if (!formValues.email) {
-    errors.email = "You must enter an email address";
-  }
-  if (!formValues.password) {
-    errors.password = "You must enter a password";
-  }
-  return errors;
-}
-
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.auth.isAuthenticated,
-    isAuthenticating: state.auth.isAuthenticating,
-    currentUser: state.auth.currentUser,
-    token: state.auth.token
-  }
-}
-
-const formWrapped = reduxForm({ 
-  form: 'signup',
-  validate
-})(SignUp);
-
-export default connect(mapStateToProps, { signup })(formWrapped);
-  
+export default SignUp;

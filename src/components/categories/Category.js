@@ -1,23 +1,45 @@
 import React from 'react';
-import Icon from '@material-ui/core/Icon'
-import Fab from '@material-ui/core/Fab'
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import Build from '@material-ui/icons/Build';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Tooltip from '@material-ui/core/Tooltip';
-import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid } from './styles';
+import { Link as RouterLink, useNavigate } from 'react-router';
+import Icon from '@mui/material/Icon'
+import Fab from '@mui/material/Fab'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import Build from '@mui/icons-material/Build';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Tooltip from '@mui/material/Tooltip';
+import ListItem from '@mui/material/ListItem';
+import { useDeleteCategoryMutation } from '../../store/api/maintenanceApi';
+import { errorMessage } from '../../store/api/errorMessage';
+import { dueText, formatDate, statusOf } from '../../store/api/dueStatus';
+import { useWideLayout } from '../common/PageLayout';
+import { StatusAvatar, StatusChip, StatusText } from '../common/Status';
+import RowActionsMenu from '../common/RowActionsMenu';
+import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid, NameWithStatus } from './styles';
 
-const Category = ({ category, selectCategory, match, itemId, editCategoryClick, deleteCategoryClick }) => {
+// log: the category's latest log, which sets its due status
+const Category = ({ category, itemId, log }) => {
+  const navigate = useNavigate();
+  const wide = useWideLayout();
+  const status = statusOf(log);
+  const [deleteCategory, { isLoading: isDeleting, error: deleteError, reset }] = useDeleteCategoryMutation();
+  const deleteCategoryClick = async (id) => {
+    try {
+      await deleteCategory({ id, itemId }).unwrap();
+      setOpen(false);
+    } catch (err) {
+      // keep the dialog open; the error is shown in it
+    }
+  };
 
   //Used in delete dialog pop up
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
+    reset();
     setOpen(true);
   }
   const handleClose = () => {
@@ -30,7 +52,8 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
         color="secondary"
         size="small"
         aria-label="Edit"
-        onClick={() => editCategoryClick(category.id, itemId)}
+        component={RouterLink}
+        to={`/item/${itemId}/category/${category.id}/edit`}
       >
         <Tooltip title="Edit" placement="top">
           <Icon>edit_icon</Icon>
@@ -59,12 +82,15 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
           <DialogContentText id="alert-dialog-description">
             You will lose all records associated with this category.
           </DialogContentText>
+          {deleteError && (
+            <DialogContentText color="error" role="alert">{errorMessage(deleteError)}</DialogContentText>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => deleteCategoryClick(category.id, itemId)} color="primary" autoFocus>
+          <Button onClick={() => deleteCategoryClick(category.id)} color="primary" autoFocus disabled={isDeleting}>
             Delete
           </Button>
         </DialogActions>
@@ -75,22 +101,48 @@ const Category = ({ category, selectCategory, match, itemId, editCategoryClick, 
 
   return (
     <ListItemGrid>
-      <StyledListItem 
-        key={category.id} 
-        button 
-        disableGutters
-        onClick={() => selectCategory(category.id, itemId)}
+      <ListItem
+        key={category.id}
+        disablePadding
+        secondaryAction={
+          <>
+            {renderAdmin(category)}
+            <RowActionsMenu editTo={`/item/${itemId}/category/${category.id}/edit`} onDelete={handleClickOpen} />
+          </>
+        }
+        slots={{ secondaryAction: StyledSecondaryAction }}
       >
-        <StyledAvatar>
-          <Avatar>
-            <Build />
-          </Avatar>
-        </StyledAvatar>
-        <StyledListText primary={category.name} />
-        <StyledSecondaryAction>
-          {renderAdmin(category)}
-        </StyledSecondaryAction>
-      </StyledListItem>
+        <StyledListItem
+          disableGutters
+          onClick={() => navigate(`/item/${itemId}/category/${category.id}`)}
+        >
+          <StyledAvatar>
+            {wide ? <StatusAvatar status={status} /> : (
+              <Avatar>
+                <Build />
+              </Avatar>
+            )}
+          </StyledAvatar>
+          {wide ? (
+            <StyledListText
+              primary={
+                <NameWithStatus>
+                  {category.name}
+                  {(status === 'overdue' || status === 'soon') && <StatusChip status={status} />}
+                </NameWithStatus>
+              }
+              secondary={log
+                ? `Last done ${formatDate(log.date_performed)} · ${dueText(log)}`
+                : 'No logs yet'}
+            />
+          ) : (
+            <StyledListText
+              primary={category.name}
+              secondary={<StatusText status={status}>{log ? dueText(log) : 'No logs yet'}</StatusText>}
+            />
+          )}
+        </StyledListItem>
+      </ListItem>
       <StyledDivider />
     </ListItemGrid>
   )

@@ -1,18 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
-import reduxThunk from "redux-thunk";
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
-import history from './history';
-import { Router } from 'react-router-dom'
-import ThemeProvider from '@material-ui/styles/ThemeProvider';
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { BrowserRouter } from 'react-router';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import CssBaseline from "@mui/material/CssBaseline";
 
 import App from "./components/App";
-import rootReducer from './reducers'
+import { store, persistor } from './store';
 import theme from './ui/theme';
 
 // TODO: 
@@ -22,35 +17,24 @@ import theme from './ui/theme';
   // 4) Make due dates capable of create calendar events in google calendars
   // 5) Make a PWA
 
-const persistConfig = {
-  key: 'root',
-  storage,
-}
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
-  persistedReducer,
-  composeEnhancers(applyMiddleware(reduxThunk))
-);
-export const persistor = persistStore(store);
-
 // uncomment to clear store, for dev purposes only
 // persistor.purge();
 
-ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <ThemeProvider theme={theme} >
-        <CssBaseline />
-        <Router history={history}>
-          <App />
-        </Router>
-      </ThemeProvider>
-    </PersistGate>
-  </Provider>,
-  document.querySelector("#root")
+createRoot(document.querySelector("#root")).render(
+  <StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme} >
+            <CssBaseline />
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ThemeProvider>
+        </StyledEngineProvider>
+      </PersistGate>
+    </Provider>
+  </StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

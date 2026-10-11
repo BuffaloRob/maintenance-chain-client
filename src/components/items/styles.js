@@ -1,12 +1,13 @@
 import styled from 'styled-components'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import Divider from '@material-ui/core/Divider'
-import Fab from '@material-ui/core/Fab'
-import ListItemText from '@material-ui/core/ListItemText'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import Divider from '@mui/material/Divider'
+import Fab from '@mui/material/Fab'
+import ListItemText from '@mui/material/ListItemText'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import Card from '@mui/material/Card'
 
 export const StyledTypography = styled(Typography)`
   text-align: start;
@@ -34,7 +35,7 @@ export const BottomButtons = styled(Grid)`
 
 export const ListItemGrid = styled(Grid)`  
   @media(max-width: 500px) { 
-    .MuiListItem-root {
+    .MuiListItemButton-root {
       text-align: center;
     }
   }
@@ -49,7 +50,7 @@ export const ButtonGrid = styled(Grid)`
   }
 `
 
-export const StyledListItem = styled(ListItem)`
+export const StyledListItem = styled(ListItemButton)`
   padding: 20px 16px;
   @media(max-width: 768px) {
     padding: 40px 16px;
@@ -74,6 +75,10 @@ export const StyledListText = styled(ListItemText)`
     font-size: 20px;
     font-weight: 500;
   }
+  .MuiListItemText-secondary {
+    margin-top: 2px;
+    color: #bdbdbd;
+  }
 `
 
 export const DeleteFab = styled(Fab)`
@@ -94,6 +99,40 @@ export const StyledAvatar = styled(ListItemAvatar)`
 
 export const StyledDivider = styled(Divider)`
   margin: 20px 0;
+`
+
+// ********* Item cards (sm and up) *********
+
+export const ItemGrid = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`
+
+export const StyledCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background-color: #2E2E2E;
+`
+
+export const CardTitle = styled(Typography)`
+  margin: 0;
+  color: #F55932;
+  font-size: 20px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
+
+export const CardMeta = styled(Typography)`
+  margin: 0;
+  color: #bdbdbd;
+  font-size: 14px;
 `
 
 // ********* Item Create / Item Edit *********

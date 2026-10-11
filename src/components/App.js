@@ -1,40 +1,33 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Router, Route, Switch, withRouter } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
+import { Routes, Route } from 'react-router';
+import Container from '@mui/material/Container';
 
-import history from '../history';
 import Home from './Home/Home';
 import SignUp from './SignUp';
 import Login from './Login';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
+import VerifyEmail from './VerifyEmail';
+import VerifyEmailBanner from './VerifyEmailBanner';
 import MaintenanceContainer from './MaintenanceContainer';
 import HeaderContainer from './header/HeaderContainer';
 
-class App extends React.Component {
+const App = () => (
+  // lg leaves room for the sidebar that pages add on wide screens
+  <Container maxWidth='lg'>
+    <HeaderContainer />
+    <VerifyEmailBanner />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      {/* Everything else is handled (and auth-gated) by MaintenanceContainer */}
+      <Route path="/*" element={<MaintenanceContainer />} />
+    </Routes>
+  </Container>
+);
 
-  render() {
-    return (
-      <Container maxWidth='md'>
-        <Router history={history}>
-          <>
-            <HeaderContainer />
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/login" component={Login} />
-              <MaintenanceContainer />
-            </Switch>
-          </>
-        </Router>
-      </Container>
-    )
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    auth: state.auth,
-  }
-}
-
-export default withRouter(connect(mapStateToProps, {})(App));
+export default App;

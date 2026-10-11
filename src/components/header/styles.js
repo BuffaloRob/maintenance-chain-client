@@ -1,8 +1,9 @@
 import styled from 'styled-components'
-import Drawer from '@material-ui/core/Drawer'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import Drawer from '@mui/material/Drawer'
+import Button from '@mui/material/Button'
+import Badge from '@mui/material/Badge'
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 
 export const LeftNavContainer =styled(Container)` 
   @media(max-width: 500px) {
@@ -11,7 +12,7 @@ export const LeftNavContainer =styled(Container)`
 `
 
 export const StyledDrawer = styled(Drawer)`
-  .MuiDrawer-paperAnchorLeft {
+  &.MuiDrawer-anchorLeft .MuiDrawer-paper {
     color: #F55932;
     width: 25%;
     font-size: 30px;
@@ -22,7 +23,7 @@ export const StyledDrawer = styled(Drawer)`
     }
   }
 
-  .MuiListItem-root {
+  .MuiListItemButton-root {
     padding-left: 30px;
     margin: 20px 0;
     @media(max-width: 768px) {
@@ -33,24 +34,56 @@ export const StyledDrawer = styled(Drawer)`
   }
 `
 
+// MUI v5+ removed the inner .MuiButton-label span, so label styles go on the root.
 export const StyledNavButton = styled(Button)`
   margin-right: 20px;
-  .MuiButton-label {
-    color: #000000de;
-    font-size: 20px;
-    font-weight: 500;
-  }
+  color: #000000de;
+  font-size: 20px;
+  font-weight: 500;
 `
 export const LogInButton = styled(Button)`
-  .MuiButton-label {
-    display: inline-block;
-    color: #000000de;
-    font-size: 20px;
-    font-weight: 500;
+  color: #000000de;
+  font-size: 20px;
+  font-weight: 500;
+`
+
+// ********* Desktop navigation *********
+
+export const Brand = styled(Typography)`
+  margin: 0 16px 0 0;
+  color: #000000de;
+  font-weight: 700;
+  text-decoration: none;
+  @media (max-width: 959px) {
+    display: none;
   }
 `
 
-export const StyledMessage = styled(Typography)` 
+export const NavButton = styled(Button)`
+  color: #000000de;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+  &[aria-current='page'] {
+    background-color: rgba(0, 0, 0, 0.16);
+  }
+`
+
+// The overdue count on the phone's menu button, like the desktop header's
+export const MenuBadge = styled(Badge)`
+  .MuiBadge-badge {
+    background-color: #262626;
+    color: #FF5C7A;
+    font-weight: 700;
+  }
+`
+
+export const StyledMessage = styled(Typography)`
   color: #000000de;
   font-size: 24px;
   font-weight: 500;

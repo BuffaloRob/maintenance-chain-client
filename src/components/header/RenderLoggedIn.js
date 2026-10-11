@@ -1,29 +1,53 @@
 import React from 'react'
-import { Link as RouterLink } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Toolbar from '@material-ui/core/Toolbar';
-import MenuIcon from '@material-ui/icons/Menu';
-import Grid from '@material-ui/core/Grid';
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import HomeIcon from '@material-ui/icons/Home';
-import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { StyledDrawer, StyledNavButton } from './styles';
+import { Link as RouterLink, useLocation } from 'react-router';
+import Typography from '@mui/material/Typography';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import Toolbar from '@mui/material/Toolbar';
+import MenuIcon from '@mui/icons-material/Menu';
+import Grid from '@mui/material/Grid';
+import Tooltip from '@mui/material/Tooltip';
+import HomeIcon from '@mui/icons-material/Home';
+import EventIcon from '@mui/icons-material/Event';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { StyledDrawer, NavButton, Brand, MenuBadge } from './styles';
+import { useDueCounts } from '../../store/api/lookups';
 
-import Button from '@material-ui/core/Button';
 import MediaQuery from 'react-responsive';
+import ListItemButton from "@mui/material/ListItemButton";
 
+// How many categories a nav link's page lists, colored by their status.
+// large is for the phone drawer's bigger text.
+const NavCount = ({ status, large, children }) => (
+  <Box
+    component="span"
+    sx={{
+      ml: large ? 1.5 : 1,
+      px: 0.875,
+      minWidth: large ? 30 : 22,
+      borderRadius: large ? 15 : 11,
+      bgcolor: 'background.default',
+      color: `status.${status}`,
+      fontSize: large ? 16 : 12,
+      fontWeight: 700,
+      lineHeight: large ? '30px' : '22px',
+      textAlign: 'center',
+    }}
+  >
+    {children}
+  </Box>
+);
 
 const RenderLoggedIn = ({ currentUser, handleLogout }) => {
   //taken from example https://material-ui.com/components/drawers/
   const [state, setState] = React.useState({ left: false });
   const userName = currentUser.email.split("@")[0];
+  const { pathname } = useLocation();
+  // false rather than missing: the Rails API doesn't send email_verified
+  const { overdueCount, soonCount } = useDueCounts({ skip: currentUser.email_verified === false });
 
   const toggleDrawer = (side, open) => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -40,113 +64,89 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        <ListItem button component={RouterLink} to="/items">
+        <ListItemButton component={RouterLink} to="/items">
           Items
-        </ListItem>
-        <ListItem button component={RouterLink} to="/upcoming">
-          Upcoming
-        </ListItem>
-        <ListItem button component={RouterLink} to="/pastdue">
-          Past Due
-        </ListItem>
-        <ListItem button component={RouterLink} to="/">
+        </ListItemButton>
+        <ListItemButton component={RouterLink} to="/upcoming">
+          <span>Upcoming</span>
+          {soonCount > 0 && <NavCount status="soon" large>{soonCount}</NavCount>}
+        </ListItemButton>
+        <ListItemButton component={RouterLink} to="/pastdue">
+          <span>Past Due</span>
+          {overdueCount > 0 && <NavCount status="overdue" large>{overdueCount}</NavCount>}
+        </ListItemButton>
+        <ListItemButton component={RouterLink} to="/">
           Welcome
-        </ListItem>
-        <ListItem button onClick={e => handleLogout(e)}>
+        </ListItemButton>
+        <ListItemButton onClick={e => handleLogout(e)}>
           Log Out
-        </ListItem>
+        </ListItemButton>
       </List>
     </div>
   )
 
+  const navLink = (to, label, icon, active, count, countStatus) => (
+    <NavButton
+      component={RouterLink}
+      to={to}
+      startIcon={icon}
+      aria-current={active ? 'page' : undefined}
+    >
+      {label}
+      {count > 0 && <> <NavCount status={countStatus}>{count}</NavCount></>}
+    </NavButton>
+  );
+
   return (
     <AppBar position="sticky" style={{ borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px' }} >
       <Toolbar>
-        <Grid container>
-          <MediaQuery minDeviceWidth={700}>
-            <Grid 
-              container 
-              justify='flex-start' 
-              alignItems='center'
+        <MediaQuery minWidth={700}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
+            <Brand component={RouterLink} to="/" variant="h6" noWrap>
+              Maintenance Chain
+            </Brand>
+            {navLink('/items', 'Items', <HomeIcon />, pathname.startsWith('/item') || pathname.startsWith('/log'))}
+            {navLink('/upcoming', 'Upcoming', <EventIcon />, pathname === '/upcoming', soonCount, 'soon')}
+            {navLink('/pastdue', 'Past Due', <AccessAlarmIcon />, pathname === '/pastdue', overdueCount, 'overdue')}
+          </Box>
+        </MediaQuery>
+        <MediaQuery maxWidth={699}>
+          <Grid container>
+            <IconButton
+              edge="start"
+              onClick={toggleDrawer('left', true)}
+              aria-label="Menu Button"
+              size="large">
+              <MenuBadge badgeContent={overdueCount} invisible={!overdueCount}>
+                <MenuIcon style={{ fill: '#000000de' }} />
+              </MenuBadge>
+            </IconButton>
+            <StyledDrawer
+              open={state.left}
+              onClose={toggleDrawer('left', false)}
             >
-              <Grid item xs={3}>
-                <Fab
-                  color='primary'
-                  aria-label='Home'
-                  size='small'
-                  to="/items"
-                  component={RouterLink}
-                >
-                  <Tooltip title='Items'>
-                    <HomeIcon />
-                  </Tooltip>
-                </Fab>
-              </Grid>
-              <Grid item xs={3}>
-                <Fab
-                  color='primary'
-                  aria-label='Upcoming'
-                  size='small'
-                  to="/upcoming"
-                  component={RouterLink}
-                >
-                  <Tooltip title='Upcoming'>
-                    <ArrowUpwardIcon />
-                  </Tooltip>
-                </Fab>
-              </Grid>
-              <Grid item xs={3}>
-                <Fab
-                  color='primary'
-                  aria-label='Past Due'
-                  size='small'
-                  to="/pastdue"
-                  component={RouterLink}
-                >
-                  <Tooltip title='Past Due'>
-                    <AccessAlarmIcon />
-                  </Tooltip>
-                </Fab>
-              </Grid>
-              <Grid item xs={3}>
-                <Fab
-                  color='primary'
-                  aria-label='Log Out'
-                  size='small'
-                  onClick={e => handleLogout(e)}
-                >
-                  <Tooltip title='Log Out'>
-                    <ExitToAppIcon />
-                  </Tooltip>
-                </Fab>
-              </Grid>
-            </Grid>
-          </MediaQuery>
-          <MediaQuery maxDeviceWidth={699}>
-          <IconButton 
-            edge="start" 
-            onClick={toggleDrawer('left', true)} 
-            aria-label="Menu Button"
-          >
-            <MenuIcon style={{ fill: '#000000de' }} />
-          </IconButton>
-          <StyledDrawer 
-            open={state.left} 
-            onClose={toggleDrawer('left', false)}
-          >
-            {sideList('left')}
-          </StyledDrawer>
-          </MediaQuery>
-        </Grid >
-        <Grid 
-          maxWidth='md' 
-          container 
-          justify="flex-end" 
+              {sideList('left')}
+            </StyledDrawer>
+          </Grid >
+        </MediaQuery>
+        <Grid
+          container
           style={{paddingLeft: "4px"}}
-        >
+          sx={{
+            justifyContent: "flex-end",
+            alignItems: "center",
+            flexWrap: "nowrap",
+          }}>
           <Typography variant='h5' noWrap color="textSecondary">
             Welcome {userName}
           </Typography>
+          <MediaQuery minWidth={700}>
+            <Tooltip title='Log Out'>
+              <IconButton aria-label='Log Out' onClick={e => handleLogout(e)} sx={{ ml: 1, color: '#000000de' }}>
+                <ExitToAppIcon />
+              </IconButton>
+            </Tooltip>
+          </MediaQuery>
         </Grid>
       </Toolbar>
     </AppBar>

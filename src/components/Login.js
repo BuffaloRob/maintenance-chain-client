@@ -1,88 +1,96 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { useForm, Controller } from 'react-hook-form';
+import { Link as RouterLink, useNavigate } from 'react-router';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 
-import { login } from '../actions/authActions';
+import FormError from './common/FormError';
+import GoogleSignIn from './GoogleSignIn';
+import { useLoginMutation } from '../store/api/maintenanceApi';
+import { errorMessage } from '../store/api/errorMessage';
 
-class Login extends React.Component {
-  renderError({ error, touched }) {
-    if (touched && error) {
-      return (
-        <div className='ui error message'>
-          <div className='header'>{error}</div>
-        </div>
-      );
+const rules = {
+  email: { required: "You must enter an email address" },
+  password: { required: "You must enter a password" },
+};
+
+const Login = () => {
+  const navigate = useNavigate();
+  const [login] = useLoginMutation();
+  const { control, handleSubmit, setError, clearErrors, formState: { errors, isSubmitting } } = useForm({
+    mode: 'onTouched',
+    defaultValues: { email: '', password: '' },
+  });
+
+  const onSubmit = async formValues => {
+    try {
+      const res = await login(formValues).unwrap();
+      if (res.message || !res.jwt) {
+        setError('root.serverError', { message: res.message || 'Something went wrong' });
+        return;
+      }
+      navigate("/");
+    } catch (err) {
+      setError('root.serverError', { message: errorMessage(err) });
     }
-  }
+  };
 
-  //   const className = `field ${meta.error && meta.touched ? 'error' : ''}`
-  renderInput = ({ input, label, meta, type }) => (
-    <TextField
-      label={label}
-      autoComplete="off"
-      type={type}
-      {...input}
-      margin="normal"
+  const renderInput = (name, type, label) => (
+    <Controller
+      name={name}
+      control={control}
+      rules={rules[name]}
+      render={({ field: { ref, onChange, ...field }, fieldState: { error } }) => (
+        <TextField
+          label={label}
+          autoComplete="off"
+          type={type}
+          {...field}
+          onChange={e => {
+            // As with redux-form, editing a field clears the server error
+            clearErrors('root.serverError');
+            onChange(e);
+          }}
+          inputRef={ref}
+          margin="normal"
+          error={!!error}
+          helperText={error ? error.message : null}
+        />
+      )}
     />
-  )
+  );
 
-  onSubmit = formValues => {
-    this.props.login(formValues, () => this.props.history.push("/"));
-  }
+  return (
+    <Grid container sx={{
+      justifyContent: 'center'
+    }}>
+      <form onSubmit={handleSubmit(onSubmit)} className='ui form error'>
+        <Typography variant='h3' align='center'>Log In</Typography>
+        {renderInput('email', 'email', 'Enter Your Email')}<br />
+        {renderInput('password', 'password', 'Enter Your Password')}
+        <Typography variant='body2' align='center' sx={{ mt: 1 }}>
+          <Link component={RouterLink} to='/forgot-password'>Forgot your password?</Link>
+        </Typography>
+        <FormError errors={errors} />
+        <Grid container sx={{
+          justifyContent: 'center'
+        }}>
+          <Button
+            type='submit'
+            size='large'
+            variant='outlined'
+            color='primary'
+            style={{ margin: '40px 0' }}
+            disabled={isSubmitting}
+          >Submit</Button>
+        </Grid>
+      </form>
+      <GoogleSignIn text='signin_with' />
+    </Grid>
+  );
+};
 
-  render() {
-    return (
-      <Grid justify='center' container>
-        {/* handleSubmit comes from reduxForm */}
-        <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-          <Typography variant='h3' align='center'>Log In</Typography>
-          <Field 
-            name='email' 
-            type='email' 
-            component={this.renderInput} 
-            label='Enter Your Email'
-          /><br/>
-          <Field 
-            name='password' 
-            type='password' 
-            component={this.renderInput} 
-            label='Enter Your Password'
-          />
-          <Grid container justify='center'>
-            <Button
-              type='submit'
-              size='large'
-              variant='outlined'
-              color='primary'
-              style={{ margin: '40px 0' }}
-            >Submit</Button>
-          </Grid>
-        </form>
-      </Grid>
-    )
-  }
-
-}
-
-const validate = formValues => {
-  const errors = {};
-
-  if (!formValues.email) {
-    errors.email = "You must enter an email address";
-  }
-  if (!formValues.password) {
-    errors.password = "You must enter a password";
-  }
-  return errors;
-}
-
-const formWrapped = reduxForm({
-  form: 'login',
-  validate
-})(Login);
-
-export default connect(null, { login })(formWrapped);
+export default Login;
