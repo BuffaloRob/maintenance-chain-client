@@ -16,6 +16,7 @@ import LogShow from './logs/LogShow';
 import LogList from './logs/LogList';
 import PastDue from "../components/PastDue/PastDue";
 import Upcoming from '../components/Upcoming/Upcoming';
+import ArchiveList from './archive/ArchiveList';
 
 class MaintenanceContainer extends React.Component {
   render() {
@@ -39,6 +40,8 @@ class MaintenanceContainer extends React.Component {
               <Route path='/pastdue' element={<PastDue />} />
               {/* Upcoming */}
               <Route path='/upcoming' element={<Upcoming />} />
+              {/* Archived items */}
+              <Route path='/archive' element={<ArchiveList />} />
               {/* LogCreate */}
               <Route path='/item/:itemId/category/:id/log/new' element={<LogCreate />} />
               {/* LogShow */}

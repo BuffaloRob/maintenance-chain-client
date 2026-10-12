@@ -12,6 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import HomeIcon from '@mui/icons-material/Home';
 import EventIcon from '@mui/icons-material/Event';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import ArchiveIcon from '@mui/icons-material/Archive';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { StyledDrawer, NavButton, Brand, MenuBadge } from './styles';
 import { useDueCounts } from '../../store/api/lookups';
@@ -75,6 +76,9 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
           <span>Past Due</span>
           {overdueCount > 0 && <NavCount status="overdue" large>{overdueCount}</NavCount>}
         </ListItemButton>
+        <ListItemButton component={RouterLink} to="/archive">
+          Archive
+        </ListItemButton>
         <ListItemButton component={RouterLink} to="/">
           Welcome
         </ListItemButton>
@@ -108,6 +112,7 @@ const RenderLoggedIn = ({ currentUser, handleLogout }) => {
             {navLink('/items', 'Items', <HomeIcon />, pathname.startsWith('/item') || pathname.startsWith('/log'))}
             {navLink('/upcoming', 'Upcoming', <EventIcon />, pathname === '/upcoming', soonCount, 'soon')}
             {navLink('/pastdue', 'Past Due', <AccessAlarmIcon />, pathname === '/pastdue', overdueCount, 'overdue')}
+            {navLink('/archive', 'Archive', <ArchiveIcon />, pathname === '/archive')}
           </Box>
         </MediaQuery>
         <MediaQuery maxWidth={699}>

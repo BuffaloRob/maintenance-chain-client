@@ -7,7 +7,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import styled from 'styled-components';
 
 // Phones have no room for a row's Edit and Delete buttons, which are hidden
-// up to 500px wide; this menu takes their place there.
+// up to 500px wide; this menu takes their place there. actions are any other
+// buttons the row has, as { label, onClick }, listed between the two.
 const PhoneOnly = styled.span`
   display: none;
   @media (max-width: 500px) {
@@ -15,7 +16,7 @@ const PhoneOnly = styled.span`
   }
 `;
 
-const RowActionsMenu = ({ editTo, onDelete }) => {
+const RowActionsMenu = ({ editTo, actions = [], onDelete }) => {
   const [anchor, setAnchor] = React.useState(null);
   const close = () => setAnchor(null);
 
@@ -30,7 +31,18 @@ const RowActionsMenu = ({ editTo, onDelete }) => {
         <MoreVertIcon />
       </IconButton>
       <Menu anchorEl={anchor} open={!!anchor} onClose={close}>
-        <MenuItem component={RouterLink} to={editTo} onClick={close}>Edit</MenuItem>
+        {editTo && <MenuItem component={RouterLink} to={editTo} onClick={close}>Edit</MenuItem>}
+        {actions.map(({ label, onClick }) => (
+          <MenuItem
+            key={label}
+            onClick={() => {
+              close();
+              onClick();
+            }}
+          >
+            {label}
+          </MenuItem>
+        ))}
         <MenuItem
           onClick={() => {
             close();

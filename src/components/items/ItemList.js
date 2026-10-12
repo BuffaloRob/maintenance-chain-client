@@ -9,7 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import { useGetItemsQuery } from "../../store/api/maintenanceApi";
 import { errorMessage } from "../../store/api/errorMessage";
-import { allCategoryStatuses, mostUrgentFirst } from "../../store/api/dueStatus";
+import { allCategoryStatuses, isArchived, mostUrgentFirst } from "../../store/api/dueStatus";
 import PageLayout, { useWideLayout } from "../common/PageLayout";
 import DuePanel from "../sidebar/DuePanel";
 import RecentLogsPanel from "../sidebar/RecentLogsPanel";
@@ -18,14 +18,18 @@ import Item from "./Item";
 import ItemStats from "./ItemStats";
 
 const ItemList = () => {
-  const { data: items = [], error, isLoading } = useGetItemsQuery();
+  const { data: allItems = [], error, isLoading } = useGetItemsQuery();
+  // Archived items are listed on their own page (archive/ArchiveList)
+  const items = allItems.filter(item => !isArchived(item));
   const wide = useWideLayout();
 
   const renderList = () => {
     if (!items || Object.keys(items).length === 0) {
       return (
         <Typography variant="body1" align="center" style={{ marginTop: 20 }}>
-          No items found. Create your first item!
+          {allItems.length > 0
+            ? "All of your items are archived. Create a new one, or restore one from the Archive."
+            : "No items found. Create your first item!"}
         </Typography>
       );
     }

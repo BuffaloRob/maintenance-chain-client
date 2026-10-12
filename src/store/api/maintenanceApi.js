@@ -109,6 +109,22 @@ export const maintenanceApi = createApi({
       }),
       invalidatesTags: ["Item"],
     }),
+    // Archived items keep their records but are left out of /past_due and
+    // /upcoming, which the "Item" tag refetches
+    archiveItem: builder.mutation({
+      query: (id) => ({
+        url: `/items/${id}/archive`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Item"],
+    }),
+    unarchiveItem: builder.mutation({
+      query: (id) => ({
+        url: `/items/${id}/archive`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Item"],
+    }),
 
     // Categories
     createCategory: builder.mutation({
@@ -239,6 +255,8 @@ export const {
   useCreateItemMutation,
   useUpdateItemMutation,
   useDeleteItemMutation,
+  useArchiveItemMutation,
+  useUnarchiveItemMutation,
 
   // Categories
   useCreateCategoryMutation,
