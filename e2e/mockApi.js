@@ -124,7 +124,7 @@ export function createMockApi() {
     if (!user.email_verified) return [403, { message: 'Please verify your email address' }];
 
     if (path === '/past_due' || path === '/upcoming') {
-      const due = items.flatMap(item =>
+      const due = items.filter(item => !item.archived_at).flatMap(item =>
         item.logs.map(log => {
           const category = item.categories.find(c => c.id === log.category_id);
           return { ...log, category: { ...category, item_id: item.id } };
@@ -150,6 +150,15 @@ export function createMockApi() {
         items.splice(items.indexOf(item), 1);
         return [200, {}];
       }
+    }
+    if ((m = path.match(/^\/items\/(\d+)\/archive$/))) {
+      const item = findItem(m[1]);
+      if (!item) return [404, { message: 'Not found' }];
+      if (method === 'POST') {
+        item.archived_at ??= new Date().toISOString();
+        return [200, item];
+      }
+      if (method === 'DELETE') return [200, Object.assign(item, { archived_at: null })];
     }
     if ((m = path.match(/^\/items\/(\d+)\/categories(?:\/(\d+))?$/))) {
       const item = findItem(m[1]);

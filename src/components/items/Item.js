@@ -1,16 +1,12 @@
 import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router';
-import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
 import Icon from '@mui/material/Icon'
 import Fab from '@mui/material/Fab'
+import ArchiveIcon from '@mui/icons-material/Archive';
 import Build from '@mui/icons-material/Build';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import UnarchiveIcon from '@mui/icons-material/Unarchive';
 import Tooltip from '@mui/material/Tooltip';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -20,10 +16,11 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
-import { useDeleteItemMutation } from '../../store/api/maintenanceApi';
+import { useArchiveItemMutation, useDeleteItemMutation, useUnarchiveItemMutation } from '../../store/api/maintenanceApi';
 import { errorMessage } from '../../store/api/errorMessage';
-import { categoryStatuses, dueText, formatMoney, mostUrgentFirst, totalCost, worstStatus } from '../../store/api/dueStatus';
+import { categoryStatuses, dueText, formatDate, formatMoney, isArchived, mostUrgentFirst, totalCost, worstStatus } from '../../store/api/dueStatus';
 import { StatusAvatar, StatusDot, StatusText } from '../common/Status';
+import ConfirmDialog from '../common/ConfirmDialog';
 import RowActionsMenu from '../common/RowActionsMenu';
 import { StyledListItem, StyledSecondaryAction, StyledAvatar, StyledDivider, DeleteFab, StyledListText, ListItemGrid, ButtonGrid, StyledCard, CardTitle, CardMeta } from './styles';
 
@@ -85,90 +82,131 @@ const ItemCard = ({ item, admin }) => {
 
 const Item = ({ item, variant = 'row' }) => {
   const navigate = useNavigate();
-  const [deleteItem, { isLoading: isDeleting, error: deleteError, reset }] = useDeleteItemMutation();
-  const deleteItemClick = async (id) => {
+  const archived = isArchived(item);
+  const [deleteItem, deleting] = useDeleteItemMutation();
+  const [archiveItem, archiving] = useArchiveItemMutation();
+  const [unarchiveItem, restoring] = useUnarchiveItemMutation();
+
+  // The confirmation dialog that's open: 'delete', 'archive' or null
+  const [confirming, setConfirming] = React.useState(null);
+  const openDialog = (action, mutation) => () => {
+    mutation.reset();
+    setConfirming(action);
+  };
+  const handleDeleteClick = openDialog('delete', deleting);
+  const handleArchiveClick = openDialog('archive', archiving);
+  const handleClose = () => {
+    setConfirming(null);
+  }
+  const confirm = async mutate => {
     try {
-      await deleteItem(id).unwrap();
-      setOpen(false);
+      await mutate(item.id).unwrap();
+      setConfirming(null);
     } catch (err) {
       // keep the dialog open; the error is shown in it
     }
   };
+  // Restoring is as easy to undo as archiving, so it doesn't ask first. A
+  // failure is shown in the row.
+  const restore = () => unarchiveItem(item.id);
 
-  //Used in delete dialog pop up
-  const [open, setOpen] = React.useState(false);
-  const handleClickOpen= () => {
-    reset();
-    setOpen(true);
-  }
-  const handleClose = () => {
-    setOpen(false);
-  }
-  
   const renderAdmin = (item) => (
     <ButtonGrid>
-      <Fab 
-        color="secondary" 
-        size="small"
-        aria-label="Edit" 
-        component={RouterLink} 
-        to={`/item/${item.id}/edit`}
-      >
-        <Tooltip title="Edit" placement="top">
-          <Icon>edit_icon</Icon>
-        </Tooltip>
-      </Fab>
+      {archived ? (
+        <Fab
+          color="secondary"
+          size="small"
+          aria-label="Restore"
+          onClick={restore}
+          disabled={restoring.isLoading}
+        >
+          <Tooltip title="Restore" placement="top">
+            <UnarchiveIcon />
+          </Tooltip>
+        </Fab>
+      ) : (
+        <>
+          <Fab
+            color="secondary"
+            size="small"
+            aria-label="Edit"
+            component={RouterLink}
+            to={`/item/${item.id}/edit`}
+          >
+            <Tooltip title="Edit" placement="top">
+              <Icon>edit_icon</Icon>
+            </Tooltip>
+          </Fab>
+          <Fab
+            color="secondary"
+            size="small"
+            aria-label="Archive"
+            onClick={handleArchiveClick}
+          >
+            <Tooltip title="Archive" placement="top">
+              <ArchiveIcon />
+            </Tooltip>
+          </Fab>
+        </>
+      )}
       <DeleteFab
         size="small"
         aria-label="Delete"
-        onClick={handleClickOpen}
+        onClick={handleDeleteClick}
       >
         <Tooltip title="Delete" placement="top">
           <DeleteIcon />
         </Tooltip>
       </DeleteFab>
-      
-      {/* Dialog code used for delete confirmation */}
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{`Are you sure you want to delete ${item.name}?`}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            You will lose all records associated with this item.
-          </DialogContentText>
-          {deleteError && (
-            <DialogContentText color="error" role="alert">{errorMessage(deleteError)}</DialogContentText>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={() => deleteItemClick(item.id)} color="primary" disabled={isDeleting}>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </ButtonGrid>
 
+      <ConfirmDialog
+        open={confirming === 'delete'}
+        title={`Are you sure you want to delete ${item.name}?`}
+        text="You will lose all records associated with this item."
+        confirmLabel="Delete"
+        error={deleting.error}
+        busy={deleting.isLoading}
+        onConfirm={() => confirm(deleteItem)}
+        onClose={handleClose}
+      />
+      <ConfirmDialog
+        open={confirming === 'archive'}
+        title={`Archive ${item.name}?`}
+        text="It moves to the Archive with all of its records, and its maintenance stops showing in Upcoming and Past Due. You can restore it from the Archive."
+        confirmLabel="Archive"
+        error={archiving.error}
+        busy={archiving.isLoading}
+        onConfirm={() => confirm(archiveItem)}
+        onClose={handleClose}
+      />
+    </ButtonGrid>
   );
 
   if (variant === 'card') {
     return <ItemCard item={item} admin={renderAdmin(item)} />;
   }
 
-  // The row (narrow screens) says only what needs attention, e.g. "2 overdue · 1 due soon"
-  const statuses = categoryStatuses(item);
-  const attention = ['overdue', 'soon']
-    .map(status => [status, statuses.filter(s => s.status === status).length])
-    .filter(([, count]) => count > 0)
-    .map(([status, count]) => (
-      <StatusText key={status} status={status}>{count} {status === 'soon' ? 'due soon' : 'overdue'}</StatusText>
-    ));
+  // The row (narrow screens) says only what needs attention, e.g. "2 overdue · 1 due soon",
+  // or when an archived item was archived
+  const renderSecondary = () => {
+    if (restoring.error) {
+      return (
+        <Box component="span" role="alert" sx={{ color: 'error.main' }}>
+          Couldn't restore it: {errorMessage(restoring.error)}
+        </Box>
+      );
+    }
+    if (archived) return `Archived ${formatDate(item.archived_at)}`;
+
+    const statuses = categoryStatuses(item);
+    const attention = ['overdue', 'soon']
+      .map(status => [status, statuses.filter(s => s.status === status).length])
+      .filter(([, count]) => count > 0)
+      .map(([status, count]) => (
+        <StatusText key={status} status={status}>{count} {status === 'soon' ? 'due soon' : 'overdue'}</StatusText>
+      ));
+    return attention.length > 0 ? attention.flatMap((el, i) => (i ? [' · ', el] : [el])) : null;
+  };
 
   return (
     <ListItemGrid>
@@ -178,7 +216,15 @@ const Item = ({ item, variant = 'row' }) => {
         secondaryAction={
           <>
             {renderAdmin(item)}
-            <RowActionsMenu editTo={`/item/${item.id}/edit`} onDelete={handleClickOpen} />
+            {archived ? (
+              <RowActionsMenu actions={[{ label: 'Restore', onClick: restore }]} onDelete={handleDeleteClick} />
+            ) : (
+              <RowActionsMenu
+                editTo={`/item/${item.id}/edit`}
+                actions={[{ label: 'Archive', onClick: handleArchiveClick }]}
+                onDelete={handleDeleteClick}
+              />
+            )}
           </>
         }
         slots={{ secondaryAction: StyledSecondaryAction }}
@@ -194,7 +240,7 @@ const Item = ({ item, variant = 'row' }) => {
           </StyledAvatar>
           <StyledListText
             primary={item.name}
-            secondary={attention.length > 0 ? attention.flatMap((el, i) => (i ? [' · ', el] : [el])) : null}
+            secondary={renderSecondary()}
           />
         </StyledListItem>
       </ListItem>

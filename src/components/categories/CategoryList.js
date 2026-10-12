@@ -9,11 +9,12 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { BottomButtons, StyledTypography } from './styles'
 import Category from './Category';
 import ItemSummaryPanel from './ItemSummaryPanel';
+import ArchivedNotice from '../archive/ArchivedNotice';
 import RecordStatus from '../common/RecordStatus';
 import PageLayout from '../common/PageLayout';
 import RecentLogsPanel from '../sidebar/RecentLogsPanel';
 import { useItem } from '../../store/api/lookups';
-import { latestLog } from '../../store/api/dueStatus';
+import { isArchived, latestLog } from '../../store/api/dueStatus';
 
 const CategoryList = () => {
   const params = useParams();
@@ -22,6 +23,7 @@ const CategoryList = () => {
   if (!item) {
     return <RecordStatus isLoading={isLoading} error={error} what="item" backTo="/items" backLabel="Back to items" />;
   }
+  const archived = isArchived(item);
 
   const renderList = item.categories.map(category => (
     <Category
@@ -47,16 +49,17 @@ const CategoryList = () => {
           </>
         }
       >
+        {archived && <ArchivedNotice item={item} />}
         <List component="nav">{renderList}</List>
         <BottomButtons>
           <Fab
             color="secondary"
             aria-label="Back to Categories"
             size="small"
-            to={`/items`}
+            to={archived ? '/archive' : '/items'}
             component={RouterLink}
           >
-            <Tooltip title="Back to Items">
+            <Tooltip title={archived ? 'Back to Archive' : 'Back to Items'}>
               <ArrowBack />
             </Tooltip>
           </Fab>

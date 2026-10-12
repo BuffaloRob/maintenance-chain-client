@@ -32,7 +32,11 @@ export const categoryStatuses = item =>
     return { item, category, log, status: statusOf(log) };
   });
 
-export const allCategoryStatuses = items => items.flatMap(categoryStatuses);
+// Archived items keep their logs, but like the API's /past_due and /upcoming
+// nothing across all items counts them
+export const isArchived = item => !!item.archived_at;
+
+export const allCategoryStatuses = items => items.filter(item => !isArchived(item)).flatMap(categoryStatuses);
 
 // Soonest (or longest overdue) first; categories without logs last
 export const mostUrgentFirst = statuses =>
